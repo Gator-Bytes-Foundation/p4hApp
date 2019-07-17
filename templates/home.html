@@ -1,6 +1,6 @@
-<link href="css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<link href="css/bootstrap.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+<script src="{{ url_for('static', filename='css/bootstrap.min.js') }}"></script>
+
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="js/bootstrap.bundle.js"></script>
 <!------ style  ---------->
@@ -9,20 +9,25 @@
   <form method="post">
     <div class="row">
       <div class="col-md-4">
-        <div class="profile-img"> <img class="img-fluid img-thumbnail" src="images/cropped-logo.png" alt=""/>
-          <div class="file btn btn-lg btn-primary"> Change Photo
-            <input type="file" name="file"/>
+        <div class="profile-img"> <img class="img-fluid img-thumbnail rounded-circle" src="images/cropped-logo.png" alt=""/>
+          <div class="input-group">
+            <div class="input-group-prepend"> <span class="input-group-text" id="inputGroupFileAddon01">Upload</span> </div>
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="inputGroupFile01"
+      aria-describedby="inputGroupFileAddon01">
+              <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+            </div>
           </div>
         </div>
       </div>
       <div class="col-md-6">
         <div class="profile-head">
-          <h5>Logan Cundiff</h5>
+          <h1>Logan Cundiff</h1>
           <h6> Elementary Teacher</h6>
           <p class="proile-rating">RANKINGS : <span>8/10</span></p>
           <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item"> <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a> </li>
-            <li class="nav-item"> <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Timeline</a> </li>
+            <li class="nav-item" {{ home_active }} > <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a> </li>
+            <li class="nav-item" {{ profile_active }} > <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Timeline</a> </li>
           </ul>
         </div>
       </div>
@@ -33,11 +38,10 @@
     <div class="row">
       <div class="col-md-4">
         <div class="profile-work">
-          <p>Profile Posts</p>
+          <h3>Profile Posts</h3>
           <a href="">Post #1</a><br/>
           <a href="">Post #2</a><br/>
-          <a href="">Post #3</a>
-        </div>
+          <a href="">Post #3</a> </div>
       </div>
       <div class="col-md-8">
         <div class="tab-content profile-tab" id="myTabContent">
