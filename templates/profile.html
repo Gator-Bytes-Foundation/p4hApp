@@ -1,15 +1,13 @@
-<<<<<<< Updated upstream
-=======
-<!DOCTYPE html>
+
 <!-- for production -->
 <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
 <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
 <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
 <script src="{{ url_for('static', filename='js/bootstrap.bundle.js') }}"></script>
 <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 
 <style>
@@ -32,145 +30,135 @@
   color:white; 
 }
 </style>
-<!-- linking directly for dev purposess so no server required 
->>>>>>> Stashed changes
-<link href="css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<link href="css/bootstrap.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="js/bootstrap.bundle.js"></script>
-<!------ style  ---------->
+
 
 <div class="container emp-profile">
-<<<<<<< Updated upstream
   <form method="post">
     <div class="row">
       <div class="col-md-4">
         <div class="profile-img"> <img class="img-fluid img-thumbnail rounded-circle" src="images/cropped-logo.png" alt=""/>
           <div class="input-group">
             <div class="input-group-prepend"> <span class="input-group-text" id="inputGroupFileAddon01">Upload</span> </div>
-            <div class="custom-file">
-              <input type="file" class="custom-file-input" id="inputGroupFile01"
-      aria-describedby="inputGroupFileAddon01">
-              <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="profile-head">
-          <h1>Logan Cundiff</h1>
-          <h6> Elementary Teacher</h6>
-          <p class="proile-rating">RANKINGS : <span>8/10</span></p>
-          <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item" {{ home_active }} > <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a> </li>
-            <li class="nav-item" {{ profile_active }} > <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Timeline</a> </li>
-          </ul>
-        </div>
-      </div>
-      <div class="col-md-2">
-        <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
-      </div>
+<form method="post">
+  <div class="row">
+    <div class="col-4  col-sm-4 ">
+      <div class="profile-img"> <img class="img-fluid img-thumbnail rounded-circle" src="../static/images/cropped-logo.png" alt=""/> </div>
     </div>
-    <div class="row">
-      <div class="col-md-4">
-        <div class="profile-work">
-          <h3>Profile Posts</h3>
-          <a href="">Post #1</a><br/>
-          <a href="">Post #2</a><br/>
-          <a href="">Post #3</a> </div>
-      </div>
-      <div class="col-md-8">
-        <div class="tab-content profile-tab" id="myTabContent">
-          <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-            <div class="row">
-              <div class="col-md-6">
-                <label>User Id</label>
-              </div>
-              <div class="col-md-6">
-                <p>lcundiff</p>
+    <div class="col-8 col-sm-8 ">
+      <h4>Logan Cundiff</h4>
+      <small clas=""> <b>Pozisyon:</b> Elementary Teacher </small> <br>
+      <small> <b>De Mwen :</b> Mwen anseye lekòl elemantè</small> </div>
+  </div>
+  <div class="col-md-6">
+    <div id="mytabs" class="profile-head">
+      <ul class="nav nav-tabs"  role="tablist">
+        <li class=" active nav-item"> <a class="nav-link"  href="#about" aria-controls="about" id="about-tab" rel="about" data-toggle="tab"  role="tab"  aria-selected="true">About</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="#timeline" aria-controls="timeline"  id="timeline-tab" rel="timeline" data-toggle="tab" role="tab"  aria-selected="false">Timeline</a> </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-md-2">
+    <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
+  </div>
+  <div class="row">
+    <div class="col-md-8 ">
+      <div class="tab-content profile-tab ">
+    <div id="timeline" class="profile-work tab-pane fade show active" role="tabpanel">
+      <!-- 1st tab {% if active=='timeline' %}show active{% endif %}-->
+        <h3>Prowfil Pos</h3>
+        <section class="comment-list">
+          <!-- First Comment -->
+          <article class="row">
+            <div class="col-md-2 col-sm-2 hidden-xs">
+              <figure class="thumbnail">
+                <img class="img-responsive" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png" />
+                <figcaption class="text-center">username</figcaption>
+              </figure>
+            </div>
+            <div class="col-md-10 col-sm-10">
+              <div class="panel panel-default arrow left">
+                <div class="panel-body">
+                  <header class="text-left">
+                    <div class="comment-user"><i class="fa fa-user"></i> That Guy</div>
+                    <time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> Dec 16, 2014</time>
+                  </header>
+                  <div class="comment-post">
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </p>
+                  </div>
+                  <p class="text-right"><a href="#" class="btn btn-default btn-sm"><i class="fa fa-reply"></i> reply</a></p>
+                </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-6">
-                <label>Name</label>
-              </div>
-              <div class="col-md-6">
-                <p>Logan</p>
+          </article>
+          <!-- Second Comment Reply -->
+          <article class="row">
+            <div class="col-md-2 col-sm-2 col-md-offset-1 col-sm-offset-0 hidden-xs">
+              <figure class="thumbnail">
+                <img class="img-responsive" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png" />
+                <figcaption class="text-center">username</figcaption>
+              </figure>
+            </div>
+            <div class="col-md-9 col-sm-9">
+              <div class="panel panel-default arrow left">
+                <div class="panel-heading right">Reply</div>
+                <div class="panel-body">
+                  <header class="text-left">
+                    <div class="comment-user"><i class="fa fa-user"></i> That Guy</div>
+                    <time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> Dec 16, 2014</time>
+                  </header>
+                  <div class="comment-post">
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </p>
+                  </div>
+                  <p class="text-right"><a href="#" class="btn btn-default btn-sm"><i class="fa fa-reply"></i> reply</a></p>
+                </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-6">
-                <label>Email</label>
-              </div>
-              <div class="col-md-6">
-                <p>lcundiff@gmail.com</p>
-              </div>
+          </article>
+      </section>
+    </div>
+        <div id="about"  class="tab-pane fade" role="tabpanel">
+          <div class="row">
+            <div class="col-md-6">
+              <label>User Id</label>
             </div>
-            <div class="row">
-              <div class="col-md-6">
-                <label>Phone</label>
-              </div>
-              <div class="col-md-6">
-                <p>123 456 7890</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <label>Profession</label>
-              </div>
-              <div class="col-md-6">
-                <p>Elementary Teacher</p>
-              </div>
+            <div class="col-md-6">
+              <p>lcundiff</p>
             </div>
           </div>
-          <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-            <div class="row">
-              <div class="col-md-6">
-                <label>Experience</label>
-              </div>
-              <div class="col-md-6">
-                <p>Expert</p>
-              </div>
+          <div class="row">
+            <div class="col-md-6">
+              <label>Name</label>
             </div>
-            <div class="row">
-              <div class="col-md-6">
-                <label>Hourly Rate</label>
-              </div>
-              <div class="col-md-6">
-                <p>10$/hr</p>
-              </div>
+            <div class="col-md-6">
+              <p>Logan</p>
             </div>
-            <div class="row">
-              <div class="col-md-6">
-                <label>Total Projects</label>
-              </div>
-              <div class="col-md-6">
-                <p>230</p>
-              </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <label>Email</label>
             </div>
-            <div class="row">
-              <div class="col-md-6">
-                <label>English Level</label>
-              </div>
-              <div class="col-md-6">
-                <p>Expert</p>
-              </div>
+            <div class="col-md-6">
+              <p>lcundiff@gmail.com</p>
             </div>
-            <div class="row">
-              <div class="col-md-6">
-                <label>Availability</label>
-              </div>
-              <div class="col-md-6">
-                <p>6 months</p>
-              </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <label>Phone</label>
             </div>
-            <div class="row">
-              <div class="col-md-12">
-                <label>Your Bio</label>
-                <br/>
-                <p>Your detail description</p>
-              </div>
+            <div class="col-md-6">
+              <p>123 456 7890</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <label>Profession</label>
+            </div>
+            <div class="col-md-6">
+              <p>Elementary Teacher</p>
             </div>
 =======
 <form method="post">
@@ -279,15 +267,12 @@
           </div>
           <div class="col-md-6">
             <p>Elementary Teacher</p>
->>>>>>> Stashed changes
           </div>
         </div>
       </div>
     </div>
-<<<<<<< Updated upstream
   </form>
 </div>
-=======
   </div>
 </div>
 <script>
@@ -297,4 +282,3 @@ $(document).ready(function(){
   $('#timeline-tab').addClass("show");
 });
 </script> 
->>>>>>> Stashed changes
