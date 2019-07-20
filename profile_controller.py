@@ -7,7 +7,7 @@ from flask import render_template
 
 @app.route('/')
 def hello_name():    
-  return render_template('profile.html',active="timeline")
+  return render_template('profile.html')
 
 
 if __name__ == "__main__":

@@ -6,10 +6,8 @@
 <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
 <script src="{{ url_for('static', filename='js/bootstrap.bundle.js') }}"></script>
 <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
-
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <style>
 /*circle profile picture crop version */ 
 .image-cropper {
@@ -37,12 +35,6 @@
 
 <div class="container emp-profile"> 
   <form method="post">
-  <div class="row">
-    <div class="col-md-4">
-      <p>Your detail description</p>
-    </div>
-  </div>
-  <form method="post">
     <div class="row">
       <div class="col-3  col-sm-2 ">
         <div class="image-cropper"> <img class="profile-pic img-fluid" src="../static/images/profile_pic.jpg" alt=""/> </div>
@@ -63,7 +55,7 @@
       <div id="mytabs" class="profile-head">
         <ul class="nav nav-tabs"  role="tablist">
           <li class="nav-item"> <a class="nav-link"  href="#about" aria-controls="about" id="about-tab" rel="about" data-toggle="tab"  role="tab"  aria-selected="true">About</a> </li>
-          <li class=" active nav-item"> <a class="nav-link" href="#timeline" aria-controls="timeline"  id="timeline-tab" rel="timeline" data-toggle="tab" role="tab"  aria-selected="false">Timeline</a> </li>
+          <li class="nav-item"> <a class="nav-link" href="#timeline" aria-controls="timeline"  id="timeline-tab" rel="timeline" data-toggle="tab" role="tab"  aria-selected="false">Timelines</a> </li>
         </ul>
       </div>
     </div>
@@ -84,7 +76,8 @@
           <article class="row">
             <div class="col-md-3 col-3">
               <figure class="thumbnail ">
-              <img class="img-responsive rounded-circle" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png" /> </div>
+              <img alt="placeholder"class="img-responsive rounded-circle" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png"/> 
+            </div>
             <div class="col-4">
               <header class="text-left">
                 <figcaption class="comment-user"><i class="fa fa-user"></i>Name</figcaption>
@@ -105,7 +98,7 @@
           </article>
         </section>
       </div>
-      <div id="about"  class="tab-pane fade" role="tabpanel">
+    <div id="about"  class="tab-pane fade in" role="tabpanel">
         <div class="row">
           <div class="col-md-6">
             <label>User Id</label>
