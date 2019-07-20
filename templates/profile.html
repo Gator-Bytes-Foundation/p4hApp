@@ -1,164 +1,151 @@
 <!DOCTYPE html>
 <!-- for production -->
-<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
 <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
 <script src="{{ url_for('static', filename='js/bootstrap.bundle.js') }}"></script>
 <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-
-
-<link rel="stylesheet"  href="{{ url_for('static', filename='css/profile.css') }}">
-
-
+<style>
+/*circle profile picture crop version */ 
+.image-cropper {
+  width: 70px;
+  height: 70px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+}
+.profile-pic {
+  margin: 0 auto;
+  /*margin-left: -25%; centers the image */
+  width: auto;
+  height: 100%;
+}
+.btn {
+  background-color: #D23838;
+  color: white;
+}
+</style>
 <!-- linking directly for dev purposess so no server required 
-<link href="css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<link href="css/bootstrap.css" rel="stylesheet" id="bootstrap.min-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="js/bootstrap.bundle.js"></script>
+
+
 <!------ style  ---------->
 
-<div class="container emp-profile">
-<form method="post">
-  <div class="row">
-    <div class="col-4  col-sm-4 ">
-      <div class="profile-img"> <img class="img-fluid img-thumbnail rounded-circle" src="../static/images/cropped-logo.png" alt=""/> </div>
+<div class="container emp-profile"> 
+  <form method="post">
+    <div class="row">
+      <div class="col-3  col-sm-2 ">
+        <div class="image-cropper"> <img class="profile-pic img-fluid" src="../static/images/profile_pic.jpg" alt=""/> </div>
+      </div>
+      <div class="col-8 col-sm-8 ">
+        <h4>Logan Cundiff</h4>
+        <small clas=""> <b>Pozisyon:</b> Elementary Teacher </small> <br>
+        <small> <b>De Mwen :</b> Mwen anseye lekòl elemantè</small> </div>
     </div>
-    <div class="col-8 col-sm-8 ">
-      <h4>Logan Cundiff</h4>
-      <small clas=""> <b>Pozisyon:</b> Elementary Teacher </small> <br>
-      <small> <b>De Mwen :</b> Mwen anseye lekòl elemantè</small> </div>
-  </div>
-  <!--<div class="input-group"> 
+    <!--<div class="input-group"> 
           <div class="input-group-prepend"> <span class="input-group-text" id="inputGroupFileAddon01">Upload</span> </div>
             <div class="custom-file">
               <input type="file" class="custom-file-input" id="inputGroupFile01"
       aria-describedby="inputGroupFileAddon01">
               <label class="custom-file-label" for="inputGroupFile01">Choose file</label> -->
-  
-  <div class="col-md-6">
-    <div id="mytabs" class="profile-head">
-      <ul class="nav nav-tabs"  role="tablist">
-        <li class=" active nav-item"> <a class="nav-link"  href="#about" aria-controls="about" id="about-tab" rel="about" data-toggle="tab"  role="tab"  aria-selected="true">About</a> </li>
-        <li class="nav-item"> <a class="nav-link" href="#timeline" aria-controls="timeline"  id="timeline-tab" rel="timeline" data-toggle="tab" role="tab"  aria-selected="false">Timeline</a> </li>
-      </ul>
+    
+    <div class="col-md-6 col-12">
+      <div id="mytabs" class="profile-head">
+        <ul class="nav nav-tabs"  role="tablist">
+          <li class="nav-item"> <a class="nav-link"  href="#about" aria-controls="about" id="about-tab" rel="about" data-toggle="tab"  role="tab"  aria-selected="true">About</a> </li>
+          <li class="nav-item"> <a class="nav-link" href="#timeline" aria-controls="timeline"  id="timeline-tab" rel="timeline" data-toggle="tab" role="tab"  aria-selected="false">Timelines</a> </li>
+        </ul>
+      </div>
     </div>
-  </div>
-  <div class="col-md-2">
-    <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
-  </div>
-  <div class="row">
-    <div class="col-md-8 ">
-      <div class="tab-content profile-tab ">
-    <div id="timeline" class="profile-work tab-pane fade show active" role="tabpanel">
-      <!-- 1st tab {% if active=='timeline' %}show active{% endif %}-->
+    <div class="row">
+      <div class="col-12">
+        <input type="submit" class="btn btn-primary" name="edit" value="Edit Profile"/>
+        <button type="button" class="btn btn-primary">Pwogre Mwen (progress)</button>
+      </div>
+    </div>
+    <div class="row">
+    <div class="col-md-8 col-12 ">
+    <div class="tab-content profile-tab ">
+      <div id="timeline" class="profile-work tab-pane fade active show in" role="tabpanel"> 
+        <!-- 1st tab {% if active=='timeline' %}show active{% endif %}-->
         <h3>Prowfil Pos</h3>
-        <section class="comment-list">
+        <section class="comment-list"> 
           <!-- First Comment -->
           <article class="row">
-            <div class="col-md-2 col-sm-2 hidden-xs">
-              <figure class="thumbnail">
-                <img class="img-responsive" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png" />
-                <figcaption class="text-center">username</figcaption>
-              </figure>
+            <div class="col-md-3 col-3">
+              <figure class="thumbnail ">
+              <img alt="placeholder"class="img-responsive rounded-circle" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png"/> 
             </div>
+            <div class="col-4">
+              <header class="text-left">
+                <figcaption class="comment-user"><i class="fa fa-user"></i>Name</figcaption>
+                <time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> Dec 16, 2018</time>
+              </header>
+            </div>
+            </figure>
             <div class="col-md-10 col-sm-10">
               <div class="panel panel-default arrow left">
                 <div class="panel-body">
-                  <header class="text-left">
-                    <div class="comment-user"><i class="fa fa-user"></i> That Guy</div>
-                    <time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> Dec 16, 2014</time>
-                  </header>
                   <div class="comment-post">
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    </p>
+                    <p>post #1</p>
                   </div>
                   <p class="text-right"><a href="#" class="btn btn-default btn-sm"><i class="fa fa-reply"></i> reply</a></p>
                 </div>
               </div>
             </div>
           </article>
-          <!-- Second Comment Reply -->
-          <article class="row">
-            <div class="col-md-2 col-sm-2 col-md-offset-1 col-sm-offset-0 hidden-xs">
-              <figure class="thumbnail">
-                <img class="img-responsive" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png" />
-                <figcaption class="text-center">username</figcaption>
-              </figure>
-            </div>
-            <div class="col-md-9 col-sm-9">
-              <div class="panel panel-default arrow left">
-                <div class="panel-heading right">Reply</div>
-                <div class="panel-body">
-                  <header class="text-left">
-                    <div class="comment-user"><i class="fa fa-user"></i> That Guy</div>
-                    <time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> Dec 16, 2014</time>
-                  </header>
-                  <div class="comment-post">
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    </p>
-                  </div>
-                  <p class="text-right"><a href="#" class="btn btn-default btn-sm"><i class="fa fa-reply"></i> reply</a></p>
-                </div>
-              </div>
-            </div>
-          </article>
-      </section>
-    </div>
-        <div id="about"  class="tab-pane fade" role="tabpanel">
-          <div class="row">
-            <div class="col-md-6">
-              <label>User Id</label>
-            </div>
-            <div class="col-md-6">
-              <p>lcundiff</p>
-            </div>
+        </section>
+      </div>
+    <div id="about"  class="tab-pane fade in" role="tabpanel">
+        <div class="row">
+          <div class="col-md-6">
+            <label>User Id</label>
           </div>
-          <div class="row">
-            <div class="col-md-6">
-              <label>Name</label>
-            </div>
-            <div class="col-md-6">
-              <p>Logan</p>
-            </div>
+          <div class="col-md-6">
+            <p>lcundiff</p>
           </div>
-          <div class="row">
-            <div class="col-md-6">
-              <label>Email</label>
-            </div>
-            <div class="col-md-6">
-              <p>lcundiff@gmail.com</p>
-            </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label>Name</label>
           </div>
-          <div class="row">
-            <div class="col-md-6">
-              <label>Phone</label>
-            </div>
-            <div class="col-md-6">
-              <p>123 456 7890</p>
-            </div>
+          <div class="col-md-6">
+            <p>Logan</p>
           </div>
-          <div class="row">
-            <div class="col-md-6">
-              <label>Profession</label>
-            </div>
-            <div class="col-md-6">
-              <p>Elementary Teacher</p>
-            </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label>Email</label>
           </div>
+          <div class="col-md-6">
+            <p>lcundiff@gmail.com</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label>Phone</label>
+          </div>
+          <div class="col-md-6">
+            <p>123 456 7890</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label>Profession</label>
+          </div>
+          <div class="col-md-6">
+            <p>Elementary Teacher</p>
         </div>
       </div>
     </div>
-  </div>
-  <script>
+  </form>
+</div>
+<script>
 $(document).ready(function(){
     //  When user clicks on tab, this code will be executed
     $('#timeline-tab').addClass("active");
   $('#timeline-tab').addClass("show");
 });
-</script>
+</script> 
