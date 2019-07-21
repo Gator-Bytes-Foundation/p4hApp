@@ -1,17 +1,35 @@
 /*font Awesome http://fontawesome.io*/
 @import url(//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
 /*Comment List styles*/
-button {
-  background-color:maroon; 
+
+/*circle profile picture crop version */ 
+.image-cropper {
+  width: 70px;
+  height: 70px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+}
+.profile-pic {
+  margin: 0 auto;
+  /*margin-left: -25%; centers the image */
+  width: 100%;
+  height: 100%;
 }
 
+/* CSS for profile posts */
 .comment-list .row {
   margin-bottom: 0px;
+  border-style:solid; 
+  border-width:thin;  
+  border-color:rgba(130,67,68,0.40);
+  padding:8px;
+  border-radius:1%;
 }
 .comment-list .panel .panel-heading {
   padding: 4px 15px;
   position: absolute;
-  border:none;
+  
   /*Panel-heading border radius*/
   border-top-right-radius:0px;
   top: 1px;
@@ -24,6 +42,7 @@ button {
 }
 .comment-list .panel .panel-heading .panel-body {
   padding-top: 6px;
+
 }
 .comment-list figcaption {
   /*For wrapping text in thumbnail*/
@@ -79,20 +98,4 @@ button {
 }
 .comment-list .comment-post {
   margin-top: 6px;
-}
-
-/*circle profile picture crop version */ 
-.image-cropper {
-    width: 20px;
-    height: 20px;
-    position: relative;
-    overflow: hidden;
-    border-radius: 50%;
-}
-.profile-pic {
-  display: inline;
-  margin: 0 auto;
-  margin-left: -25%; /*centers the image */
-  height: 100%;
-  width: auto;
 }
