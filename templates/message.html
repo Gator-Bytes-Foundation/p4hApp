@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+{% extends "header.html" %}<!-- all html files should extend from the header, (the header contains all static references as well) -->
+{% block content %}<!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
+<html>
+<head>
+</head>
+<body>
+<div class="container">
+  <h3 class=" text-center">Messaging</h3>
+  <div class="messaging">
+    <div class="inbox_msg">
+      <div class="mesgs">
+        <div class="msg_history">
+          <!-- loop through incoming and outgoing messages messages --> 
+          {% for i in range(0,user_messages|length) %}
+          <div class="incoming_msg">
+            <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+            <div class="received_msg">
+              <div class="received_withd_msg">
+                <p>{{user_messages[i]}}</p>
+                <span class="time_date"> 11:01 AM    |    June 9</span></div>
+            </div>
+          </div>
+          <div class="outgoing_msg">
+            <div class="sent_msg">
+              <p>{{user_messages[i]}}</p>
+              <span class="time_date"> 11:01 AM    |    June 9</span> </div>
+          </div>
+          {%endfor%}
+        </div>
+        <div class="type_msg">
+          <div class="input_msg_write">
+            <input type="text" class="write_msg" placeholder="Type a message" />
+            <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+{% endblock %}<!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->

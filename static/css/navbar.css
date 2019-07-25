@@ -1,8 +1,11 @@
+/* haitian flag blue: #1632AA
+/* haitian flag red: #B30D2C
+*/ 
 @media only screen and (max-width: 949px) {
   #navbar-container {
     padding-right: 5px;
     border-radius: 3px;
-    background-color: #d32f2f;
+    background-color: #B30D2C;
     min-height: 10px;
     margin-bottom: 0;
   }
@@ -17,7 +20,7 @@
 @media only screen and (min-width: 950px) {
 .navbar navbar-expand-md navbar-light {
 
-background-color: #d32f2f;
+background-color: #B30D2C;
 }
 
 }
