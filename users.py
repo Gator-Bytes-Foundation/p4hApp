@@ -14,7 +14,7 @@ class User():
     testUser = test_user_data.get(username)
     return testUser
   
-test_user_data = {"lcundiff" : User("Logan",["how u doin", " whats up", "hahaha"],["what do prisoners use to talk to one another?","wut?","cell phones"]), 
+test_user_data = {"lcundiff" : User("Logan",["how u doin", " wut?", "hahaha"],["what do prisoners use to talk to one another?","cell phones","lolol"]), 
                   "acastro" : User("Ariel",["1st message would be here", " 2nd message would be here", "3rd message would be here"],["what do prisoners use to talk to one another?", "wut?", "cell phones"]),
                   "acundiff" : User("Austin",["1st message would be here", " 2nd message would be here", "3rd message would be here"],["what do prisoners use to talk to one another?", "wut?", "cell phones"]),}
 
