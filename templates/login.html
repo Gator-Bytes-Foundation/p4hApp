@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+{% extends "header.html" %}<!-- all html files should extend from the header, (the header contains all static references as well) -->
+{% block content %}<!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
+<html>
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    <div class="fadeIn first">
+      <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon" />
+    </div>
+
+    <!-- Login Form -->
+    <form action="profile.html">
+      <input type="text" id="login" class="fadeIn second" name="login" placeholder="login">
+      <input type="text" id="password" class="fadeIn third" name="login" placeholder="password">
+      <input type="submit" class="fadeIn fourth" value="Log In">
+    </form>
+
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+      <a class="underlineHover" href="#">Forgot Password?</a>
+    </div>
+
+  </div>
+</div>
+</html>
+{% endblock %}<!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
