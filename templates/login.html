@@ -3,13 +3,14 @@
 {% extends "header.html" %}<!-- all html files should extend from the header, (the header contains all static references as well) -->
 {% block content %}<!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
 <html>
+<section class="login">
 <div class="wrapper fadeInDown">
   <div id="formContent">
     <!-- Tabs Titles -->
 
     <!-- Icon -->
     <div class="fadeIn first">
-      <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon" />
+      <center><div class="image-cropper"><img class="profile-pic img-fluid" src="../static/images/p4h.png" id="icon" alt="User Icon" /></div></center>
     </div>
 
     <!-- Login Form -->
@@ -26,5 +27,6 @@
 
   </div>
 </div>
+</section>
 </html>
 {% endblock %}<!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
