@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+{% extends "header.html" %} <!-- all html files should extend from the header, (the header contains all static references as well) --> 
+{% block content %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
+
+<header> 
+  <!--{{ super() }}--> 
+</header>
+<div class="container emp-profile">
+  <form method="post">
+    <!--<div class="input-group"> 
+          <div class="input-group-prepend"> <span class="input-group-text" id="inputGroupFileAddon01">Upload</span> </div>
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="inputGroupFile01"
+      aria-describedby="inputGroupFileAddon01">
+              <label class="custom-file-label" for="inputGroupFile01">Choose file</label> -->
+    <div class="row">
+      <div class="col-12">
+        <h1>Diskyson</h1>
+      </div>
+    </div>
+    <div class="row">
+    <div class="col-12 ">
+    {% for i in range(newsfeed|length) %}
+    <div id="timeline" class="profile-work"> 
+      <!-- 1st tab {% if active=='timeline' %}show active{% endif %}-->
+      <section class="comment-list"> 
+        <!-- First Comment -->
+        <article class="row">
+          <div class="col-md-2 col-2">
+            <figure class="thumbnail "> <img alt="placeholder"class="img-fluid rounded-circle" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png"/> </figure>
+          </div>
+          <div class="col-4">
+            <header class="text-left">
+              <figcaption class="comment-user"><i class="fa fa-user"></i>{{newsfeed[i].user.fname}}</figcaption>
+              <time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> Dec 16, 2018</time>
+            </header>
+          </div>
+          <div class="col-md-10 col-sm-10">
+            <div class="panel panel-default arrow left">
+              <div class="panel-body">
+                <div class="comment-post">
+                  <p>{{ newsfeed[i].message }}</p>
+                </div>
+                <p class="text-right"><a href="#" class="btn btn-sm"><i class="fa fa-reply"></i> reply</a></p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+    </div>
+    {%endfor%}
+  </div>
+</div>
+<script>
+$(document).ready(function(){
+    //  When user clicks on tab, this code will be executed
+    $('#timeline-tab').addClass("active");
+  $('#timeline-tab').addClass("show");
+});
+</script> 
+{% endblock %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html --> 
