@@ -31,9 +31,8 @@ def page_load(page_to_load):
     list_of_messages_in = dict_of_users.get(page_to_load).messages_in # get messages coming in
     list_of_messages_out = dict_of_users.get(page_to_load).messages_out # get messages going out 
     return render_template('message.html', users = dict_of_users, user_messages_in = list_of_messages_in, user_messages_out = list_of_messages_out)
-  # Discussion Page
-  if(newsfeed_list != None):
-    return render_template(page_to_load, newsfeed = newsfeed_list)
+  
+  return render_template(page_to_load, users = dict_of_users,newsfeed = newsfeed_list)
 
 
 @app.route('/')
