@@ -4,7 +4,6 @@ from flask import render_template
 
 
 
-
 class User():
   def __init__(user,fname, lname, username, messages_in, messages_out, role):
     user.fname = fname

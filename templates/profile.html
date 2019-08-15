@@ -57,14 +57,25 @@
             </header>
           </div>
           <div class="col-md-10 col-sm-10">
+            {% for i in range(posts | length)%}
             <div class="panel panel-default arrow left">
               <div class="panel-body">
                 <div class="comment-post">
-                  <p>post #1 blah blah blah blah</p>
+                  <p>{{posts[i].message}}</p>
                 </div>
-                <p class="text-right"><a href="#" class="btn btn-sm"><i class="fa fa-reply"></i> reply</a></p>
+                {% if(True) %}
+                {%endif%}   
+                <p>{{posts[i].replies.message}}</p>
+                <p>
+                   <label for="from">Comments</label>
+                <br />
+                   <textarea name="message" id="textbox_reply" style="width: 100%;" placeholder="Comment Here" onclick="this.value=''"></textarea>
+                </p>   
+                
+                <p class="text-right"><form><a href="#" name="reply_button" id="reply" value="reply" class="btn btn-sm"><i class="fa fa-reply"></i>Reply</a></form></p>
               </div>
             </div>
+          {% endfor %}
           </div>
         </article>
       </section>
@@ -113,11 +124,34 @@
     </div>
   </form>
 </div>
-<script>
-$(document).ready(function(){
-    //  When user clicks on tab, this code will be executed
+<script type="text/javascript">
+  $(document).ready(function(){
+      //  When user clicks on tab, this code will be executed
     $('#timeline-tab').addClass("active");
-  $('#timeline-tab').addClass("show");
-});
-</script> 
+    $('#timeline-tab').addClass("show");
+  });
+      </script>
+<script type="text/javascript">
+  $(function() {
+    $('a#reply').bind('click', function() {
+      $.getJSON('/background_process',
+          function(data) {
+            var value = $("#textbox_reply").val();
+            alert(value);
+            $.ajax({
+              type: "POST",
+              url: "parse_data",
+              data: JSON.stringify({ "text" : value } ),
+              contentType: "application/json; charset=utf-8",
+              dataType: "json",
+              success: function (data) {
+                  alert(JSON.stringify(data));
+              }
+            });
+        //do nothing
+      });
+      return false;
+    });
+  });
+</script>
 {% endblock %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html --> 
