@@ -47,10 +47,10 @@
       <section class="comment-list"> 
         <!-- First Comment -->
         <article class="row">
-          <div class="col-md-2 col-2">
+          <div class="col-md-2 col-3">
             <figure class="thumbnail "> <img alt="placeholder"class="img-fluid rounded-circle" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png"/> </figure>
           </div>
-          <div class="col-4">
+          <div class="col-6">
             <header class="text-left">
               <figcaption class="comment-user"><i class="fa fa-user"></i>Name</figcaption>
               <time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> Dec 16, 2018</time>
@@ -63,16 +63,27 @@
                 <div class="comment-post">
                   <p>{{posts[i].message}}</p>
                 </div>
-                {% if(True) %}
-                {%endif%}   
-                <p>{{posts[i].replies.message}}</p>
+                <label for="from">Comments</label>
+                {% for j in range(posts[i].replies | length) %}
+                <p class="post_comment">{{posts[i].replies[j].user.fname}}: {{posts[i].replies[j].message}}</p>
+                
+                {% endfor %}
                 <p>
-                   <label for="from">Comments</label>
                 <br />
                    <textarea name="message" id="textbox_reply" style="width: 100%;" placeholder="Comment Here" onclick="this.value=''"></textarea>
                 </p>   
+                <div class="row justify-content-end" style="border:none;">
                 
-                <p class="text-right"><form><a href="#" name="reply_button" id="reply" value="reply" class="btn btn-sm"><i class="fa fa-reply"></i>Reply</a></form></p>
+                  <p class="">
+                {% if( (posts[i].replies | length) > 1 ) %}
+                    <div class=" text-center">
+                <form><a href="#" name="view_more_button" id="view_more" value="view" class="">View More</a></form>
+                </div>
+                  {%endif%}
+                <div class="offset-1">
+                <form><a href="#" type="submit" name="reply_button" id="reply" value="reply" class="btn btn-sm"><i class="fa fa-reply"></i> Reply</a></form></p>
+                </div>
+                </div>
               </div>
             </div>
           {% endfor %}
@@ -132,26 +143,22 @@
   });
       </script>
 <script type="text/javascript">
-  $(function() {
-    $('a#reply').bind('click', function() {
-      $.getJSON('/background_process',
-          function(data) {
-            var value = $("#textbox_reply").val();
-            alert(value);
-            $.ajax({
-              type: "POST",
-              url: "parse_data",
-              data: JSON.stringify({ "text" : value } ),
-              contentType: "application/json; charset=utf-8",
-              dataType: "json",
-              success: function (data) {
-                  alert(JSON.stringify(data));
-              }
-            });
-        //do nothing
-      });
-      return false;
+$("#reply").click(function (e) {
+    e.preventDefault();
+    var value = $("#textbox_reply").val();
+    console.log("sending data")
+    alert(value);
+    $.ajax({
+        type: "POST",
+        url: "parse_data",
+        data: JSON.stringify({ "text" : value } ),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+            alert(JSON.stringify(data));
+        }
     });
-  });
+
+});
 </script>
 {% endblock %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html --> 

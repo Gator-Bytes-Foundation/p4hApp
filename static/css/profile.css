@@ -49,6 +49,11 @@
   /*For wrapping text in thumbnail*/
   word-wrap: break-word;
 }
+.post_comment {
+  background-color: azure; 
+  border-radius: 4px;
+  margin-bottom:2px;
+}
 /* Portrait tablets and medium desktops */
 @media (min-width: 768px) {
   .comment-list .arrow:after, .comment-list .arrow:before {

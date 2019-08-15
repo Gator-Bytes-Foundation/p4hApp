@@ -43,8 +43,9 @@ class Comment():
     return recentReplies   
   
 test_replies = [ Comment(User.getUser("acastro"),"looks good!",""), Comment(User.getUser("lcundiff"),"looks great!","")  ]
+test_replies2 = [ Comment(User.getUser("lcundiff"),"looks awesome!",""), Comment(User.getUser("acundiff"),"Thanks!","")  ]
 # need GET request to Canvas discussion posts
-test_user_data = [Post( User.getUser("acundiff"),"I need some feedback on this lesson plan","",test_replies[0] ),Post(User.getUser("lcundiff"),"Here is some helpful tools","placeholder.jpg",test_replies[0])]
+test_user_data = [Post( User.getUser("acundiff"),"I need some feedback on this lesson plan","",test_replies ),Post(User.getUser("lcundiff"),"Here is some helpful tools","placeholder.jpg",test_replies2)]
 
 
 

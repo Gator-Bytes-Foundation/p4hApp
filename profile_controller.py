@@ -28,10 +28,11 @@ def page_load(page_to_load):
   profile_posts = Post.load_profile()
   list_of_messages = []
   
-  if(page_to_load == 'background_process'):
-    print("Hello")
-    profile_posts[0].replies = "hello"
-    return "nothing"
+  if request.method == 'POST':   
+    new_reply = request.get_json()
+    print(new_reply["text"])
+    profile_posts[0].replies.append(Comment(User.getUser("acundiff"),new_reply["text"],"") )   
+    return
 
   
   # Messaging Page
