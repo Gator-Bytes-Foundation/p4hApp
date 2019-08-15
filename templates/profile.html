@@ -46,6 +46,7 @@
       <h3>Prowfil Pos</h3>
       <section class="comment-list"> 
         <!-- First Comment -->
+        {% for i in range(posts | length)%}
         <article class="row">
           <div class="col-md-2 col-3">
             <figure class="thumbnail "> <img alt="placeholder"class="img-fluid rounded-circle" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png"/> </figure>
@@ -57,7 +58,7 @@
             </header>
           </div>
           <div class="col-md-10 col-sm-10">
-            {% for i in range(posts | length)%}
+            
             <div class="panel panel-default arrow left">
               <div class="panel-body">
                 <div class="comment-post">
