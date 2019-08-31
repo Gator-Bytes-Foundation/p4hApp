@@ -7,133 +7,144 @@
   <!--{{ super() }}--> 
 </header>
 <div class="container emp-profile">
-  <form method="post">
-    <div class="row">
-      <div class="col-3  col-sm-2 ">
-        <div class="image-cropper"> <img class="profile-pic img-fluid" src="../static/images/profile_pic.jpg" alt=""/> </div>
-      </div>
-      <div class="col-8 col-sm-8 ">
-        <h4>Logan Cundiff</h4>
-        <small clas=""> <b>Pozisyon:</b> Elementary Teacher </small> <br>
-        <small> <b>De Mwen :</b> Mwen anseye lekòl elemantè</small> </div>
-    </div>
-    <!--<div class="input-group"> 
+<form method="post">
+<div class="row">
+  <div class="col-3  col-sm-2 ">
+    <div class="image-cropper"> <img class="profile-pic img-fluid" src="../static/images/profile_pic.jpg" alt=""/> </div>
+  </div>
+  <div class="col-8 col-sm-8 ">
+    <h4>Logan Cundiff</h4>
+    <small class=""> <b>Pozisyon:</b> Elementary Teacher </small> <br>
+    <small> <b>De Mwen :</b> Mwen anseye lekòl elemantè</small> </div>
+</div>
+<!--<div class="input-group"> 
           <div class="input-group-prepend"> <span class="input-group-text" id="inputGroupFileAddon01">Upload</span> </div>
             <div class="custom-file">
               <input type="file" class="custom-file-input" id="inputGroupFile01"
       aria-describedby="inputGroupFileAddon01">
               <label class="custom-file-label" for="inputGroupFile01">Choose file</label> -->
-    
-    <div class="col-md-6 col-12">
-      <div id="mytabs" class="profile-head">
-        <ul class="nav nav-tabs"  role="tablist">
-          <li class="nav-item"> <a class="nav-link"  href="#about" aria-controls="about" id="about-tab" rel="about" data-toggle="tab"  role="tab"  aria-selected="true">About</a> </li>
-          <li class="nav-item"> <a class="nav-link" href="#timeline" aria-controls="timeline"  id="timeline-tab" rel="timeline" data-toggle="tab" role="tab"  aria-selected="false">Timeline</a> </li>
-        </ul>
+
+<div class="col-md-6 col-12">
+  <div id="mytabs" class="profile-head">
+    <ul class="nav nav-tabs"  role="tablist">
+      <li class="nav-item"> <a class="nav-link"  href="#about" aria-controls="about" id="about-tab" rel="about" data-toggle="tab"  role="tab"  aria-selected="true">About</a> </li>
+      <li class="nav-item"> <a class="nav-link" href="#timeline" aria-controls="timeline"  id="timeline-tab" rel="timeline" data-toggle="tab" role="tab"  aria-selected="false">Timeline</a> </li>
+    </ul>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <input type="submit" class="btn " name="edit" value="Edit Profile"/>
+    <button type="button" class="btn">Pwogre Mwen (progress)</button>
+  </div>
+</div>
+<div class="row">
+<div class="col-md-8 col-12 ">
+<div class="tab-content profile-tab ">
+  <div id="timeline" class="profile-work tab-pane fade active show in" role="tabpanel"> 
+    <!-- 1st tab {% if active=='timeline' %}show active{% endif %}-->
+    <h3>Prowfil Pos</h3>
+    <section class="">
+      <div id="write_post">
+        <div  class="post_box row">
+          <figure class="thumbnail col-md-2 col-3"><img alt="placeholder"class="img-fluid rounded-circle" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png"/></figure>
+          <p class="col-9" id="textbox_p">
+            <textarea name="message" id="textbox_post" style="width: 100%;" placeholder="Write Post Here" onclick="this.value=''"></textarea>
+          </p>
+        </div>
+        <form name="Post" value="Post" >
+        <p class="text-right"><a href="#" type="submit" name="action" id="post" value="Post" class="btn btn-sm">Post</a></p>
+        </form>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <input type="submit" class="btn " name="edit" value="Edit Profile"/>
-        <button type="button" class="btn">Pwogre Mwen (progress)</button>
-      </div>
-    </div>
-    <div class="row">
-    <div class="col-md-8 col-12 ">
-    <div class="tab-content profile-tab ">
-    <div id="timeline" class="profile-work tab-pane fade active show in" role="tabpanel"> 
-      <!-- 1st tab {% if active=='timeline' %}show active{% endif %}-->
-      <h3>Prowfil Pos</h3>
-      <section class="comment-list"> 
-        <!-- First Comment -->
-        {% for i in range(posts | length)%}
-        <article class="row">
-          <div class="col-md-2 col-3">
-            <figure class="thumbnail "> <img alt="placeholder"class="img-fluid rounded-circle" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png"/> </figure>
-          </div>
-          <div class="col-6">
-            <header class="text-left">
-              <figcaption class="comment-user"><i class="fa fa-user"></i>Name</figcaption>
-              <time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> Dec 16, 2018</time>
-            </header>
-          </div>
-          <div class="col-md-10 col-sm-10">
-            
-            <div class="panel panel-default arrow left">
-              <div class="panel-body">
-                <div class="comment-post">
-                  <p>{{posts[i].message}}</p>
+      <!-- Post Loop --> 
+      {% for i in range(posts | length)%}
+      <article id="post_{{posts[i].id_number}}" class="row post_box">
+        <div class="col-md-2 col-3">
+          <figure class="thumbnail "> <img alt="placeholder"class="img-fluid rounded-circle" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png"/> </figure>
+        </div>
+        <div class="col-6">
+          <header class="text-left">
+            <figcaption class="comment-user"><i class="fa fa-user"></i>Name</figcaption>
+            <time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> Dec 16, 2018</time>
+          </header>
+        </div>
+        <div class="col-md-10">
+          <div class="panel panel-default arrow left">
+            <div class="panel-body">
+              <div class="comment-post">
+                <p>{{posts[i].message}}</p>
+              </div>
+              <label id = "comment" for="from">Comments</label>
+              {% for j in range(posts[i].replies | length) %}
+              <div class="row post_comment">
+                <figure class="thumbnail col-md-2 col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png"/></figure>
+                <p class="">{{posts[i].replies[j].user.fname}}: {{posts[i].replies[j].message}}</p>
+              </div>
+              {% endfor %}
+              <p id="textbox_c-{{posts[i].id_number}}" >
+                <textarea name="message" id="textbox_reply-{{posts[i].id_number}}" style="width: 100%;" placeholder="Comment Here" onclick="this.value=''"></textarea>
+              </p>
+              <div id="reply_div" class="row justify-content-end" style="border:none;"> {% if( (posts[i].replies | length) > 1 ) %}
+                <div class=" text-center">
+                  <form>
+                    <p class=""><a href="#" name="view_more_button" id="view_more" value="view" class="">View More</a></p>
+                  </form>
                 </div>
-                <label for="from">Comments</label>
-                {% for j in range(posts[i].replies | length) %}
-                <p class="post_comment">{{posts[i].replies[j].user.fname}}: {{posts[i].replies[j].message}}</p>
-                
-                {% endfor %}
-                <p>
-                <br />
-                   <textarea name="message" id="textbox_reply" style="width: 100%;" placeholder="Comment Here" onclick="this.value=''"></textarea>
-                </p>   
-                <div class="row justify-content-end" style="border:none;">
-                
-                  <p class="">
-                {% if( (posts[i].replies | length) > 1 ) %}
-                    <div class=" text-center">
-                <form><a href="#" name="view_more_button" id="view_more" value="view" class="">View More</a></form>
-                </div>
-                  {%endif%}
-                <div class="offset-1">
-                <form><a href="#" type="submit" name="reply_button" id="reply" value="reply" class="btn btn-sm"><i class="fa fa-reply"></i> Reply</a></form></p>
-                </div>
+                {%endif%}
+                <div  class="offset-1">
+                  <form name="Comment" value="Comment" >
+                    <p class=""><a href="#" type="submit" name="{{posts[i].id_number}}" id="reply-{{posts[i].id_number}}" value="{{posts[i].id_number}}" class="btn btn-sm"><i class="fa fa-reply"></i> Reply</a></p>
+                  </form>
                 </div>
               </div>
             </div>
-          {% endfor %}
           </div>
-        </article>
-      </section>
-    </div>
-    <div id="about"  class="tab-pane fade in" role="tabpanel">
-      <div class="row">
-        <div class="col-md-6">
-          <label>User Id</label>
-        </div>
-        <div class="col-md-6">
-          <p>lcundiff</p>
-        </div>
+           </div>
+      </article>{% endfor %}
+    </section>
+  </div>
+  <div id="about"  class="tab-pane fade in" role="tabpanel">
+    <div class="row">
+      <div class="col-md-6">
+        <label>User Id</label>
       </div>
-      <div class="row">
-        <div class="col-md-6">
-          <label>Name</label>
-        </div>
-        <div class="col-md-6">
-          <p>Logan</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <label>Email</label>
-        </div>
-        <div class="col-md-6">
-          <p>lcundiff@gmail.com</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <label>Phone</label>
-        </div>
-        <div class="col-md-6">
-          <p>123 456 7890</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <label>Profession</label>
-        </div>
-        <div class="col-md-6">
-          <p>Elementary Teacher</p>
-        </div>
+      <div class="col-md-6">
+        <p>lcundiff</p>
       </div>
     </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label>Name</label>
+      </div>
+      <div class="col-md-6">
+        <p>Logan</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label>Email</label>
+      </div>
+      <div class="col-md-6">
+        <p>lcundiff@gmail.com</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label>Phone</label>
+      </div>
+      <div class="col-md-6">
+        <p>123 456 7890</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label>Profession</label>
+      </div>
+      <div class="col-md-6">
+        <p>Elementary Teacher</p>
+      </div>
+    </div>
+  </div>
   </form>
 </div>
 <script type="text/javascript">
@@ -142,24 +153,58 @@
     $('#timeline-tab').addClass("active");
     $('#timeline-tab').addClass("show");
   });
-      </script>
+</script> 
 <script type="text/javascript">
-$("#reply").click(function (e) {
+$("a[id|='reply']").click(function (e) {
     e.preventDefault();
-    var value = $("#textbox_reply").val();
-    console.log("sending data")
-    alert(value);
+    var id_number = e.currentTarget.name;
+    console.log("id " + id_number);
+    var value = $("#textbox_reply-"+id_number).val();
+    console.log(value);
+    $("#textbox_c-"+id_number).prepend('<div class="row post_comment"><figure class="thumbnail col-md-2 col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png"/></figure><p>You: ' + value + '</p></div>');    
+    //alert(value);
     $.ajax({
         type: "POST",
-        url: "parse_data",
+        url: "/comment_"+id_number,
         data: JSON.stringify({ "text" : value } ),
         contentType: "application/json; charset=utf-8",
-        dataType: "json",
+        dataType: "text",
+        error: function(data) {
+          response = eval(data);
+          comment = JSON.stringify(response);
+          console.log("error" + comment)  
+        },
         success: function (data) {
-            alert(JSON.stringify(data));
+            comment = JSON.stringify(data);
+            console.log(comment)
+
         }
     });
 
 });
-</script>
+$("#post").click(function (e) {
+    e.preventDefault();
+    var value = $("#textbox_post").val();
+    $("#write_post").append('<article class="row post_box"><div class="col-md-2 col-3"><figure class="thumbnail "> <img alt="placeholder"class="img-fluid rounded-circle" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png"/> </figure></div><div class="col-6"><header class="text-left"><figcaption class="comment-user"><i class="fa fa-user"></i>Name</figcaption><time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> Dec 16, 2018</time></header> </div><div class="col-md-10"> <div class="panel panel-default arrow left"> <div class="panel-body"> <div class="comment-post"><p>' + value + ('</p></div><label id="comment" for="from">Comments</label><p id="textbox_c" ><textarea name="message" id="textbox_reply" style="width: 100%;" placeholder="Comment Here"></textarea></p><div id="reply_div" class="row justify-content-end" style="border:none;"> <div  class="offset-1"><form><p class=""><a href="#" type="submit" name="action" id="reply" value="Comment" class="btn btn-sm"><i class="fa fa-reply"></i> Reply</a></p></form> </div> </div> </div> </div> </div></article>'));    
+    //alert(value);
+    $.ajax({
+        type: "POST",
+        url: "/post",
+        data: JSON.stringify({ "text" : value } ),
+        contentType: "application/json; charset=utf-8",
+        dataType: "text",
+        error: function(data) {
+          response = eval(data);
+          post = JSON.stringify(response);
+          console.log("error" + post)  
+        },
+        success: function (data) {
+            comment = JSON.stringify(data);
+            console.log(comment)
+
+        }
+    });
+
+});
+</script> 
 {% endblock %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html --> 

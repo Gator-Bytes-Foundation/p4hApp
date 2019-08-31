@@ -19,7 +19,7 @@
 }
 
 /* CSS for profile posts */
-.comment-list .row {
+.post_box {
   margin-bottom: 0px;
   border-style:solid; 
   border-width:thin;  

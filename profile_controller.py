@@ -6,6 +6,7 @@ import json
 from users import *
 from posts import *
 from messaging import *
+import random
 
 def load_users():
   dict_of_users = {}
@@ -23,16 +24,24 @@ def load_users():
 def page_load(page_to_load):
   #so href will add something to the url, and this will be saved to 'page_to_load' which we can then use to render the name of the html file
   # get data
+  print("GET OR POST? -> " + str(request.method))
   dict_of_users = load_users()
   newsfeed_list = Post.load_newsfeed()
   profile_posts = Post.load_profile()
   list_of_messages = []
-  
-  if request.method == 'POST':   
-    new_reply = request.get_json()
-    print(new_reply["text"])
-    profile_posts[0].replies.append(Comment(User.getUser("acundiff"),new_reply["text"],"") )   
-    return
+  if(request.method == 'POST'):
+    print("Request data -> " + str(request.data))
+    if('comment' in page_to_load):   
+      new_reply = request.get_json()
+      print(new_reply["text"])
+      profile_posts[0].replies.append(Comment(User.getUser("acundiff"),new_reply["text"],"") )   
+      return new_reply["text"]
+    if('post' in page_to_load):    
+      new_reply = request.get_json()
+      print(new_reply["text"])
+      new_post_id = 3
+      profile_posts[0].replies.append(Post(User.getUser("acundiff"),new_reply["text"],"",[],new_post_id) )   
+      return new_reply["text"]
 
   
   # Messaging Page
