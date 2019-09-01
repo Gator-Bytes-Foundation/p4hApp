@@ -1,0 +1,234 @@
+{
+	"get_by_id": {
+		"method": "GET",
+		"endpoint": "sections/1",
+		"data":{
+			"id": 1,
+			"course_id": 1,
+			"name": "Section 1"
+		},
+		"status_code": 200
+	},
+	"get_by_sis_id": {
+		"method": "GET",
+		"endpoint": "sections/sis_section_id:test-sis-id",
+		"data":{
+			"id": 10,
+			"sis_section_id": "test-sis-id",
+			"course_id": 1,
+			"name": "SIS Section"
+		},
+		"status_code": 200
+	},
+	"list_enrollments": {
+		"method": "GET",
+		"endpoint": "sections/1/enrollments",
+		"data": [
+			{
+				"id": 1,
+				"course_id": 5,
+				"name": "Section 1"
+			},
+			{
+				"id": 2,
+				"course_id": 6,
+				"name": "Section 2"
+			}
+		],
+		"status_code": 200,
+		"headers": {
+            "Link": "<https://example.com/api/v1/sections/1/list_enrollments?page=2&per_page=2>; rel=\"next\""
+        }
+	},
+	"list_enrollments_2": {
+		"method": "GET",
+		"endpoint": "sections/1/list_enrollments?page=2&per_page=2",
+		"data": [
+			{
+				"id": 3,
+				"course_id": 7,
+				"name": "Section 3"
+			},
+			{
+				"id": 4,
+				"course_id": 8,
+				"name": "Section 4"
+			}
+		],
+		"status_code": 200
+	},
+	"crosslist_section":{
+		"method": "POST",
+		"endpoint": "sections/1/crosslist/2",
+		"data": {
+			"id": 1,
+			"new_course_id": 2,
+			"name": "Cross Section"
+		},
+		"status_code": 200
+	},
+	"decross_section": {
+		"method": "DELETE",
+		"endpoint": "sections/1/crosslist",
+		"data": {
+			"id": 1,
+			"name": "Target Section"
+		},
+		"status_code": 200
+	},
+	"edit": {
+		"method": "PUT",
+		"endpoint": "sections/1",
+		"data": {
+			"id": 1,
+			"name": "Target Edit"
+		},
+		"status_code": 200
+	},
+	"delete": {
+		"method": "DELETE",
+		"endpoint": "sections/1",
+		"data": {
+			"id": 1,
+			"name": "Deleted Section"
+		},
+		"status_code": 200
+	},
+	"submit_assignment": {
+		"method": "POST",
+		"endpoint": "sections/1/assignments/1/submissions",
+		"data": {
+			"id": 1,
+			"assignment_id": 1,
+			"user_id": 1,
+			"html_url": "https://example.com/sections/1/assignments/1/submissions/1",
+			"submission_type": "online_upload"
+		},
+		"status_code": 200
+	},
+	"list_submissions": {
+		"method": "GET",
+		"endpoint": "sections/1/assignments/1/submissions",
+		"data": [
+			{
+				"id": 1,
+				"assignments_id": 1,
+				"user_id": 1,
+				"html_url": "https://example.com/sections/1/assignments/1/submissions/1",
+				"submission_type": "online_upload"
+			},
+			{
+				"id": 2,
+				"assignments_id": 1,
+				"user_id": 2,
+				"html_url": "https://example.com/sections/1/assignments/1/submissions/2",
+				"submission_type": "online_upload"
+			}
+		],
+		"status_code": 200
+	},
+	"list_multiple_submissions": {
+		"method": "GET",
+		"endpoint": "sections/1/students/submissions",
+		"data": [
+			{
+				"id": 1,
+				"assignments_id": 1,
+				"user_id": 1,
+				"html_url": "https://example.com/sections/1/assignments/1/submissions/1",
+				"submission_type": "online_upload"
+			},
+			{
+				"id": 2,
+				"assignments_id": 1,
+				"user_id": 2,
+				"html_url": "https://example.com/sections/1/assignments/1/submissions/2",
+				"submission_type": "online_upload"
+			}
+		],
+		"status_code": 200
+	},
+	"list_multiple_submissions_grouped": {
+		"method": "GET",
+		"endpoint": "sections/1/students/submissions",
+		"data": [
+			{
+				"user_id": 1,
+				"submissions": [
+					{
+						"id": 1,
+						"assignments_id": 1,
+						"user_id": 1,
+						"html_url": "https://example.com/sections/1/assignments/1/submissions/1",
+						"submission_type": "online_upload"
+					}
+				]
+			},
+			{
+				"user_id": 2,
+				"submissions": [
+					{
+						"id": 2,
+						"assignments_id": 1,
+						"user_id": 2,
+						"html_url": "https://example.com/sections/1/assignments/1/submissions/2",
+						"submission_type": "online_upload"
+					}
+				]
+			}
+		],
+		"status_code": 200
+	},
+	"get_submission": {
+		"method": "GET",
+		"endpoint": "sections/1/assignments/1/submissions/1",
+		"data": {
+				"id": 1,
+				"assignments_id": 1,
+				"user_id": 1,
+				"html_url": "https://example.com/sections/1/assignments/1/submissions/1",
+				"submission_type": "online_upload"
+		},
+		"status_code": 200
+	},
+	"update_submission": {
+		"method": "PUT",
+		"endpoint": "sections/1/assignments/1/submissions/1",
+		"data": {
+				"id": 1,
+				"assignments_id": 1,
+				"user_id": 1,
+				"html_url": "https://example.com/sections/1/assignments/1/submissions/1",
+				"submission_type": "online_upload",
+				"excused": true
+		},
+		"status_code": 200
+	},
+	"mark_submission_as_read": {
+		"method": "PUT",
+		"endpoint": "sections/1/assignments/1/submissions/1/read",
+		"status_code": 204
+	},
+	"mark_submission_as_unread": {
+		"method": "DELETE",
+		"endpoint": "sections/1/assignments/1/submissions/1/read",
+		"status_code": 204
+	},
+	"update_submissions": {
+		"method": "POST",
+		"endpoint": "sections/1/submissions/update_grades",
+		"data": {
+			"id": 3,
+			"context_id": 1,
+			"context_type": "Course",
+			"user_id": null,
+			"tag": "submissions_update",
+			"completion": null,
+			"workflow_state": "queued",
+			"updated_at": "2013-01-15T15:04:00Z",
+			"message": null,
+			"url": "https://canvas.example.edu/api/v1/progress/3"
+		},
+		"status_code": 200
+	}
+}

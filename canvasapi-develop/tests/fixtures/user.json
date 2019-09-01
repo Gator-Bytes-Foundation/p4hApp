@@ -1,0 +1,922 @@
+{
+	"activity_stream_summary": {
+		"method": "GET",
+		"endpoint": "users/self/activity_stream/summary",
+		"data": [
+			{
+				"type": "DiscussionTopic",
+				"unread_count": 2,
+				"count": 7
+			},
+			{
+				"type": "Conversation",
+				"unread_count": 0,
+				"count": 3
+			}
+		],
+		"status_code": 200
+	},
+	"avatars": {
+		"method": "GET",
+		"endpoint": "users/1/avatars",
+		"data": [
+			{
+				"type": "gravatar",
+				"url": "https://secure.gravatar.com/avatar/1",
+				"display_name": "avatar"
+			},
+			{
+				"type": "gravatar",
+				"url": "https://secure.gravatar.com/avatar/2",
+				"display_name": "avatar"
+			}
+		],
+		"headers": {
+			"Link": "<https://example.com/api/v1/users/1/avatars?page=2&per_page=2>; rel=\"next\""
+		},
+		"status_code": 200
+	},
+	"avatars_p2": {
+		"method": "GET",
+		"endpoint": "users/1/avatars?page=2&per_page=2",
+		"data": [
+			{
+				"type": "gravatar",
+				"url": "https://secure.gravatar.com/avatar/3",
+				"display_name": "avatar"
+			},
+			{
+				"type": "gravatar",
+				"url": "https://secure.gravatar.com/avatar/4",
+				"display_name": "avatar"
+			}
+		],
+		"status_code": 200
+	},
+	"color": {
+		"method": "GET",
+		"endpoint": "users/1/colors/course_1",
+		"data": {
+			"hexcode": "#abc123"
+		},
+		"status_code": 200
+	},
+	"color_update": {
+		"method": "PUT",
+		"endpoint": "users/1/colors/course_1",
+		"data": {
+			"hexcode": "#f00f00"
+		},
+		"status_code": 200
+	},
+	"colors": {
+		"method": "GET",
+		"endpoint": "users/1/colors",
+		"data": {
+			"custom_colors": {
+				"course_42": "#abc123",
+				"course_88": "#123abc"
+			}
+		},
+		"status_code": 200
+	},
+	"course_nickname": {
+		"method": "GET",
+		"endpoint": "users/self/course_nicknames/1",
+		"data": {
+			"course_id": 1,
+			"name": "One is the Loneliest Number",
+			"nickname": "ONE"
+		},
+		"status_code": 200
+	},
+	"course_nickname_set": {
+		"method": "PUT",
+		"endpoint": "users/self/course_nicknames/1",
+		"data": {
+			"course_id": 1,
+			"name": "Course Name",
+			"nickname": "New Course Nickname"
+		},
+		"status_code": 200
+	},
+	"course_nicknames": {
+		"method": "GET",
+		"endpoint": "users/self/course_nicknames",
+		"data": [
+			{
+				"course_id": 16,
+				"name": "User-friendly Web-enabled Task-force",
+				"nickname": "UWT"
+			},
+			{
+				"course_id": 17,
+				"name": "Seamless Intangible Framework",
+				"nickname": "SIF"
+			}
+		],
+		"status_code": 200,
+		"headers": {
+			"Link": "<https://example.com/api/v1/users/self/course_nicknames?page=2&per_page=2>; rel=\"next\""
+		}
+	},
+	"course_nicknames_delete": {
+		"method": "DELETE",
+		"endpoint": "users/self/course_nicknames",
+		"data": {
+			"message": "OK"
+		},
+		"status_code": 200
+	},
+	"course_nicknames_page_2": {
+		"method": "GET",
+		"endpoint": "users/self/course_nicknames?page=2&per_page=2",
+		"data": [
+			{
+				"course_id": 18,
+				"name": "Open-architected Disintermediate Complexity",
+				"nickname": "ODC"
+			},
+			{
+				"course_id": 19,
+				"name": "Persevering Impactful Function",
+				"nickname": "PIF"
+			}
+		],
+		"status_code": 200
+	},
+	"courses": {
+		"method": "GET",
+		"endpoint": "users/1/courses",
+		"data": [
+			{
+				"id": 101,
+				"course_code": "TST101",
+				"name": "Test Course 101"
+			},
+			{
+				"id": 102,
+				"course_code": "TST102",
+				"name": "Test Course 102"
+			}
+		],
+		"headers": {
+			"Link": "<https://example.com/api/v1/users/1/courses?page=2&per_page=2>; rel=\"next\""
+		},
+		"status_code": 200
+	},
+	"courses_p2": {
+		"method": "GET",
+		"endpoint": "users/1/courses?page=2&per_page=2",
+		"data": [
+			{
+				"id": 103,
+				"course_code": "TST103",
+				"name": "Test Course 103"
+			},
+			{
+				"id": 104,
+				"course_code": "TST104",
+				"name": "Test Course 104"
+			}
+		],
+		"status_code": 200
+	},
+	"create_folder": {
+        "method": "POST",
+        "endpoint": "users/1/folders",
+        "data": {
+            "id": 2,
+            "name": "Test String",
+            "locked": false,
+            "hidden": false
+        },
+        "status_code": 200
+    },
+	"edit": {
+		"method": "PUT",
+		"endpoint": "users/1",
+		"data": {
+			"id": 1,
+			"name": "New User Name"
+		}
+	},
+	"get_by_id": {
+		"method": "GET",
+		"endpoint": "users/1",
+		"data": {
+			"id": 1,
+			"name": "John Doe"
+		},
+		"status_code": 200
+	},
+	"get_by_id_2": {
+		"method": "GET",
+		"endpoint": "users/2",
+		"data": {
+			"id": 2,
+			"name": "John Smith"
+		}
+	},
+	"get_by_id_type": {
+		"method": "GET",
+		"endpoint": "users/sis_user_id:jdoe",
+		"data": {
+			"id": 1,
+			"name": "John Doe"
+		}
+	},
+	"get_by_id_self": {
+		"method": "GET",
+		"endpoint": "users/self",
+		"data": {
+			"id": 1,
+			"name": "John Doe"
+		}
+	},
+	"get_file": {
+		"method": "GET",
+		"endpoint": "users/1/files/1",
+		"data": {
+			"id": 1,
+			"display_name": "User_File.docx",
+			"size": 1024
+		},
+		"status_code": 200
+	},
+	"get_folder": {
+        "method": "GET",
+        "endpoint": "users/1/folders/1",
+        "data": {
+            "id": 1,
+            "files_count": 10,
+            "folders_count": 2,
+            "name": "Folder 1",
+            "full_name": "Folder 1"
+        },
+        "status_code": 200
+    },
+	"get_folder_2": {
+        "method": "GET",
+        "endpoint": "users/1/folders/2",
+        "data": {
+            "id": 2,
+            "files_count": 10,
+            "folders_count": 2,
+            "name": "Folder 2",
+            "full_name": "Folder 1"
+        },
+        "status_code": 200
+    },
+	"get_user_assignments": {
+		"method": "GET",
+		"endpoint": "users/1/courses/1/assignments",
+		"data": [
+			{
+				"id": 1,
+				"course_id": 1,
+				"name": "Assignment 1",
+				"description": "Do this assignment"
+			},
+			{
+				"id": 2,
+				"course_id": 1,
+				"name": "Assignment 2",
+				"description": "Do this assignment too"
+			}
+		],
+		"status_code": 200,
+		"headers": {
+			"Link": "<https://example.com/api/v1/users/1/courses/1/list_assignments?page=2&per_page=2>; rel=\"next\""
+		}
+	},
+	"get_user_assignments2": {
+		"method": "GET",
+		"endpoint": "users/1/courses/1/list_assignments?page=2&per_page=2",
+		"data": [
+			{
+				"id": 3,
+				"course_id": 1,
+				"name": "Assignment 3",
+				"description": "Do this assignment"
+			},
+			{
+				"id": 4,
+				"course_id": 1,
+				"name": "Assignment 4",
+				"description": "Do this assignment too"
+			}
+		],
+		"status_code": 200
+	},
+	"get_user_files": {
+		"method": "GET",
+		"endpoint": "users/1/files",
+		"data": [
+			{
+				"id": 1,
+				"size": 2939,
+				"display_name": "File1.txt"
+			},
+			{
+				"id": 2,
+				"size": 18380,
+				"display_name": "File_2.png"
+			}
+		],
+		"status_code": 200,
+		"headers": {
+			"Link": "<https://example.com/api/v1/users/1/files?page=2&per_page=2>; rel=\"next\""
+		}
+	},
+	"get_user_files2": {
+		"method": "GET",
+		"endpoint": "users/1/files?page=2&per_page=2",
+		"data": [
+			{
+				"id": 3,
+				"display_name": "File 3.jpg",
+				"size": 1298
+			},
+			{
+				"id": 4,
+				"display_name": "File 4.docx",
+				"size": 88920
+			}
+		],
+		"status_code": 200
+	},
+	"list_calendar_events_for_user": {
+		"method": "GET",
+		"endpoint": "users/1/calendar_events",
+		"data": [
+			{
+				"id": 123,
+				"context_code": "course_321",
+				"title": "Test Event 1"
+			},
+			{
+				"id": 456,
+				"context_code": "course_654",
+				"title": "Test Event 2"
+			}
+		],
+		"status_code": 200
+	},
+	"list_comm_channels": {
+		"method": "GET",
+		"endpoint": "users/1/communication_channels",
+		"data": [
+			{
+				"id": 11,
+				"address": "user@example.com",
+				"type": "email",
+				"position": 1,
+				"user_id": 1,
+				"workflow_state": "active"
+			},
+			{
+				"id": 12,
+				"address": "user2@example.com",
+				"type": "email",
+				"position": 2,
+				"user_id": 1,
+				"workflow_state": "active"
+			}
+		],
+		"status_code": 200,
+		"headers": {
+			"Link": "<https://example.com/api/v1/users/1/communication_channels?page=2&per_page=2>; rel=\"next\""
+		}
+	},
+	"list_comm_channels2": {
+		"method": "GET",
+		"endpoint": "users/1/communication_channels?page=2&per_page=2",
+		"data": [
+			{
+				"id": 13,
+				"address": "5555555555@example.com",
+				"type": "sms",
+				"position": 3,
+				"user_id": 1,
+				"workflow_state": "active"
+			},
+			{
+				"id": 14,
+				"address": "For All Devices",
+				"type": "push",
+				"position": 4,
+				"user_id": 1,
+				"workflow_state": "active"
+			}
+		],
+		"status_code": 200
+	},
+	"create_comm_channel": {
+		"method": "POST",
+		"endpoint": "users/1/communication_channels",
+		"data": {
+			"id": 1,
+			"address": "username@example.org",
+			"type": "email",
+			"position": 1,
+			"user_id": 1,
+			"workflow_state": "active"
+		},
+		"status_code": 200
+	},
+	"list_enrollments": {
+		"method": "GET",
+		"endpoint": "users/1/enrollments",
+		"data": [
+			{
+				"id": 1,
+				"course_id": 5
+			},
+			{
+				"id": 2,
+				"course_id": 6
+			}
+		],
+		"status_code": 200,
+		"headers": {
+			"Link": "<https://example.com/api/v1/users/1/list_enrollments?page=2&per_page=2>; rel=\"next\""
+		}
+	},
+	"list_enrollments_2": {
+		"method": "GET",
+		"endpoint": "users/1/list_enrollments?page=2&per_page=2",
+		"data": [
+			{
+				"id": 3,
+				"course_id": 7
+			},
+			{
+				"id": 4,
+				"course_id": 8
+			}
+		],
+		"status_code": 200
+	},
+	"list_folders": {
+        "method": "GET",
+        "endpoint": "users/1/folders",
+        "data": [
+            {
+                "id": 2,
+                "files_count": 0,
+                "folders_count": 0,
+                "name": "Folder 2",
+                "full_name": "user_files/Folder 2"
+            },
+            {
+                "id": 3,
+                "files_count": 0,
+                "folders_count": 0,
+                "name": "Folder 3",
+                "full_name": "user_files/Folder 3"
+            }
+        ],
+        "status_code": 200
+    },
+	"merge": {
+		"method": "PUT",
+		"endpoint": "users/1/merge_into/2",
+		"data": {
+			"id": 1,
+			"name": "John Smith"
+		}
+	},
+	"missing_sub": {
+		"method": "GET",
+		"endpoint": "users/1/missing_submissions",
+		"data": [
+			{
+				"id": 1,
+				"name": "Assignment 1",
+				"description": "This is the first assignment"
+			},
+			{
+				"id": 2,
+				"name": "Assignment 2",
+				"description": "This is the second assignment"
+			}
+		],
+		"headers": {
+			"Link": "<https://example.com/api/v1/users/1/missing_submissions?page=2&per_page=2>; rel=\"next\""
+		},
+		"status_code": 200
+	},
+	"missing_sub_p2": {
+		"method": "GET",
+		"endpoint": "users/1/missing_submissions?page=2&per_page=2",
+		"data": [
+			{
+				"id": 3,
+				"name": "Assignment 3",
+				"description": "This is the third assignment"
+			},
+			{
+				"id": 4,
+				"name": "Assignment 4",
+				"description": "This is the fourth assignment"
+			}
+		],
+		"status_code": 200
+	},
+	"page_views": {
+		"method": "GET",
+		"endpoint": "users/1/page_views",
+		"data": [
+			{
+				"id": "123fb561-c9ce-7ed9-8e42-31e0aab47e18",
+				"url": "https://example.com/test",
+				"created_at": "2013-01-01T12:00:00Z",
+				"context_type": "Course"
+			},
+			{
+				"id": "4c7f44f9-41b9-ff59-03ad-3215cb246966",
+				"url": "https://example.com/hello",
+				"created_at": "2014-01-01T12:00:00Z",
+				"context_type": "User"
+			}
+		],
+		"headers": {
+			"Link": "<https://example.com/api/v1/users/1/page_views?page=2&per_page=2>; rel=\"next\""
+		},
+		"status_code": 200
+	},
+	"page_views_p2": {
+		"method": "GET",
+		"endpoint": "users/1/page_views?page=2&per_page=2",
+		"data": [
+			{
+				"id": "77f111c9-5b0b-46cb-92a2-34108ebe7b5b",
+				"url": "https://example.com/login",
+				"created_at": "2015-01-01T12:00:00Z",
+				"context_type": null
+			},
+			{
+				"id": "69ec8b6f-e123-2af8-dafb-561fdc711f6b",
+				"url": "https://example.com/logout",
+				"created_at": "2016-01-01T12:00:00Z",
+				"context_type": "UserProfile"
+			}
+		],
+		"status_code": 200
+	},
+	"profile": {
+		"method": "GET",
+		"endpoint": "users/1/profile",
+		"data": {
+			"id": 1,
+			"name": "Sample User"
+		},
+		"status_code": 200
+	},
+	"remove_nickname": {
+		"method": "DELETE",
+		"endpoint": "users/self/course_nicknames/1",
+		"data": {
+			"course_id": 1,
+			"name": "Electrical Zoning Fundamentals",
+			"nickname": "EZ course"
+		}
+	},
+	"todo_items": {
+		"method": "GET",
+		"endpoint": "users/self/todo",
+		"data": [
+			{
+				"type": "grading",
+				"assignment": {},
+				"ignore": ".. url ..",
+				"ignore_permanently": ".. url ..",
+				"html_url": ".. url ..",
+				"needs_grading_count": 3,
+				"context_type": "course",
+				"course_id": 1,
+				"group_id": null
+			},
+			{
+				"type": "submitting",
+				"assignment": {},
+				"ignore": ".. url ..",
+				"ignore_permanently": ".. url ..",
+				"html_url": ".. url ..",
+				"context_type": "course",
+				"course_id": 1
+			}
+		]
+	},
+	"upcoming_events": {
+		"method": "GET",
+		"endpoint": "users/self/upcoming_events",
+		"data": [
+			{
+				"id": 42,
+				"title": "Upcoming Course Event",
+				"description": "This is an event!",
+				"start_at": "2015-04-01T13:37:00Z",
+				"end_at": "2017-04-01T13:37:00Z"
+			}
+		]
+	},
+	"update_settings": {
+		"method": "PUT",
+		"endpoint": "users/1/settings",
+		"data": {
+			"manual_mark_as_read": true
+		}
+	},
+	"upload": {
+		"method": "POST",
+		"endpoint": "users/1/files",
+		"data": {
+			"upload_url": "https://example.com/api/v1/files/upload_response_upload_url",
+			"upload_params": {
+				"some_param": "param123",
+				"a_different_param": "param456"
+			}
+		}
+	},
+	"upload_final": {
+		"method": "POST",
+		"endpoint": "files/upload_response_upload_url",
+		"data": {
+			"url": "great_url_success"
+		}
+	},
+	"list_user_logins": {
+		"method": "GET",
+		"endpoint": "users/1/logins",
+		"data": [
+			{
+				"account_id": 1,
+				"id": 2,
+				"sis_user_id": null,
+				"unique_id": "belieber@example.com",
+				"user_id": 2,
+				"authentication_provider_id": 1,
+				"authentication_provider_type": "facebook"
+			}
+		],
+		"headers": {
+			"Link": "<https://example.com/api/v1/users/1/logins/?page=2&per_page=2>; rel=\"next\""
+		},
+		"status_code": 200
+	},
+	"list_user_logins_2": {
+		"method": "GET",
+		"endpoint": "users/1/logins/?page=2&per_page=2",
+		"data": [
+			{
+				"account_id": 1,
+				"id": 3,
+				"sis_user_id": null,
+				"unique_id": "belieber@example.com",
+				"user_id": 3,
+				"authentication_provider_id": 2,
+				"authentication_provider_type": "facebook"
+			}
+		],
+		"status_code": 200
+	},
+	"list_observees": {
+		"method": "GET",
+		"endpoint": "users/1/observees",
+		"data": [
+			{
+				"id": 1,
+				"name": "User 1"
+			},
+			{
+				"id": 2,
+				"name": "User 2"
+			}
+		],
+		"headers": {
+			"Link": "<https://example.com/api/v1/users/1/observees?page=2&per_page=2>; rel=\"next\""
+		},
+		"status_code": 200
+	},
+	"list_observees_2": {
+		"method": "GET",
+		"endpoint": "users/1/observees?page=2&per_page=2",
+		"data": [
+			{
+				"id": 3,
+				"name": "User 3"
+			},
+			{
+				"id": 4,
+				"name": "User 4"
+			}
+		],
+		"status_code": 200
+	},
+	"add_observee_with_credentials": {
+		"method": "POST",
+		"endpoint": "users/1/observees",
+		"data": {
+			"id": 5,
+			"name": "User 5"
+		}
+	},
+	"show_observee": {
+		"method": "GET",
+		"endpoint": "users/1/observees/6",
+		"data": {
+			"id": 6,
+			"name": "User 6"
+		}
+	},
+	"add_observee": {
+		"method": "PUT",
+		"endpoint": "users/1/observees/7",
+		"data": {
+			"id": 7,
+			"name": "User 7"
+		}
+	},
+	"remove_observee": {
+		"method": "DELETE",
+		"endpoint": "users/1/observees/8",
+		"data": {
+			"id": 8,
+			"name": "User 8"
+		}
+	},
+	"search_recipients": {
+		"method": "GET",
+		"endpoint": "search/recipients",
+		"data": [
+  			{
+  				"id": "group_1",
+  				"name": "the group",
+  				"type": "context",
+  				"user_count": 3
+  			},
+  			{
+  				"id": 2,
+  				"name": "greg",
+  				"common_courses": {},
+  				"common_groups": {"1": ["Member"]}
+  			}
+		],
+		"status_code": 200
+	},
+	"create_content_migration": {
+		"method": "POST",
+		"endpoint": "users/1/content_migrations",
+		"data": {
+			"id": 1,
+			"migration_type": "dummy_importer",
+			"migration_type_title": "Dummy Importer"
+		},
+		"status_code": 200
+	},
+	"get_content_migration_single": {
+		"method": "GET",
+		"endpoint": "users/1/content_migrations/1",
+		"data": {
+			"id": 1,
+			"migration_type": "dummy_importer",
+			"migration_type_title": "Dummy Importer",
+			"progress_url": "https://example.com/api/v1/progress/4"
+		},
+		"status_code": 200
+	},
+	"get_content_migration_multiple": {
+		"method": "GET",
+		"endpoint": "users/1/content_migrations",
+		"data": [
+			{
+				"id": 1,
+				"migration_type": "dummy_importer",
+				"migration_type_title": "Dummy Importer"
+			},
+			{
+				"id": 2,
+				"migration_type": "dummy_importer",
+				"migration_type_title": "Dummy Importer"
+			}
+		],
+		"status_code": 200
+	},
+	"get_migration_systems_multiple": {
+		"method": "GET",
+		"endpoint": "users/1/content_migrations/migrators",
+		"data": [
+			{
+				"type": "dummy_importer",
+				"requires_file_upload": true,
+				"name": "Dummy Importer 01"
+			},
+			{
+				"type": "dummy_importer_02",
+				"requires_file_upload": false,
+				"name": "Dummy Importer 02"
+			}
+		],
+		"status_code": 200
+	},
+	"multiple_content_exports": {
+		"method": "GET",
+		"endpoint": "users/1/content_exports",
+		"data": [
+			{
+				"user_id": 1,
+				"id": 2,
+				"export_type": "a"
+			},
+			{
+				"user_id": 1,
+				"id": 22,
+				"export_type": "b"
+			}
+		],
+		"status_code": 200
+	},
+	"single_content_export": {
+		"method": "GET",
+		"endpoint": "users/1/content_exports/11",
+		"data": {
+			"user_id": 1,
+			"id": 11,
+			"export_type": "c"
+		},
+		"status_code": 200
+	},
+	"export_content": {
+		"method": "POST",
+		"endpoint": "users/1/content_exports",
+		"data": {
+			"user_id": 1,
+			"id": 111,
+			"export_type": "d"
+		},
+		"status_code": 200
+	},
+	"get_features": {
+		"method": "GET",
+		"endpoint": "users/1/features",
+		"data": [
+			{
+				"name": "high_contrast",
+				"display_name": "High Contrast UI",
+				"applies_to": "User"
+			},
+			{
+				"name": "feature_two",
+				"display_name": "Feature Two",
+				"applies_to": "User"
+			}
+		],
+		"status_code": 200
+	},
+	"get_enabled_features": {
+		"method": "GET",
+		"endpoint": "users/1/features/enabled",
+		"data": [
+			{
+				"name": "feature_one",
+				"display_name": "Feature One",
+				"applies_to": "User"
+			},
+			{
+				"name": "feature_two",
+				"display_name": "Feature Two",
+				"applies_to": "User"
+			}
+		],
+		"status_code": 200
+	},
+	"get_feature_flag": {
+		"method": "GET",
+		"endpoint": "users/1/features/flags/high_contrast",
+		"data": {
+			"feature": "high_contrast",
+			"state": "allowed"
+		},
+		"status_code": 200
+	},
+	"set_feature_flag": {
+		"method": "PUT",
+		"endpoint": "users/1/features/flags/high_contrast",
+		"data": {
+			"feature": "high_contrast",
+			"state": "allowed"
+		},
+		"status_code": 200
+	},
+	"delete_feature_flag": {
+		"method": "DELETE",
+		"endpoint": "users/1/features/flags/high_contrast",
+		"data": {
+			"feature": "high_contrast",
+			"state": "allowed"
+		},
+		"status_code": 200
+	}
+}
