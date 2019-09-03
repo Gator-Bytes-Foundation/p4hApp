@@ -60,25 +60,25 @@
       {% for i in range(posts | length)%}
       <article id="post_{{posts[i].id_number}}" class="row post_box">
         <div class="col-md-2 col-3">
-          <figure class="thumbnail "> <img alt="placeholder"class="img-fluid rounded-circle" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png"/> </figure>
+          <figure class="thumbnail "> <img alt="placeholder"class="img-fluid rounded-circle" src="{{posts[i].author['avatar_image_url']}}"/> </figure>
         </div>
         <div class="col-6">
           <header class="text-left">
-            <figcaption class="comment-user"><i class="fa fa-user"></i>Name</figcaption>
-            <time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> Dec 16, 2018</time>
+            <figcaption class="comment-user"><i class="fa fa-user"></i>{{posts[i].author["display_name"]}}</figcaption>
+            <time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> {{posts[i].posted_at}}</time>
           </header>
         </div>
         <div class="col-md-10">
           <div class="panel panel-default arrow left">
             <div class="panel-body">
               <div class="comment-post">
-                <p>{{posts[i].message}}</p>
+                {{posts[i].message}}
               </div>
               <label id = "comment" for="from">Comments</label>
-              {% for j in range(posts[i].replies | length) %}
+              {% for j in range(comments | length) %}
               <div class="row post_comment">
                 <figure class="thumbnail col-md-2 col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png"/></figure>
-                <p class="">{{posts[i].replies[j].user.fname}}: {{posts[i].replies[j].message}}</p>
+                <p class="">{{comments[j].user_name}}: {{comments[j].message}}</p>
               </div>
               {% endfor %}
               <p id="textbox_c-{{posts[i].id_number}}" >
