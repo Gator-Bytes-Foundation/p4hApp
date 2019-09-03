@@ -39,9 +39,9 @@ def page_load(page_to_load):
     topics = discussion_topics._get_next_page() # this is the list of all topics (with embedded posts) in the course
     print("topic: ", topics[1])
     posts = topics[1].list_topic_entries()# this is the list of all posts on a topic
-    print("replies: ", posts[1])
-    replies = posts[1].list_replies() # this is the list of all discussion replies in the course
-    print("replies of a reply: ", replies[0])
+    #print("replies: ", posts[1])
+    #replies = posts[1].list_replies() # this is the list of all discussion replies in the course
+    #print("replies of a reply: ", replies[0])
     canvasUser = canvas.get_user(34)
     print(canvasUser)
     #makeUser()
@@ -50,6 +50,7 @@ def page_load(page_to_load):
   dict_of_users = load_users()
   newsfeed_list = Post.load_newsfeed()
   profile_posts, profile_comments = Post.load_profile()
+  #print ("comment object: ", profile_comments)
   list_of_messages = []
   
   if(request.method == 'POST'):
