@@ -10,9 +10,10 @@ class Post():
     post.replies = replies
     post.id_number = id_number
     
-  def load_profile():
+  def load_profile(user_id):
     recentPosts = []
     recentComments = []
+    canvasUser = canvas.get_user(user_id)
     try:
       course = canvas.get_course(1)
       discussion_topics = course.get_discussion_topics()
@@ -22,7 +23,7 @@ class Post():
       print("error", e)
       
     for i in range(len(topics)):
-      if(topics[i].user_name == "Admin"):
+      if(topics[i].user_name == canvasUser.name):
         topics[i].message = topics[i].message.replace('</p>', '')
         topics[i].message = topics[i].message.replace('<p>', '') # get rid of the html
         recentPosts.append(topics[i])
@@ -37,18 +38,26 @@ class Post():
   
   def load_newsfeed():  
     recentPosts = []
+    recentComments = []
     try:
-      course = canvas.get_course(1) # P4h is course 1
-      #print(course.name)
+      course = canvas.get_course(1)
       discussion_topics = course.get_discussion_topics()
       topics = discussion_topics._get_next_page() # this is the list of all topics (with embedded posts) in the course
-      #print("topic: ", topics[1])
+      #print("topic: ", topics[1].author["display_name"])
     except CanvasException as e:
-      print("error", e) 
+      print("error", e)
       
     for i in range(len(topics)):
+      topics[i].message = topics[i].message.replace('</p>', '')
+      topics[i].message = topics[i].message.replace('<p>', '') # get rid of the html
       recentPosts.append(topics[i])
-    return recentPosts
+      comments = topics[i].list_topic_entries()._get_next_page()
+      for j in range(len(comments)):
+        comments[j].message = comments[j].message.replace('</p>', '')
+        comments[j].message = comments[j].message.replace('<p>', '') # get rid of the html
+        recentComments.append(comments[j])
+    #print(recentPosts)    
+    return recentPosts, recentComments      
   
   def load_recent_news():
     profilePosts = load_profile_posts()

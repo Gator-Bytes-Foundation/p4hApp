@@ -21,26 +21,26 @@
     </div>
     <div class="row">
     <div class="col-12 ">
-    {% for i in range(newsfeed|length) %}
+    {% for i in range(posts|length) %}
     <div id="timeline" class="profile-work"> 
       <!-- 1st tab {% if active=='timeline' %}show active{% endif %}-->
       <section class="comment-list"> 
         <!-- First Comment -->
         <article class="row">
           <div class="col-md-2 col-2">
-            <figure class="thumbnail "> <img alt="placeholder"class="img-fluid rounded-circle" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png"/> </figure>
+            <figure class="thumbnail "> <img alt="placeholder"class="img-fluid rounded-circle" src="{{posts[i].author['avatar_image_url']}}"/> </figure>
           </div>
           <div class="col-4">
             <header class="text-left">
-              <figcaption class="comment-user"><i class="fa fa-user"></i>{{newsfeed[i].user.fname}}</figcaption>
-              <time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> Dec 16, 2018</time>
+              <figcaption class="comment-user"><i class="fa fa-user"></i>{{posts[i].author["display_name"]}}</figcaption>
+              <time class="comment-date" datetime="{{posts[i].posted_at}}"><i class="fa fa-clock-o"></i>{{posts[i].posted_at}}</time>
             </header>
           </div>
           <div class="col-md-10 col-sm-10">
             <div class="panel panel-default arrow left">
               <div class="panel-body">
                 <div class="comment-post">
-                  <p>{{ newsfeed[i].message }}</p>
+                  <p>{{ posts[i].message }}</p>
                 </div>
                 <p class="text-right"><a href="#" class="btn btn-sm"><i class="fa fa-reply"></i> reply</a></p>
               </div>

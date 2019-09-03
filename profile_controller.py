@@ -30,8 +30,6 @@ def load_users():
 @app.route('/<page_to_load>', methods=['GET', 'POST'])
 def page_load(page_to_load):
   #so href will add something to the url, and this will be saved to 'page_to_load' which we can then use to render the name of the html file
-  # get data
-  print("GET OR POST? -> " + str(request.method))
   try:
     course = canvas.get_course(1)
     print(course.name)
@@ -44,14 +42,26 @@ def page_load(page_to_load):
     #print("replies of a reply: ", replies[0])
     canvasUser = canvas.get_user(34)
     print(canvasUser)
-    #makeUser()
   except CanvasException as e:
     print("error", e)
-  dict_of_users = load_users()
-  newsfeed_list = Post.load_newsfeed()
-  profile_posts, profile_comments = Post.load_profile()
+  dict_of_users = load_users()  
+  newsfeed_posts, newsfeed_comments= Post.load_newsfeed()
+  
+  # Messaging Page
+  if('_message' in page_to_load):
+    username = page_to_load.replace('_message','')
+    if(dict_of_users.get(username)): #if the url contains the user's name. (will change this to username or ID to not overlap)   
+      return load_messages(username,dict_of_users)
+  
+  return render_template(page_to_load, posts = newsfeed_posts, comments = newsfeed_comments)
+
+@app.route('/profile', methods=['GET', 'POST'])
+def profile():    
+  
+  print("GET OR POST? -> " + str(request.method))
+  
+  profile_posts, profile_comments = Post.load_profile(35) # 35 is Logan and 1 is Admin (TODO grab this id from logging in)
   #print ("comment object: ", profile_comments)
-  list_of_messages = []
   
   if(request.method == 'POST'):
     print("Request data -> " + str(request.data))
@@ -65,16 +75,9 @@ def page_load(page_to_load):
       print(new_reply["text"])
       new_post_id = 3
       profile_posts[0].replies.append(Post(canvas.get_user(34),new_reply["text"],"",[],new_post_id) )   
-      return new_reply["text"]
-
-  
-  # Messaging Page
-  if('_message' in page_to_load):
-    username = page_to_load.replace('_message','')
-    if(dict_of_users.get(username)): #if the url contains the user's name. (will change this to username or ID to not overlap)   
-      return load_messages(username,dict_of_users)
-  
-  return render_template(page_to_load, newsfeed = newsfeed_list, posts = profile_posts, comments = profile_comments)
+      return new_reply["text"]  
+    
+  return render_template('profile.html', posts = profile_posts, comments = profile_comments)
 
 def makeUser():
 
