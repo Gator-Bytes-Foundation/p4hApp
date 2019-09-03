@@ -76,10 +76,13 @@
               </div>
               <label id = "comment" for="from">Comments</label>
               {% for j in range(comments | length) %}
+                {% if (comments[j].discussion_id == posts[i].id) %}
               <div class="row post_comment">
                 <figure class="thumbnail col-md-2 col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="{{comments[i].user['avatar_image_url']}}"/></figure>
+                
                 <p class="">{{comments[j].user["display_name"]}}: {{comments[j].message}}</p>
               </div>
+                {% endif %}
               {% endfor %}
               <p id="textbox_c-{{posts[i].id_number}}" >
                 <textarea name="message" id="textbox_reply-{{posts[i].id_number}}" style="width: 100%;" placeholder="Comment Here" onclick="this.value=''"></textarea>
