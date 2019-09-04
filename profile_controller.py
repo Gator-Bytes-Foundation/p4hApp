@@ -13,6 +13,7 @@ from posts import *
 from messaging import *
 import random
 
+
   
 def load_users():
   dict_of_users = {}
@@ -40,13 +41,37 @@ def page_load(page_to_load):
     #print("replies: ", posts[1])
     #replies = posts[1].list_replies() # this is the list of all discussion replies in the course
     #print("replies of a reply: ", replies[0])
-    canvasUser = canvas.get_user(34)
+    canvasUser = canvas.get_user(35)
     print(canvasUser)
   except CanvasException as e:
     print("error", e)
   dict_of_users = load_users()  
   newsfeed_posts, newsfeed_comments= Post.load_newsfeed()
   
+  if(request.method == 'POST'):
+    print("Request data -> " + str(request.data))
+    if('comment' in page_to_load):   
+      new_reply = request.get_json()
+      print(new_reply["text"])
+      profile_posts[0].replies.append(Comment(canvas.get_user(34), new_reply["text"],"") )   
+      return new_reply["text"]
+    
+    if('post' in page_to_load):    
+      new_reply = request.get_json()["text"]
+      print(new_reply)
+      # make post in canvas
+      newPost = course.create_discussion_topic()
+      #newPost.author["display_name"] = canvasUser.name
+      newPost.set_attributes(attributes)
+      newPost.update(message=new_reply)
+      newPost.update(published=True)
+      print("topic being posted: ", newPost.title, " entry: ", "nothin fo now")
+      # send back html for post
+      post_part_1 = '''<article class="row post_box"><div class="col-md-2 col-3"><figure class="thumbnail "> <img alt="placeholder"class="img-fluid rounded-circle" src="http://www.tangoflooring.ca/wp- content/uploads/2015/07/user-avatar-placeholder.png"/> </figure></div><div class="col-6"><header class="text-left"><figcaption class="comment-user"><i class="fa fa-user"></i>Name</figcaption><time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> Dec 16, 2018</time></header> </div><div class="col-md-10"> <div class="panel panel-default arrow left"> <div class="panel-body"> <div class="comment-post"><p>'''
+      post_part_2 = '''</p></div><label id="comment" for="from">Comments</label><p id="textbox_c" ><textarea name="message" id="textbox_reply" style="width: 100%;" placeholder="Comment Here"></textarea></p><div id="reply_div" class="row justify-content-end" style="border:none;"> <div  class="offset-1"><form><p class=""><a href="#" type="submit" name="action" id="reply" value="Comment" class="btn btn-sm"><i class="fa fa-reply"></i> Reply</a></p></form> </div> </div> </div> </div> </div></article>'''   
+      final_post = post_part_1 + new_reply + post_part_2
+      #profile_posts[0].replies.append(Post(canvas.get_user(34),new_reply["text"],"",[],new_post_id) )   
+      return final_post  
   # Messaging Page 
   '''
   if('_message' in page_to_load):
@@ -63,20 +88,7 @@ def profile():
   
   profile_posts, profile_comments = Post.load_profile(35) # 35 is Logan and 1 is Admin (TODO grab this id from logging in)
   #print ("comment object: ", profile_comments)
-  
-  if(request.method == 'POST'):
-    print("Request data -> " + str(request.data))
-    if('comment' in page_to_load):   
-      new_reply = request.get_json()
-      print(new_reply["text"])
-      profile_posts[0].replies.append(Comment(canvas.get_user(34), new_reply["text"],"") )   
-      return new_reply["text"]
-    if('post' in page_to_load):    
-      new_reply = request.get_json()
-      print(new_reply["text"])
-      new_post_id = 3
-      profile_posts[0].replies.append(Post(canvas.get_user(34),new_reply["text"],"",[],new_post_id) )   
-      return new_reply["text"]  
+
     
   return render_template('profile.html', posts = profile_posts, comments = profile_comments)
 

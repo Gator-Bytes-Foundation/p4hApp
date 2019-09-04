@@ -18,20 +18,22 @@ class Post():
       course = canvas.get_course(1)
       discussion_topics = course.get_discussion_topics()
       topics = discussion_topics._get_next_page() # this is the list of all topics (with embedded posts) in the course
-      print("topic: ", topics[1].author["display_name"])
+      print("topic in load profile: ", topics[1].author["display_name"])
     except CanvasException as e:
       print("error", e)
       
     for i in range(len(topics)):
       if(topics[i].user_name == canvasUser.name):
-        topics[i].message = topics[i].message.replace('</p>', '')
-        topics[i].message = topics[i].message.replace('<p>', '') # get rid of the html
+        if(topics[i].message is not None):
+          topics[i].message = topics[i].message.replace('</p>', '')
+          topics[i].message = topics[i].message.replace('<p>', '') # get rid of the html
         recentPosts.append(topics[i])
         comments = topics[i].list_topic_entries()._get_next_page()
         
         for j in range(len(comments)):
-          comments[j].message = comments[j].message.replace('</p>', '')
-          comments[j].message = comments[j].message.replace('<p>', '') # get rid of the html
+          if(comments[j].message is not None):
+            comments[j].message = comments[j].message.replace('</p>', '')
+            comments[j].message = comments[j].message.replace('<p>', '') # get rid of the html
           recentComments.append(comments[j])
     return recentPosts, recentComments      
 
@@ -48,13 +50,16 @@ class Post():
       print("error", e)
       
     for i in range(len(topics)):
-      topics[i].message = topics[i].message.replace('</p>', '')
-      topics[i].message = topics[i].message.replace('<p>', '') # get rid of the html
+      if(topics[i].message is not None):
+        topics[i].message = topics[i].message.replace('</p>', '')
+        topics[i].message = topics[i].message.replace('<p>', '') # get rid of the html
       recentPosts.append(topics[i])
       comments = topics[i].list_topic_entries()._get_next_page()
+      
       for j in range(len(comments)):
-        comments[j].message = comments[j].message.replace('</p>', '')
-        comments[j].message = comments[j].message.replace('<p>', '') # get rid of the html
+        if(comments[j].message is not None):
+          comments[j].message = comments[j].message.replace('</p>', '')
+          comments[j].message = comments[j].message.replace('<p>', '') # get rid of the html
         recentComments.append(comments[j])
     #print(recentPosts)    
     return recentPosts, recentComments      
