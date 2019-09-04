@@ -34,7 +34,7 @@
 <!-- CSS to overwrite any bootstrap -->
 <style type="text/css">
 .bs-example {
-  margin: 20px;
+  margin-bottom: 20px;
 }
 /* overwrite bootstrap blue primary color */
 .btn {
@@ -64,6 +64,6 @@
   </nav>
   </div>
 <!-- This paragraph is just for testing. Remove in prod -->
-<div> {% block content %}
+<div style="height:calc(100% - 153px);"> {% block content %}
     {% endblock %} </div>
 </body>
