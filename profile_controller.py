@@ -47,13 +47,14 @@ def page_load(page_to_load):
   dict_of_users = load_users()  
   newsfeed_posts, newsfeed_comments= Post.load_newsfeed()
   
-  # Messaging Page
+  # Messaging Page 
+  '''
   if('_message' in page_to_load):
     username = page_to_load.replace('_message','')
     if(dict_of_users.get(username)): #if the url contains the user's name. (will change this to username or ID to not overlap)   
-      return load_messages(username,dict_of_users)
+      return load_messages(username,dict_of_users)'''
   
-  return render_template(page_to_load, posts = newsfeed_posts, comments = newsfeed_comments)
+  return render_template(page_to_load, posts = newsfeed_posts, comments = newsfeed_comments, users = dict_of_users)
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():    
