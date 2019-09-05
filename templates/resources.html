@@ -3,38 +3,18 @@
 {% extends "header.html" %} <!-- all html files should extend from the header, (the header contains all static references as well) --> 
 {% block content %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
 <div class="list-group">
-  <a href="files.html" class="list-group-item d-flex list-group-item-action flex-row  align-items-center ">
-    <span style="font-size:40px; margin-right:15px;" class="oi oi-book"></span>
+  {% for i in range(folders | length)%}
+  <a href="files_{{folders[i].id}}.html" class="list-group-item d-flex list-group-item-action flex-row  align-items-center ">
+    <span style="font-size:40px; margin-right:15px;" class="oi {{icons[i]}}"></span>
     <div  class="align-items-start active w-100 ">
       <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">Lesson Plans</h5>
-        <small class="">3 days ago</small>
+        <h5 class="mb-1"> {{folders[i].name}} </h5>
+        <small class="">{{folders[i].updated_at}}</small>
       </div>
-      <p class="mb-1">Documents to help plan every day lessons</p>
-      <small>Click to navigate to lessons plans</small>
+      <p class="mb-1">{{folders[i].name}} to help plan every day lessons</p>
+      <small>Click to navigate to {{folders[i].name}}</small>
     </div>
   </a>
-  <a href="files.html" class="list-group-item d-flex list-group-item-action flex-row  align-items-center">
-    <span style="font-size:40px; margin-right:15px;" class="oi oi-image"></span>
-    <div class="align-items-start active w-100">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">Foto</h5>
-        <small class="">3 days ago</small>
-      </div>
-      <p class="mb-1">Images you may need for your students and classes</p>
-      <small>Click to navigate to photos</small>
-    </div>
-  </a>
-  <a href="files.html" class="list-group-item d-flex list-group-item-action flex-row  align-items-center">
-    <span style="font-size:40px; margin-right:15px;" class="oi oi-video"></span>
-    <div  class="align-items-start active w-100">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">Videyo</h5>
-        <small class="">3 days ago</small>
-      </div>
-      <p class="mb-1">Important videos</p>
-      <small>Click to navigate to videos</small>
-    </div>
-  </a>
+  {% endfor %}
 </div>
 {% endblock %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html --> 
