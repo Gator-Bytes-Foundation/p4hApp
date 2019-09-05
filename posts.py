@@ -10,10 +10,10 @@ class Post():
     post.replies = replies
     post.id_number = id_number
     
-  def load_profile(user_id):
+  def load_profile(user):
     recentPosts = []
     recentComments = []
-    canvasUser = canvas.get_user(user_id)
+    canvasUser = user
     try:
       course = canvas.get_course(1)
       discussion_topics = course.get_discussion_topics()
@@ -23,7 +23,7 @@ class Post():
       print("error", e)
       
     for i in range(len(topics)):
-      if(topics[i].user_name == canvasUser.name):
+      if(topics[i].title == canvasUser.name):
         if(topics[i].message is not None):
           topics[i].message = topics[i].message.replace('</p>', '')
           topics[i].message = topics[i].message.replace('<p>', '') # get rid of the html

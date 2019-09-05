@@ -18,7 +18,7 @@ import random
 def load_users():
   dict_of_users = {}
   # GET request for messages incoming
-  test_user_data = [canvas.get_user(34), canvas.get_user(34),canvas.get_user(34)]
+  test_user_data = []
   
   for i in range(0,len(test_user_data)):
     testUser = test_user_data[i]
@@ -34,44 +34,43 @@ def page_load(page_to_load):
   try:
     course = canvas.get_course(1)
     print(course.name)
-    discussion_topics = course.get_discussion_topics()
-    topics = discussion_topics._get_next_page() # this is the list of all topics (with embedded posts) in the course
-    print("topic: ", topics[1])
-    posts = topics[1].list_topic_entries()# this is the list of all posts on a topic
-    #print("replies: ", posts[1])
-    #replies = posts[1].list_replies() # this is the list of all discussion replies in the course
-    #print("replies of a reply: ", replies[0])
     canvasUser = canvas.get_user(35)
-    print(canvasUser)
+    print(canvasUser.name)
   except CanvasException as e:
     print("error", e)
-  dict_of_users = load_users()  
-  newsfeed_posts, newsfeed_comments= Post.load_newsfeed()
+  #dict_of_users = load_users()  
   
   if(request.method == 'POST'):
     print("Request data -> " + str(request.data))
     if('comment' in page_to_load):   
-      new_reply = request.get_json()
-      print(new_reply["text"])
-      profile_posts[0].replies.append(Comment(canvas.get_user(34), new_reply["text"],"") )   
-      return new_reply["text"]
+      new_comment = request.get_json()["text"]
+      print("reply:", new_comment)
+      topic_id = page_to_load.replace('comment_','')
+      # make post in canvas
+      topic = course.get_discussion_topic(topic_id)
+      comment = topic.post_entry(
+          message = new_comment
+      )
+      # send back html for post
+      comment_html = '<div class="row post_comment"><figure class="thumbnail col-md-2 col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="'+ comment.user['avatar_image_url']+'"/></figure><p>' + canvasUser.name + ': ' + new_comment + '</p></div>'
+      return comment_html  
     
     if('post' in page_to_load):    
-      new_reply = request.get_json()["text"]
-      print(new_reply)
+      new_post = request.get_json()["text"]
+      #print(new_post)
       # make post in canvas
-      newPost = course.create_discussion_topic()
-      #newPost.author["display_name"] = canvasUser.name
-      newPost.set_attributes(attributes)
-      newPost.update(message=new_reply)
-      newPost.update(published=True)
-      print("topic being posted: ", newPost.title, " entry: ", "nothin fo now")
+      post = course.create_discussion_topic(
+          title = canvasUser.name,
+          author = canvasUser,
+          message = new_post,
+          user_can_see_posts = True,
+          published = True
+      )
+      print("topic being posted: ", post, " entry: ", "nothin fo now")
       # send back html for post
-      post_part_1 = '''<article class="row post_box"><div class="col-md-2 col-3"><figure class="thumbnail "> <img alt="placeholder"class="img-fluid rounded-circle" src="http://www.tangoflooring.ca/wp- content/uploads/2015/07/user-avatar-placeholder.png"/> </figure></div><div class="col-6"><header class="text-left"><figcaption class="comment-user"><i class="fa fa-user"></i>Name</figcaption><time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> Dec 16, 2018</time></header> </div><div class="col-md-10"> <div class="panel panel-default arrow left"> <div class="panel-body"> <div class="comment-post"><p>'''
-      post_part_2 = '''</p></div><label id="comment" for="from">Comments</label><p id="textbox_c" ><textarea name="message" id="textbox_reply" style="width: 100%;" placeholder="Comment Here"></textarea></p><div id="reply_div" class="row justify-content-end" style="border:none;"> <div  class="offset-1"><form><p class=""><a href="#" type="submit" name="action" id="reply" value="Comment" class="btn btn-sm"><i class="fa fa-reply"></i> Reply</a></p></form> </div> </div> </div> </div> </div></article>'''   
-      final_post = post_part_1 + new_reply + post_part_2
-      #profile_posts[0].replies.append(Post(canvas.get_user(34),new_reply["text"],"",[],new_post_id) )   
-      return final_post  
+      post_id = str(post.id)
+      post_html = '<article id="' + post_id + '"class="row post_box"><div class="col-md-2 col-3"><figure class="thumbnail "> <img alt="placeholder" class="img-fluid rounded-circle" src="' + post.author['avatar_image_url'] + '"/> </figure></div><div class="col-6"><header class="text-left"><figcaption class="comment-user"><i class="fa fa-user"></i>Name</figcaption><time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i>' + post.posted_at + '</time></header> </div><div class="col-md-10"> <div class="panel panel-default arrow left"> <div class="panel-body"> <div class="comment-post"><p>' + new_post + '</p></div><label id="comment" for="from">Comments</label><div id="textbox_div-' + post_id + '" ><textarea name="message" id="textbox_reply-' + post_id + '" style="width: 100%;" placeholder="Comment Here"></textarea></div><div id="reply_div" class="row justify-content-end" style="border:none;"> <div class="offset-1"><form> <p class=""><a href="#" type="submit" name="' + post_id + '" id="reply-' + post_id + '" class="reply_button btn btn-sm"><i class="fa fa-reply"></i> Reply</a></p></form> </div> </div> </div> </div> </div></article>'
+      return post_html  
   # Messaging Page 
   '''
   if('_message' in page_to_load):
@@ -79,18 +78,24 @@ def page_load(page_to_load):
     if(dict_of_users.get(username)): #if the url contains the user's name. (will change this to username or ID to not overlap)   
       return load_messages(username,dict_of_users)'''
   
-  return render_template(page_to_load, posts = newsfeed_posts, comments = newsfeed_comments, users = dict_of_users)
+  return render_template(page_to_load)
 
-@app.route('/profile', methods=['GET', 'POST'])
+@app.route('/profile.html', methods=['GET', 'POST'])
 def profile():    
-  
-  print("GET OR POST? -> " + str(request.method))
-  
-  profile_posts, profile_comments = Post.load_profile(35) # 35 is Logan and 1 is Admin (TODO grab this id from logging in)
+  course = canvas.get_course(1)
+  canvasUser = canvas.get_user(35)
+  profile_posts, profile_comments = Post.load_profile(canvasUser) # 35 is Logan and 1 is Admin (TODO grab this id from logging in)
   #print ("comment object: ", profile_comments)
-
-    
   return render_template('profile.html', posts = profile_posts, comments = profile_comments)
+
+@app.route('/discussion.html', methods=['GET', 'POST'])
+def discussion_page():    
+  course = canvas.get_course(1)
+  canvasUser = canvas.get_user(35)
+  newsfeed_posts, newsfeed_comments= Post.load_newsfeed()
+  #print ("comment object: ", profile_comments)
+  return render_template('discussion.html', posts = newsfeed_posts, comments = newsfeed_comments)
+
 
 def makeUser():
 

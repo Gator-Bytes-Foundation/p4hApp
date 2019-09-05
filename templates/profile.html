@@ -114,13 +114,13 @@
   });
 </script> 
 <script type="text/javascript">
-$("a[id|='reply']").click(function (e) {
+$(document).on("click", ".reply_button", function(e) { /* old regular expression I was using to find all reply ids: a[id|='reply' */ 
   e.preventDefault();
   var id_number = e.currentTarget.name;
   console.log("comment_id " + id_number);
   var value = $("#textbox_reply-"+id_number).val();
   console.log(value);
-  $("#textbox_c-"+id_number).prepend('<div class="row post_comment"><figure class="thumbnail col-md-2 col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png"/></figure><p>You: ' + value + '</p></div>');    
+    
   //alert(value);
   $.ajax({
       type: "POST",
@@ -134,14 +134,15 @@ $("a[id|='reply']").click(function (e) {
         console.log("error" + comment)  
       },
       success: function (data) {
-          comment = JSON.stringify(data);
-          console.log(comment)
+          comment = data;
+          console.log("ajax return comment ", comment)
+          $("#textbox_div-"+id_number).prepend(comment);  
 
       }
   });
-
+  
 });
-$("#post").click(function (e) {
+$("#post").on("click", function(e) { 
   e.preventDefault();
   var value = $("#textbox_post").val();
   console.log(value);    
@@ -158,9 +159,9 @@ $("#post").click(function (e) {
           console.log("error" + post)  
         },
         success: function (data) {
-            comment = JSON.stringify(data);
-            //console.log(comment)
-            $("#write_post").append(comment);
+            post = data;
+            //console.log(post)
+            $("#write_post").append(post);
 
         }
     });

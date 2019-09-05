@@ -9,7 +9,7 @@
         </div>
         <div class="col-6">
           <header class="text-left">
-            <figcaption class="comment-user"><i class="fa fa-user"></i>{{posts[i].author["display_name"]}}</figcaption>
+            <figcaption class="comment-user"><i class="fa fa-user"></i>{{posts[i].title}}</figcaption>
             <time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> {{posts[i].posted_at}}</time>
           </header>
         </div>
@@ -24,14 +24,13 @@
                 {% if (comments[j].discussion_id == posts[i].id) %}
               <div class="row post_comment">
                 <figure class="thumbnail col-md-2 col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="{{comments[j].user['avatar_image_url'] }}"/></figure>
-                
                 <p class="">{{comments[j].user["display_name"]}}: {{comments[j].message}}</p>
               </div>
-                {% endif %}
+              {% endif %}
               {% endfor %}
-              <p id="textbox_c-{{posts[i].id_number}}" >
-                <textarea name="message" id="textbox_reply-{{posts[i].id_number}}" style="width: 100%;" placeholder="Comment Here" onclick="this.value=''"></textarea>
-              </p>
+              <div id="textbox_div-{{posts[i].id}}" >
+                <textarea name="message" id="textbox_reply-{{posts[i].id}}" style="width: 100%;" placeholder="Comment Here" onclick="this.value=''"></textarea>
+              </div>
               <div id="reply_div" class="row justify-content-end" style="border:none;"> {% if( (comments | length) > 1 ) %}
                 <div class=" text-center">
                   <form>
@@ -40,8 +39,8 @@
                 </div>
                 {%endif%}
                 <div  class="offset-1">
-                  <form name="Comment" value="Comment" >
-                    <p class=""><a href="#" type="submit" name="{{posts[i].id}}" id="reply-{{posts[i].id}}" value="{{posts[i].id_number}}" class="btn btn-sm"><i class="fa fa-reply"></i> Reply</a></p>
+                  <form>
+                    <p class=""><a href="#" type="submit" name="{{posts[i].id}}" id="reply-{{posts[i].id}}"  class="reply_button btn btn-sm"><i class="fa fa-reply"></i> Reply</a></p>
                   </form>
                 </div>
               </div>
