@@ -14,20 +14,16 @@ from messaging import *
 import random
 import os
 
-
-  
-def load_users():
-  dict_of_users = {}
-  # GET request for messages incoming
-  test_user_data = []
-  
-  for i in range(0,len(test_user_data)):
-    testUser = test_user_data[i]
-    dict_of_users.update({testUser.name : testUser}) #key is username and the value is a User object
-
-  return dict_of_users
-
-
+def file_download(page_to_load, course):
+  file_id = page_to_load.replace('download_files_','')
+  page_to_load = page_to_load.replace('download_','') # so the url will stay the same on reload
+  int_file = int(file_id)
+  file_to_download = course.get_file(int_file)
+  download_path = '/'.join( os.getcwd().split('/')[:3] ) + '/Downloads'
+  print("file ", file_to_download.public_url)
+  new_url = file_to_download.public_url.replace('localhost','192.168.1.24')
+  file_to_download.update(file = {file_to_download.public_url : new_url})
+  file_to_download.get_contents()
 
 @app.route('/<page_to_load>', methods=['GET', 'POST'])
 def page_load(page_to_load):
@@ -68,16 +64,7 @@ def page_load(page_to_load):
   
   return render_template(page_to_load)
 
-def file_download(page_to_load, course):
-  file_id = page_to_load.replace('download_files_','')
-  page_to_load = page_to_load.replace('download_','') # so the url will stay the same on reload
-  int_file = int(file_id)
-  file_to_download = course.get_file(int_file)
-  download_path = '/'.join( os.getcwd().split('/')[:3] ) + '/Downloads'
-  print("file ", file_to_download.public_url)
-  new_url = file_to_download.public_url.replace('localhost','192.168.1.24')
-  file_to_download.update(file = {file_to_download.public_url : new_url})
-  file_to_download.get_contents()
+
 
 @app.route('/resources.html', methods=['GET', 'POST'])
 def resources():    

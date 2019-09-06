@@ -23,7 +23,7 @@ class Post():
       print("error", e)
       
     for i in range(len(topics)):
-      if(topics[i].title == canvasUser.name):
+      if(topics[i].title == canvasUser.name): #only shows posts that the user has posted
         if(topics[i].message is not None):
           topics[i].message = topics[i].message.replace('</p>', '')
           topics[i].message = topics[i].message.replace('<p>', '') # get rid of the html
@@ -67,17 +67,18 @@ class Post():
       print("error", e)
       
     for i in range(len(topics)):
-      if(topics[i].message is not None):
-        topics[i].message = topics[i].message.replace('</p>', '')
-        topics[i].message = topics[i].message.replace('<p>', '') # get rid of the html
-      recentPosts.append(topics[i])
-      comments = topics[i].list_topic_entries()._get_next_page()
-      
-      for j in range(len(comments)):
-        if(comments[j].message is not None):
-          comments[j].message = comments[j].message.replace('</p>', '')
-          comments[j].message = comments[j].message.replace('<p>', '') # get rid of the html
-        recentComments.append(comments[j])
+      if(topics[i].title == 'Admin'): #only shows posts from P4H TOD): pull from announcements    
+        if(topics[i].message is not None):
+          topics[i].message = topics[i].message.replace('</p>', '')
+          topics[i].message = topics[i].message.replace('<p>', '') # get rid of the html
+        recentPosts.append(topics[i])
+        comments = topics[i].list_topic_entries()._get_next_page()
+        # only loop through comments of posts we are showing
+        for j in range(len(comments)):
+          if(comments[j].message is not None):
+            comments[j].message = comments[j].message.replace('</p>', '')
+            comments[j].message = comments[j].message.replace('<p>', '') # get rid of the html
+          recentComments.append(comments[j])
     #print(recentPosts)    
     return recentPosts, recentComments      
   
