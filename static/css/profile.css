@@ -22,6 +22,9 @@
 }
 /* CSS for profile posts */
 .post_box {
+  position:relative;
+  display: flex;
+  flex-wrap:wrap;
   margin-bottom: 0px;
   border-style:solid; 
   border-width:thin;  

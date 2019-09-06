@@ -24,18 +24,18 @@
     {% for i in range(posts|length) %}
     <div id="timeline" class="profile-work post_box"> 
       <!-- 1st tab {% if active=='timeline' %}show active{% endif %}-->
-      <section class="comment-list"> 
         <!-- First Comment -->
-        <article class="row">
-          <div class="col-md-2 col-2">
+          <div class="">
             <figure class="thumbnail "> <img alt="placeholder"class="img-fluid rounded-circle" src="{{posts[i].author['avatar_image_url']}}"/> </figure>
           </div>
-          <div class="col-4">
+          <div class="col-10">
             <header class="text-left">
-              <figcaption class="comment-user"><i class="fa fa-user"></i>{{posts[i].author["display_name"]}}</figcaption>
-              <time class="comment-date" datetime="{{posts[i].posted_at}}"><i class="fa fa-clock-o"></i>{{posts[i].posted_at}}</time>
+              <figcaption class="comment-user">{{posts[i].author["display_name"]}}</figcaption>
+              <time class="comment-date" datetime="{{posts[i].posted_at}}"><i class="fa fa-clock-o"></i> {{posts[i].posted_at}}</time>
             </header>
+            <hr>
           </div>
+      
           <div class="col-md-10 col-sm-10">
             <div class="panel panel-default arrow left">
               <div class="panel-body">
@@ -46,8 +46,6 @@
               </div>
             </div>
           </div>
-        </article>
-      </section>
     </div>
     {%endfor%}
   </div>
