@@ -69,11 +69,15 @@ def page_load(page_to_load):
   return render_template(page_to_load)
 
 def file_download(page_to_load, course):
-  file_id = page_to_load.replace('download_file_','')
+  file_id = page_to_load.replace('download_files_','')
+  page_to_load = page_to_load.replace('download_','') # so the url will stay the same on reload
   int_file = int(file_id)
   file_to_download = course.get_file(int_file)
   download_path = '/'.join( os.getcwd().split('/')[:3] ) + '/Downloads'
-  file_to_download.download(download_path)
+  print("file ", file_to_download.public_url)
+  new_url = file_to_download.public_url.replace('localhost','192.168.1.24')
+  file_to_download.update(file = {file_to_download.public_url : new_url})
+  file_to_download.get_contents()
 
 @app.route('/resources.html', methods=['GET', 'POST'])
 def resources():    
@@ -105,7 +109,7 @@ def profile():
 @app.route('/discussion.html', methods=['GET', 'POST'])
 def discussion_page():    
   course = canvas.get_course(1)
-  canvasUser = canvas.get_user(35)
+  canvasUser = canvas.get_user(user_id)
   newsfeed_posts, newsfeed_comments= Post.load_newsfeed()
   #print ("comment object: ", profile_comments)
   return render_template('discussion.html', posts = newsfeed_posts, comments = newsfeed_comments)
