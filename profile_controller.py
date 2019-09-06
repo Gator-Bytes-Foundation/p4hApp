@@ -36,7 +36,7 @@ def page_load(page_to_load):
   try:
     course = canvas.get_course(1)
     print(course.name)
-    canvasUser = canvas.get_user(35)
+    canvasUser = canvas.get_user(user_id)
     print(canvasUser.name)
   except CanvasException as e:
     print("error", e)
@@ -95,9 +95,9 @@ def resources():
   return render_template('resources.html', folders = folders,icons = icons)
 
 @app.route('/profile.html', methods=['GET', 'POST'])
-def profile(user_id):    
+def profile():    
   course = canvas.get_course(1)
-  canvasUser = canvas.get_user(35)
+  canvasUser = canvas.get_user(user_id)
   profile_posts, profile_comments = Post.load_profile(canvasUser) # 35 is Logan and 1 is Admin (TODO grab this id from logging in)
   #print ("comment object: ", profile_comments)
   return render_template('profile.html', posts = profile_posts, comments = profile_comments)
@@ -124,7 +124,9 @@ def login_user():
         # found user with login id
         if(users[i].sis_user_id == result["password"]):
           # user password matches
-          return profile(users[i].id) #this is the home page currently
+          global user_id
+          user_id = users[i].id
+          return profile() #this is the home page currently
         else:
           #incorrect password 
           error = "Incorrect Password"
@@ -142,5 +144,4 @@ def home():
   return render_template('login.html') #this is the home page currently
 
 if __name__ == "__main__":
-
   app.run(debug=True)
