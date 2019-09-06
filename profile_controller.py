@@ -12,6 +12,7 @@ from oauth2client import file, client, tools
 from posts import *
 from messaging import *
 import random
+import os
 
 
   
@@ -71,7 +72,8 @@ def file_download(page_to_load, course):
   file_id = page_to_load.replace('download_file_','')
   int_file = int(file_id)
   file_to_download = course.get_file(int_file)
-  file_to_download.download('/')
+  download_path = '/'.join( os.getcwd().split('/')[:3] ) + '/Downloads'
+  file_to_download.download(download_path)
 
 @app.route('/resources.html', methods=['GET', 'POST'])
 def resources():    
@@ -93,7 +95,7 @@ def resources():
   return render_template('resources.html', folders = folders,icons = icons)
 
 @app.route('/profile.html', methods=['GET', 'POST'])
-def profile():    
+def profile(user_id):    
   course = canvas.get_course(1)
   canvasUser = canvas.get_user(35)
   profile_posts, profile_comments = Post.load_profile(canvasUser) # 35 is Logan and 1 is Admin (TODO grab this id from logging in)
@@ -109,57 +111,31 @@ def discussion_page():
   return render_template('discussion.html', posts = newsfeed_posts, comments = newsfeed_comments)
 
 
-def makeUser():
-
-  user_data = {
-    # The name of the user.
-    "user[name]": "Logan Cundiff",
-    "user[terms_of_use]": True,
-    #"user[skip_registration]" : True,
-    "pseudonym[unique_id]": "logancundiff2@gmail.com",
-    #"pseudonym[send_confirmation]" : True,
-    #'force_validations' : True
-  }  
-  try:
-    auth_token = authenticate(scopes,'user')["access_token"]
-    canvas_url = API_URL + "api/v1/accounts/1/users?access_token=" + auth_token
-  except CanvasException as e:
-    print(e)
-  try:
-    print(auth_token) 
-    resp = requests.get(url = canvas_url, params = user_data).json() # gets all users
-    #resp = requests.post(canvas_url,user_data).json() # creates a user
-  except CanvasException as e:
-    print(e)
-  
-  print ('get resp ', resp)
-  print ('post response ', resp)
+@app.route('/login', methods=['GET', 'POST'])
+def login_user():
+  if request.method == 'POST':
+    result = request.form
+    print("form login data: ",result)
+    course = canvas.get_course(1)
+    users = course.get_users()._get_next_page() # 
+    for i in range(len(users)):
+      print(users[i].login_id, " and ", result["username"])
+      if(users[i].login_id == result["username"]):
+        # found user with login id
+        if(users[i].sis_user_id == result["password"]):
+          # user password matches
+          return profile(users[i].id) #this is the home page currently
+        else:
+          #incorrect password 
+          error = "Incorrect Password"
+          return render_template('login.html', error = error) #return login page
+      else:
+        # no username exists
+        error = "There is no user with that username"
+    # if loop ends, render with error message
+    return render_template('login.html', error = error) #return login page
     
-
-def authenticate(scopes,call): 
-    canvas_url = API_URL + "login/oauth2/auth?"
-    serviceKey = {
-      "client_id": "1",
-      "response_type":"code",
-      "redirect_uri": "http://localhost:8000/oauth_complete",
-      "grant_type" : "authorization_code",
-      "code" : "d321327bad33b0144113cf0a5a0129cbba2213d848e2d359dc2df201a33307f1bb96c7f8859a670ee83376604796bc18ca0ca3aff50785120774b82fc284400a",
-      "client_secret" : "test_developer_key"
-    }
-    canvas_url_with_required = canvas_url + "client_id=" + serviceKey["client_id"] + "&response_type=" + serviceKey["response_type"] + "&redirect_uri=" + serviceKey["redirect_uri"]
-    print(canvas_url_with_required)
-    #credentials = requests.get(url = canvas_url_with_required) # gets the  "code" needed for the serviceKey in authenticate() 
     
-    token_url = API_URL + "login/oauth2/token"
-    
-    try:
-      resp = requests.post(token_url,serviceKey).json()
-    except CanvasException as e:
-      print(e)
-    #http2 = Http()
-    #credentials.authorize(http2)
-    print("resp ",resp)
-    return credentials
 
 @app.route('/')
 def home():    
