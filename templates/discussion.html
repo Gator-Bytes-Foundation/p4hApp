@@ -7,13 +7,6 @@
   <!--{{ super() }}--> 
 </header>
 <div class="container emp-profile">
-  <form method="post">
-    <!--<div class="input-group"> 
-          <div class="input-group-prepend"> <span class="input-group-text" id="inputGroupFileAddon01">Upload</span> </div>
-            <div class="custom-file">
-              <input type="file" class="custom-file-input" id="inputGroupFile01"
-      aria-describedby="inputGroupFileAddon01">
-              <label class="custom-file-label" for="inputGroupFile01">Choose file</label> -->
     <div class="row">
       <div class="col-12">
         <h1>Anons</h1>
@@ -22,33 +15,10 @@
     <div class="row">
     <div class="col-12 ">
     {% for i in range(posts|length) %}
-    <div id="timeline" class="profile-work post_box"> 
-      <!-- 1st tab {% if active=='timeline' %}show active{% endif %}-->
-        <!-- First Comment -->
-          <div class="">
-            <figure class="thumbnail "> <img alt="placeholder"class="img-fluid rounded-circle" src="{{posts[i].author['avatar_image_url']}}"/> </figure>
-          </div>
-          <div class="col-10">
-            <header class="text-left">
-              <figcaption class="comment-user">{{posts[i].author["display_name"]}}</figcaption>
-              <time class="comment-date" datetime="{{posts[i].posted_at}}"><i class="fa fa-clock-o"></i> {{posts[i].posted_at}}</time>
-            </header>
-            <hr>
-          </div>
-      
-          <div class="col-md-10 col-sm-10">
-            <div class="panel panel-default arrow left">
-              <div class="panel-body">
-                <div class="comment-post">
-                  <p>{{ posts[i].message }}</p>
-                </div>
-                <p class="text-right"><a href="#" class="btn btn-sm"><i class="fa fa-reply"></i> reply</a></p>
-              </div>
-            </div>
-          </div>
-    </div>
+        {% include 'post.html' %}
     {%endfor%}
   </div>
+</div>
 </div>
 <script>
 $(document).ready(function(){

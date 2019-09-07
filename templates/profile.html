@@ -39,7 +39,7 @@
   </div>
 </div>
 <div class="row">
-<div class="col-md-8 col-12 ">
+<div class="col-md-10 col-12 ">
 <div class="tab-content profile-tab ">
   <div id="timeline" class="profile-work tab-pane fade active show in" role="tabpanel"> 
     <!-- 1st tab {% if active=='timeline' %}show active{% endif %}-->
@@ -53,7 +53,7 @@
           </p>
         </div>
         <form name="Post" value="Post" >
-        <p class="text-right"><a href="#" type="submit" name="action" id="post" value="Post" class="btn btn-sm">Post</a></p>
+        <p class="text-right"><a href="#" type="submit" name="action" id="post" value="Post" class="reply_button btn-sm">Post</a></p>
         </form>
       </div>
       <!-- Post Loop --> 
@@ -113,6 +113,9 @@
     $('#timeline-tab').addClass("show");
   });
 </script> 
+<script type="text/javascript">
+    $("#textbox_post").autogrow();
+</script>
 <script type="text/javascript">
 $(document).on("click", ".reply_button", function(e) { /* old regular expression I was using to find all reply ids: a[id|='reply' */ 
   e.preventDefault();

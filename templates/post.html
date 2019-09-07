@@ -1,37 +1,31 @@
 <!DOCTYPE html>
 
-<header> 
-  <!--{{ super() }}--> 
-</header>
-      <article id="post_{{posts[i].id}}" class="row post_box">
-        <div class="col-md-2 col-3">
+<head>
+  <script type="text/javascript">
+    $("textarea").autogrow();
+  </script>
+</head>
+
+      <article id="post_{{posts[i].id}}" class="post_box">
+        <div class="">
           <figure class="thumbnail "> <img alt="placeholder"class="img-fluid rounded-circle" src="{{posts[i].author['avatar_image_url']}}"/> </figure>
         </div>
-        <div class="col-6">
+        <div class="col-10">
           <header class="text-left">
-            <figcaption class="comment-user"><i class="fa fa-user"></i>{{posts[i].title}}</figcaption>
-            <time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> {{posts[i].posted_at}}</time>
+            <figcaption class="comment-user"><b>{{posts[i].title}}</b></figcaption>
+            <time class="comment-date" datetime="{{date}}"><i class="fa fa-clock-o"></i> {{date}}</time>
           </header>
         </div>
-        <div class="col-md-10">
+        <hr>
+        <div class="col-10">
           <div class="panel panel-default arrow left">
             <div class="panel-body">
               <div class="comment-post">
                 {{posts[i].message}}
               </div>
-              <label id = "comment" for="from">Comments</label>
-              {% for j in range(comments | length) %}
-                {% if (comments[j].discussion_id == posts[i].id) %}
-              <div class="row post_comment">
-                <figure class="thumbnail col-md-2 col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="{{comments[j].user['avatar_image_url'] }}"/></figure>
-                <p class="">{{comments[j].user["display_name"]}}: {{comments[j].message}}</p>
-              </div>
-              {% endif %}
-              {% endfor %}
-              <div id="textbox_div-{{posts[i].id}}" >
-                <textarea name="message" id="textbox_reply-{{posts[i].id}}" style="width: 100%;" placeholder="Comment Here" onclick="this.value=''"></textarea>
-              </div>
-              <div id="reply_div" class="row justify-content-end" style="border:none;"> {% if( (comments | length) > 1 ) %}
+            <hr>
+              <div class="reply_div row justify-content-begin " style="border:none;"> 
+                {% if( (comments | length) > 1 ) %}
                 <div class=" text-center">
                   <form>
                     <p class=""><a href="#" name="view_more_button" id="view_more" value="view" class="">View More</a></p>
@@ -40,11 +34,27 @@
                 {%endif%}
                 <div  class="offset-1">
                   <form>
-                    <p class=""><a href="#" type="submit" name="{{posts[i].id}}" id="reply-{{posts[i].id}}"  class="reply_button btn btn-sm"><i class="fa fa-reply"></i> Reply</a></p>
+                    <p class=""><a href="#" name="{{posts[i].id}}" id="reply-{{posts[i].id}}"  class="reply_button btn-sm"><i class="fa fa-reply"></i> Reply</a></p>
                   </form>
                 </div>
               </div>
+              <div id="textbox_div-{{posts[i].id}}" >
+                <textarea class= "text_box" name="message" id="textbox_reply-{{posts[i].id}}" style="width: 100%;" onkeyup="Expand(this);" size="5" placeholder="Comment Here"></textarea><span class="upload_icon oi oi-cloud-camera" aria-hidden="true"></span>
+              </div>
+              <label id = "comment" for="from"><b>Comments</b></label>
+              {% for j in range(comments | length) %}
+                {% if (comments[j].discussion_id == posts[i].id) %}
+              <div class="row post_comment">
+                <figure class="thumbnail col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="{{comments[j].user['avatar_image_url'] }}"/></figure>
+                <div class="word_bubble col-10">
+                  <p class=""><b>{{comments[j].user["display_name"]}}:</b><br>
+                  {{comments[j].message}}</p>
+                </div>
+              </div>
+              {% endif %}
+              {% endfor %}
             </div>
           </div>
            </div>
+         
       </article>

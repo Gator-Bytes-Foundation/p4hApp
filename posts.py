@@ -27,6 +27,10 @@ class Post():
         if(topics[i].message is not None):
           topics[i].message = topics[i].message.replace('</p>', '')
           topics[i].message = topics[i].message.replace('<p>', '') # get rid of the html
+          year = topics[i].posted_at[2:4]
+          day = topics[i].posted_at[5:7]
+          month = topics[i].posted_at[8:10]
+          proper_date = ''.join([month,'/', day, '/', year])
         recentPosts.append(topics[i])
         comments = topics[i].list_topic_entries()._get_next_page()
         
@@ -35,7 +39,7 @@ class Post():
             comments[j].message = comments[j].message.replace('</p>', '')
             comments[j].message = comments[j].message.replace('<p>', '') # get rid of the html
           recentComments.append(comments[j])
-    return recentPosts, recentComments     
+    return recentPosts, recentComments,proper_date
   
   def handle_post(request, course): 
     new_post = request.get_json()["text"]
@@ -71,6 +75,11 @@ class Post():
         if(topics[i].message is not None):
           topics[i].message = topics[i].message.replace('</p>', '')
           topics[i].message = topics[i].message.replace('<p>', '') # get rid of the html
+          year = topics[i].posted_at[2:4]
+          day = topics[i].posted_at[5:7]
+          month = topics[i].posted_at[8:10]
+          proper_date = ''.join([month,'/', day, '/', year])
+          
         recentPosts.append(topics[i])
         comments = topics[i].list_topic_entries()._get_next_page()
         # only loop through comments of posts we are showing
@@ -80,7 +89,7 @@ class Post():
             comments[j].message = comments[j].message.replace('<p>', '') # get rid of the html
           recentComments.append(comments[j])
     #print(recentPosts)    
-    return recentPosts, recentComments      
+    return recentPosts, recentComments, proper_date      
   
   def load_recent_news():
     profilePosts = load_profile_posts()
@@ -96,7 +105,7 @@ class Comment():
   def first_reply():
     return test_replies[0]
   
-  def handle_comment(page_to_load, request, course):
+  def handle_comment(page_to_load, request, course,canvasUser):
     new_comment = request.get_json()["text"]
     print("reply:", new_comment)
     topic_id = page_to_load.replace('comment_','')

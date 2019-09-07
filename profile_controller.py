@@ -50,7 +50,7 @@ def page_load(page_to_load):
   if(request.method == 'POST'):
     print("Request data -> " + str(request.data))
     if('comment' in page_to_load):   
-      return Comment.handle_comment(page_to_load, request, course)
+      return Comment.handle_comment(page_to_load, request, course,canvasUser)
     
     if('post' in page_to_load):    
       return Post.handle_post(page_to_load, request, course)
@@ -89,17 +89,17 @@ def resources():
 def profile():    
   course = canvas.get_course(1)
   canvasUser = canvas.get_user(user_id)
-  profile_posts, profile_comments = Post.load_profile(canvasUser) # 35 is Logan and 1 is Admin (TODO grab this id from logging in)
+  profile_posts, profile_comments,date = Post.load_profile(canvasUser) # 35 is Logan and 1 is Admin (TODO grab this id from logging in)
   #print ("comment object: ", profile_comments)
-  return render_template('profile.html', posts = profile_posts, comments = profile_comments)
+  return render_template('profile.html', posts = profile_posts, comments = profile_comments, date=date)
 
 @app.route('/discussion.html', methods=['GET', 'POST'])
 def discussion_page():    
   course = canvas.get_course(1)
   canvasUser = canvas.get_user(user_id)
-  newsfeed_posts, newsfeed_comments= Post.load_newsfeed()
+  newsfeed_posts, newsfeed_comments, date = Post.load_newsfeed()
   #print ("comment object: ", profile_comments)
-  return render_template('discussion.html', posts = newsfeed_posts, comments = newsfeed_comments)
+  return render_template('discussion.html', posts = newsfeed_posts, comments = newsfeed_comments, date = date)
 
 
 @app.route('/login', methods=['GET', 'POST'])
