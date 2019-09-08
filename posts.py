@@ -41,7 +41,7 @@ class Post():
           recentComments.append(comments[j])
     return recentPosts, recentComments,proper_date
   
-  def handle_post(request, course): 
+  def handle_post(page_to_load, request, course, canvasUser): 
     new_post = request.get_json()["text"]
     #print(new_post)
     # make post in canvas

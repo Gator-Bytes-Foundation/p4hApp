@@ -2,18 +2,15 @@
 
 {% extends "header.html" %} <!-- all html files should extend from the header, (the header contains all static references as well) --> 
 {% block content %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
-
-<header> 
-  <!--{{ super() }}--> 
-</header>
+  
 <div class="container emp-profile">
 <form method="post">
 <div class="row">
-  <div class="col-3  col-sm-2 ">
-    <div class="image-cropper"> <img class="profile-pic img-fluid" src="../static/images/profile_pic.jpg" alt=""/> </div>
+  <div class="col-3">
+    <img class="image-cropper profile-pic img-fluid" src="../static/images/profile_pic.jpg" alt=""/>
   </div>
   <div class="col-8 col-sm-8 ">
-    <h4>Logan Cundiff</h4>
+    <h4>{{user.name}}</h4>
     <small class=""> <b>Pozisyon:</b> Elementary Teacher </small> <br>
     <small> <b>De Mwen :</b> Mwen anseye lekòl elemantè</small> </div>
 </div>
@@ -33,9 +30,11 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-12">
-    <input type="submit" class="btn " name="edit" value="Edit Profile"/>
-    <button type="button" class="btn">Pwogre Mwen (progress)</button>
+  <div class="col-4">
+    <input type="submit" class="profile_button" name="edit" value="Edit Profile"/>
+  </div>
+  <div class="col-8">
+    <button type="button" class="profile_button">Pwogre Mwen (progress)</button>
   </div>
 </div>
 <div class="row">
@@ -45,16 +44,14 @@
     <!-- 1st tab {% if active=='timeline' %}show active{% endif %}-->
     <h3>Prowfil Pos</h3>
     <section class="">
-      <div id="write_post">
-        <div  class="post_box row">
-          <figure class="thumbnail col-md-2 col-3"><img alt="placeholder"class="img-fluid rounded-circle" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png"/></figure>
-          <p class="col-9" id="textbox_p">
-            <textarea name="message" id="textbox_post" style="width: 100%;" placeholder="Write Post Here" onclick="this.value=''"></textarea>
-          </p>
+      <div id="write_post"> 
+        <div style="text-align: center;" class="post_box row">
+          <figure class="thumbnail col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="{{user.avatar_url}}"/></figure>
+          <div class="col-9" id="textbox_p">
+            <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="Write Post Here" onclick="this.value=''"></textarea>
+          </div>
+          <a href="#" name="action" id="post" value="Post" style="width:100%;" class="profile_button btn-sm">Post</a>
         </div>
-        <form name="Post" value="Post" >
-        <p class="text-right"><a href="#" type="submit" name="action" id="post" value="Post" class="reply_button btn-sm">Post</a></p>
-        </form>
       </div>
       <!-- Post Loop --> 
       {% for i in range(posts | length)%}
@@ -113,9 +110,7 @@
     $('#timeline-tab').addClass("show");
   });
 </script> 
-<script type="text/javascript">
-    $("#textbox_post").autogrow();
-</script>
+
 <script type="text/javascript">
 $(document).on("click", ".reply_button", function(e) { /* old regular expression I was using to find all reply ids: a[id|='reply' */ 
   e.preventDefault();
@@ -139,12 +134,13 @@ $(document).on("click", ".reply_button", function(e) { /* old regular expression
       success: function (data) {
           comment = data;
           console.log("ajax return comment ", comment)
-          $("#textbox_div-"+id_number).prepend(comment);  
+          $("#reply_div-"+id_number).prepend(comment);  
 
       }
   });
   
 });
+// handle posts
 $("#post").on("click", function(e) { 
   e.preventDefault();
   var value = $("#textbox_post").val();
@@ -168,8 +164,34 @@ $("#post").on("click", function(e) {
 
         }
     });
-    
-
+});
+  // handle textbox 
+$(function() {
+    //  changes mouse cursor when highlighting loawer right of box
+    $("textarea").mousemove(function(e) {
+        var myPos = $(this).offset();
+        myPos.bottom = $(this).offset().top + $(this).outerHeight();
+        myPos.right = $(this).offset().left + $(this).outerWidth();
+        
+        if (myPos.bottom > e.pageY && e.pageY > myPos.bottom - 16 && myPos.right > e.pageX && e.pageX > myPos.right - 16) {
+            $(this).css({ cursor: "nw-resize" });
+        }
+        else {
+            $(this).css({ cursor: "" });
+        }
+    })
+    //  the following simple make the textbox "Auto-Expand" as it is typed in
+    .css('overflow', 'hidden').keyup(function(e) {
+        //  this if statement checks to see if backspace or delete was pressed, if so, it resets the height of the box so it can be resized properly
+        if (e.which == 8 || e.which == 46) {
+            $(this).height(parseFloat($(this).css("min-height")) != 0 ? parseFloat($(this).css("min-height")) : parseFloat($(this).css("font-size")));
+        }
+        //  the following will help the text expand as typing takes place
+        while($(this).outerHeight() < this.scrollHeight + parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth"))) {
+            $(this).height($(this).height()+1);
+        };
+    });
 });
 </script> 
+
 {% endblock %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html --> 

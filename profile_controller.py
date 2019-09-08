@@ -48,12 +48,16 @@ def page_load(page_to_load):
     
     return render_template('files.html', files = files,folder_id = folder_id)
   if(request.method == 'POST'):
-    print("Request data -> " + str(request.data))
-    if('comment' in page_to_load):   
+    print("Request data -> " + str(request.get_json()))
+    if('comment' in page_to_load and (request.get_json() != {})):   
       return Comment.handle_comment(page_to_load, request, course,canvasUser)
+    else:
+      return '' # in case a null request is made
     
     if('post' in page_to_load):    
-      return Post.handle_post(page_to_load, request, course)
+      return Post.handle_post(page_to_load, request, course, canvasUser)
+    else:
+      return '' # in case a null request is made
   # Messaging Page 
   '''
   if('_message' in page_to_load):
@@ -89,9 +93,10 @@ def resources():
 def profile():    
   course = canvas.get_course(1)
   canvasUser = canvas.get_user(user_id)
+  print("url: ",canvasUser.avatar_url)
   profile_posts, profile_comments,date = Post.load_profile(canvasUser) # 35 is Logan and 1 is Admin (TODO grab this id from logging in)
   #print ("comment object: ", profile_comments)
-  return render_template('profile.html', posts = profile_posts, comments = profile_comments, date=date)
+  return render_template('profile.html', posts = profile_posts, comments = profile_comments, date=date, user= canvasUser)
 
 @app.route('/discussion.html', methods=['GET', 'POST'])
 def discussion_page():    

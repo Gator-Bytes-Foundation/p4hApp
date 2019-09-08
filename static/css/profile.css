@@ -4,6 +4,10 @@
 /* haitian flag blue: #1632AA
 /* haitian flag red: ##B30D2C
 /*circle profile picture crop version */ 
+
+b {
+  color: rgba(22,50,170, 0.90);
+}
 .image-cropper {
   width: 70px;
   height: 70px;
@@ -12,6 +16,8 @@
   border-radius: 50%;
 }
 .profile-pic {
+}
+.profile-pic img{
   margin: 0 auto;
   /*margin-left: -25%; centers the image */
   width: 100%;
@@ -20,22 +26,57 @@
 /* CSS for profile posts */
 .post_box {
   position:relative;
-  display: flex;
-  flex-wrap:wrap;
-  margin-bottom: 0px;
   border-style:solid; 
   border-width:thin;  
   border-color:rgba(130,67,68,0.40);
   padding:8px;
-  border-radius:1%;
-  margin-left:-8px;
-  margin-right:-8px;
+  border-radius:5px 5px 5px 5px;
+
+  margin-bottom:10px;
+}
+.profile_name {
+  width:100%;
+  display: flex;
+  flex-wrap:wrap; 
+}
+.post {
+  width:100%; 
+}
+#textbox_p {
+  height:100%;
+}
+#textbox_p .text_box {
+  height: 100%;
+}
+.profile_button {
+  cursor:pointer;
+  padding:7px;
+  padding-right: 14px;
+  padding-left: 14px;
+  margin:0.8rem;
+  border: thin;
+  border-style: solid;
+  border-color: rgba(22,80,200,0.20); 
+  color:#1632AA;
+  background-color: transparent; /* same color as #1632AA with low opacity */
+  box-shadow: 0px 4px 7px 0px rgba(22,50,170, 0.10);/* same color as #1632AA with low opacity */
+  
+}
+.profile_button:hover {
+  background-color: rgba(22,50,170,0.07); /* same color as #1632AA with low opacity */
+  color:#1B3FD7;
+  text-decoration: none !important;
 }
 .reply_div {
-  margin:8px;
+  margin-bottom:8px;
+  position: relative;
+  display:flex;
+  flex-wrap:wrap; 
 }
 .reply_button {
   border: thin;
+  height:35px;
+  text-align: center;
   border-style: solid;
   border-color: rgba(22,80,200,0.20); 
   color:#1632AA;
@@ -47,12 +88,14 @@
   background-color: rgba(22,50,170,0.07); /* same color as #1632AA with low opacity */
   color:#1B3FD7;
   text-decoration: none !important;
-  
 }
 .text_box {
+  resize:none;
   border-radius: 20px 20px 20px 20px;  
-  height: 45px;
-  padding:4px;
+  width: 100%;
+  height: 35px;
+  line-height:70%;
+  padding:8px;
   position: relative;
   box-shadow: 0px 4px 7px 0px rgba(22,50,170, 0.10);/* same color as #1632AA with low opacity */
   border:thin;
@@ -64,30 +107,9 @@
   right:10px; 
   vertical-align: middle; 
 }
-.comment-list .panel .panel-heading {
-  padding: 4px 15px;
-  position: absolute;
-  
-  /*Panel-heading border radius*/
-  border-top-right-radius:0px;
-  top: 1px;
-}
-.comment-list .panel .panel-heading.right {
-  border-right-width: 0px;
-  /*Panel-heading border radius*/
-  border-top-left-radius:0px;
-  right: 16px;
-}
-.comment-list .panel .panel-heading .panel-body {
-  padding-top: 6px;
-
-}
-.comment-list figcaption {
-  /*For wrapping text in thumbnail*/
-  word-wrap: break-word;
-}
 .post_comment {
-  margin-right 10px;
+  display:flex;
+  flex-wrap:wrap; 
   margin-top: 10px;
   margin-bottom: 10px;
 }
@@ -97,52 +119,5 @@
 }
 /* Portrait tablets and medium desktops */
 @media (min-width: 768px) {
-  .comment-list .arrow:after, .comment-list .arrow:before {
-    content: "";
-    position: absolute;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-color: transparent;
-  }
-  .comment-list .panel.arrow.left:after, .comment-list .panel.arrow.left:before {
-    border-left: 0;
-  }
-  /*****Left Arrow*****/
-  /*Outline effect style*/
-  .comment-list .panel.arrow.left:before {
-    left: 0px;
-    top: 30px;
-    /*Use boarder color of panel*/
-    border-right-color: inherit;
-    border-width: 16px;
-  }
-  /*Background color effect*/
-  .comment-list .panel.arrow.left:after {
-    left: 1px;
-    top: 31px;
-    /*Change for different outline color*/
-    border-right-color: #FFFFFF;
-    border-width: 15px;
-  }
-  /*****Right Arrow*****/
-  /*Outline effect style*/
-  .comment-list .panel.arrow.right:before {
-    right: -16px;
-    top: 30px;
-    /*Use boarder color of panel*/
-    border-left-color: inherit;
-    border-width: 16px;
-  }
-  /*Background color effect*/
-  .comment-list .panel.arrow.right:after {
-    right: -14px;
-    top: 31px;
-    /*Change for different outline color*/
-    border-left-color: #FFFFFF;
-    border-width: 15px;
-  }
-}
-.comment-list .comment-post {
-  margin-top: 6px;
+  
 }

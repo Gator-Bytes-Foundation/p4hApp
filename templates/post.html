@@ -1,50 +1,37 @@
 <!DOCTYPE html>
+  
 
-<head>
-  <script type="text/javascript">
-    $("textarea").autogrow();
-  </script>
-</head>
-
-      <article id="post_{{posts[i].id}}" class="post_box">
-        <div class="">
-          <figure class="thumbnail "> <img alt="placeholder"class="img-fluid rounded-circle" src="{{posts[i].author['avatar_image_url']}}"/> </figure>
-        </div>
-        <div class="col-10">
-          <header class="text-left">
-            <figcaption class="comment-user"><b>{{posts[i].title}}</b></figcaption>
-            <time class="comment-date" datetime="{{date}}"><i class="fa fa-clock-o"></i> {{date}}</time>
-          </header>
-        </div>
-        <hr>
-        <div class="col-10">
-          <div class="panel panel-default arrow left">
-            <div class="panel-body">
-              <div class="comment-post">
+<article id="post_{{posts[i].id}}" class="post_box">
+  <div class="profile_name">
+    <div class="profile-pic">
+      <figure class="thumbnail "> <img alt="placeholder"class="img-fluid rounded-circle" src="{{posts[i].author['avatar_image_url']}}"/> </figure>
+    </div>
+    <div class="col-10">
+      <header class="text-left">
+        <figcaption class="comment-user"><b>{{posts[i].title}}</b></figcaption>
+        <time class="comment-date" datetime="{{date}}"><i class="fa fa-clock-o"></i> {{date}}</time>
+      </header>
+    </div>
+  </div>
+        <div class="post">
+          <div class="">
+            <div class="">
+              <div class="">
                 {{posts[i].message}}
               </div>
             <hr>
-              <div class="reply_div row justify-content-begin " style="border:none;"> 
-                {% if( (comments | length) > 1 ) %}
-                <div class=" text-center">
-                  <form>
-                    <p class=""><a href="#" name="view_more_button" id="view_more" value="view" class="">View More</a></p>
-                  </form>
-                </div>
-                {%endif%}
-                <div  class="offset-1">
-                  <form>
-                    <p class=""><a href="#" name="{{posts[i].id}}" id="reply-{{posts[i].id}}"  class="reply_button btn-sm"><i class="fa fa-reply"></i> Reply</a></p>
-                  </form>
-                </div>
+              {% if( (comments | length) > 0 ) %}
+              <div class=" text-center">
+                <form>
+                  <p class=""><a href="#" name="view_more_button" id="view_more" value="view" class="profile_button">View Comments</a></p>
+                </form>
               </div>
-              <div id="textbox_div-{{posts[i].id}}" >
-                <textarea class= "text_box" name="message" id="textbox_reply-{{posts[i].id}}" style="width: 100%;" onkeyup="Expand(this);" size="5" placeholder="Comment Here"></textarea><span class="upload_icon oi oi-cloud-camera" aria-hidden="true"></span>
-              </div>
-              <label id = "comment" for="from"><b>Comments</b></label>
+              {%endif%}              
+              <div id="comments" style="display:none;">
+              <label class = "comment_label" for="from"><b>Comments</b></label>
               {% for j in range(comments | length) %}
                 {% if (comments[j].discussion_id == posts[i].id) %}
-              <div class="row post_comment">
+              <div  class="post_comment">
                 <figure class="thumbnail col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="{{comments[j].user['avatar_image_url'] }}"/></figure>
                 <div class="word_bubble col-10">
                   <p class=""><b>{{comments[j].user["display_name"]}}:</b><br>
@@ -53,8 +40,22 @@
               </div>
               {% endif %}
               {% endfor %}
+              </div>
+              <div class="reply_div reply_div-{{posts[i].id}}" style="width:100%;"> 
+                <div class="col-8">
+                  <textarea class= "text_box" name="message" id="textbox_reply-{{posts[i].id}}" style="" onkeyup="Expand(this);" size="5" placeholder="Comment"></textarea><span class="upload_icon oi oi-cloud-camera" aria-hidden="true"></span>
+                </div>
+                <a href="#" name="{{posts[i].id}}" id="reply-{{posts[i].id}}"  class="col-4 reply_button btn-sm"><i class="fa fa-reply"></i> Reply</a>
+              </div>
+
             </div>
           </div>
-           </div>
-         
+        </div>
       </article>
+<script>
+// handle posts
+$("#view_more").on("click", function(e) { 
+  e.preventDefault();
+  $("#comments").css("display","")  
+});
+</script>
