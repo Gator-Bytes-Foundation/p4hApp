@@ -28,7 +28,7 @@ def file_download(page_to_load, course):
 @app.route('/<page_to_load>', methods=['GET', 'POST'])
 def page_load(page_to_load):
   #so href will add something to the url, and this will be saved to 'page_to_load' which we can then use to render the name of the html file
-
+  #print("page loading: ",page_to_load)
   try:
     course = canvas.get_course(1)
     print(course.name)
@@ -47,14 +47,12 @@ def page_load(page_to_load):
     print("folder id for these files ", files[0].folder_id)
     
     return render_template('files.html', files = files,folder_id = folder_id)
+
   if(request.method == 'POST'):
-    print("Request data -> " + str(request.get_json()))
     if('comment' in page_to_load and (request.get_json() != {})):   
+      print("Request data -> " + str(request.get_json()))
       return Comment.handle_comment(page_to_load, request, course,canvasUser)
-    else:
-      return '' # in case a null request is made
-    
-    if('post' in page_to_load):    
+    elif('post' in page_to_load):    
       return Post.handle_post(page_to_load, request, course, canvasUser)
     else:
       return '' # in case a null request is made

@@ -48,7 +48,8 @@
         <div style="text-align: center;" class="post_box row">
           <figure class="thumbnail col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="{{user.avatar_url}}"/></figure>
           <div class="col-9" id="textbox_p">
-            <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="Write Post Here" onclick="this.value=''"></textarea>
+            <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="Write Post Here" onclick="this.value=''"></textarea><span class="oi oi-cloud-download upload_icon" aria-hidden="true"></span>
+
           </div>
           <a href="#" name="action" id="post" value="Post" style="width:100%;" class="profile_button btn-sm">Post</a>
         </div>
@@ -134,7 +135,7 @@ $(document).on("click", ".reply_button", function(e) { /* old regular expression
       success: function (data) {
           comment = data;
           console.log("ajax return comment ", comment)
-          $("#reply_div-"+id_number).prepend(comment);  
+          $("#comments-"+id_number).append(comment);  
 
       }
   });

@@ -15,47 +15,42 @@
   </div>
         <div class="post">
           <div class="">
-            <div class="">
-              <div class="">
-                {{posts[i].message}}
-              </div>
-            <hr>
-              {% if( (comments | length) > 0 ) %}
-              <div class=" text-center">
-                <form>
-                  <p class=""><a href="#" name="view_more_button" id="view_more" value="view" class="profile_button">View Comments</a></p>
-                </form>
-              </div>
-              {%endif%}              
-              <div id="comments" style="display:none;">
-              <label class = "comment_label" for="from"><b>Comments</b></label>
-              {% for j in range(comments | length) %}
-                {% if (comments[j].discussion_id == posts[i].id) %}
-              <div  class="post_comment">
-                <figure class="thumbnail col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="{{comments[j].user['avatar_image_url'] }}"/></figure>
-                <div class="word_bubble col-10">
-                  <p class=""><b>{{comments[j].user["display_name"]}}:</b><br>
-                  {{comments[j].message}}</p>
-                </div>
-              </div>
-              {% endif %}
-              {% endfor %}
-              </div>
-              <div class="reply_div reply_div-{{posts[i].id}}" style="width:100%;"> 
-                <div class="col-8">
-                  <textarea class= "text_box" name="message" id="textbox_reply-{{posts[i].id}}" style="" onkeyup="Expand(this);" size="5" placeholder="Comment"></textarea><span class="upload_icon oi oi-cloud-camera" aria-hidden="true"></span>
-                </div>
-                <a href="#" name="{{posts[i].id}}" id="reply-{{posts[i].id}}"  class="col-4 reply_button btn-sm"><i class="fa fa-reply"></i> Reply</a>
-              </div>
-
+            {{posts[i].message}}
+          </div>
+        <hr>
+          {% if( (comments | length) > 1 ) %}
+          <div class="text-center">
+              <p class=""><a href="" name="{{posts[i].id}}" id="view_more-{{posts[i].id}}" class="profile_button view_more">View Comments</a></p>
+          </div>
+          {%endif%}              
+          <div id="comments-{{posts[i].id}}" style="display:none;">
+          <label class = "comment_label" for="from"><b>Comments</b></label>
+          {% for j in range(comments | length) | reverse %}
+            {% if (comments[j].discussion_id == posts[i].id) %}
+          <div class="post_comment">
+            <figure class="thumbnail col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="{{comments[j].user['avatar_image_url'] }}"/></figure>
+            <div class="word_bubble col-10">
+              <p class=""><b>{{comments[j].user["display_name"]}}:</b><br>
+              {{comments[j].message}}</p>
             </div>
+          </div>
+          {% endif %}
+          {% endfor %}
+          </div>
+          <div id="reply_div-{{posts[i].id}}" class="reply_div "> 
+            <div class="col-8">
+              <textarea class= "text_box" name="message" id="textbox_reply-{{posts[i].id}}" style="" onkeyup="Expand(this);" size="5" placeholder="Comment"></textarea><span class="upload_icon oi oi-cloud-camera" aria-hidden="true"></span>
+            </div>
+            <a href="" name="{{posts[i].id}}" id="reply-{{posts[i].id}}"  class="col-4 reply_button btn-sm"><i class="fa fa-reply"></i> Reply</a>
           </div>
         </div>
       </article>
 <script>
 // handle posts
-$("#view_more").on("click", function(e) { 
+$(document).on("click", ".view_more", function(e) { 
   e.preventDefault();
-  $("#comments").css("display","")  
+  var id = e.currentTarget.name;
+  console.log("view more: ", id);
+  $("#comments-"+id).css("display",""); 
 });
 </script>

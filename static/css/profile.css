@@ -44,9 +44,20 @@ b {
 }
 #textbox_p {
   height:100%;
+  display:flex;
+  flex-wrap:wrap;
+  position:relative;
 }
 #textbox_p .text_box {
   height: 100%;
+}
+.upload_icon {
+  position:absolute !important;
+  right:10%; 
+  top:30% !important;
+  font-size:12px;
+  vertical-align: middle; 
+  color: rgba(22,50,170, 0.90);
 }
 .profile_button {
   cursor:pointer;
@@ -69,6 +80,7 @@ b {
 }
 .reply_div {
   margin-bottom:8px;
+  width:100%;
   position: relative;
   display:flex;
   flex-wrap:wrap; 
@@ -102,11 +114,7 @@ b {
   border-style: solid;
   border-color: rgba(22,80,200,0.20); 
 }
-.text_box .upload_icon {
-  position:absolute;
-  right:10px; 
-  vertical-align: middle; 
-}
+
 .post_comment {
   display:flex;
   flex-wrap:wrap; 
