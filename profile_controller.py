@@ -21,7 +21,7 @@ def file_download(page_to_load, course):
   file_to_download = course.get_file(int_file)
   download_path = '/'.join( os.getcwd().split('/')[:3] ) + '/Downloads'
   print("file ", file_to_download.public_url)
-  new_url = file_to_download.public_url.replace('localhost','192.168.1.24')
+  new_url = file_to_download.public_url.replace('localhost','192.168.1.24') # this url needs to be added to environment variables
   file_to_download.update(file = {file_to_download.public_url : new_url})
   file_to_download.get_contents()
 
