@@ -4,114 +4,118 @@
 {% block content %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
   
 <div class="container emp-profile">
-<form method="post">
-<div class="row">
-  <div class="col-3">
-    {% if user.name == 'Admin' %}
-    <img class="image-cropper img-fluid rounded-circle" alt="placeholder" src="../static/images/p4h.png"</img>
-    {% else %}
-    <figure class="image-cropper img-fluid rounded-circle"><img alt="placeholder" src="{{user.avatar_url}}"/></figure>
-    {% endif %}
+  <div class="row">
+    <div class="col-3">
+      {% if user.name == 'Admin' %}
+      <img class="image-cropper img-fluid rounded-circle" alt="placeholder" src="../static/images/p4h.png"</img>
+      {% else %}
+      <figure class="image-cropper img-fluid rounded-circle"><img alt="placeholder" src="{{user.avatar_url}}"/></figure>
+      {% endif %}
+    </div>
+    <div class="col-8 col-sm-8 ">
+      <h4>{{user.name}}</h4>
+      <small class=""> <b>Pozisyon:</b> Elementary Teacher </small> <br>
+      <small> <b>De Mwen :</b> Mwen anseye lekòl elemantè</small> </div>
   </div>
-  <div class="col-8 col-sm-8 ">
-    <h4>{{user.name}}</h4>
-    <small class=""> <b>Pozisyon:</b> Elementary Teacher </small> <br>
-    <small> <b>De Mwen :</b> Mwen anseye lekòl elemantè</small> </div>
-</div>
-<!--<div class="input-group"> 
-          <div class="input-group-prepend"> <span class="input-group-text" id="inputGroupFileAddon01">Upload</span> </div>
-            <div class="custom-file">
-              <input type="file" class="custom-file-input" id="inputGroupFile01"
-      aria-describedby="inputGroupFileAddon01">
-              <label class="custom-file-label" for="inputGroupFile01">Choose file</label> -->
+  <!--<div class="input-group"> 
+            <div class="input-group-prepend"> <span class="input-group-text" id="inputGroupFileAddon01">Upload</span> </div>
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="inputGroupFile01"
+        aria-describedby="inputGroupFileAddon01">
+                <label class="custom-file-label" for="inputGroupFile01">Choose file</label> -->
 
-<div class="col-md-6 col-12">
-  <div id="mytabs" class="profile-head">
-    <ul class="nav nav-tabs"  role="tablist">
-      <li class="nav-item"> <a class="nav-link"  href="#about" aria-controls="about" id="about-tab" rel="about" data-toggle="tab"  role="tab"  aria-selected="true">About</a> </li>
-      <li class="nav-item"> <a class="nav-link" href="#timeline" aria-controls="timeline"  id="timeline-tab" rel="timeline" data-toggle="tab" role="tab"  aria-selected="false">Timeline</a> </li>
-    </ul>
+  <div class="col-md-10 col-12">
+    <div id="mytabs" class="">
+      <ul class="nav nav-tabs"  role="tablist">
+        <li class="nav-item"> <a class="nav-link"  href="#about" aria-controls="about" id="about-tab" rel="about" data-toggle="tab"  role="tab"  aria-selected="true">About</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="#timeline" aria-controls="timeline"  id="timeline-tab" rel="timeline" data-toggle="tab" role="tab"  aria-selected="false">Timeline</a> </li>
+      </ul>
+    </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-4">
-    <input type="submit" class="profile_button" name="edit" value="Edit Profile"/>
+  <div class="col-md-10 col-12 ">
+    <div class= "nav">
+      <div class="col-5">
+        <button type="submit" class="profile_button" name="edit">Edit Profile</button>
+      </div>
+      <div class="col-7">
+        <form action="progress.html">
+          <button type="submit" class="profile_button">Pwogre Mwen</button>
+        </form>
+      </div>
+    </div>
   </div>
-  <div class="col-8">
-    <button type="button" class="profile_button"><a href="progress.html">Pwogre Mwen</a></button>
-  </div>
-</div>
-<div class="col-md-10 col-12 ">
-<div class="tab-content profile-tab ">
-  <div id="timeline" class="profile-work tab-pane fade active show in" role="tabpanel"> 
-    <!-- 1st tab {% if active=='timeline' %}show active{% endif %}-->
-    <h3>Prowfil Pos</h3>
-      <div id="write_post"> 
-        <div style="text-align: center;" class="post_box">
-          <div class = "profile_name">
-          {% if user.name == 'Admin' %}
-          <figure class="thumbnail col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="../static/images/p4h.png"/></figure>
-          {% else %}
-          <figure class="thumbnail col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="{{user.avatar_url}}"/></figure>
-          {% endif %}
-          <div class="col-10" id="">
-            <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="Write Post Here" onkeyup="Expand(this);" size="5" ></textarea><span class="oi oi-cloud-download upload_icon" aria-hidden="true"></span>
+  <div class="col-md-10 col-12 ">
+  <div class="tab-content profile-tab ">
+    <div id="timeline" class="profile-work tab-pane fade active show in" role="tabpanel"> 
+      <!-- 1st tab {% if active=='timeline' %}show active{% endif %}-->
+      <h3>Prowfil Pos</h3>
+        <div id="write_post"> 
+          <div style="text-align: center;" class="post_box">
+            <div class = "profile_name">
+            {% if user.name == 'Admin' %}
+            <figure class="thumbnail col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="../static/images/p4h.png"/></figure>
+            {% else %}
+            <figure class="thumbnail col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="{{user.avatar_url}}"/></figure>
+            {% endif %}
+            <div class="col-10" id="">
+              <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="Write Post Here" onkeyup="Expand(this);" size="5" ></textarea><span class="oi oi-cloud-download upload_icon" aria-hidden="true"></span>
 
+            </div>
+            </div>
+            <div style="display:flex;">
+            <a href="#" name="action" id="post" value="Post" style="width:100%;" class="profile_button btn-sm">Post</a>
+            </div>
           </div>
+        </div>
+        <!-- Post Loop --> 
+        {% for i in range(posts | length)%}
+          {% include 'post.html' %}
+        {% endfor %}
+    </div>
+    <div id="about"  class="tab-pane fade in" role="tabpanel">
+      <div class="row">
+        <div class="col-md-6">
+          <label>User Id</label>
+        </div>
+        <div class="col-md-6">
+          <p>lcundiff</p>
+        </div>
+      </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label>Name</label>
           </div>
-          <div style="display:flex;">
-          <a href="#" name="action" id="post" value="Post" style="width:100%;" class="profile_button btn-sm">Post</a>
+          <div class="col-md-6">
+            <p>Logan</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label>Email</label>
+          </div>
+          <div class="col-md-6">
+            <p>lcundiff@gmail.com</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label>Phone</label>
+          </div>
+          <div class="col-md-6">
+            <p>123 456 7890</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label>Profession</label>
+          </div>
+          <div class="col-md-6">
+            <p>Elementary Teacher</p>
           </div>
         </div>
       </div>
-      <!-- Post Loop --> 
-      {% for i in range(posts | length)%}
-        {% include 'post.html' %}
-      {% endfor %}
-  </div>
-  <div id="about"  class="tab-pane fade in" role="tabpanel">
-    <div class="row">
-      <div class="col-md-6">
-        <label>User Id</label>
-      </div>
-      <div class="col-md-6">
-        <p>lcundiff</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <label>Name</label>
-      </div>
-      <div class="col-md-6">
-        <p>Logan</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <label>Email</label>
-      </div>
-      <div class="col-md-6">
-        <p>lcundiff@gmail.com</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <label>Phone</label>
-      </div>
-      <div class="col-md-6">
-        <p>123 456 7890</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <label>Profession</label>
-      </div>
-      <div class="col-md-6">
-        <p>Elementary Teacher</p>
-      </div>
     </div>
   </div>
-  </form>
 </div>
 <script type="text/javascript">
   $(document).ready(function(){

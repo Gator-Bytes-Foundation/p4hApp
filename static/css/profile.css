@@ -52,10 +52,13 @@ b {
 }
 .profile_button {
   cursor:pointer;
+  width:100%;
+  text-align: center;
+  font-size: 1rem;
   padding:7px;
   padding-right: 14px;
   padding-left: 14px;
-  margin:0.8rem;
+  margin: 10px 0 0 5px;
   border: thin;
   border-style: solid;
   border-color: rgba(22,80,200,0.20); 
