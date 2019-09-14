@@ -28,7 +28,7 @@ b {
   border-style:solid; 
   border-width:thin;  
   border-color:rgba(130,67,68,0.40);
-  padding:8px;
+  padding:14px 8px 8px 8px;
   border-radius:5px 5px 5px 5px;
 
   margin-bottom:10px;

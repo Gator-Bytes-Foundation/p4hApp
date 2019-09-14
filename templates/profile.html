@@ -47,17 +47,21 @@
     <!-- 1st tab {% if active=='timeline' %}show active{% endif %}-->
     <h3>Prowfil Pos</h3>
       <div id="write_post"> 
-        <div style="text-align: center;" class="post_box row">
+        <div style="text-align: center;" class="post_box">
+          <div class = "profile_name">
           {% if user.name == 'Admin' %}
           <figure class="thumbnail col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="../static/images/p4h.png"/></figure>
           {% else %}
           <figure class="thumbnail col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="{{user.avatar_url}}"/></figure>
           {% endif %}
-          <div class="col-9" id="">
+          <div class="col-10" id="">
             <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="Write Post Here" onkeyup="Expand(this);" size="5" ></textarea><span class="oi oi-cloud-download upload_icon" aria-hidden="true"></span>
 
           </div>
+          </div>
+          <div style="display:flex;">
           <a href="#" name="action" id="post" value="Post" style="width:100%;" class="profile_button btn-sm">Post</a>
+          </div>
         </div>
       </div>
       <!-- Post Loop --> 

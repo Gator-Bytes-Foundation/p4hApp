@@ -14,6 +14,7 @@
   <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
   <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
   <script src="{{ url_for('static', filename='js/bootstrap.bundle.js') }}"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css"> <!-- the source of css animations -->
   <!--
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -54,12 +55,12 @@
     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse"> <span class="navbar-toggler-icon"></span> </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <div class="navbar-nav"> 
-          <a href="" class="nav-item nav-link active" style="color: white; padding: 5px;">Lakay</a> 
-          <a href="profile.html" class="nav-item nav-link" style="color: white; padding: 5px;">Profile</a> 
-          <a href="messaging.html" class="nav-item nav-link" style="color: white; padding: 5px;">Mesaj</a>
-          <a href="discussion.html" class="nav-item nav-link" style="color: white; padding: 5px;">Anons</a>
-          <a href="resources.html" class="nav-item nav-link disabled" tabindex="-1" style="color: white; padding: 5px;">Resous</a> </div>
-        <div class="navbar-nav ml-auto"> <a href="#" class="nav-item nav-link" style="color: white;">Anviwònman</a> </div>
+          <a href="" class="nav-item nav-link active animated" >Lakay</a> 
+          <a href="profile.html" class="nav-item nav-link animated" style="">Profile</a> 
+          <a href="messaging.html" class="nav-item nav-link animated">Mesaj</a>
+          <a href="discussion.html" class="nav-item nav-link animated">Anons</a>
+          <a href="resources.html" class="nav-item nav-link disabled animated" tabindex="-1">Resous</a> </div>
+        <div class="navbar-nav ml-auto"> <a href="#" class="nav-item nav-link animated">Anviwònman</a> </div>
       </div>
   </nav>
   </div>
@@ -67,3 +68,11 @@
 <div style="height:calc(100% - 153px);"> {% block content %}
     {% endblock %} </div>
 </body>
+<script>
+// handle posts
+$(".nav-item").mouseover(
+  function(e) { $(this).addClass('pulse')});
+$(".nav-item").mouseout(
+  function(e) { $(this).removeClass('pulse')});
+
+</script>
