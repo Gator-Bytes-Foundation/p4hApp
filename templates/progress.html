@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+  
+{% extends "header.html" %}<!-- all html files should extend from the header, (the header contains all static references as well) -->
+{% block content %}<!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/progress.css') }}">
+
+<div class="container">
+    		<div class="row">
+								<div class="col-md-12">
+					<div class="page-header">
+					  <h1>Timeline</h1>
+					</div>
+					<ul class="timeline">
+            {% for i in range(assignments | length)%}
+						<li class="timeline-item">
+							<div class="timeline-badge"><i class="glyphicon glyphicon-off"></i></div>
+							<div class="timeline-panel">
+								<div class="timeline-heading">
+									<h4 class="timeline-title">{{assignments[i].name}}</h4>
+									<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> Due: {{assignments[i].due_at}}</small></p>
+								</div>
+								<div class="timeline-body">
+									<p>{{assignments[i].description}}</p>
+								</div>
+							</div>
+						</li>
+            {% endfor %}
+					</ul>
+				</div>
+				</div>
+			</div>
+
+{% endblock %}<!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->

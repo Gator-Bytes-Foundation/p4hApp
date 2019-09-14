@@ -35,8 +35,8 @@ def page_load(page_to_load):
   try:
     course = canvas.get_course(1)
     print(course.name)
-    canvasUser = canvas.get_user(user_id)
-    print(canvasUser.name)
+    canvas_user = canvas.get_user(user_id)
+    print(canvas_user.name)
   except CanvasException as e:
     print("error", e)
     
@@ -54,9 +54,9 @@ def page_load(page_to_load):
   if(request.method == 'POST'):
     if('comment' in page_to_load and (request.get_json() != {})):   
       print("Request data -> " + str(request.get_json()))
-      return Comment.handle_comment(page_to_load, request, course,canvasUser)
+      return Comment.handle_comment(page_to_load, request, course,canvas_user)
     elif('post' in page_to_load):    
-      return Post.handle_post(page_to_load, request, course, canvasUser)
+      return Post.handle_post(page_to_load, request, course, canvas_user)
     else:
       return '' # in case a null request is made
   # Messaging Page 
@@ -69,6 +69,14 @@ def page_load(page_to_load):
   
   return render_template(page_to_load)
 
+@app.route('/progress.html', methods=['GET', 'POST'])
+def progress():    
+  canvas_user = canvas.get_user(user_id)
+  user_assignments = canvas_user.get_assignments(1)._get_next_page()
+  for i in range(len(user_assignments)):
+    user_assignments[i].description = user_assignments[i].description.replace('<p>','').replace('</p>','') #get rid of stupid html tags. like why is this even being returned
+
+  return render_template('progress.html', assignments = user_assignments,user = canvas_user)
 
 
 @app.route('/resources.html', methods=['GET', 'POST'])
@@ -86,27 +94,28 @@ def resources():
     else:
       icons.append("oi-book")
     #print("folders_ ", folders_[i].name)
-  #canvasUser = canvas.get_user(35)
   
   return render_template('resources.html', folders = folders,icons = icons)
 
-@app.route('/profile.html', methods=['GET', 'POST'])
-def profile():    
-  course = canvas.get_course(1)
-  canvasUser = canvas.get_user(user_id)
-  #print("user: ",p.dumps(canvasUser))
-  
-  profile_posts, profile_comments,date = Post.load_profile(canvasUser) # 35 is Logan and 1 is Admin (TODO grab this id from logging in)
-  #print ("comment object: ", profile_comments)
-  return render_template('profile.html', posts = profile_posts, comments = profile_comments, date=date, user= canvasUser)
 
 @app.route('/discussion.html', methods=['GET', 'POST'])
 def discussion_page():    
   course = canvas.get_course(1)
-  canvasUser = canvas.get_user(user_id)
+  canvas_user = canvas.get_user(user_id)
   newsfeed_posts, newsfeed_comments, date = Post.load_newsfeed()
   #print ("comment object: ", profile_comments)
-  return render_template('discussion.html', posts = newsfeed_posts, comments = newsfeed_comments, date = date,user=canvasUser)
+  return render_template('discussion.html', posts = newsfeed_posts, comments = newsfeed_comments, date = date,user=canvas_user)
+
+
+@app.route('/profile.html', methods=['GET', 'POST'])
+def profile():    
+  course = canvas.get_course(1)
+  canvas_user = canvas.get_user(user_id)
+  #print("user: ",p.dumps(canvas_user))
+  
+  profile_posts, profile_comments,date = Post.load_profile(canvas_user) # 35 is Logan and 1 is Admin (TODO grab this id from logging in)
+  #print ("comment object: ", profile_comments)
+  return render_template('profile.html', posts = profile_posts, comments = profile_comments, date=date, user= canvas_user)
 
 
 @app.route('/login', methods=['GET', 'POST'])
