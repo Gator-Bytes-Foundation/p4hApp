@@ -13,6 +13,9 @@ from posts import *
 from messaging import *
 import random
 import os
+from pyper import *
+import pickle as p
+
 
 def file_download(page_to_load, course):
   file_id = page_to_load.replace('download_files_','')
@@ -91,7 +94,8 @@ def resources():
 def profile():    
   course = canvas.get_course(1)
   canvasUser = canvas.get_user(user_id)
-  print("url: ",canvasUser.avatar_url)
+  #print("user: ",p.dumps(canvasUser))
+  
   profile_posts, profile_comments,date = Post.load_profile(canvasUser) # 35 is Logan and 1 is Admin (TODO grab this id from logging in)
   #print ("comment object: ", profile_comments)
   return render_template('profile.html', posts = profile_posts, comments = profile_comments, date=date, user= canvasUser)
@@ -102,7 +106,7 @@ def discussion_page():
   canvasUser = canvas.get_user(user_id)
   newsfeed_posts, newsfeed_comments, date = Post.load_newsfeed()
   #print ("comment object: ", profile_comments)
-  return render_template('discussion.html', posts = newsfeed_posts, comments = newsfeed_comments, date = date)
+  return render_template('discussion.html', posts = newsfeed_posts, comments = newsfeed_comments, date = date,user=canvasUser)
 
 
 @app.route('/login', methods=['GET', 'POST'])

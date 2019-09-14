@@ -12,8 +12,9 @@ class Post():
     
   def load_profile(user):
     recentPosts = []
-    recentComments = []
+    array_of_comments = {}
     canvasUser = user
+    proper_date = ''
     try:
       course = canvas.get_course(1)
       discussion_topics = course.get_discussion_topics()
@@ -31,23 +32,72 @@ class Post():
           day = topics[i].posted_at[5:7]
           month = topics[i].posted_at[8:10]
           proper_date = ''.join([month,'/', day, '/', year])
-        recentPosts.append(topics[i])
-        comments = topics[i].list_topic_entries()._get_next_page()
+          recentPosts.append(topics[i])
+          comments = topics[i].list_topic_entries()._get_next_page()
+          temp_comments = []
+          for j in range(len(comments)):
+            if(comments[j].message is not None):
+              comments[j].message = comments[j].message.replace('</p>', '')
+              comments[j].message = comments[j].message.replace('<p>', '') # get rid of the html
+            # store the comment in an array
+            temp_comments.append(comments[j])
+          # store all comments of this post in an double array
+          array_of_comments[str(topics[i].id)] = temp_comments
         
-        for j in range(len(comments)):
-          if(comments[j].message is not None):
-            comments[j].message = comments[j].message.replace('</p>', '')
-            comments[j].message = comments[j].message.replace('<p>', '') # get rid of the html
-          recentComments.append(comments[j])
-    return recentPosts, recentComments, proper_date
-  
-  def handle_post(page_to_load, request, course, canvasUser): 
+    return recentPosts, array_of_comments, proper_date
+
+  def load_newsfeed():  
+    recentPosts = []
+    array_of_comments = {}
+    
+    try:
+      course = canvas.get_course(1)
+      #announcements = canvas.get_announcements(context_codes='course_1') # canvas announcements lack documentation, so gonna just use regular discussion posts
+      announcements = course.get_discussion_topics()
+      topics = announcements._get_next_page() # this is the list of all topics (with embedded posts) in the course
+      #print("topic: ", topics[1].author["display_name"])
+    except CanvasException as e:
+      print("error", e)
+    #loop through each post  
+    for i in range(len(topics)):
+      if(topics[i].title == 'Announcement'): #only shows posts that the user has posted
+        if(topics[i].message is not None):
+          topics[i].message = topics[i].message.replace('</p>', '')
+          topics[i].message = topics[i].message.replace('<p>', '') # get rid of the html
+          year = topics[i].posted_at[2:4]
+          month = topics[i].posted_at[5:7]
+          day = topics[i].posted_at[8:10]
+          proper_date = ''.join([month,'/', day, '/', year])
+          recentPosts.append(topics[i])
+          #try:
+          comments = topics[i].list_topic_entries()._get_next_page()
+          temp_comments = []
+          # only loop through comments of posts we are showing
+          for j in range(len(comments)):
+            if(comments[j].message is not None):
+              comments[j].message = comments[j].message.replace('</p>', '')
+              comments[j].message = comments[j].message.replace('<p>', '') # get rid of the html
+            temp_comments.append(comments[j])
+          array_of_comments[str(topics[i].id)] = temp_comments
+          
+        #except:
+        print("no comments for announcement")    
+          
+    # after looping through each post, return the array
+    return recentPosts, array_of_comments, proper_date      
+
+
+  def handle_post(page_to_load, request, course, canvas_user): 
     new_post = request.get_json()["text"]
     #print(new_post)
     # make post in canvas
+    if('announcement' in page_to_load):
+      title = 'Announcement'
+    else:
+      title = canvas_user.name
     post = course.create_discussion_topic(
-        title = canvasUser.name,
-        author = canvasUser,
+        title = title,
+        author = canvas_user,
         message = new_post,
         user_can_see_posts = True,
         published = True
@@ -59,46 +109,12 @@ class Post():
     print("topic being posted: ", post, " entry: ", "nothin fo now")
     # send back html for post
     post_id = str(post.id)
-    post_html = '<article id="' + post_id + '"class="post_box"> <div class="profile_name"> <div class="profile_pic"> <figure class="thumbnail "><img alt="placeholder" class="img-fluid rounded-circle" src="' + post.author['avatar_image_url'] + '"/></figure></div> <div class="col-10"><header class="text-left"><figcaption class="comment-user"><b>'+canvasUser.name+'</b></figcaption><time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i>' + proper_date + '</time></header></div></div> <div class="post"> <div class="">' + new_post + '</div><hr>   <div class="text-center"><p class=""><a href="" name="view_more_button" id="view_more-{{posts[i].id}}" value="view" class="profile_button view_more">View Comments</a></p></div> <div id="comments" style="display:none;"><label class = "comment_label" for="from">Comments</label> <div id="reply_div-' + post_id + '"class="reply_div"> <div class="col-8"> <textarea class= "text_box" name="message" id="textbox_reply-' + post_id + '{{posts[i].id}}" style="" onkeyup="Expand(this);" size="5" placeholder="Comment"></textarea><span class="upload_icon oi oi-cloud-camera" aria-hidden="true"></span></div> <a href=""name="' + post_id + '" id="reply-' + post_id + '" class="reply_button col-4 btn-sm"><i class="fa fa-reply"></i> Reply</a></div></div></article>'  
+    post_html = '<article id="' + post_id + '"class="post_box"> <div class="profile_name"> <div class="profile_pic"> <figure class="thumbnail "><img alt="placeholder" class="img-fluid rounded-circle" src="' + post.author['avatar_image_url'] + '"/></figure></div> <div class="col-10"><header class="text-left"><figcaption class="comment-user"><b>'+canvas_user.name+'</b></figcaption><time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i>' + proper_date + '</time></header></div></div> <div class="post"> <div class="">' + new_post + '</div><hr>   <div class="text-center"><p class=""><a href="" name="view_more_button" id="view_more-{{posts[i].id}}" value="view" class="profile_button view_more">View Comments</a></p></div> <div id="comments" style="display:none;"><label class = "comment_label" for="from">Comments</label> <div id="reply_div-' + post_id + '"class="reply_div"> <div class="col-8"> <textarea class= "text_box" name="message" id="textbox_reply-' + post_id + '{{posts[i].id}}" style="" onkeyup="Expand(this);" size="5" placeholder="Comment"></textarea><span class="upload_icon oi oi-cloud-camera" aria-hidden="true"></span></div> <a href=""name="' + post_id + '" id="reply-' + post_id + '" class="reply_button col-4 btn-sm"><i class="fa fa-reply"></i> Reply</a></div></div></article>'  
     return post_html  
 
   
-  def load_newsfeed():  
-    recentPosts = []
-    recentComments = []
-    try:
-      course = canvas.get_course(1)
-      discussion_topics = course.get_discussion_topics()
-      topics = discussion_topics._get_next_page() # this is the list of all topics (with embedded posts) in the course
-      #print("topic: ", topics[1].author["display_name"])
-    except CanvasException as e:
-      print("error", e)
-      
-    for i in range(len(topics)):
-      if(topics[i].title == 'Admin'): #only shows posts from P4H TOD): pull from announcements    
-        if(topics[i].message is not None):
-          topics[i].message = topics[i].message.replace('</p>', '')
-          topics[i].message = topics[i].message.replace('<p>', '') # get rid of the html
-          year = topics[i].posted_at[2:4]
-          day = topics[i].posted_at[5:7]
-          month = topics[i].posted_at[8:10]
-          proper_date = ''.join([month,'/', day, '/', year])
-          
-        recentPosts.append(topics[i])
-        comments = topics[i].list_topic_entries()._get_next_page()
-        # only loop through comments of posts we are showing
-        for j in range(len(comments)):
-          if(comments[j].message is not None):
-            comments[j].message = comments[j].message.replace('</p>', '')
-            comments[j].message = comments[j].message.replace('<p>', '') # get rid of the html
-          recentComments.append(comments[j])
-    #print(recentPosts)    
-    return recentPosts, recentComments, proper_date      
-  
-  def load_recent_news():
-    profilePosts = load_profile_posts()
-    staffPosts = load_staff_posts()
-    newsfeed_list = staffPosts[10] + profilePosts[10] # load the top few recent posts from P4h and profile posts
+
+
 
 class Comment():
   def __init__(post,user_object, post_message, post_media):

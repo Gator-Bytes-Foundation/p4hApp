@@ -18,23 +18,21 @@
             {{posts[i].message}}
           </div>
         <hr>
-          {% if( (comments | length) > 1 ) %}
+          {% if( (comments[posts[i].id | string] | length) > 0 ) %}
           <div class="text-center">
               <p class=""><a href="" name="{{posts[i].id}}" id="view_more-{{posts[i].id}}" class="profile_button view_more">View Comments</a></p>
           </div>
           {%endif%}              
           <div id="comments-{{posts[i].id}}" style="display:none;">
           <label class = "comment_label" for="from"><b>Comments</b></label>
-          {% for j in range(comments | length) | reverse %}
-            {% if (comments[j].discussion_id == posts[i].id) %}
+          {% for j in range(comments[posts[i].id | string] | length) | reverse %}
           <div class="post_comment">
-            <figure class="thumbnail col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="{{comments[j].user['avatar_image_url'] }}"/></figure>
+            <figure class="thumbnail col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="{{comments[posts[i].id | string][j].user['avatar_image_url'] }}"/></figure>
             <div class="word_bubble col-10">
-              <p class=""><b>{{comments[j].user["display_name"]}}:</b><br>
-              {{comments[j].message}}</p>
+              <p class=""><b>{{comments[posts[i].id | string][j].user["display_name"]}}:</b><br>
+              {{comments[posts[i].id | string][j].message}}</p>
             </div>
           </div>
-          {% endif %}
           {% endfor %}
           </div>
           <div id="reply_div-{{posts[i].id}}" class="reply_div "> 

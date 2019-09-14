@@ -10,7 +10,6 @@ b {
 }
 .image-cropper {
   width: 70px;
-  height: 70px;
   position: relative;
   overflow: hidden;
   border-radius: 50%;
@@ -42,15 +41,7 @@ b {
 .post {
   width:100%; 
 }
-#textbox_p {
-  height:100%;
-  display:flex;
-  flex-wrap:wrap;
-  position:relative;
-}
-#textbox_p .text_box {
-  height: 100%;
-}
+
 .upload_icon {
   position:absolute !important;
   right:10%; 
