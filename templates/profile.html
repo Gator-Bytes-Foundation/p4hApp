@@ -7,7 +7,11 @@
 <form method="post">
 <div class="row">
   <div class="col-3">
-    <img class="image-cropper profile-pic img-fluid" src="../static/images/profile_pic.jpg" alt=""/>
+    {% if user.name == 'Admin' %}
+    <img class="image-cropper img-fluid rounded-circle" alt="placeholder" src="../static/images/p4h.png"</img>
+    {% else %}
+    <figure class="image-cropper img-fluid rounded-circle"><img alt="placeholder" src="{{user.avatar_url}}"/></figure>
+    {% endif %}
   </div>
   <div class="col-8 col-sm-8 ">
     <h4>{{user.name}}</h4>
@@ -37,18 +41,20 @@
     <button type="button" class="profile_button">Pwogre Mwen (progress)</button>
   </div>
 </div>
-<div class="row">
 <div class="col-md-10 col-12 ">
 <div class="tab-content profile-tab ">
   <div id="timeline" class="profile-work tab-pane fade active show in" role="tabpanel"> 
     <!-- 1st tab {% if active=='timeline' %}show active{% endif %}-->
     <h3>Prowfil Pos</h3>
-    <section class="">
       <div id="write_post"> 
         <div style="text-align: center;" class="post_box row">
+          {% if user.name == 'Admin' %}
+          <figure class="thumbnail col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="../static/images/p4h.png"/></figure>
+          {% else %}
           <figure class="thumbnail col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="{{user.avatar_url}}"/></figure>
-          <div class="col-9" id="textbox_p">
-            <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="Write Post Here" onclick="this.value=''"></textarea><span class="oi oi-cloud-download upload_icon" aria-hidden="true"></span>
+          {% endif %}
+          <div class="col-9" id="">
+            <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="Write Post Here" onkeyup="Expand(this);" size="5" ></textarea><span class="oi oi-cloud-download upload_icon" aria-hidden="true"></span>
 
           </div>
           <a href="#" name="action" id="post" value="Post" style="width:100%;" class="profile_button btn-sm">Post</a>
@@ -58,7 +64,6 @@
       {% for i in range(posts | length)%}
         {% include 'post.html' %}
       {% endfor %}
-    </section>
   </div>
   <div id="about"  class="tab-pane fade in" role="tabpanel">
     <div class="row">
