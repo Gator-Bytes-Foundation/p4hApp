@@ -122,8 +122,6 @@ class Comment():
     post.message = post_message
     post.media = post_media 
     
-  def first_reply():
-    return test_replies[0]
   
   def handle_comment(page_to_load, request, course,canvasUser):
     new_comment = request.get_json()["text"]
@@ -145,10 +143,10 @@ class Comment():
     return recentReplies   
 
 
-test_replies = [ Comment(canvas.get_user(34),"looks good!",""), Comment(canvas.get_user(34),"looks great!","")  ]
-test_replies2 = [ Comment(canvas.get_user(34),"looks awesome!",""), Comment(canvas.get_user(34),"Thanks!","")  ]
+#test_replies = [ Comment(canvas.get_user(34),"looks good!",""), Comment(canvas.get_user(34),"looks great!","")  ]
+#test_replies2 = [ Comment(canvas.get_user(34),"looks awesome!",""), Comment(canvas.get_user(34),"Thanks!","")  ]
 # need GET request to Canvas discussion posts
-test_user_data = [Post( canvas.get_user(34),"I need some feedback on this lesson plan","",test_replies,0 ),Post(canvas.get_user(34),"Here is some helpful tools","placeholder.jpg",test_replies2,1)]
+#test_user_data = [Post( canvas.get_user(34),"I need some feedback on this lesson plan","",test_replies,0 ),Post(canvas.get_user(34),"Here is some helpful tools","placeholder.jpg",test_replies2,1)]
 
 
 

@@ -1,8 +1,37 @@
-/* Progress CSS */
+/* File upload CSS */
+
+.inputfile { /* make the default ugly file input button invisible */
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+.inputfile + label {
+    display: inline-block;
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+
+}
+.inputfile + label {
+	cursor: pointer; /* "hand" cursor */
+}
+.inputfile:focus + label {
+	outline: 1px dotted #1632AA;
+	outline: -webkit-focus-ring-color auto 5px;
+}
+.inputfile + label * {
+	pointer-events: none;
+}
+
+/* Timeline CSS */ 
 .timeline,
 .timeline-horizontal {
   list-style: none;
-  padding: 20px;
+  padding: 15px;
   position: relative;
 }
 .timeline:before {
@@ -75,11 +104,11 @@
   border: 1px solid #c0c0c0;
   background: #ffffff;
   border-radius: 2px;
-  padding: 20px;
+  padding: 10px;
   -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
 }
-.timeline .timeline-item .timeline-panel:before {
+.timeline .timeline-item .timeline-panel:before { /* timeline pointer object */
   position: absolute;
   top: 26px;
   right: -16px;
@@ -90,6 +119,19 @@
   border-bottom: 16px solid transparent;
   content: " ";
 }
+.timeline .timeline-item .file_upload{
+  position:relative;
+  align-items: center;
+  width:46%;
+  padding:10px;
+  left:16px;
+  float:right;
+}
+.timeline .timeline-item:nth-child(even) .file_upload {
+  float: left;
+  left: -16px; /* keeps it all the way to the left*/
+}
+
 .timeline .timeline-item .timeline-panel .timeline-title {
   margin-top: 0;
   color: inherit;

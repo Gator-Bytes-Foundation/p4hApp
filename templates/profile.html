@@ -2,8 +2,22 @@
 
 {% extends "header.html" %} <!-- all html files should extend from the header, (the header contains all static references as well) --> 
 {% block content %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
-  
+
 <div class="container emp-profile">
+  <div class="dropdown">
+    <!--<button onclick="showSearchBar()" class="profile_button col-4">Search Profiles</button>-->
+    <div id="myDropdown" class="dropdown-content">
+      <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
+      <div class="list_of_items">
+        
+        {% for i in range(users | length) %}
+        <form method="POST" action="profile_{{users[i].id}}">
+          <a><button type="submit" class="erase"></button>{{users[i].name}}</a>
+        </form>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
   <div class="row">
     <div class="col-3">
       {% if user.name == 'Admin' %}
@@ -34,9 +48,11 @@
   </div>
   <div class="col-md-10 col-12 ">
     <div class= "nav">
+      {% if(user.id == current_user.id) %}
       <div class="col-5">
         <button type="submit" class="profile_button" name="edit">Edit Profile</button>
       </div>
+      {% endif %}
       <div class="col-7">
         <form action="progress.html">
           <button type="submit" class="profile_button">Pwogre Mwen</button>
@@ -55,7 +71,7 @@
             {% if user.name == 'Admin' %}
             <figure class="thumbnail col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="../static/images/p4h.png"/></figure>
             {% else %}
-            <figure class="thumbnail col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="{{user.avatar_url}}"/></figure>
+            <figure class="thumbnail col-2"><img alt="{{user}}"class="img-fluid rounded-circle" src="{{user.avatar_url}}"/></figure>
             {% endif %}
             <div class="col-10" id="">
               <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="Write Post Here" onkeyup="Expand(this);" size="5" ></textarea><span class="oi oi-cloud-download upload_icon" aria-hidden="true"></span>
@@ -206,6 +222,46 @@ $(function() {
         };
     });
 });
+  
+/* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+function showSearchBar() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+function filterFunction() {
+  var input, filter, ul, li, a, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  div = document.getElementById("myDropdown");
+  list_of_items = document.getElementsByClassName("list_of_items");
+  list_of_items[0].style.display = "block"
+  a = div.getElementsByTagName("a");
+  for (i = 0; i < a.length; i++) {
+    txtValue = a[i].textContent || a[i].innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      a[i].style.display = "";
+    } else {
+      a[i].style.display = "none";
+    }
+  }
+  
+}
+// function to cancel
+function cancelDropDown() {
+  list_of_items = document.getElementsByClassName("list_of_items");
+  list_of_items[0].style.display = "none"
+}
+// cancels dropdown box if clicked somewhere outside of dropdown box
+window.onclick = function(event) {
+    list_of_items = document.getElementsByClassName("list_of_items");
+    if (!event.target.matches('list_of_items')) {
+        if (list_of_items[0].style.display == "block") {
+            cancelDropDown();
+        }
+    }
+}   
+ 
 </script> 
 
 {% endblock %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html --> 
