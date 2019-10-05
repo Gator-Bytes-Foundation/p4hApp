@@ -26,7 +26,19 @@ def file_download(page_to_load, course):
   print("file ", file_to_download.public_url)
   new_url = file_to_download.public_url.replace('localhost',API_URL) # this url needs to be added to environment variables
   file_to_download.update(file = {file_to_download.public_url : new_url})
-  file_to_download.get_contents()
+  file_to_download.download(file_to_download.filename)
+
+def assignment_download(page_to_load, course):
+  assignment_id = page_to_load.replace('download_assignment_','')
+  page_to_load = page_to_load.replace('download_','') # so the url will stay the same on reload
+  int_assignment_id = int(assignment_id)
+  assignment = course.get_assignment(int_assignment_id)
+  submission = assignment.get_submission(35)
+  if(submission.attachments != None):
+    for i in range(len(submission.attachments)):
+      print("submission attachment ", submission.attachments[i])
+      file_to_download = course.get_file(int(submission.attachments[i]['id']))
+      file_to_download.download(file_to_download.filename) # download each file associated with assignment submission                                   
 
 @app.route('/<page_to_load>', methods=['GET', 'POST'])
 def page_load(page_to_load):
@@ -36,8 +48,10 @@ def page_load(page_to_load):
     
   if('download_file' in page_to_load): # check for file download
     file_download(page_to_load, course)
+  elif('download_assignment' in page_to_load): # check for file download
+    assignment_download(page_to_load, course)
   #dict_of_users = load_users()  
-  if('files' in page_to_load):   # loading a file page in resources.html
+  elif('files' in page_to_load):   # loading a file page in resources.html
     folder_id = page_to_load.replace('files_','').replace('.html','')
     int_id = int(folder_id)
     files = course.get_folder(int_id).get_files()._get_next_page()
@@ -70,17 +84,24 @@ def page_load(page_to_load):
 
 def handle_submission(page_to_load, request, course, canvas_user):    
   #try:
+  admin = canvas.get_user(1)
   id_number = page_to_load.replace('submit_','');
   submission_dict = {}
   submission_dict['submission_type'] = 'online_upload'
   submission_dict['assignment_id'] = str(id_number)
-  submission_dict['user_id'] = str(user_id)
+  submission_dict['user_id'] = admin.id
+  USER_ID = canvas_user.id
   print(request.files['file'])
-  
-  assignments = canvas_user.get_assignments(1)._get_next_page()
+  assignments = admin.get_assignments(1)._get_next_page()
   for i in range(len(assignments)):
     if(str(assignments[i].id) == str(id_number)):
-      assignments[i].submit(submission_dict,request.files['file'])
+      #assignments[i].submit(submission_dict,request.files['file'])
+      #assignments[i].submit(submission_dict)
+      assignments[i].submit(
+          submission={"submission_type": "online_upload"},
+          file=request.files['file'],
+          as_user_id=USER_ID
+      )
       return "success"
     
   return "failed"

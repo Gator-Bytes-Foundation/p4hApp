@@ -8,6 +8,11 @@
 b {
   color: rgba(22,50,170, 0.90);
 }
+.oi {
+  align-self: center;
+  padding:5px !important;
+  width:20px;
+}
 .image-cropper {
   width: 70px;
   position: relative;
@@ -52,10 +57,13 @@ b {
 }
 .profile_button {
   cursor:pointer;
+  display: block;
   width:100%;
   text-align: center;
   font-size: 1rem;
   padding:7px;
+  /*margin-right:6px !important;
+  margin-left:6px !important;*/
   padding-right: 14px;
   padding-left: 14px;
   margin: 7px 0px 5px 0;
@@ -67,7 +75,7 @@ b {
   box-shadow: 0px 4px 7px 0px rgba(22,50,170, 0.10);/* same color as #1632AA with low opacity */
 }
 .custom-file {
-  margin-bottom:20px;
+  width:90%;
 }
 .custom-file input {
   background-color: transparent;
@@ -132,13 +140,14 @@ b {
 
 /* The search field */
 #myInput {
-  width:100%;
+  left:0px;
+  width: calc(100% - 20px);
   box-sizing: border-box;
   background-image: url('searchicon.png');
   background-position: 14px 12px;
   background-repeat: no-repeat;
   font-size: 16px;
-  padding: 7px 20px 7px 45px;
+  padding: 7px 20px 7px 15px;
   border: none;
   border-bottom: 1px solid #ddd;
 }
@@ -150,19 +159,22 @@ b {
 .dropdown {
   position: relative;
   display: inline-block;
-  display: flex;
-  flex-wrap:wrap;
+  width:100%;
+  margin-bottom:15px; 
 }
 .list_of_items {
   display:none;
   position: absolute;
   background-color: #f6f6f6;
   width:100%;
+  border: 1px solid #ddd;
+  z-index: 1;
 }
 /* Links inside the dropdown */
 .list_of_items a {
   color: black;
   display: block;
+  position:relative;
   padding: 12px 16px;
   text-decoration: none;
 }
@@ -173,14 +185,16 @@ b {
 .dropdown-content {
   left:3%;
   width:80%;
+  display:flex;
+  flex-wrap: wrap;
   position: relative;
   min-width: 220px;
-  margin-bottom:15px; 
-  border: 1px solid #ddd;
-  z-index: 1;
+  
+  
+  
 }
-.invisible { /* submit form only worked with button, so i made an invisble button behind a <a>link</a>
-  opacity: 0;
+.erase { /* submit form only worked with button, so i made an invisble button behind a <a>link</a> */
+  opacity:0;
   width: 100%;
   height: 100%;
   position: absolute;

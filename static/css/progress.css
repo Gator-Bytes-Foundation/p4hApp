@@ -47,6 +47,12 @@
 .timeline .timeline-item {
   margin-bottom: 20px;
   position: relative;
+  border: 1px solid #c0c0c0;
+  background: #ffffff;
+  border-radius: 2px;
+  padding: 10px;
+  -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
 }
 .timeline .timeline-item:before,
 .timeline .timeline-item:after {
@@ -57,6 +63,7 @@
   clear: both;
 }
 .timeline .timeline-item .timeline-badge {
+  display:none; /* i might want to use this later */
   color: #fff;
   width: 54px;
   height: 54px;
@@ -96,19 +103,17 @@
 .timeline .timeline-item .timeline-badge.danger {
   background-color: #ba1f1f;
 }
+
 .timeline .timeline-item .timeline-panel {
   position: relative;
-  width: 46%;
-  float: left;
-  right: 16px;
-  border: 1px solid #c0c0c0;
-  background: #ffffff;
-  border-radius: 2px;
-  padding: 10px;
-  -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+  display: flex;
+  flex-flow: wrap;
+  flex-direction: row;
+  width: 100%;
+
 }
-.timeline .timeline-item .timeline-panel:before { /* timeline pointer object */
+/*.timeline .timeline-item .timeline-panel:before { /* timeline pointer object */ /*
+  
   position: absolute;
   top: 26px;
   right: -16px;
@@ -118,27 +123,29 @@
   border-right: 0 solid #c0c0c0;
   border-bottom: 16px solid transparent;
   content: " ";
-}
+}*/ 
 .timeline .timeline-item .file_upload{
   position:relative;
   align-items: center;
   width:46%;
   padding:10px;
-  left:16px;
+  /*left:16px;*/ 
   float:right;
 }
+/*
 .timeline .timeline-item:nth-child(even) .file_upload {
   float: left;
-  left: -16px; /* keeps it all the way to the left*/
+  left: -16px; /* keeps it all the way to the left*/ /*
 }
-
+*/
 .timeline .timeline-item .timeline-panel .timeline-title {
   margin-top: 0;
   color: inherit;
 }
-.timeline .timeline-item .timeline-panel .timeline-body > p,
-.timeline .timeline-item .timeline-panel .timeline-body > ul {
+.timeline-body > p,
+.timeline-body > ul {
   margin-bottom: 0;
+  text-align: center;
 }
 .timeline .timeline-item .timeline-panel .timeline-body > p + p {
   margin-top: 5px;
@@ -147,14 +154,10 @@
   float: right;
 }
 .timeline .timeline-item:nth-child(even) .timeline-panel {
-  float: right;
-  left: 16px;
+  
 }
 .timeline .timeline-item:nth-child(even) .timeline-panel:before {
-  border-left-width: 0;
-  border-right-width: 14px;
-  left: -14px;
-  right: auto;
+  
 }
 .timeline-horizontal {
   list-style: none;

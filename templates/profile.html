@@ -6,9 +6,12 @@
 <div class="container emp-profile">
   <div class="dropdown">
     <!--<button onclick="showSearchBar()" class="profile_button col-4">Search Profiles</button>-->
-    <div id="myDropdown" class="dropdown-content">
-      <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
-      <div class="list_of_items">
+    
+    <div class="dropdown-content">
+        <span class="oi oi-magnifying-glass" aria-hidden="true"></span>
+        <input class="" type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
+    </div>
+      <div id="myDropdown" class="list_of_items">
         
         {% for i in range(users | length) %}
         <form method="POST" action="profile_{{users[i].id}}">
@@ -16,7 +19,7 @@
         </form>
         {% endfor %}
       </div>
-    </div>
+    
   </div>
   <div class="row">
     <div class="col-3">
@@ -233,9 +236,9 @@ function filterFunction() {
   var input, filter, ul, li, a, i;
   input = document.getElementById("myInput");
   filter = input.value.toUpperCase();
-  div = document.getElementById("myDropdown");
   list_of_items = document.getElementsByClassName("list_of_items");
   list_of_items[0].style.display = "block"
+  div = document.getElementById("myDropdown");
   a = div.getElementsByTagName("a");
   for (i = 0; i < a.length; i++) {
     txtValue = a[i].textContent || a[i].innerText;
