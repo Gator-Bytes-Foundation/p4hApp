@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+{% extends "header.html" %}<!-- all html files should extend from the header, (the header contains all static references as well) --> 
+{% block content %}<!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/progress.css') }}">
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="page-header">
+        <h1>Timeline</h1>
+        <hr>
+      </div>
+      <ul class="timeline">
+        {% for i in range(assignments | length)%}
+        <li class="timeline-item">
+                      <div class="timeline-body col-12">
+              <p>{{assignments[i].description}}</p>
+            </div>
+          <div class="timeline-badge"><i class="glyphicon glyphicon-off"></i></div>
+          <div class="timeline-panel">
+            <div class="timeline-heading col-12 col-sm-4">
+              <h4 class="timeline-title">{{assignments[i].name}}</h4>
+              <!--<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> Due: {{assignments[i].due_at}}</small></p>-->
+            </div>
+            <div class="file_upload col-12 col-sm-8">
+              <div class="col-12">
+                <input type="file" name="file" id="file-1" class="inputfile" data-multiple-caption="{count} files selected" multiple/>
+                <label class="profile_button" id="label-1" for="file-1"><strong>Choose a file</strong></label>
+                <!--<label id="label-1" class="custom-file-label" for="file-1"></label>--> 
+              </div>
+              <div class="input-group" style="justify-content: center;">
+                <div class="input-group-prepend col-8 col-md-6"> 
+                  <span class="input-group-text profile_button upload " name="{{assignments[i].id}}"  id="{{assignments[i].id}}">Upload</span> 
+              </div>
+              <div class="input-group-prepend col-8 col-md-6"> 
+                  <a href="download_assignment_{{assignments[i].id}}"class="input-group-text profile_button download" name="{{assignments[i].id}}"  id="{{assignments[i].id}}">Download</a> </div>
+              </div>
+            </div>
+
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+
+// for changing the file name dynamically //
+var inputs = document.querySelectorAll( '.inputfile' ); // looks if a file is set for upload
+Array.prototype.forEach.call( inputs, function( input )
+{
+	var label	 = input.nextElementSibling, // gets the inner html of the label attribute that is visually seen (the file input is invisible)
+		labelVal = label.innerHTML;
+
+	input.addEventListener( 'change', function( e ) // upon a file input being selected, we want to update the label to show what file was selected
+	{
+    console.log("change");
+		var fileName = '';
+		if( this.files && this.files.length > 1 )
+			fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
+		else {
+			fileName = e.target.value.split( '\\' ).pop();
+    }
+
+		if( fileName ){
+			//label.querySelector( 'span' ).innerHTML = fileName;
+      $("#label-1").empty(); 
+      $("#label-1").append(fileName);
+    }
+		else {
+			label.innerHTML = labelVal;
+      $("#label-1").empty();
+      $("#label-1").append(file.name);      
+      console.log("labelVal");
+    }
+	});
+});
+  
+// is triggered when upload is clicked
+$(document).on("click", ".upload", function(e) { 
+  e.preventDefault();
+  var id_number = e.currentTarget.id;
+  console.log("clicked " + id_number);
+  if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
+      alert('The File APIs are not fully supported in this browser.');
+      return;
+    }   
+    input = document.getElementById('file-1'); // grabs the right file by ID
+    if (!input) {
+      alert("Um, couldn't find the fileinput element.");
+    }
+    else if (!input.files) {
+      alert("This browser doesn't seem to support the `files` property of file inputs.");
+    }
+    else if (!input.files[0]) {
+      alert("Please select a file before clicking 'Load'");               
+    }
+    file = input.files[0];
+    console.log(file.name);
+    //var id_number = e.currentTarget.id.replace('file-','');
+    //fr = new FileReader();
+    //fr.onload = receivedText;
+    //fr.readAsText(file);
+    //fr.readAsDataURL(file);
+    var formData = new FormData();
+    formData.append("file",file)
+    $.ajax({
+      type: "POST",
+      url: "/submit_"+id_number,
+      data: formData,
+      cache:false,
+      contentType: false,
+      processData:false,
+      dataType: "file",
+      error: function(data) {
+        response = eval(data);
+        error = JSON.stringify(response);
+        console.log("error ")  
+      },
+      success: function (data) {
+          console.log("the file submission returned ", data)
+          $("#label-1").empty();
+      }
+  });
+  });
+
+</script> 
+{% endblock %}<!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->

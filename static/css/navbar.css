@@ -5,9 +5,23 @@
   #navbar-container {
     padding-right: 5px;
     border-radius: 3px;
-    background-color: #B30D2C;
+    background-color: rgba(179,13,44,0.95);
+    color:rgb(255,255,255,1.0);
     min-height: 10px;
     margin-bottom: 0;
+  }
+  a.nav-item{
+    padding:5px;
+    color:white !important;
+  }
+  a.nav-item:hover {
+    border-top: thin;
+    border-bottom: thin;
+    border-top-style: solid;
+    border-bottom-style: solid;
+    background-color: rgba(189,23,54,1.00);
+    border-color:rgb(255,255,255,0.4); 
+    font-weight:bolder;
   }
   .navbar-toggler {
     height: 40%;

@@ -27,7 +27,7 @@
           <label class = "comment_label" for="from"><b>Comments</b></label>
           {% for j in range(comments[posts[i].id | string] | length) | reverse %}
           <div class="post_comment">
-            <figure class="thumbnail col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="{{comments[posts[i].id | string][j].user['avatar_image_url'] }}"/></figure>
+            <figure class="thumbnail col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="{{comments[posts[i].id|string][j].user['avatar_image_url'] }}"/></figure>
             <div class="word_bubble col-10">
               <p class=""><b>{{comments[posts[i].id | string][j].user["display_name"]}}:</b><br>
               {{comments[posts[i].id | string][j].message}}</p>

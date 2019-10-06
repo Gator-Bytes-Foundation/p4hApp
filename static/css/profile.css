@@ -8,6 +8,11 @@
 b {
   color: rgba(22,50,170, 0.90);
 }
+.oi {
+  align-self: center;
+  padding:5px !important;
+  width:20px;
+}
 .image-cropper {
   width: 70px;
   position: relative;
@@ -28,7 +33,7 @@ b {
   border-style:solid; 
   border-width:thin;  
   border-color:rgba(130,67,68,0.40);
-  padding:8px;
+  padding:14px 8px 8px 8px;
   border-radius:5px 5px 5px 5px;
 
   margin-bottom:10px;
@@ -52,17 +57,28 @@ b {
 }
 .profile_button {
   cursor:pointer;
+  display: block;
+  width:100%;
+  text-align: center;
+  font-size: 1rem;
   padding:7px;
+  /*margin-right:6px !important;
+  margin-left:6px !important;*/
   padding-right: 14px;
   padding-left: 14px;
-  margin:0.8rem;
+  margin: 7px 0px 5px 0;
   border: thin;
   border-style: solid;
   border-color: rgba(22,80,200,0.20); 
   color:#1632AA;
   background-color: transparent; /* same color as #1632AA with low opacity */
   box-shadow: 0px 4px 7px 0px rgba(22,50,170, 0.10);/* same color as #1632AA with low opacity */
-  
+}
+.custom-file {
+  width:90%;
+}
+.custom-file input {
+  background-color: transparent;
 }
 .profile_button:hover {
   background-color: rgba(22,50,170,0.07); /* same color as #1632AA with low opacity */
@@ -120,3 +136,74 @@ b {
 @media (min-width: 768px) {
   
 }
+
+
+/* The search field */
+#myInput {
+  left:0px;
+  width: calc(100% - 20px);
+  box-sizing: border-box;
+  background-image: url('searchicon.png');
+  background-position: 14px 12px;
+  background-repeat: no-repeat;
+  font-size: 16px;
+  padding: 7px 20px 7px 15px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+}
+
+/* The search field when it gets focus/clicked on */
+#myInput:focus {outline: 3px solid #ddd;}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  width:100%;
+  margin-bottom:15px; 
+}
+.list_of_items {
+  display:none;
+  position: absolute;
+  background-color: #f6f6f6;
+  width:100%;
+  border: 1px solid #ddd;
+  z-index: 1;
+}
+/* Links inside the dropdown */
+.list_of_items a {
+  color: black;
+  display: block;
+  position:relative;
+  padding: 12px 16px;
+  text-decoration: none;
+}
+/* Change color of dropdown links on hover */
+.list_of_items a:hover {background-color: #f1f1f1}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  left:3%;
+  width:80%;
+  display:flex;
+  flex-wrap: wrap;
+  position: relative;
+  min-width: 220px;
+  
+  
+  
+}
+.erase { /* submit form only worked with button, so i made an invisble button behind a <a>link</a> */
+  opacity:0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+
+
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;}
