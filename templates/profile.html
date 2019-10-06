@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 {% extends "header.html" %} <!-- all html files should extend from the header, (the header contains all static references as well) --> 
-{% block content %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
+{% block content %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html) -->
 
 <div class="container emp-profile">
   <div class="dropdown">
@@ -77,7 +77,8 @@
             <figure class="thumbnail col-2"><img alt="{{user}}"class="img-fluid rounded-circle" src="{{user.avatar_url}}"/></figure>
             {% endif %}
             <div class="col-10" id="">
-              <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="Write Post Here" onkeyup="Expand(this);" size="5" ></textarea><span class="oi oi-cloud-download upload_icon" aria-hidden="true"></span>
+              <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="Write Post Here" onkeyup="Expand(this);" size="5" ></textarea><span id="upload_{{user.id}}" class="oi oi-cloud-download upload_icon" aria-hidden="true"></span><input type="file" name="file" id="post_file" class="inputfile"style="display: none;" data-multiple-caption="{count} files selected" multiple/>
+                <!--<label class="profile_button" id="label-1" for="file-1"><strong>Choose a file</strong></label>-->
 
             </div>
             </div>
@@ -175,24 +176,32 @@ $(document).on("click", ".reply_button", function(e) { /* old regular expression
 });
 // handle posts
 $("#post").on("click", function(e) { 
-  e.preventDefault();
-  var value = $("#textbox_post").val();
-  console.log(value);    
-    //alert(value);
+    e.preventDefault();
+    var value = $("#textbox_post").val();
+    console.log(value);    
+    input = document.getElementById('post_file'); // grabs the right file by ID
+    file = input.files[0];
+    var formData = new FormData();
+    formData.append("file",file);
+    formData.append("text",value);
+  
     $.ajax({
         type: "POST",
         url: "/post",
-        data: JSON.stringify({ "text" : value } ),
-        contentType: "application/json; charset=utf-8",
-        dataType: "text",
+        data: formData,
+        cache:false,
+        contentType: false,
+        processData:false,
+        dataType: "text",        
         error: function(data) {
           response = eval(data);
           post = JSON.stringify(response);
-          console.log("error" + post)  
+          console.log("error" + post)
+          $("#write_post").append(post);
         },
         success: function (data) {
             post = data;
-            //console.log(post)
+            console.log("post being created "+post)
             $("#write_post").append(post);
 
         }
@@ -264,7 +273,14 @@ window.onclick = function(event) {
         }
     }
 }   
- 
+$(".upload_icon").click(function () {
+  $("#post_file").trigger('click');
+}); 
+  
+$('input[type="file"]').on('change', function() {
+  var val = $(this).val();
+  $(this).siblings('span').text(val);
+})
 </script> 
 
 {% endblock %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html --> 

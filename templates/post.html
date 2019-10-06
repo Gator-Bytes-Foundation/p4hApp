@@ -18,7 +18,7 @@
             {{posts[i].message}}
           </div>
         <hr>
-          {% if( (comments[posts[i].id | string] | length) > 0 ) %}
+          {% if( (comments[posts[i].id | string] | length) > 1 ) %}
           <div class="text-center">
               <p class=""><a href="" name="{{posts[i].id}}" id="view_more-{{posts[i].id}}" class="profile_button view_more">View Comments</a></p>
           </div>

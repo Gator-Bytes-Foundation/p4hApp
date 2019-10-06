@@ -184,18 +184,21 @@ def login_user():
         else:
           #incorrect password 
           error = "Incorrect Password"
-          return render_template('login.html', error = error) #return login page
+          return render_template('login.html', error = error, current_user = current_user, users = all_users) #return login page
       else:
         # no username exists
         error = "There is no user with that username"
     # if loop ends, render with error message
-    return render_template('login.html', error = error) #return login page
+    return render_template('login.html', error = error, current_user = current_user, users = all_users) #return login page
     
     
 
 @app.route('/')
 def home():    
-  return render_template('login.html') #this is the home page currently
+  try:
+    return render_template('login.html', current_user = current_user, users = all_users) #this is the home page currently
+  except:
+    return render_template('login.html', current_user = None,users = None) #    
 
 if __name__ == "__main__":
   app.run(debug=True)

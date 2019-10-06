@@ -52,16 +52,19 @@
     <nav class="navbar navbar-expand-md navbar-dark" id="navbar-container" > <a href="#" class="navbar-brand">
       <h1 id="nav-logo-p4h" style="color: white;">P4H</h1>
       </a>
+    {% if (users != None) %}
     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse"> <span class="navbar-toggler-icon"></span> </button>
+    
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <div class="navbar-nav"> 
           <a href="" class="nav-item nav-link active animated" >Lakay</a> 
-          <a href="profile.html" class="nav-item nav-link animated" style="">Profile</a> 
+          <a href="profile_{{current_user.id}}" class="nav-item nav-link animated" style="">Profile</a> 
           <a href="messaging.html" class="nav-item nav-link animated">Mesaj</a>
           <a href="discussion.html" class="nav-item nav-link animated">Anons</a>
           <a href="resources.html" class="nav-item nav-link disabled animated" tabindex="-1">Resous</a> </div>
         <div class="navbar-nav ml-auto"> <a href="#" class="nav-item nav-link animated">Anviwònman</a> </div>
       </div>
+    {% endif %}
   </nav>
   </div>
 <!-- This paragraph is just for testing. Remove in prod -->
