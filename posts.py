@@ -12,20 +12,23 @@ class Post():
     post.replies = replies
     post.id = id_number
     
-  def load_profile(user):
+  # loads all canvas discussion posts that the profile user has posted and their associated comments
+  def load_profile(user,start_index,end_index):
     recentPosts = []
     array_of_comments = {}
     canvasUser = user
     proper_date = ''
     try:
       course = canvas.get_course(1)
-      discussion_topics = course.get_discussion_topics()
-      topics = discussion_topics._get_next_page() # this is the list of all topics (with embedded posts) in the course
-      #print("topic in load profile: ", vars(topics[1]))
+      topics = list(course.get_discussion_topics())
+      #print("topic in load profile: ", vars(topics[0]))
     except CanvasException as e:
       print("error", e)
-      
-    for i in range(len(topics)):
+    
+    if(len(topics) < 9):
+      end_index = len(topics)
+    print(start_index, " ", end_index)
+    for i in range(start_index,end_index):
       if(topics[i].title == canvasUser.name): #only shows posts that the user has posted
         if(topics[i].message is not None):
           topics[i].message = topics[i].message.replace('</p>', '')
@@ -90,10 +93,11 @@ class Post():
 
 
   def handle_post(page_to_load, request, course, canvas_user): 
-    print(request.form)
+    #print(request.files['file'] )
     new_post = str(request.form['text'])
+    #attachments_ = []
     try:
-      attachments_ = request.files['file'] # check to see if there was files attached
+      attachments_ = (request.files['file']) # check to see if there was files attached
     except:
       attachments_ = None
     #print(new_post)
@@ -108,8 +112,14 @@ class Post():
         message = new_post,
         user_can_see_posts = True,
         published = True,
-        attachments = attachments_
+        attachments = attachments_,
+        file = {'attachment':attachments_}
+        
+        
     )
+    #print("current post ", vars(post))
+    #post.attachments = attachments_
+    #post = post.update(discussion_topic = {'attachment' : attachments_})
     year = post.posted_at[2:4]
     day = post.posted_at[5:7]
     month = post.posted_at[8:10]
@@ -117,7 +127,7 @@ class Post():
     print("topic being posted: ", post, " entry: ", "nothin fo now")
     # send back html for post
     post_id = str(post.id)
-    post_html = '<article id="' + post_id + '"class="post_box"> <div class="profile_name"> <div class="profile_pic"> <figure class="thumbnail "><img alt="placeholder" class="img-fluid rounded-circle" src="' + post.author['avatar_image_url'] + '"/></figure></div> <div class="col-10"><header class="text-left"><figcaption class="comment-user"><b>'+canvas_user.name+'</b></figcaption><time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i>' + proper_date + '</time></header></div></div> <div class="post"> <div class="">' + new_post + '</div><hr>   <div class="text-center"></div> <div id="comments-' + post_id + '" ><label class = "comment_label" for="from">Comments</label> <div id="reply_div-' + post_id + '"class="reply_div"> <div class="col-8"> <textarea class= "text_box" name="message" id="textbox_reply-' + post_id + '" style="" onkeyup="Expand(this);" size="5" placeholder="Comment"></textarea><span class="upload_icon oi oi-cloud-camera" aria-hidden="true"></span></div> <a href=""name="' + post_id + '" id="reply-' + post_id + '" class="reply_button col-4 btn-sm"><i class="fa fa-reply"></i> Reply</a></div></div></article>'  
+    post_html = '<article id="' + post_id + '"class="post_box"> <div class="profile_name"> <div class="profile_pic"> <figure class="thumbnail "><img alt="placeholder" class="img-fluid rounded-circle" src="' + post.author['avatar_image_url'] + '"/></figure></div> <div class="col-10"><header class="text-left"><figcaption class="comment-user"><b>'+canvas_user.name+'</b></figcaption><time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> ' + proper_date + '</time></header></div></div> <div class="post"> <div class="">' + new_post + '</div><hr>   <div class="text-center"></div> <div id="comments-' + post_id + '" ><label class = "comment_label" for="from">Comments</label> <div id="reply_div-' + post_id + '"class="reply_div"> <div class="col-8"> <textarea class= "text_box" name="message" id="textbox_reply-' + post_id + '" style="" onkeyup="Expand(this);" size="5" placeholder="Comment"></textarea><span class="upload_icon oi oi-cloud-camera" aria-hidden="true"></span></div> <a href=""name="' + post_id + '" id="reply-' + post_id + '" class="reply_button col-4 btn-sm"><i class="fa fa-reply"></i> Reply</a></div></div></article>'  
     return post_html  
 
   

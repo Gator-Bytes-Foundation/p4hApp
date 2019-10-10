@@ -13,6 +13,31 @@ b {
   padding:5px !important;
   width:20px;
 }
+.backgroundOverlay {
+  position: fixed;
+  display: none;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 2;
+  pointer-events: none;
+}
+.overlayBlock {
+  padding:22%;
+  display:block;
+  position: absolute;
+  top:15%;
+  background: #FFFFFF;
+  backface-visibility: visible;
+  z-index: 4;
+  padding-bottom:100px;
+  padding-top:100px;
+}
 .image-cropper {
   width: 70px;
   position: relative;
@@ -43,6 +68,10 @@ b {
   display: flex;
   flex-wrap:wrap; 
 }
+.thumbnail {
+  display:flex;
+  justify-content: center;
+}
 .post {
   width:100%; 
 }
@@ -50,7 +79,7 @@ b {
 .upload_icon {
   position:absolute !important;
   right:10%; 
-  top:30% !important;
+  top:10% !important;
   font-size:12px;
   vertical-align: middle; 
   color: rgba(22,50,170, 0.90);
@@ -200,6 +229,7 @@ b {
   position: absolute;
   top: 0;
   left: 0;
+  cursor: pointer;
 }
 
 

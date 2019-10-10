@@ -10,23 +10,14 @@ from oauth2client.service_account import ServiceAccountCredentials, client
 from oauth2client import file, client, tools
 #from users import *
 from posts import *
+from resources_controller import *
 from messaging import *
 import random
 import os
 from pyper import *
 import pickle as p
+import logging
 
-
-def file_download(page_to_load, course):
-  file_id = page_to_load.replace('download_files_','')
-  page_to_load = page_to_load.replace('download_','') # so the url will stay the same on reload
-  int_file = int(file_id)
-  file_to_download = course.get_file(int_file)
-  download_path = '/'.join( os.getcwd().split('/')[:3] ) + '/Downloads'
-  print("file ", file_to_download.public_url)
-  new_url = file_to_download.public_url.replace('localhost',API_URL) # this url needs to be added to environment variables
-  file_to_download.update(file = {file_to_download.public_url : new_url})
-  file_to_download.download(file_to_download.filename)
 
 def assignment_download(page_to_load, course):
   assignment_id = page_to_load.replace('download_assignment_','')
@@ -45,11 +36,13 @@ def page_load(page_to_load):
   #so href will add something to the url, and this will be saved to 'page_to_load' which we can then use to render the name of the html file
   #print("page loading: ",page_to_load)
   print("current user", current_user.name)
-    
   if('download_file' in page_to_load): # check for file download
     file_download(page_to_load, course)
   elif('download_assignment' in page_to_load): # check for file download
     assignment_download(page_to_load, course)
+  elif('profile' in page_to_load):
+    search_id = page_to_load.replace('profile_','')
+    return profile(search_id)
   #dict_of_users = load_users()  
   elif('files' in page_to_load):   # loading a file page in resources.html
     folder_id = page_to_load.replace('files_','').replace('.html','')
@@ -67,9 +60,6 @@ def page_load(page_to_load):
       return Post.handle_post(page_to_load, request, course, current_user)
     elif('submit' in page_to_load):
       return handle_submission(page_to_load, request, course, current_user)
-    elif('profile' in page_to_load):
-      search_id = page_to_load.replace('profile_','')
-      return profile(search_id)
     else:
       return '' # in case a null request is made
   # Messaging Page 
@@ -116,26 +106,7 @@ def progress():
   for i in range(len(user_assignments)):
     user_assignments[i].description = user_assignments[i].description.replace('<p>','').replace('</p>','') #get rid of stupid html tags. like why is this even being returned
 
-  return render_template('progress.html', assignments = user_assignments,user = canvas_user)
-
-
-@app.route('/resources.html', methods=['GET', 'POST'])
-def resources():    
-  course = canvas.get_course(1)
-  folders_ = course.get_folders()._get_next_page()
-  folders = [] 
-  icons = []
-  for i in range(1,len(folders_)):
-    folders.append(folders_[i])
-    if("VIDEO" in folders_[i].name.upper() or "VIDEYO" in folders_[i].name.upper()):
-      icons.append("oi-video")
-    elif("PICTURE" in folders_[i].name.upper() or ("FOTO" in folders_[i].name.upper()) or ("PHOTO" in folders_[i].name.upper()) ):
-      icons.append("oi-image")
-    else:
-      icons.append("oi-book")
-    #print("folders_ ", folders_[i].name)
-  
-  return render_template('resources.html', folders = folders,icons = icons)
+  return render_template('progress.html', assignments = user_assignments,user = canvas_user, current_user = current_user)
 
 
 @app.route('/discussion.html', methods=['GET', 'POST'])
@@ -144,8 +115,14 @@ def discussion_page():
   canvas_user = canvas.get_user(user_id)
   newsfeed_posts, newsfeed_comments, date = Post.load_newsfeed()
   #print ("comment object: ", profile_comments)
-  return render_template('discussion.html', posts = newsfeed_posts, comments = newsfeed_comments, date = date,user=canvas_user)
+  return render_template('discussion.html', posts = newsfeed_posts, comments = newsfeed_comments, date = date, canvas_user=canvas_user)
+@app.route('/resources.html', methods=['GET', 'POST'])
+def resources():    
+  return render_resources(current_user)
 
+@app.route('/messaging.html')
+def messaging():    
+  return render_template('messaging.html', current_user = current_user)
 
 @app.route('/profile.html', methods=['GET', 'POST'])
 def profile(user_look_up_id):   
@@ -153,8 +130,9 @@ def profile(user_look_up_id):
     print("loading default profile")
     user_look_up_id = user_id # in case no user_id is passed into function, we assign the current user
   user_look_up = canvas.get_user(user_look_up_id) # user_look_up could be a new profile being searched OR loading the user's own profile
-  
-  profile_posts, profile_comments,date = Post.load_profile(user_look_up) # 35 is Logan and 1 is Admin (TODO grab this id from logging in)
+  global edit_mode_on
+  edit_mode_on = False
+  profile_posts, profile_comments,date = Post.load_profile(user_look_up,0,9) # 35 is Logan and 1 is Admin (TODO grab this id from logging in)
   #print ("comment object: ", profile_comments)
   print("user: ", user_look_up.id, "current_user: ", current_user.id)
   return render_template('profile.html', posts = profile_posts, comments = profile_comments, date=date, user = user_look_up, current_user= current_user,users = all_users)
@@ -201,4 +179,5 @@ def home():
     return render_template('login.html', current_user = None,users = None) #    
 
 if __name__ == "__main__":
+  #logging.basicConfig(level=logging.DEBUG)
   app.run(debug=True)

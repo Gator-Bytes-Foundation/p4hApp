@@ -3,10 +3,61 @@
 {% extends "header.html" %} <!-- all html files should extend from the header, (the header contains all static references as well) --> 
 {% block content %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html) -->
 
-<div class="container emp-profile">
+<div id="entire_profile" class="container emp-profile">
+   <div id="edit_menu"class="backgroundOverlay">
+    <div class="wrapper overlayBlock fadeInDown rounded-circle" id="edit_profile_menu">
+      <div style="text-align: center; margin-bottom: 25px;" class="">
+        <h3>Edit Menu</h3>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <p>Profile Name:</p>
+        </div>
+        <div class="col-6">
+          <input class="" type="text" placeholder="Name Here" id="nameInput">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <p>Profile Picture</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <p>School:</p>
+        </div>
+        <div class="col-6">
+          <input class="" type="text" placeholder="School Here" id="schoolInput">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <p>Email:</p>
+        </div>
+        <div class="col-6">
+          <input class="" type="text" placeholder="Email Here" id="bioInput">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <p>Phone:</p>
+        </div>
+        <div class="col-6">
+          <input class="" type="text" placeholder="Phone Here" id="bioInput">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <p>Biography:</p>
+        </div>
+        <div class="col-6">
+          <input class="" type="text" placeholder="Your Bio Here" id="bioInput">
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="dropdown">
     <!--<button onclick="showSearchBar()" class="profile_button col-4">Search Profiles</button>-->
-    
     <div class="dropdown-content">
         <span class="oi oi-magnifying-glass" aria-hidden="true"></span>
         <input class="" type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
@@ -19,14 +70,13 @@
         </form>
         {% endfor %}
       </div>
-    
   </div>
   <div class="row">
     <div class="col-3">
       {% if user.name == 'Admin' %}
       <img class="image-cropper img-fluid rounded-circle" alt="placeholder" src="../static/images/p4h.png"</img>
       {% else %}
-      <figure class="image-cropper img-fluid rounded-circle"><img alt="placeholder" src="{{user.avatar_url}}"/></figure>
+      <figure class="thumbnail"><img class="img-fluid rounded-circle" alt="placeholder" src="{{user.avatar_url}}"/></figure>
       {% endif %}
     </div>
     <div class="col-8 col-sm-8 ">
@@ -53,7 +103,7 @@
     <div class= "nav">
       {% if(user.id == current_user.id) %}
       <div class="col-5">
-        <button type="submit" class="profile_button" name="edit">Edit Profile</button>
+        <button type="submit" id="edit_profile" class="profile_button" name="edit">Edit Profile</button>
       </div>
       {% endif %}
       <div class="col-7">
@@ -72,9 +122,9 @@
           <div style="text-align: center;" class="post_box">
             <div class = "profile_name">
             {% if user.name == 'Admin' %}
-            <figure class="thumbnail col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="../static/images/p4h.png"/></figure>
+            <figure class=" col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="../static/images/p4h.png"/></figure>
             {% else %}
-            <figure class="thumbnail col-2"><img alt="{{user}}"class="img-fluid rounded-circle" src="{{user.avatar_url}}"/></figure>
+            <figure class=" col-2"><img alt="{{user}}"class="img-fluid rounded-circle" src="{{user.avatar_url}}"/></figure>
             {% endif %}
             <div class="col-10" id="">
               <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="Write Post Here" onkeyup="Expand(this);" size="5" ></textarea><span id="upload_{{user.id}}" class="oi oi-cloud-download upload_icon" aria-hidden="true"></span><input type="file" name="file" id="post_file" class="inputfile"style="display: none;" data-multiple-caption="{count} files selected" multiple/>
@@ -91,6 +141,7 @@
         {% for i in range(posts | length)%}
           {% include 'post.html' %}
         {% endfor %}
+      <img id="pic" class="img-fluid"/>
     </div>
     <div id="about"  class="tab-pane fade in" role="tabpanel">
       <div class="row">
@@ -137,150 +188,5 @@
     </div>
   </div>
 </div>
-<script type="text/javascript">
-  $(document).ready(function(){
-      //  When user clicks on tab, this code will be executed
-    $('#timeline-tab').addClass("active");
-    $('#timeline-tab').addClass("show");
-  });
-</script> 
-
-<script type="text/javascript">
-$(document).on("click", ".reply_button", function(e) { /* old regular expression I was using to find all reply ids: a[id|='reply' */ 
-  e.preventDefault();
-  var id_number = e.currentTarget.name;
-  console.log("comment_id " + id_number);
-  var value = $("#textbox_reply-"+id_number).val();
-  console.log(value);
-    
-  //alert(value);
-  $.ajax({
-      type: "POST",
-      url: "/comment_"+id_number,
-      data: JSON.stringify({ "text" : value } ),
-      contentType: "application/json; charset=utf-8",
-      dataType: "text",
-      error: function(data) {
-        response = eval(data);
-        comment = JSON.stringify(response);
-        console.log("error" + comment)  
-      },
-      success: function (data) {
-          comment = data;
-          console.log("ajax return comment ", comment)
-          $("#comments-"+id_number).append(comment);  
-
-      }
-  });
-  
-});
-// handle posts
-$("#post").on("click", function(e) { 
-    e.preventDefault();
-    var value = $("#textbox_post").val();
-    console.log(value);    
-    input = document.getElementById('post_file'); // grabs the right file by ID
-    file = input.files[0];
-    var formData = new FormData();
-    formData.append("file",file);
-    formData.append("text",value);
-  
-    $.ajax({
-        type: "POST",
-        url: "/post",
-        data: formData,
-        cache:false,
-        contentType: false,
-        processData:false,
-        dataType: "text",        
-        error: function(data) {
-          response = eval(data);
-          post = JSON.stringify(response);
-          console.log("error" + post)
-          $("#write_post").append(post);
-        },
-        success: function (data) {
-            post = data;
-            console.log("post being created "+post)
-            $("#write_post").append(post);
-
-        }
-    });
-});
-  // handle textbox 
-$(function() {
-    //  changes mouse cursor when highlighting loawer right of box
-    $("textarea").mousemove(function(e) {
-        var myPos = $(this).offset();
-        myPos.bottom = $(this).offset().top + $(this).outerHeight();
-        myPos.right = $(this).offset().left + $(this).outerWidth();
-        
-        if (myPos.bottom > e.pageY && e.pageY > myPos.bottom - 16 && myPos.right > e.pageX && e.pageX > myPos.right - 16) {
-            $(this).css({ cursor: "nw-resize" });
-        }
-        else {
-            $(this).css({ cursor: "" });
-        }
-    })
-    //  the following simple make the textbox "Auto-Expand" as it is typed in
-    .css('overflow', 'hidden').keyup(function(e) {
-        //  this if statement checks to see if backspace or delete was pressed, if so, it resets the height of the box so it can be resized properly
-        if (e.which == 8 || e.which == 46) {
-            $(this).height(parseFloat($(this).css("min-height")) != 0 ? parseFloat($(this).css("min-height")) : parseFloat($(this).css("font-size")));
-        }
-        //  the following will help the text expand as typing takes place
-        while($(this).outerHeight() < this.scrollHeight + parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth"))) {
-            $(this).height($(this).height()+1);
-        };
-    });
-});
-  
-/* When the user clicks on the button,
-toggle between hiding and showing the dropdown content */
-function showSearchBar() {
-  document.getElementById("myDropdown").classList.toggle("show");
-}
-
-function filterFunction() {
-  var input, filter, ul, li, a, i;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  list_of_items = document.getElementsByClassName("list_of_items");
-  list_of_items[0].style.display = "block"
-  div = document.getElementById("myDropdown");
-  a = div.getElementsByTagName("a");
-  for (i = 0; i < a.length; i++) {
-    txtValue = a[i].textContent || a[i].innerText;
-    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      a[i].style.display = "";
-    } else {
-      a[i].style.display = "none";
-    }
-  }
-  
-}
-// function to cancel
-function cancelDropDown() {
-  list_of_items = document.getElementsByClassName("list_of_items");
-  list_of_items[0].style.display = "none"
-}
-// cancels dropdown box if clicked somewhere outside of dropdown box
-window.onclick = function(event) {
-    list_of_items = document.getElementsByClassName("list_of_items");
-    if (!event.target.matches('list_of_items')) {
-        if (list_of_items[0].style.display == "block") {
-            cancelDropDown();
-        }
-    }
-}   
-$(".upload_icon").click(function () {
-  $("#post_file").trigger('click');
-}); 
-  
-$('input[type="file"]').on('change', function() {
-  var val = $(this).val();
-  $(this).siblings('span').text(val);
-})
-</script> 
-
+<script type="text/javascript" src="{{ url_for('static', filename='js/profile.js') }}"></script>
 {% endblock %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html --> 
