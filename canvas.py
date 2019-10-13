@@ -6,7 +6,7 @@ from canvasapi.exceptions import CanvasException
 from canvasapi.user import User
 
 # Canvas API URL
-API_URL = "http://192.168.172.145:3000/"
+API_URL = "http://192.168.172.147:3000/"
 # Canvas API key
 API_KEY = "canvas-docker"
 global canvas

@@ -4,8 +4,8 @@
 {% block content %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html) -->
 
 <div id="entire_profile" class="container emp-profile">
-   <div id="edit_menu"class="backgroundOverlay">
-    <div class="wrapper overlayBlock fadeInDown rounded-circle" id="edit_profile_menu">
+   <div id="edit_menu" style="display:none;" class="backgroundOverlay">
+    <div class="wrapper overlayBlock fadeInDown " id="edit_profile_menu">
       <div style="text-align: center; margin-bottom: 25px;" class="">
         <h3>Edit Menu</h3>
       </div>
@@ -14,7 +14,7 @@
           <p>Profile Name:</p>
         </div>
         <div class="col-6">
-          <input class="" type="text" placeholder="Name Here" id="nameInput">
+          <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="Name Here" onkeyup="Expand(this);" size="5" ></textarea>
         </div>
       </div>
       <div class="row">
@@ -27,7 +27,7 @@
           <p>School:</p>
         </div>
         <div class="col-6">
-          <input class="" type="text" placeholder="School Here" id="schoolInput">
+          <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="School Here" onkeyup="Expand(this);" size="5" ></textarea>
         </div>
       </div>
       <div class="row">
@@ -35,7 +35,7 @@
           <p>Email:</p>
         </div>
         <div class="col-6">
-          <input class="" type="text" placeholder="Email Here" id="bioInput">
+          <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="Email Here" onkeyup="Expand(this);" size="5" ></textarea>
         </div>
       </div>
       <div class="row">
@@ -43,7 +43,7 @@
           <p>Phone:</p>
         </div>
         <div class="col-6">
-          <input class="" type="text" placeholder="Phone Here" id="bioInput">
+          <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="Phone Here" onkeyup="" size="5" ></textarea>
         </div>
       </div>
       <div class="row">
@@ -51,7 +51,7 @@
           <p>Biography:</p>
         </div>
         <div class="col-6">
-          <input class="" type="text" placeholder="Your Bio Here" id="bioInput">
+          <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="Write Post Here" onkeyup="" size="5" ></textarea>
         </div>
       </div>
     </div>
@@ -102,11 +102,11 @@
   <div class="col-md-10 col-12 ">
     <div class= "nav">
       {% if(user.id == current_user.id) %}
-      <div class="col-5">
+      <div class="col-6">
         <button type="submit" id="edit_profile" class="profile_button" name="edit">Edit Profile</button>
       </div>
       {% endif %}
-      <div class="col-7">
+      <div class="">
         <form action="progress.html">
           <button type="submit" class="profile_button">Pwogre Mwen</button>
         </form>
@@ -127,9 +127,8 @@
             <figure class=" col-2"><img alt="{{user}}"class="img-fluid rounded-circle" src="{{user.avatar_url}}"/></figure>
             {% endif %}
             <div class="col-10" id="">
-              <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="Write Post Here" onkeyup="Expand(this);" size="5" ></textarea><span id="upload_{{user.id}}" class="oi oi-cloud-download upload_icon" aria-hidden="true"></span><input type="file" name="file" id="post_file" class="inputfile"style="display: none;" data-multiple-caption="{count} files selected" multiple/>
+              <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="Write Post Here" onkeyup="" size="5" ></textarea><span id="upload_{{user.id}}" class="oi oi-cloud-download upload_icon" aria-hidden="true"></span><input type="file" name="file" id="post_file" class="inputfile"style="display: none;" data-multiple-caption="{count} files selected" multiple/>
                 <!--<label class="profile_button" id="label-1" for="file-1"><strong>Choose a file</strong></label>-->
-
             </div>
             </div>
             <div style="display:flex;">

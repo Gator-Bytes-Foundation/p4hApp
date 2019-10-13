@@ -15,7 +15,6 @@ b {
 }
 .backgroundOverlay {
   position: fixed;
-  display: none;
   justify-content: center;
   width: 100%;
   height: 100%;
@@ -28,7 +27,7 @@ b {
   pointer-events: none;
 }
 .overlayBlock {
-  padding:22%;
+  padding:25px;
   display:block;
   position: absolute;
   top:15%;
@@ -37,6 +36,7 @@ b {
   z-index: 4;
   padding-bottom:100px;
   padding-top:100px;
+  border-radius: 10px;
 }
 .image-cropper {
   width: 70px;
@@ -66,7 +66,6 @@ b {
 .profile_name {
   width:100%;
   display: flex;
-  flex-wrap:wrap; 
 }
 .thumbnail {
   display:flex;
@@ -142,7 +141,7 @@ b {
   border-radius: 20px 20px 20px 20px;  
   width: 100%;
   height: 35px;
-  line-height:70%;
+  line-height:120%;
   padding:8px;
   position: relative;
   box-shadow: 0px 4px 7px 0px rgba(22,50,170, 0.10);/* same color as #1632AA with low opacity */

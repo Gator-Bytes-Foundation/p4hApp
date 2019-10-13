@@ -3,7 +3,9 @@ Functions to handle all actions in profile.html
 */
 
 $('#edit_profile').on("click", function(e)  {
-  $("#edit_menu").css({display:"flex"});
+  edit_menu = document.getElementsByClassName("backgroundOverlay");
+  console.log(edit_menu[0]);
+  edit_menu[0].style.display = "flex"; 
   $("#entire_profile").css({pointerEvents:"none"});
   $("#edit_profile_menu").css({pointerEvents:"visible"});
 });
@@ -113,7 +115,12 @@ $(function() {
         };
     });
 });
-  
+
+/* 
+
+SEARCH BAR 
+
+*/
 /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content of the search bar */
 function showSearchBar() {
@@ -138,7 +145,7 @@ function filterFunction() {
   }
   
 }
-// function to cancel the search dropdown by clicking outside of it
+// function to cancel the search dropdown (by clicking outside of it in function below)
 function cancelDropDown() {
   list_of_items = document.getElementsByClassName("list_of_items");
   list_of_items[0].style.display = "none"
@@ -146,12 +153,19 @@ function cancelDropDown() {
 // cancels dropdown box if clicked somewhere outside of dropdown box
 window.onclick = function(event) {
     list_of_items = document.getElementsByClassName("list_of_items");
+    edit_menu = document.getElementsByClassName("backgroundOverlay");
     if (!event.target.matches('list_of_items')) {
         if (list_of_items[0].style.display == "block") {
             cancelDropDown();
         }
     }
-}   
+    if(!event.target.matches('overlayBlock') && !event.target.matches('#edit_profile') ) {
+        edit_menu[0].style.display = "none";
+        $("#entire_profile").css({pointerEvents:"visible"});
+    }
+
+} 
+
 // when upload icon is clicked, trigger the file browser input (the input is hidden visually but can be "clicked" on)
 $(".upload_icon").click(function () {
   $("#post_file").trigger('click');
