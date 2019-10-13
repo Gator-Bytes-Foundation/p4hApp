@@ -1,21 +1,42 @@
 /*
-Functions to handle all actions in profile.html
+#######################################    Functions to handle all actions in profile.html    ##########################################
 */
+/*
 
-$('#edit_profile').on("click", function(e)  {
-  edit_menu = document.getElementsByClassName("backgroundOverlay");
-  console.log(edit_menu[0]);
-  edit_menu[0].style.display = "flex"; 
-  $("#entire_profile").css({pointerEvents:"none"});
-  $("#edit_profile_menu").css({pointerEvents:"visible"});
-});
+PROFILE TABS
+
+*/
 // Dictates which view is seen by clickng on the tabs
 $(document).ready(function(){
     //  When user clicks on tab, this code will be executed
   $('#timeline-tab').addClass("active");
   $('#timeline-tab').addClass("show");
 });
+/*
 
+EDIT PROFILE MENU 
+
+*/
+function cancelExitMenu() {
+  document.getElementsByClassName("backgroundOverlay")[0].style.display = "none";
+  $("#entire_profile").css({pointerEvents:"visible"});
+}
+$('#edit_profile').on("click", function(e)  {
+  edit_menu = document.getElementsByClassName("backgroundOverlay");
+  console.log(edit_menu[0]);
+  edit_menu[0].style.display = "flex"; 
+  $("#entire_profile").css({pointerEvents:"none"});
+  $("#edit_profile_menu").css({pointerEvents:"visible"});
+
+});
+$('#exit_edit').on("click", function(e)  {
+  cancelExitMenu();
+});
+/*
+
+REPLY BUTTON
+
+*/
 // anytime reply button is clicked, make a ajax call to server
 $(document).on("click", ".reply_button", function(e) { /* old regular expression I was using to find all reply ids: a[id|='reply' */ 
   e.preventDefault();
@@ -45,7 +66,11 @@ $(document).on("click", ".reply_button", function(e) { /* old regular expression
   });
   
 });
-// handle profile posts
+/*
+
+POST BUTTON 
+
+*/
 $("#post").on("click", function(e) { 
     e.preventDefault();
     var value = $("#textbox_post").val();
@@ -150,28 +175,48 @@ function cancelDropDown() {
   list_of_items = document.getElementsByClassName("list_of_items");
   list_of_items[0].style.display = "none"
 }
-// cancels dropdown box if clicked somewhere outside of dropdown box
+
+/*
+
+WINDOW CLICKS
+
+*/
 window.onclick = function(event) {
     list_of_items = document.getElementsByClassName("list_of_items");
-    edit_menu = document.getElementsByClassName("backgroundOverlay");
-    if (!event.target.matches('list_of_items')) {
+    edit_menu = document.getElementsByClassName("overlayBlock")[0];
+    if (!event.target.matches('list_of_items')) { // cancels dropdown box if clicked somewhere outside of dropdown box
         if (list_of_items[0].style.display == "block") {
             cancelDropDown();
         }
     }
-    if(!event.target.matches('overlayBlock') && !event.target.matches('#edit_profile') ) {
-        edit_menu[0].style.display = "none";
-        $("#entire_profile").css({pointerEvents:"visible"});
+    // minimizes the edit profile menu when clicking out of it
+    if(!edit_menu.contains(event.target) && !event.target.matches('#edit_profile')) {
+        cancelExitMenu();
     }
 
 } 
 
 // when upload icon is clicked, trigger the file browser input (the input is hidden visually but can be "clicked" on)
-$(".upload_icon").click(function () {
-  $("#post_file").trigger('click');
+$(".upload_icon").click(function (e) {
+  var id = e.currentTarget.id;  
+  $("#"+id+"_input").trigger('click');
 }); 
 // change the name next to icon on file upload
-$('input[type="file"]').on('change', function() {
+$('input[type="file"]').on('change', function(e) {
   var val = $(this).val();
   $(this).siblings('span').text(val);
+  
+  var id = e.currentTarget.id;  
+  input = document.getElementById(id); // grabs the right file by ID
+  file = input.files[0];
+  console.log("file");
+  if(file.name.includes(".jpg") || file.name.includes(".png") || file.name.includes(".pdf") || file.name.includes(".webp")){
+    console.log("is an image");
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        var img_id = String(id).replace('_input','_img');
+       $('#'+img_id).attr('src', e.target.result);
+    }
+   reader.readAsDataURL(file);
+  }
 })

@@ -30,7 +30,11 @@ def assignment_download(page_to_load, course):
       print("submission attachment ", submission.attachments[i])
       file_to_download = course.get_file(int(submission.attachments[i]['id']))
       file_to_download.download(file_to_download.filename) # download each file associated with assignment submission                                   
-
+def updateProfile(req):
+  print(req.form)
+  name_ = req.form['name']
+  current_user.edit(user = {"name":name_})
+  return #todo
 @app.route('/<page_to_load>', methods=['GET', 'POST'])
 def page_load(page_to_load):
   #so href will add something to the url, and this will be saved to 'page_to_load' which we can then use to render the name of the html file
@@ -49,6 +53,9 @@ def page_load(page_to_load):
     int_id = int(folder_id)
     files = course.get_folder(int_id).get_files()._get_next_page()
     print("folder id for these files ", files[0].folder_id)
+  elif('edit_save' in page_to_load):
+    updateProfile(request)
+    return profile(current_user.id) # this isnt efficient since it reloads the entire page from scratch
     
     return render_template('files.html', files = files,folder_id = folder_id)
 

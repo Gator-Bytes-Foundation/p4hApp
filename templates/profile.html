@@ -6,7 +6,10 @@
 <div id="entire_profile" class="container emp-profile">
    <div id="edit_menu" style="display:none;" class="backgroundOverlay">
     <div class="wrapper overlayBlock fadeInDown " id="edit_profile_menu">
-      <div style="text-align: center; margin-bottom: 25px;" class="">
+      <button id="exit_edit" class="exit_icon" style="float:left;"aria-label="Close Account Info Modal Box">&times;</button>
+      <div style="top:40px; position:relative;">
+        <form action="edit_save" method="post"  enctype="multipart/form-data">
+      <div style="text-align: center; margin-bottom: 35px;" class="">
         <h3>Edit Menu</h3>
       </div>
       <div class="row">
@@ -14,20 +17,29 @@
           <p>Profile Name:</p>
         </div>
         <div class="col-6">
-          <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="Name Here" onkeyup="Expand(this);" size="5" ></textarea>
+          <textarea class="text_box" name="name" id="profile_name" style="width: 100%;" placeholder="{{user.name}}" onkeyup="Expand(this);" size="5" ></textarea>
         </div>
       </div>
       <div class="row">
         <div class="col-6">
           <p>Profile Picture</p>
         </div>
+        <div class="col-6">
+          {% if user.name == 'Admin' %}
+          <img id="profile_pic_img" class="image-cropper img-fluid rounded-circle" alt="placeholder" src="../static/images/p4h.png"</img>
+          {% else %}
+          <img id="profile_pic_img" class="image-cropper img-fluid rounded-circle" alt="placeholder" src="{{user.avatar_url}}"/>
+          {% endif %}
+          <span id="profile_pic" class="oi oi-cloud-download upload_icon" aria-hidden="true"></span><input type="file" name="profile_pic" id="profile_pic_input" class="inputfile"style="display: none;" data-multiple-caption="{count} files selected" multiple/>
+        </div>
+
       </div>
       <div class="row">
         <div class="col-6">
           <p>School:</p>
         </div>
         <div class="col-6">
-          <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="School Here" onkeyup="Expand(this);" size="5" ></textarea>
+          <textarea class="text_box" name="school" id="school_name" style="width: 100%;" placeholder="School Here" onkeyup="" size="5" ></textarea>
         </div>
       </div>
       <div class="row">
@@ -35,7 +47,7 @@
           <p>Email:</p>
         </div>
         <div class="col-6">
-          <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="Email Here" onkeyup="Expand(this);" size="5" ></textarea>
+          <textarea class="text_box" name="email" id="email_name" style="width: 100%;" placeholder="Email Here" onkeyup="" size="5" ></textarea>
         </div>
       </div>
       <div class="row">
@@ -43,7 +55,7 @@
           <p>Phone:</p>
         </div>
         <div class="col-6">
-          <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="Phone Here" onkeyup="" size="5" ></textarea>
+          <textarea class="text_box" name="phone" id="phone" style="width: 100%;" placeholder="Phone Here" onkeyup="" size="5" ></textarea>
         </div>
       </div>
       <div class="row">
@@ -51,9 +63,16 @@
           <p>Biography:</p>
         </div>
         <div class="col-6">
-          <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="Write Post Here" onkeyup="" size="5" ></textarea>
+          <textarea class="text_box" name="bio" id="bio" style="width: 100%;" placeholder="Write Post Here" onkeyup="" size="5" ></textarea>
         </div>
       </div>
+      <div class="row">
+        <div class="col-12">
+          <input type="submit" value="Save" class="profile_button">
+        </div>
+      </div>
+          </form>
+    </div>
     </div>
   </div>
   <div class="dropdown">
@@ -127,7 +146,7 @@
             <figure class=" col-2"><img alt="{{user}}"class="img-fluid rounded-circle" src="{{user.avatar_url}}"/></figure>
             {% endif %}
             <div class="col-10" id="">
-              <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="Write Post Here" onkeyup="" size="5" ></textarea><span id="upload_{{user.id}}" class="oi oi-cloud-download upload_icon" aria-hidden="true"></span><input type="file" name="file" id="post_file" class="inputfile"style="display: none;" data-multiple-caption="{count} files selected" multiple/>
+              <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="Write Post Here" onkeyup="" size="5" ></textarea><span id="upload_profile" class="oi oi-cloud-download upload_icon" aria-hidden="true"></span><input type="file" name="file" id="upload_profile_input" class="inputfile"style="display: none;" data-multiple-caption="{count} files selected" multiple/>
                 <!--<label class="profile_button" id="label-1" for="file-1"><strong>Choose a file</strong></label>-->
             </div>
             </div>
