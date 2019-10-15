@@ -31,9 +31,31 @@ def assignment_download(page_to_load, course):
       file_to_download = course.get_file(int(submission.attachments[i]['id']))
       file_to_download.download(file_to_download.filename) # download each file associated with assignment submission                                   
 def updateProfile(req):
-  print(req.form)
+  #print(req.form)
   name_ = req.form['name']
-  current_user.edit(user = {"name":name_})
+  school_ = req.form['school']
+  email_ = req.form['email']
+  phone_ = req.form['phone']
+  location_ = req.form['location']
+  bio_ = req.form['bio']
+  files = req.files
+  print("file: ",files)
+  if(files != None):
+    current_user.edit(user = {"avatar":files})
+  if(name_ != ''):
+    current_user.edit(user = {"name":name_})
+  if(school_ != ''):
+    current_user.edit(user = {"sortable_name":school_}) #Since we are using Canvas User objects, we store phone as sortable_name
+  if(email_ != ''):
+    current_user.edit(user = {"email":email_})
+  if(phone_ != ''):
+    current_user.edit(user = {"short_name":phone_}) #Since we are using Canvas User objects, we store phone as short_name
+  if(location_ != ''):
+    current_user.edit(user = {"title":location_})
+  if(bio_ != ''):
+    current_user.edit(user = {"bio":bio_})
+  
+    
   return #todo
 @app.route('/<page_to_load>', methods=['GET', 'POST'])
 def page_load(page_to_load):
@@ -53,11 +75,12 @@ def page_load(page_to_load):
     int_id = int(folder_id)
     files = course.get_folder(int_id).get_files()._get_next_page()
     print("folder id for these files ", files[0].folder_id)
+    return render_template('files.html', files = files,folder_id = folder_id)
   elif('edit_save' in page_to_load):
     updateProfile(request)
     return profile(current_user.id) # this isnt efficient since it reloads the entire page from scratch
     
-    return render_template('files.html', files = files,folder_id = folder_id)
+    
 
   if(request.method == 'POST'):
     if('comment' in page_to_load and (request.get_json() != {})):   
@@ -119,10 +142,9 @@ def progress():
 @app.route('/discussion.html', methods=['GET', 'POST'])
 def discussion_page():    
   course = canvas.get_course(1)
-  canvas_user = canvas.get_user(user_id)
   newsfeed_posts, newsfeed_comments, date = Post.load_newsfeed()
   #print ("comment object: ", profile_comments)
-  return render_template('discussion.html', posts = newsfeed_posts, comments = newsfeed_comments, date = date, canvas_user=canvas_user)
+  return render_template('discussion.html', posts = newsfeed_posts, comments = newsfeed_comments, date = date, canvas_user=current_user)
 @app.route('/resources.html', methods=['GET', 'POST'])
 def resources():    
   return render_resources(current_user)
@@ -141,7 +163,8 @@ def profile(user_look_up_id):
   edit_mode_on = False
   profile_posts, profile_comments,date = Post.load_profile(user_look_up,0,9) # 35 is Logan and 1 is Admin (TODO grab this id from logging in)
   #print ("comment object: ", profile_comments)
-  print("user: ", user_look_up.id, "current_user: ", current_user.id)
+  #print("user: ", user_look_up.id, "current_user: ", current_user.id)
+  print("current user specs ",vars(current_user))
   return render_template('profile.html', posts = profile_posts, comments = profile_comments, date=date, user = user_look_up, current_user= current_user,users = all_users)
 
 

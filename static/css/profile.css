@@ -29,15 +29,14 @@ b {
 .overlayBlock {
   display:block;
   position: absolute;
-  top:15%;
+  top:12%;
   background: #FFFFFF;
   backface-visibility: visible;
   width:85%;
-  height:60%;
+  height:76%;
   border-radius: 10px;
 }
   .overlayBlock .upload_icon {
-    left:5px;
     font-size:20px;
   }
 /* Portrait tablets and medium desktops */
@@ -53,10 +52,15 @@ b {
   padding-bottom:10px;
   margin-right: 0;
   margin-left: 0;
+  overflow: scroll;
 }
-.overlayBlock .col-6 {
+
+.overlayBlock .col-8, .overlayBlock .col-4, .overlayBlock .col-sm-8   {
   padding-right:5px;
   padding-left:5px;
+}
+.overlayBlock .col-8 .row {
+  justify-content: center;
 }
 .image-cropper {
   width: 70px;

@@ -204,6 +204,10 @@ $(".upload_icon").click(function (e) {
 // change the name next to icon on file upload
 $('input[type="file"]').on('change', function(e) {
   var val = $(this).val();
+  if(val.length > 8){
+    val = val.substring(0,8)
+    val = " " + val + "..."
+  }
   $(this).siblings('span').text(val);
   
   var id = e.currentTarget.id;  

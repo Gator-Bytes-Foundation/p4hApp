@@ -13,57 +13,70 @@
         <h3>Edit Menu</h3>
       </div>
       <div class="row">
-        <div class="col-6">
+        <div class="col-4 col-sm-3">
           <p>Profile Name:</p>
         </div>
-        <div class="col-6">
-          <textarea class="text_box" name="name" id="profile_name" style="width: 100%;" placeholder="{{user.name}}" onkeyup="Expand(this);" size="5" ></textarea>
+        <div class="col-8">
+          <textarea class="text_box" name="name" id="profile_name" style="width: 100%;" placeholder="{{user.name}}" size="5" ></textarea>
         </div>
       </div>
       <div class="row">
-        <div class="col-6">
+        <div class="col-4 col-sm-3">
           <p>Profile Picture</p>
         </div>
-        <div class="col-6">
-          {% if user.name == 'Admin' %}
-          <img id="profile_pic_img" class="image-cropper img-fluid rounded-circle" alt="placeholder" src="../static/images/p4h.png"</img>
-          {% else %}
-          <img id="profile_pic_img" class="image-cropper img-fluid rounded-circle" alt="placeholder" src="{{user.avatar_url}}"/>
-          {% endif %}
-          <span id="profile_pic" class="oi oi-cloud-download upload_icon" aria-hidden="true"></span><input type="file" name="profile_pic" id="profile_pic_input" class="inputfile"style="display: none;" data-multiple-caption="{count} files selected" multiple/>
-        </div>
-
+        <div class="col-8 col-sm-9">
+        <div class="row">
+          <div class="row col-sm-4">
+            {% if user.name == 'Admin' %}
+            <img id="profile_pic_img" class="image-cropper img-fluid rounded-circle" alt="placeholder" src="../static/images/p4h.png"</img>
+            {% else %}
+            <img id="profile_pic_img" class="image-cropper img-fluid rounded-circle" alt="placeholder" src="{{user.avatar_url}}"/>
+            {% endif %}
+          </div>
+          <div class="col-8 col-sm-3">
+            <span id="profile_pic" class="profile_button oi oi-cloud-upload upload_icon" aria-hidden="true"></span><input type="file" name="profile_pic" id="profile_pic_input" class="inputfile"style="display: none;" data-multiple-caption="{count} files selected" multiple/>
+          </div>
       </div>
+        </div>
+          </div>
       <div class="row">
-        <div class="col-6">
+        <div class="col-4 col-sm-3">
           <p>School:</p>
         </div>
-        <div class="col-6">
-          <textarea class="text_box" name="school" id="school_name" style="width: 100%;" placeholder="School Here" onkeyup="" size="5" ></textarea>
+        <div class="col-8">
+          <textarea class="text_box" name="school" id="school_name" style="width: 100%;" placeholder="{{user.sortable_name}}"  size="5" ></textarea>
         </div>
       </div>
       <div class="row">
-        <div class="col-6">
+        <div class="col-4 col-sm-3">
           <p>Email:</p>
         </div>
-        <div class="col-6">
-          <textarea class="text_box" name="email" id="email_name" style="width: 100%;" placeholder="Email Here" onkeyup="" size="5" ></textarea>
+        <div class="col-8">
+          <textarea class="text_box" name="email" id="email_name" style="width: 100%;" placeholder="{{user.email}}" size="5" ></textarea>
         </div>
       </div>
       <div class="row">
-        <div class="col-6">
+        <div class="col-4 col-sm-3">
           <p>Phone:</p>
         </div>
-        <div class="col-6">
-          <textarea class="text_box" name="phone" id="phone" style="width: 100%;" placeholder="Phone Here" onkeyup="" size="5" ></textarea>
+        <div class="col-8">
+          <textarea class="text_box" name="phone" id="phone" style="width: 100%;" placeholder="{{user.short_name}}"size="5" ></textarea>
         </div>
       </div>
       <div class="row">
-        <div class="col-6">
+        <div class="col-4 col-sm-3">
+          <p>Location:</p>
+        </div>
+        <div class="col-8">
+          <textarea class="text_box" name="location" id="loc" style="width: 100%;" placeholder="{{user.title}}"  size="5" ></textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4 col-sm-3">
           <p>Biography:</p>
         </div>
-        <div class="col-6">
-          <textarea class="text_box" name="bio" id="bio" style="width: 100%;" placeholder="Write Post Here" onkeyup="" size="5" ></textarea>
+        <div class="row col-12 col-sm-8">
+          <textarea class="text_box" name="bio" id="bio" style="width: 100%; height:50px;" placeholder="{{user.bio}}" size="5" ></textarea>
         </div>
       </div>
       <div class="row">
@@ -167,7 +180,7 @@
           <label>User Id</label>
         </div>
         <div class="col-md-6">
-          <p>lcundiff</p>
+          <p>{{user.id}}</p>
         </div>
       </div>
         <div class="row">
@@ -175,7 +188,7 @@
             <label>Name</label>
           </div>
           <div class="col-md-6">
-            <p>Logan</p>
+            <p>{{user.name}}</p>
           </div>
         </div>
         <div class="row">
@@ -183,7 +196,7 @@
             <label>Email</label>
           </div>
           <div class="col-md-6">
-            <p>lcundiff@gmail.com</p>
+            <p>{{user.email}}</p>
           </div>
         </div>
         <div class="row">
@@ -191,15 +204,23 @@
             <label>Phone</label>
           </div>
           <div class="col-md-6">
-            <p>123 456 7890</p>
+            <p>{{user.short_name}}</p>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6">
-            <label>Profession</label>
+            <label>Location</label>
           </div>
           <div class="col-md-6">
-            <p>Elementary Teacher</p>
+            <p>{{user.title}}</p> 
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label>School</label>
+          </div>
+          <div class="col-md-6">
+            <p>{{user.sortable_name}}</p> 
           </div>
         </div>
       </div>
