@@ -75,7 +75,7 @@ def page_load(page_to_load):
     int_id = int(folder_id)
     files = course.get_folder(int_id).get_files()._get_next_page()
     print("folder id for these files ", files[0].folder_id)
-    return render_template('files.html', files = files,folder_id = folder_id)
+    return render_template('files.html', files = files,folder_id = folder_id, current_user = current_user)
   elif('edit_save' in page_to_load):
     updateProfile(request)
     return profile(current_user.id) # this isnt efficient since it reloads the entire page from scratch
@@ -144,7 +144,8 @@ def discussion_page():
   course = canvas.get_course(1)
   newsfeed_posts, newsfeed_comments, date = Post.load_newsfeed()
   #print ("comment object: ", profile_comments)
-  return render_template('discussion.html', posts = newsfeed_posts, comments = newsfeed_comments, date = date, canvas_user=current_user)
+  return render_template('discussion.html', posts = newsfeed_posts, comments = newsfeed_comments, date = date, current_user=current_user)
+
 @app.route('/resources.html', methods=['GET', 'POST'])
 def resources():    
   return render_resources(current_user)

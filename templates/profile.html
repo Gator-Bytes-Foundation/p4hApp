@@ -30,7 +30,7 @@
             {% if user.name == 'Admin' %}
             <img id="profile_pic_img" class="image-cropper img-fluid rounded-circle" alt="placeholder" src="../static/images/p4h.png"</img>
             {% else %}
-            <img id="profile_pic_img" class="image-cropper img-fluid rounded-circle" alt="placeholder" src="{{user.avatar_url}}"/>
+            <img id="profile_pic_img" class="image-cropper img-fluid rounded-circle" alt="placeholder" src="../static/images/me.png"/>
             {% endif %}
           </div>
           <div class="col-8 col-sm-3">
@@ -108,7 +108,7 @@
       {% if user.name == 'Admin' %}
       <img class="image-cropper img-fluid rounded-circle" alt="placeholder" src="../static/images/p4h.png"</img>
       {% else %}
-      <figure class="thumbnail"><img class="img-fluid rounded-circle" alt="placeholder" src="{{user.avatar_url}}"/></figure>
+      <figure class="thumbnail"><img class="img-fluid rounded-circle" alt="placeholder" src="../static/images/me.png"/></figure>
       {% endif %}
     </div>
     <div class="col-8 col-sm-8 ">
@@ -131,21 +131,19 @@
       </ul>
     </div>
   </div>
-  <div class="col-md-10 col-12 ">
-    <div class= "nav">
+  <div class="buttons_row">
       {% if(user.id == current_user.id) %}
-      <div class="col-6">
-        <button type="submit" id="edit_profile" class="profile_button" name="edit">Edit Profile</button>
+      <div class="col-6 col-sm-5">
+        <button type="submit" id="edit_profile" class="profile_button" name="edit">Edit Pwofil</button>
       </div>
       {% endif %}
-      <div class="">
+      <div class="col-6 col-sm-5">
         <form action="progress.html">
           <button type="submit" class="profile_button">Pwogre Mwen</button>
         </form>
       </div>
-    </div>
   </div>
-  <div class="col-md-10 col-12 ">
+  <div class="col-12 col-lg-9 ">
   <div class="tab-content profile-tab ">
     <div id="timeline" class="profile-work tab-pane fade active show in" role="tabpanel"> 
       <!-- 1st tab {% if active=='timeline' %}show active{% endif %}-->
@@ -156,15 +154,15 @@
             {% if user.name == 'Admin' %}
             <figure class=" col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="../static/images/p4h.png"/></figure>
             {% else %}
-            <figure class=" col-2"><img alt="{{user}}"class="img-fluid rounded-circle" src="{{user.avatar_url}}"/></figure>
+            <figure class=" col-2"><img alt="{{user}}"class="img-fluid rounded-circle" src="../static/images/me.png"/></figure>
             {% endif %}
             <div class="col-10" id="">
               <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="Write Post Here" onkeyup="" size="5" ></textarea><span id="upload_profile" class="oi oi-cloud-download upload_icon" aria-hidden="true"></span><input type="file" name="file" id="upload_profile_input" class="inputfile"style="display: none;" data-multiple-caption="{count} files selected" multiple/>
                 <!--<label class="profile_button" id="label-1" for="file-1"><strong>Choose a file</strong></label>-->
             </div>
             </div>
-            <div style="display:flex;">
-            <a href="#" name="action" id="post" value="Post" style="width:100%;" class="profile_button btn-sm">Post</a>
+            <div class="row">
+              <a href="#" name="action" id="post" value="Post" style="width:100%;" class="profile_button btn-sm">Post</a>
             </div>
           </div>
         </div>
