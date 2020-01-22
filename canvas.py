@@ -12,13 +12,13 @@ from requests import sessions
 
 # Canvas API URL
 global API_URL
-API_URL = "http://2020.01.15.08:443/"
-ROCKET_URL = "http://192.168.172.202:4000/"
+API_URL = "http://35.184.187.19:443/"
+ROCKET_URL = "https://p4hteach.rocket.chat"
 # Canvas API key
 API_KEY = "canvas-docker"
 global canvas
 proxy_dict = {
-    "http"  : "http://192.168.172.202:4000/"
+    "http"  : "https://p4hteach.rocket.chat"
 }
 # Initialize a new Canvas object
 canvas = Canvas(API_URL, API_KEY)
