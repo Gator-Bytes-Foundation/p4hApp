@@ -1,19 +1,24 @@
 from canvas import *
 import inspect
-
+#
+# Post class controls all methods regarding a profile post or announcemnt post
+# 
 class Post():
   def __init__(post,user_object, post_message, post_media,replies,id_number):
-    post.user = user_object
-    post.message = post_message
-    post.media = post_media 
-    post.replies = replies
-    post.id = id_number
-    
+    ''' Was used in early testing, now posts derive from canvas
+    #post.user = user_object
+    #post.message = post_message
+    #post.media = post_media 
+    #post.replies = replies
+    #post.id = id_number
+    '''
+  #  
   # loads all canvas discussion posts that the profile user has posted and their associated comments
-  def load_profile(user,start_index,end_index):
+  #
+  def load_profile(user_id,start_index,end_index):
     recentPosts = []
+    user_look_up = canvas.get_user(user_id) # user_look_up could be a new profile being searched OR loading the user's own profile
     array_of_comments = {}
-    canvasUser = user
     proper_date = ''
     try:
       course = canvas.get_course(1)
@@ -26,7 +31,7 @@ class Post():
       end_index = len(topics)
     print(start_index, " ", end_index)
     for i in range(start_index,end_index):
-      if(topics[i].title == canvasUser.name): #only shows posts that the user has posted
+      if(topics[i].title == user_look_up.name): #only shows posts that the user has posted
         if(topics[i].message is not None):
           topics[i].message = topics[i].message.replace('</p>', '')
           topics[i].message = topics[i].message.replace('<p>', '') # get rid of the html
@@ -47,11 +52,14 @@ class Post():
           array_of_comments[str(topics[i].id)] = temp_comments
         
     return recentPosts, array_of_comments, proper_date
-
+#
+# Function will extract 'Admin' posts from discussion page on canvas and load them to Announcement page
+#
   def load_newsfeed():  
+    # initialize variables
     recentPosts = []
     array_of_comments = {}
-    
+    proper_date = ''
     try:
       course = canvas.get_course(1)
       #announcements = canvas.get_announcements(context_codes='course_1') # canvas announcements lack documentation, so gonna just use regular discussion posts
@@ -69,7 +77,7 @@ class Post():
           year = topics[i].posted_at[2:4]
           month = topics[i].posted_at[5:7]
           day = topics[i].posted_at[8:10]
-          proper_date = ''.join([month,'/', day, '/', year])
+          proper_date = proper_date.join([month,'/', day, '/', year])
           recentPosts.append(topics[i])
           #try:
           comments = topics[i].list_topic_entries()._get_next_page()

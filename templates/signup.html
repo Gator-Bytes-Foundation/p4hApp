@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+{% extends "header.html" %}<!-- all html files should extend from the header, (the header contains all static references as well) -->
+{% block content %}<!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
+<html>
+<section class="login">
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    <div class="fadeIn first">
+      <center><div class="image-cropper"><img class="profile-pic img-fluid" src="../static/images/p4h.png" id="icon" alt="User Icon" /></div></center>
+    </div>
+
+    <!-- Login Form -->
+    <form method="POST" action="signup">
+      <input type="text" id="fname" class="fadeIn second" name="fname" placeholder="First Name">
+      <input type="text" id="lname" class="fadeIn second" name="lname" placeholder="Last Name">
+      <input type="text" id="email" class="fadeIn second" name="email" placeholder="Email">
+      <!--
+      <br>
+      <input type="radio" id="userType" class="fadeIn second" name="userType" value="Teacher">Teacher
+      <input type="radio" id="userType" class="fadeIn second" name="userType" value="Admin">Admin
+      -->
+      <input id="password" type="password" class="fadeIn third" name="password" placeholder="Password">
+      <!--<input id="password" type="password" class="fadeIn third" name="password" placeholder="Retype Password">-->
+      <input type="submit" class="fadeIn fourth" value="Sign Up">
+      <div id="formFooter">
+        <a class="underlineHover" href="/">Login</a>
+      </div>
+    </form>
+    {% if error %}
+      <p class=error><strong>Error:</strong> {{ error }}
+    {% endif %}
+
+          
+
+
+  </div>
+</div>
+</section>
+</html>
+{% endblock %}<!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->

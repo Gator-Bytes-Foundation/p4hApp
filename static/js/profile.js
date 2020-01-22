@@ -76,9 +76,13 @@ $("#post").on("click", function(e) {
     var value = $("#textbox_post").val();
     console.log(value);    
     input = document.getElementById('post_file'); // grabs the right file by ID
-    files = input.files[0];
     var formData = new FormData();
-    formData.append("file",files);
+    if(input != null){
+      files = input.files[0];
+      formData.append("file",files);
+    }
+    
+
     formData.append("text",value);
     $.ajax({
         type: "POST",
@@ -98,7 +102,7 @@ $("#post").on("click", function(e) {
             post = data;
             console.log("post being created "+post)
             $("#write_post").append(post);
-          if(file != null){
+          if(typeof file !== 'undefined'){
             console.log("file");
             if(file.name.includes(".jpg") || file.name.includes(".png") || file.name.includes(".pdf") || file.name.includes(".webp")){
               console.log("is an image");

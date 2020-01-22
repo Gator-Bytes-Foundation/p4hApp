@@ -4,7 +4,11 @@
 <article id="post_{{posts[i].id}}" class="post_box">
   <div class="profile_name">
     <div class="profile-pic">
-      <figure class="thumbnail "> <img alt="placeholder"class="img-fluid rounded-circle" src="../static/images/me.png"/> </figure>
+      {% if(posts[i].title == 'Admin' or posts[i].title == 'Announcement' ) %}
+        <figure class="thumbnail"><img alt="placeholder"class="img-fluid rounded-circle" src="../static/images/p4h.png"/></figure>
+      {% else %}
+        <figure class="thumbnail"> <img alt="placeholder"class="img-fluid rounded-circle" src="../static/images/me.png"/> </figure>
+      {% endif %}
     </div>
     <div class="col-10">
       <header class="text-left">

@@ -20,23 +20,26 @@ from messaging_controller import *
 from profile_controller import *
 import login_controller
   
-    
+
+#
+# If a request from client has variable data in it, we handle it here and get the data out of the url before routing the user
+#
 @app.route('/<page_to_load>', methods=['GET', 'POST'])
-def page_load(page_to_load):
-  #so href will add something to the url, and this will be saved to 'page_to_load' which we can then use to render the name of the html file
+def page_load(page_to_load): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
+  course = canvas.get_course(1)
   #print("page loading: ",page_to_load)
-  print("current user", login_controller.current_user.name)
+  #print("current user", login_controller.current_user.name)
   if('download_file' in page_to_load): # check for file download
     file_download(page_to_load, course)
   elif('download_assignment' in page_to_load): # check for file download
     assignment_download(page_to_load, course)
   elif('profile' in page_to_load):
-    return profile(page_to_load.replace('profile_',''))
+    return profile(page_to_load.replace('profile_','')) # calls profile function on username from route str
   elif('files' in page_to_load):   # loading a file page in resources.html
     folder_id = page_to_load.replace('files_','').replace('.html','')
     int_id = int(folder_id)
     files = course.get_folder(int_id).get_files()._get_next_page()
-    print("folder id for these files ", files[0].folder_id)
+    #print("folder id for these files ", files[0].folder_id)
     return render_template('files.html', files = files,folder_id = folder_id, current_user = login_controller.current_user)
   elif('edit_save' in page_to_load):
     updateProfile(request)
@@ -62,49 +65,62 @@ def page_load(page_to_load):
   
   return render_template(page_to_load)
 
-
-  return render_template('progress.html', assignments = user_assignments,user = canvas_user)
-
-
+# DISCUSSION REQUESTS #
 @app.route('/discussion.html', methods=['GET', 'POST'])
 def discussion_page():    
   course = canvas.get_course(1)
   newsfeed_posts, newsfeed_comments, date = Post.load_newsfeed()
   #print ("comment object: ", profile_comments)
-  return render_template('discussion.html', posts = newsfeed_posts, comments = newsfeed_comments, date = date, current_user=current_user)
+  return render_template('discussion.html', posts = newsfeed_posts, comments = newsfeed_comments, date = date, current_user=login_controller.current_user)
 
+# RESOURCES REQUESTS #
 @app.route('/resources.html', methods=['GET', 'POST'])
 def resources():    
   return render_resources(login_controller.current_user)
 
+# MESSAGING REQUESTS #
 @app.route('/messaging.html')
 def messaging():    
   return render_template('messaging.html', current_user = login_controller.current_user)
 
+# PROFILE REQUESTS #
 @app.route('/progress.html', methods=['GET', 'POST'])
 def progress():    
   return loadProgress(login_controller.current_user)
 
 @app.route('/profile.html', methods=['GET', 'POST'])
-def profile(user_look_up_id):   
-  profile_posts, profile_comments,date = Post.load_profile(user_look_up,0,9) # 35 is Logan and 1 is Admin (TODO grab this id from logging in)
-  return loadProfile(user_look_up, profile_posts, profile_comments, date,login_controller.current_user)
+def profile(user_lookup_id):   
+  profile_posts, profile_comments,date = Post.load_profile(user_lookup_id,0,9) # 35 is Logan and 1 is Admin 
+  return loadProfile(user_lookup_id, profile_posts, profile_comments, date,login_controller.current_user,None)
+
+# LOGGING IN AND SIGNING REQUESTS #
+@app.route('/signup.html', methods=['GET', 'POST'])
+def login_user():
+  return render_template('signup.html',current_user = None,users = None)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup_user():
-  return login_controller.signupUser()
-  
+  signupSuccess, canvas_user, rocket_user = login_controller.makeUser(request)
+  if(signupSuccess):
+    #try:
+      profile_posts, profile_comments,date = Post.load_profile(login_controller.current_user,0,9) # 35 is Logan and 1 is Admin 
+      return loadProfile(login_controller.current_user.id, profile_posts, profile_comments, date,login_controller.current_user,None)
+    #except:
+      #return render_template('signup.html', error = "profile could not be loaded", current_user = login_controller.current_user, users = None)
+  else:
+    return render_template('signup.html', error = canvas_user, current_user = None, users = None)
+    
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-  try:
+  #try:
     if(login_controller.loginUser(request)):
-      profile_posts, profile_comments,date = Post.load_profile(login_controller.current_user,0,9) # 35 is Logan and 1 is Admin (TODO grab this id from logging in)
+      profile_posts, profile_comments,date = Post.load_profile(login_controller.current_user,0,9) # 35 is Logan and 1 is Admin
       return loadProfile(login_controller.current_user.id, profile_posts, profile_comments, date,login_controller.current_user,login_controller.all_users)
     else:
-      return render_template('login.html', error = error, current_user = login_controller.current_user, users = login_controller.all_users)
-  except:
+      return render_template('login.html', error = "Login Error", current_user = login_controller.current_user, users = login_controller.all_users)
+  #except:
     print("no login request sent")
-    return render_template('login.html', error = "Login Error", current_user = login_controller.current_user, users = login_controller.all_users)
+    return render_template('login.html', error = "Login Error", current_user = None, users = login_controller.all_users)
 
 @app.route('/')
 def home():    

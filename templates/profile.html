@@ -95,12 +95,13 @@
         <input class="" type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
     </div>
       <div id="myDropdown" class="list_of_items">
-        
-        {% for i in range(users | length) %}
-        <form method="POST" action="profile_{{users[i].id}}">
-          <a><button type="submit" class="erase"></button>{{users[i].name}}</a>
-        </form>
-        {% endfor %}
+        {% if(users != None) %}
+          {% for i in range(users | length) %}
+          <form method="POST" action="profile_{{users[i].id}}"> <!-- pass the username into the route url -->
+            <a><button type="submit" class="erase"></button>{{users[i].name}}</a>
+          </form>
+          {% endfor %}
+      {% endif %}
       </div>
   </div>
   <div class="row">
