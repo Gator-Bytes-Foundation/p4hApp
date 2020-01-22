@@ -23,7 +23,8 @@ proxy_dict = {
 # Initialize a new Canvas object
 canvas = Canvas(API_URL, API_KEY)
 with sessions.Session() as session:  
-  rocket = RocketChat('austincundiff71@gmail.com', '4Efgdt66.!', server_url=ROCKET_URL, session=session)
+  rocket = RocketChat('logancundiff2@gmail.com', 'NF!Deku2', server_url=ROCKET_URL, session=session)
+  #rocket = RocketChat('austincundiff71@gmail.com', '4Efgdt66.!', server_url=ROCKET_URL, session=session)
   #pprint(rocket.me().json())
   #pprint(rocket.channels_list().json())
   #pprint(rocket.chat_post_message('good news everyone!', channel='GENERAL', alias='Farnsworth').json())
