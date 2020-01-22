@@ -12,7 +12,7 @@ from requests import sessions
 
 # Canvas API URL
 global API_URL
-API_URL = "http://192.168.172.202:3000/"
+API_URL = "http://2020.01.15.08:443/"
 ROCKET_URL = "http://192.168.172.202:4000/"
 # Canvas API key
 API_KEY = "canvas-docker"
