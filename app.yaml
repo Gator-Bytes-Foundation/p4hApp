@@ -1,4 +1,4 @@
-runtime: python
+runtime: python37
 env: standard
 
 runtime_config:
