@@ -1,5 +1,10 @@
-runtime: python37
-entrypoint: ~/.local/bin/gunicorn -b :8080 main:app
+runtime: python
+env: standard
+
+runtime_config:
+    python_version: 3
+
+entrypoint: gunicorn -b :8080 main:app
 
 instance_class: F2
 
