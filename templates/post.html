@@ -4,7 +4,11 @@
 <article id="post_{{posts[i].id}}" class="post_box">
   <div class="profile_name">
     <div class="profile-pic">
-      <figure class="thumbnail "> <img alt="placeholder"class="img-fluid rounded-circle" src="{{posts[i].author['avatar_image_url']}}"/> </figure>
+      {% if(posts[i].title == 'Admin' or posts[i].title == 'Announcement' ) %}
+        <figure class="thumbnail"><img alt="placeholder"class="img-fluid rounded-circle" src="../static/images/p4h.png"/></figure>
+      {% else %}
+        <figure class="thumbnail"> <img alt="placeholder"class="img-fluid rounded-circle" src="../static/images/me.png"/> </figure>
+      {% endif %}
     </div>
     <div class="col-10">
       <header class="text-left">
@@ -27,7 +31,7 @@
           <label class = "comment_label" for="from"><b>Comments</b></label>
           {% for j in range(comments[posts[i].id | string] | length) | reverse %}
           <div class="post_comment">
-            <figure class="thumbnail col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="{{comments[posts[i].id|string][j].user['avatar_image_url'] }}"/></figure>
+            <figure class=" col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="../static/images/me.png"/></figure>
             <div class="word_bubble col-10">
               <p class=""><b>{{comments[posts[i].id | string][j].user["display_name"]}}:</b><br>
               {{comments[posts[i].id | string][j].message}}</p>

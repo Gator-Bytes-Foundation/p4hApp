@@ -1,32 +1,115 @@
 <!DOCTYPE html>
 
 {% extends "header.html" %} <!-- all html files should extend from the header, (the header contains all static references as well) --> 
-{% block content %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
+{% block content %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html) -->
 
-<div class="container emp-profile">
+<div id="entire_profile" class="container emp-profile">
+   <div id="edit_menu" style="display:none;" class="backgroundOverlay">
+    <div class="wrapper overlayBlock fadeInDown " id="edit_profile_menu">
+      <button id="exit_edit" class="exit_icon" style="float:left;"aria-label="Close Account Info Modal Box">&times;</button>
+      <div style="top:40px; position:relative;">
+        <form action="edit_save" method="post"  enctype="multipart/form-data">
+      <div style="text-align: center; margin-bottom: 35px;" class="">
+        <h3>Edit Menu</h3>
+      </div>
+      <div class="row">
+        <div class="col-4 col-sm-3">
+          <p>Profile Name:</p>
+        </div>
+        <div class="col-8">
+          <textarea class="text_box" name="name" id="profile_name" style="width: 100%;" placeholder="{{user.name}}" size="5" ></textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4 col-sm-3">
+          <p>Profile Picture</p>
+        </div>
+        <div class="col-8 col-sm-9">
+        <div class="row">
+          <div class="row col-sm-4">
+            {% if user.name == 'Admin' %}
+            <img id="profile_pic_img" class="image-cropper img-fluid rounded-circle" alt="placeholder" src="../static/images/p4h.png"</img>
+            {% else %}
+            <img id="profile_pic_img" class="image-cropper img-fluid rounded-circle" alt="placeholder" src="../static/images/me.png"/>
+            {% endif %}
+          </div>
+          <div class="col-8 col-sm-3">
+            <span id="profile_pic" class="profile_button oi oi-cloud-upload upload_icon" aria-hidden="true"></span><input type="file" name="profile_pic" id="profile_pic_input" class="inputfile"style="display: none;" data-multiple-caption="{count} files selected" multiple/>
+          </div>
+      </div>
+        </div>
+          </div>
+      <div class="row">
+        <div class="col-4 col-sm-3">
+          <p>School:</p>
+        </div>
+        <div class="col-8">
+          <textarea class="text_box" name="school" id="school_name" style="width: 100%;" placeholder="{{user.sortable_name}}"  size="5" ></textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4 col-sm-3">
+          <p>Email:</p>
+        </div>
+        <div class="col-8">
+          <textarea class="text_box" name="email" id="email_name" style="width: 100%;" placeholder="{{user.email}}" size="5" ></textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4 col-sm-3">
+          <p>Phone:</p>
+        </div>
+        <div class="col-8">
+          <textarea class="text_box" name="phone" id="phone" style="width: 100%;" placeholder="{{user.short_name}}"size="5" ></textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4 col-sm-3">
+          <p>Location:</p>
+        </div>
+        <div class="col-8">
+          <textarea class="text_box" name="location" id="loc" style="width: 100%;" placeholder="{{user.title}}"  size="5" ></textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4 col-sm-3">
+          <p>Biography:</p>
+        </div>
+        <div class="row col-12 col-sm-8">
+          <textarea class="text_box" name="bio" id="bio" style="width: 100%; height:50px;" placeholder="{{user.bio}}" size="5" ></textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <input type="submit" value="Save" class="profile_button">
+        </div>
+      </div>
+          </form>
+    </div>
+    </div>
+  </div>
   <div class="dropdown">
     <!--<button onclick="showSearchBar()" class="profile_button col-4">Search Profiles</button>-->
-    
     <div class="dropdown-content">
         <span class="oi oi-magnifying-glass" aria-hidden="true"></span>
         <input class="" type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
     </div>
       <div id="myDropdown" class="list_of_items">
-        
-        {% for i in range(users | length) %}
-        <form method="POST" action="profile_{{users[i].id}}">
-          <a><button type="submit" class="erase"></button>{{users[i].name}}</a>
-        </form>
-        {% endfor %}
+        {% if(users != None) %}
+          {% for i in range(users | length) %}
+          <form method="POST" action="profile_{{users[i].id}}"> <!-- pass the username into the route url -->
+            <a><button type="submit" class="erase"></button>{{users[i].name}}</a>
+          </form>
+          {% endfor %}
+      {% endif %}
       </div>
-    
   </div>
   <div class="row">
     <div class="col-3">
       {% if user.name == 'Admin' %}
       <img class="image-cropper img-fluid rounded-circle" alt="placeholder" src="../static/images/p4h.png"</img>
       {% else %}
-      <figure class="image-cropper img-fluid rounded-circle"><img alt="placeholder" src="{{user.avatar_url}}"/></figure>
+      <figure class="thumbnail"><img class="img-fluid rounded-circle" alt="placeholder" src="../static/images/me.png"/></figure>
       {% endif %}
     </div>
     <div class="col-8 col-sm-8 ">
@@ -49,21 +132,19 @@
       </ul>
     </div>
   </div>
-  <div class="col-md-10 col-12 ">
-    <div class= "nav">
+  <div class="buttons_row">
       {% if(user.id == current_user.id) %}
-      <div class="col-5">
-        <button type="submit" class="profile_button" name="edit">Edit Profile</button>
+      <div class="col-6 col-sm-5">
+        <button type="submit" id="edit_profile" class="profile_button" name="edit">Edit Pwofil</button>
       </div>
       {% endif %}
-      <div class="col-7">
+      <div class="col-6 col-sm-5">
         <form action="progress.html">
           <button type="submit" class="profile_button">Pwogre Mwen</button>
         </form>
       </div>
-    </div>
   </div>
-  <div class="col-md-10 col-12 ">
+  <div class="col-12 col-lg-9 ">
   <div class="tab-content profile-tab ">
     <div id="timeline" class="profile-work tab-pane fade active show in" role="tabpanel"> 
       <!-- 1st tab {% if active=='timeline' %}show active{% endif %}-->
@@ -72,17 +153,17 @@
           <div style="text-align: center;" class="post_box">
             <div class = "profile_name">
             {% if user.name == 'Admin' %}
-            <figure class="thumbnail col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="../static/images/p4h.png"/></figure>
+            <figure class=" col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="../static/images/p4h.png"/></figure>
             {% else %}
-            <figure class="thumbnail col-2"><img alt="{{user}}"class="img-fluid rounded-circle" src="{{user.avatar_url}}"/></figure>
+            <figure class=" col-2"><img alt="{{user}}"class="img-fluid rounded-circle" src="../static/images/me.png"/></figure>
             {% endif %}
             <div class="col-10" id="">
-              <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="Write Post Here" onkeyup="Expand(this);" size="5" ></textarea><span class="oi oi-cloud-download upload_icon" aria-hidden="true"></span>
-
+              <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="Write Post Here" onkeyup="" size="5" ></textarea><span id="upload_profile" class="oi oi-cloud-download upload_icon" aria-hidden="true"></span><input type="file" name="file" id="upload_profile_input" class="inputfile"style="display: none;" data-multiple-caption="{count} files selected" multiple/>
+                <!--<label class="profile_button" id="label-1" for="file-1"><strong>Choose a file</strong></label>-->
             </div>
             </div>
-            <div style="display:flex;">
-            <a href="#" name="action" id="post" value="Post" style="width:100%;" class="profile_button btn-sm">Post</a>
+            <div class="row">
+              <a href="#" name="action" id="post" value="Post" style="width:100%;" class="profile_button btn-sm">Post</a>
             </div>
           </div>
         </div>
@@ -90,6 +171,7 @@
         {% for i in range(posts | length)%}
           {% include 'post.html' %}
         {% endfor %}
+      <img id="pic" class="img-fluid"/>
     </div>
     <div id="about"  class="tab-pane fade in" role="tabpanel">
       <div class="row">
@@ -97,7 +179,7 @@
           <label>User Id</label>
         </div>
         <div class="col-md-6">
-          <p>lcundiff</p>
+          <p>{{user.id}}</p>
         </div>
       </div>
         <div class="row">
@@ -105,7 +187,7 @@
             <label>Name</label>
           </div>
           <div class="col-md-6">
-            <p>Logan</p>
+            <p>{{user.name}}</p>
           </div>
         </div>
         <div class="row">
@@ -113,7 +195,7 @@
             <label>Email</label>
           </div>
           <div class="col-md-6">
-            <p>lcundiff@gmail.com</p>
+            <p>{{user.email}}</p>
           </div>
         </div>
         <div class="row">
@@ -121,150 +203,28 @@
             <label>Phone</label>
           </div>
           <div class="col-md-6">
-            <p>123 456 7890</p>
+            <p>{{user.short_name}}</p>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6">
-            <label>Profession</label>
+            <label>Location</label>
           </div>
           <div class="col-md-6">
-            <p>Elementary Teacher</p>
+            <p>{{user.title}}</p> 
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label>School</label>
+          </div>
+          <div class="col-md-6">
+            <p>{{user.sortable_name}}</p> 
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-<script type="text/javascript">
-  $(document).ready(function(){
-      //  When user clicks on tab, this code will be executed
-    $('#timeline-tab').addClass("active");
-    $('#timeline-tab').addClass("show");
-  });
-</script> 
-
-<script type="text/javascript">
-$(document).on("click", ".reply_button", function(e) { /* old regular expression I was using to find all reply ids: a[id|='reply' */ 
-  e.preventDefault();
-  var id_number = e.currentTarget.name;
-  console.log("comment_id " + id_number);
-  var value = $("#textbox_reply-"+id_number).val();
-  console.log(value);
-    
-  //alert(value);
-  $.ajax({
-      type: "POST",
-      url: "/comment_"+id_number,
-      data: JSON.stringify({ "text" : value } ),
-      contentType: "application/json; charset=utf-8",
-      dataType: "text",
-      error: function(data) {
-        response = eval(data);
-        comment = JSON.stringify(response);
-        console.log("error" + comment)  
-      },
-      success: function (data) {
-          comment = data;
-          console.log("ajax return comment ", comment)
-          $("#comments-"+id_number).append(comment);  
-
-      }
-  });
-  
-});
-// handle posts
-$("#post").on("click", function(e) { 
-  e.preventDefault();
-  var value = $("#textbox_post").val();
-  console.log(value);    
-    //alert(value);
-    $.ajax({
-        type: "POST",
-        url: "/post",
-        data: JSON.stringify({ "text" : value } ),
-        contentType: "application/json; charset=utf-8",
-        dataType: "text",
-        error: function(data) {
-          response = eval(data);
-          post = JSON.stringify(response);
-          console.log("error" + post)  
-        },
-        success: function (data) {
-            post = data;
-            //console.log(post)
-            $("#write_post").append(post);
-
-        }
-    });
-});
-  // handle textbox 
-$(function() {
-    //  changes mouse cursor when highlighting loawer right of box
-    $("textarea").mousemove(function(e) {
-        var myPos = $(this).offset();
-        myPos.bottom = $(this).offset().top + $(this).outerHeight();
-        myPos.right = $(this).offset().left + $(this).outerWidth();
-        
-        if (myPos.bottom > e.pageY && e.pageY > myPos.bottom - 16 && myPos.right > e.pageX && e.pageX > myPos.right - 16) {
-            $(this).css({ cursor: "nw-resize" });
-        }
-        else {
-            $(this).css({ cursor: "" });
-        }
-    })
-    //  the following simple make the textbox "Auto-Expand" as it is typed in
-    .css('overflow', 'hidden').keyup(function(e) {
-        //  this if statement checks to see if backspace or delete was pressed, if so, it resets the height of the box so it can be resized properly
-        if (e.which == 8 || e.which == 46) {
-            $(this).height(parseFloat($(this).css("min-height")) != 0 ? parseFloat($(this).css("min-height")) : parseFloat($(this).css("font-size")));
-        }
-        //  the following will help the text expand as typing takes place
-        while($(this).outerHeight() < this.scrollHeight + parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth"))) {
-            $(this).height($(this).height()+1);
-        };
-    });
-});
-  
-/* When the user clicks on the button,
-toggle between hiding and showing the dropdown content */
-function showSearchBar() {
-  document.getElementById("myDropdown").classList.toggle("show");
-}
-
-function filterFunction() {
-  var input, filter, ul, li, a, i;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  list_of_items = document.getElementsByClassName("list_of_items");
-  list_of_items[0].style.display = "block"
-  div = document.getElementById("myDropdown");
-  a = div.getElementsByTagName("a");
-  for (i = 0; i < a.length; i++) {
-    txtValue = a[i].textContent || a[i].innerText;
-    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      a[i].style.display = "";
-    } else {
-      a[i].style.display = "none";
-    }
-  }
-  
-}
-// function to cancel
-function cancelDropDown() {
-  list_of_items = document.getElementsByClassName("list_of_items");
-  list_of_items[0].style.display = "none"
-}
-// cancels dropdown box if clicked somewhere outside of dropdown box
-window.onclick = function(event) {
-    list_of_items = document.getElementsByClassName("list_of_items");
-    if (!event.target.matches('list_of_items')) {
-        if (list_of_items[0].style.display == "block") {
-            cancelDropDown();
-        }
-    }
-}   
- 
-</script> 
-
+<script type="text/javascript" src="{{ url_for('static', filename='js/profile.js') }}"></script>
 {% endblock %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html --> 

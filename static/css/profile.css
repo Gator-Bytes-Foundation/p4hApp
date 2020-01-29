@@ -8,16 +8,66 @@
 b {
   color: rgba(22,50,170, 0.90);
 }
-.oi {
-  align-self: center;
-  padding:5px !important;
-  width:20px;
-}
 .image-cropper {
   width: 70px;
   position: relative;
   overflow: hidden;
   border-radius: 50%;
+}
+.upload_icon {
+  vertical-align: middle;
+  color: rgba(22,50,170, 0.90);  
+}
+.exit_icon {
+  background-color:#fff;
+  color: rgba(22,50,170, 0.9);
+  border-style: none;
+  border-radius: 10px;
+  width:30px;
+}
+.backgroundOverlay {
+  position: fixed;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 2;
+  pointer-events: none;
+}
+.overlayBlock {
+  display:block;
+  position: absolute;
+  top:12%;
+  background: #FFFFFF;
+  backface-visibility: visible;
+  width:85%;
+  height:76%;
+  border-radius: 10px;
+}
+  .overlayBlock .upload_icon {
+    font-size:20px;
+  }
+
+
+.overlayBlock .row {
+  padding-right:20px;
+  padding-left:20px;
+  padding-bottom:10px;
+  margin-right: 0;
+  margin-left: 0;
+  overflow: scroll;
+}
+
+.overlayBlock .col-8, .overlayBlock .col-4, .overlayBlock .col-sm-8   {
+  padding-right:5px;
+  padding-left:5px;
+}
+.overlayBlock .col-8 .row {
+  justify-content: center;
 }
 .profile-pic {
 }
@@ -27,6 +77,12 @@ b {
   width: 100%;
   height: 100%;
 }
+.buttons_row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
 /* CSS for profile posts */
 .post_box {
   position:relative;
@@ -35,30 +91,37 @@ b {
   border-color:rgba(130,67,68,0.40);
   padding:14px 8px 8px 8px;
   border-radius:5px 5px 5px 5px;
-
   margin-bottom:10px;
+}
+.post_box .row {
+  margin:0; /* get rid of annoying bootstrap margins for "row" class */
+  justify-content: center;
 }
 .profile_name {
   width:100%;
   display: flex;
-  flex-wrap:wrap; 
+}
+.profile_name .upload_icon {
+  position:absolute !important;
+  right:10%; 
+  top:10% !important;
+  font-size:12px;
+  padding:5px!important;
+}
+.thumbnail {
+  display:flex;
+  justify-content: center;
 }
 .post {
   width:100%; 
 }
 
-.upload_icon {
-  position:absolute !important;
-  right:10%; 
-  top:30% !important;
-  font-size:12px;
-  vertical-align: middle; 
-  color: rgba(22,50,170, 0.90);
-}
+
 .profile_button {
   cursor:pointer;
   display: block;
   width:100%;
+  max-width:450px;
   text-align: center;
   font-size: 1rem;
   padding:7px;
@@ -113,7 +176,7 @@ b {
   border-radius: 20px 20px 20px 20px;  
   width: 100%;
   height: 35px;
-  line-height:70%;
+  line-height:120%;
   padding:8px;
   position: relative;
   box-shadow: 0px 4px 7px 0px rgba(22,50,170, 0.10);/* same color as #1632AA with low opacity */
@@ -131,10 +194,6 @@ b {
 .word_bubble {
   background-color: rgba(22,50,170, 0.07) ; 
   border-radius: 20px 20px 20px 20px;  
-}
-/* Portrait tablets and medium desktops */
-@media (min-width: 768px) {
-  
 }
 
 
@@ -189,9 +248,11 @@ b {
   flex-wrap: wrap;
   position: relative;
   min-width: 220px;
-  
-  
-  
+}
+.dropdown-content .oi {
+  align-self: center;
+  padding:5px !important;
+  width:20px;
 }
 .erase { /* submit form only worked with button, so i made an invisble button behind a <a>link</a> */
   opacity:0;
@@ -200,10 +261,17 @@ b {
   position: absolute;
   top: 0;
   left: 0;
+  cursor: pointer;
 }
-
-
-
-
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
+
+/* Portrait tablets and medium desktops */
+@media (min-width: 768px) {
+.overlayBlock {
+  width:750px;
+  }
+  .buttons_row {
+    max-width:75%;
+  }
+}

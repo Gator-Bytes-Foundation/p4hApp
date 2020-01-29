@@ -10,7 +10,7 @@
     <div class="">
       <div class="col-12">
         <h1>Anons</h1>
-        {% if(user.name == 'Admin') %}
+        {% if(current_user.name == 'Admin') %}
         <div id="write_post"> 
         <div style="text-align: center;" class="post_box row">
           <figure class="thumbnail col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="../static/images/p4h.png"/></figure>
@@ -25,6 +25,9 @@
     </div>
     <div class="row">
     <div class="col-12 ">
+      {% if(posts|length == 0)%}
+        <h3 style='text-align: center;'>No Announcements at this time</h3>
+      {% endif %}
     {% for i in range(posts|length) %}
         {% include 'post.html' %}
     {%endfor%}

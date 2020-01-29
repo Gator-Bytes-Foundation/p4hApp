@@ -4,19 +4,35 @@ from flask import render_template
 from canvasapi import Canvas
 from canvasapi.exceptions import CanvasException
 from canvasapi.user import User
+from pprint import pprint
+from rocketchat_API.rocketchat import RocketChat
+from requests import sessions
+
+
 
 # Canvas API URL
-API_URL = "http://192.168.172.137:3000/"
+global API_URL
+API_URL = "http://35.184.187.19:443/"
+ROCKET_URL = "https://p4hteach.rocket.chat"
 # Canvas API key
 API_KEY = "canvas-docker"
 global canvas
+proxy_dict = {
+    "http"  : "https://p4hteach.rocket.chat"
+}
 # Initialize a new Canvas object
 canvas = Canvas(API_URL, API_KEY)
+with sessions.Session() as session:  
+  rocket = RocketChat('logancundiff2@gmail.com', 'NF!Deku2', server_url=ROCKET_URL, session=session)
+  #rocket = RocketChat('austincundiff71@gmail.com', '4Efgdt66.!', server_url=ROCKET_URL, session=session)
+  #pprint(rocket.me().json())
+  #pprint(rocket.channels_list().json())
+  #pprint(rocket.chat_post_message('good news everyone!', channel='GENERAL', alias='Farnsworth').json())
+  #pprint(rocket.channels_history('GENERAL', count=5).json())
 
-  
+def oldmakeUser(req):
 
-def makeUser():
-
+  ''' WITHOUT CANVAS API
   user_data = {
     # The name of the user.
     "user[name]": "Logan Cundiff",
@@ -34,13 +50,13 @@ def makeUser():
   try:
     print(auth_token) 
     resp = requests.get(url = canvas_url, params = user_data).json() # gets all users
+    print ('get resp ', resp)
     #resp = requests.post(canvas_url,user_data).json() # creates a user
   except CanvasException as e:
     print(e)
   
-  print ('get resp ', resp)
-  print ('post response ', resp)
-    
+  
+  '''
 
 def authenticate(scopes,call): 
     canvas_url = API_URL + "login/oauth2/auth?"
@@ -49,7 +65,7 @@ def authenticate(scopes,call):
       "response_type":"code",
       "redirect_uri": "http://localhost:8000/oauth_complete",
       "grant_type" : "authorization_code",
-      "code" : "d321327bad33b0144113cf0a5a0129cbba2213d848e2d359dc2df201a33307f1bb96c7f8859a670ee83376604796bc18ca0ca3aff50785120774b82fc284400a",
+      "code" : "d321327bad33b0144113cf0a5a0129cbba2213d848e2d359dc2df202a33307f1bb96c7f8859a670ee83376604796bc18ca0ca3aff50785120774b82fc284400a",
       "client_secret" : "test_developer_key"
     }
     canvas_url_with_required = canvas_url + "client_id=" + serviceKey["client_id"] + "&response_type=" + serviceKey["response_type"] + "&redirect_uri=" + serviceKey["redirect_uri"]
