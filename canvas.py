@@ -6,13 +6,10 @@ from canvasapi.exceptions import CanvasException
 from canvasapi.user import User
 
 # Canvas API URL
-<<<<<<< Updated upstream
-API_URL = "http://192.168.172.197:3000/"
-=======
 global API_URL
 API_URL = "https://www.admin.p4hteach.org"
 ROCKET_URL = "https://p4hteach.rocket.chat"
->>>>>>> Stashed changes
+>>>>>>> Stas
 # Canvas API key
 API_KEY = "e8MQdcca34Suq9XzwzYWTcec7oILoJ1558Y3b0fvVEgcOqx66DuwnCFvdo2CuK74"
 global canvas
@@ -55,11 +52,7 @@ def authenticate(scopes,call):
       "response_type":"code",
       "redirect_uri": "http://localhost:8000/oauth_complete",
       "grant_type" : "authorization_code",
-<<<<<<< Updated upstream
-      "code" : "d321327bad33b0144113cf0a5a0129cbba2213d848e2d359dc2df201a33307f1bb96c7f8859a670ee83376604796bc18ca0ca3aff50785120774b82fc284400a",
-=======
       "code" : "e8MQdcca34Suq9XzwzYWTcec7oILoJ1558Y3b0fvVEgcOqx66DuwnCFvdo2CuK74",
->>>>>>> Stashed changes
       "client_secret" : "test_developer_key"
     }
     canvas_url_with_required = canvas_url + "client_id=" + serviceKey["client_id"] + "&response_type=" + serviceKey["response_type"] + "&redirect_uri=" + serviceKey["redirect_uri"]
