@@ -8,7 +8,7 @@ from canvasapi.user import User
 # Canvas API URL
 global API_URL
 API_URL = "https://www.admin.p4hteach.org"
-ROCKET_URL = "https://p4hteach.rocket.chat"
+ROCKET_URL = "https://p4h.rocket.chat/"
 # Canvas API key
 API_KEY = "e8MQdcca34Suq9XzwzYWTcec7oILoJ1558Y3b0fvVEgcOqx66DuwnCFvdo2CuK74"
 global canvas
