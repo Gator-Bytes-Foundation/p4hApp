@@ -13,7 +13,7 @@ from requests import sessions
 # Canvas API URL
 global API_URL
 
-API_URL = "https://www.admin.p4hteach.org"
+API_URL = "https://admin.p4hteach.org"
 ROCKET_URL = "https://p4h.rocket.chat/"
 
 # Canvas API key
