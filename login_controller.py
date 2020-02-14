@@ -16,8 +16,9 @@ def loginUser(request):
     
     for i in range(len(all_users)):
       if(result is not None):
-        print(all_users[i].login_id, " and ", result["username"])
+        print(all_users[i], " and ", result["username"])
         if(all_users[i].login_id == result["username"]):
+          print(all_users[i].sis_user_id, " and ", result["password"])
           # found user with login id
           if(all_users[i].sis_user_id == result["password"]): # temp storage of passwords TODO: OAUTH
             # user password matches

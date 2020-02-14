@@ -17,7 +17,7 @@ API_URL = "https://admin.p4hteach.org"
 ROCKET_URL = "https://p4h.rocket.chat/"
 
 # Canvas API key
-API_KEY = "e8MQdcca34Suq9XzwzYWTcec7oILoJ1558Y3b0fvVEgcOqx66DuwnCFvdo2CuK74"
+API_KEY = "0wYGhuYJUCIlzFT5hkYMoSvoZNeEHh2OMxbpjdNB0ITEKkikUCoMBEFR2tN8qWXx"
 global canvas
 proxy_dict = {
     "http"  : "https://p4hteach.rocket.chat"
