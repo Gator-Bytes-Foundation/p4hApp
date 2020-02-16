@@ -1,7 +1,7 @@
 from flask import Flask, url_for
 app = Flask(__name__)
 from flask import render_template
-from flask import request
+from flask import request, redirect
 import json
 from googleapiclient.discovery import build
 import requests
@@ -29,8 +29,12 @@ def page_load(page_to_load): #url being routed is saved to 'page_to_load' which 
   course = canvas.get_course(1)
   #print("page loading: ",page_to_load)
   #print("current user", login_controller.current_user.name)
-  if('download_file' in page_to_load): # check for file download
-    file_download(page_to_load, course)
+  if('download' in page_to_load): # check for file download
+    folder_id = file_download(page_to_load, course)
+    int_id = int(folder_id)
+    files = course.get_folder(int_id).get_files()._get_next_page()
+    return render_template('files.html', files = files,folder_id = folder_id, current_user = login_controller.current_user)
+    #return redirect(url_for('resources'))
   elif('download_assignment' in page_to_load): # check for file download
     assignment_download(page_to_load, course)
   elif('profile' in page_to_load):

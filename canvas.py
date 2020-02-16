@@ -14,7 +14,7 @@ from requests import sessions
 global API_URL
 
 API_URL = "https://admin.p4hteach.org"
-ROCKET_URL = "https://p4h.rocket.chat/"
+ROCKET_URL = "https://open.rocket.chat"
 
 # Canvas API key
 API_KEY = "0wYGhuYJUCIlzFT5hkYMoSvoZNeEHh2OMxbpjdNB0ITEKkikUCoMBEFR2tN8qWXx"
