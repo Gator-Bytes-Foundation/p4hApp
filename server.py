@@ -27,10 +27,10 @@ import login_controller
 def page_load(page_to_load): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
   course = canvas.get_course(1)
   #print("page loading: ",page_to_load)
-  if('file' in page_to_load):
-    return files_page(page_to_load,course)
-  elif('profile' in page_to_load):
+  if('profile' in page_to_load):
     return profile(page_to_load.replace('profile_','')) # calls profile function on username from route str
+  elif('file' in page_to_load):
+    return files_page(page_to_load,course)
   elif('edit_save' in page_to_load):
     updateProfile(request)
     return profile(login_controller.current_user.id) # this isnt efficient since it reloads the entire page from scratch
@@ -71,8 +71,8 @@ def resources():
   return render_resources(login_controller.current_user)
 def files_page(page_to_load, course):
   if('download' in page_to_load): # check if file, then download
-    folder_id = file_download(page_to_load, course)
-    return send_file('tmp\downloaded_file.txt', as_attachment=True)
+    folder_id, file_to_download = file_download(page_to_load, course)
+    return send_file('tmp\downloadfile', as_attachment=True,attachment_filename=file_to_download.filename)
   # else, user clicked folder => load next layer
   folder_id = page_to_load.replace('files_','').replace('.html','')
   int_id = int(folder_id)

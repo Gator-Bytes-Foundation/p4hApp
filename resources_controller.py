@@ -32,7 +32,7 @@ def file_download(page_to_load, course):
   r = requests.get(file_to_download.url,verify=False)
   open('tmp/downloadfile', 'wb').write(r.content)
 
-  return folder_id
+  return folder_id, file_to_download
 
 
 def render_resources(current_user):    
