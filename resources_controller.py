@@ -2,14 +2,14 @@ from canvas import *
 import os
 import requests
 
+
 def file_download(page_to_load, course):
-  # brute force loop to get file/folder ids from url. Ids in url tell flask what list of files to load
+  # brute force loop to get file/folder ids from url. Url is currently dictating what view is loaded, and url is dynamic for files
   readingFileId = False
   readingFolderId = False
   folder_id = ''
   file_id = ''
   for i in range(len(page_to_load)):
-    #
     if(page_to_load[i] == '-'):
       readingFileId = True
       readingFolderId = False
@@ -22,19 +22,16 @@ def file_download(page_to_load, course):
       folder_id = folder_id + page_to_load[i]
 
   print(file_id)
-  page_to_load = page_to_load.replace('download_','') + '.html' # so the url will stay the same on reload
+  page_to_load = page_to_load.replace('downloadfile_','') + '.html' # so the url will stay the same on reload
   int_file = int(file_id)
   file_to_download = course.get_file(int_file)
   download_path = '/'.join( os.getcwd().split('/')[:3] ) + '/Downloads'
   print("file ", file_id)
-  file_to_download.url = file_to_download.url.replace('https://admin.p4hteach.org','https://35.184.234.66') # this url needs to be added to environment variables
-  print("file url", file_to_download.url)
-  #file_to_download.update(file = {file_to_download.public_url : new_url})
+  #file_to_download.url = file_to_download.url.replace('https://admin.p4hteach.org','https://35.184.234.66') # this url needs to be added to environment variables
   #file_to_download.download(file_to_download)
   r = requests.get(file_to_download.url,verify=False)
-  
-  with open('/Users/Logan/Downloads/p4hfile.txt', 'wb') as f:
-    f.write(r.content)
+  open('tmp/downloadfile', 'wb').write(r.content)
+
   return folder_id
 
 

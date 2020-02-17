@@ -1,6 +1,6 @@
 from flask import Flask, url_for
 app = Flask(__name__)
-from flask import render_template
+from flask import render_template,send_file
 from flask import request, redirect
 import json
 from googleapiclient.discovery import build
@@ -19,7 +19,6 @@ from resources_controller import *
 from messaging_controller import *
 from profile_controller import *
 import login_controller
-  
 
 #
 # If a request from client has variable data in it, we handle it here and get the data out of the url before routing the user
@@ -28,27 +27,16 @@ import login_controller
 def page_load(page_to_load): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
   course = canvas.get_course(1)
   #print("page loading: ",page_to_load)
-  #print("current user", login_controller.current_user.name)
-  if('download' in page_to_load): # check for file download
-    folder_id = file_download(page_to_load, course)
-    int_id = int(folder_id)
-    files = course.get_folder(int_id).get_files()._get_next_page()
-    return render_template('files.html', files = files,folder_id = folder_id, current_user = login_controller.current_user)
-    #return redirect(url_for('resources'))
-  elif('download_assignment' in page_to_load): # check for file download
-    assignment_download(page_to_load, course)
+  if('file' in page_to_load):
+    return files_page(page_to_load,course)
   elif('profile' in page_to_load):
     return profile(page_to_load.replace('profile_','')) # calls profile function on username from route str
-  elif('files' in page_to_load):   # loading a file page in resources.html
-    folder_id = page_to_load.replace('files_','').replace('.html','')
-    int_id = int(folder_id)
-    files = course.get_folder(int_id).get_files()._get_next_page()
-    #print("folder id for these files ", files[0].folder_id)
-    return render_template('files.html', files = files,folder_id = folder_id, current_user = login_controller.current_user)
   elif('edit_save' in page_to_load):
     updateProfile(request)
     return profile(login_controller.current_user.id) # this isnt efficient since it reloads the entire page from scratch
-    
+  elif('download_assignment' in page_to_load): # check for file download
+    assignment_download(page_to_load, course)
+
   if(request.method == 'POST'):
     if('comment' in page_to_load and (request.get_json() != {})):   
       print("Request data -> " + str(request.get_json()))
@@ -81,7 +69,16 @@ def discussion_page():
 @app.route('/resources.html', methods=['GET', 'POST'])
 def resources():    
   return render_resources(login_controller.current_user)
-
+def files_page(page_to_load, course):
+  if('download' in page_to_load): # check if file, then download
+    folder_id = file_download(page_to_load, course)
+    return send_file('tmp\downloaded_file.txt', as_attachment=True)
+  # else, user clicked folder => load next layer
+  folder_id = page_to_load.replace('files_','').replace('.html','')
+  int_id = int(folder_id)
+  files = course.get_folder(int_id).get_files()._get_next_page()
+  return render_template('files.html', files = files,folder_id = folder_id, current_user = login_controller.current_user)        
+    
 # MESSAGING REQUESTS #
 @app.route('/messaging.html')
 def messaging():    
