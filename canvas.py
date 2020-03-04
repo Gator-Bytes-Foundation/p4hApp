@@ -12,10 +12,12 @@ from requests import sessions
 
 # Canvas API URL
 global API_URL
-API_URL = "http://35.184.187.19:443/"
-ROCKET_URL = "https://p4hteach.rocket.chat"
+
+API_URL = "https://admin.p4hteach.org"
+ROCKET_URL = "https://open.rocket.chat"
+
 # Canvas API key
-API_KEY = "canvas-docker"
+API_KEY = "0wYGhuYJUCIlzFT5hkYMoSvoZNeEHh2OMxbpjdNB0ITEKkikUCoMBEFR2tN8qWXx"
 global canvas
 proxy_dict = {
     "http"  : "https://p4hteach.rocket.chat"
@@ -23,7 +25,7 @@ proxy_dict = {
 # Initialize a new Canvas object
 canvas = Canvas(API_URL, API_KEY)
 with sessions.Session() as session:  
-  rocket = RocketChat('logancundiff2@gmail.com', 'NF!Deku2', server_url=ROCKET_URL, session=session)
+  rocket = RocketChat('lcundiff@ufl.edu', 'NF!Deku2', server_url=ROCKET_URL, session=session)
   #rocket = RocketChat('austincundiff71@gmail.com', '4Efgdt66.!', server_url=ROCKET_URL, session=session)
   #pprint(rocket.me().json())
   #pprint(rocket.channels_list().json())
@@ -65,7 +67,7 @@ def authenticate(scopes,call):
       "response_type":"code",
       "redirect_uri": "http://localhost:8000/oauth_complete",
       "grant_type" : "authorization_code",
-      "code" : "d321327bad33b0144113cf0a5a0129cbba2213d848e2d359dc2df202a33307f1bb96c7f8859a670ee83376604796bc18ca0ca3aff50785120774b82fc284400a",
+      "code" : "e8MQdcca34Suq9XzwzYWTcec7oILoJ1558Y3b0fvVEgcOqx66DuwnCFvdo2CuK74",
       "client_secret" : "test_developer_key"
     }
     canvas_url_with_required = canvas_url + "client_id=" + serviceKey["client_id"] + "&response_type=" + serviceKey["response_type"] + "&redirect_uri=" + serviceKey["redirect_uri"]

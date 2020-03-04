@@ -5,7 +5,7 @@ from users import *
 from profile import *
 
 
-
+# old deprecated code
 def load_messages(username,dict_of_users):
   list_of_messages_in = dict_of_users.get(username).messages_in # get messages coming in
   list_of_messages_out = dict_of_users.get(username).messages_out # get messages going out 
