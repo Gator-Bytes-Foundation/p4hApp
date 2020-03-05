@@ -1,18 +1,26 @@
 from canvas import *
 import login_controller as lc
+from profile_model import Profile
 
 def loadProfile(user_look_up_id, profile_posts, profile_comments, date,current_user,all_users):
+  profile = Profile()
   if(user_look_up_id == None):
     print("loading default profile")
-    user_look_up_id = user_id # in case no user_id is passed into function, we assign the current user
+    user_look_up_id = current_user.id # in case no user_id is passed into function, we assign the current user
   user_look_up = canvas.get_user(user_look_up_id) # user_look_up could be a new profile being searched OR loading the user's own profile
   global edit_mode_on
   edit_mode_on = False
-  
+  profile_pic = lc.current_user.get_avatars()[1].url
+  #print(profile_pic)
   #print ("comment object: ", profile_comments)
   #print("user: ", user_look_up.id, "current_user: ", current_user.id)
-  print("current user specs ",vars(lc.current_user))
-  return render_template('profile.html', posts = profile_posts, comments = profile_comments, date=date, user = user_look_up, current_user= lc.current_user,users = all_users)
+  #print("current user specs ",vars(lc.current_user))
+  profile.profile_pic = profile_pic
+  profile.posts = profile_posts
+  profile.date = date
+  profile.user = user_look_up
+  print(profile.user.name)
+  return render_template('profile.html', profile = profile, current_user= lc.current_user,users = all_users)
 
 def loadProgress(user):
   user_assignments = user.get_assignments(1)._get_next_page()

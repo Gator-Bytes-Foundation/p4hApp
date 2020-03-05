@@ -17,7 +17,7 @@
           <p>Profile Name:</p>
         </div>
         <div class="col-8">
-          <textarea class="text_box" name="name" id="profile_name" style="width: 100%;" placeholder="{{user.name}}" size="5" ></textarea>
+          <textarea class="text_box" name="name" id="profile_name" style="width: 100%;" placeholder="{{profile.user.name}}" size="5" ></textarea>
         </div>
       </div>
       <div class="row">
@@ -27,10 +27,10 @@
         <div class="col-8 col-sm-9">
         <div class="row">
           <div class="row col-sm-4">
-            {% if user.name == 'Admin' %}
-            <img id="profile_pic_img" class="image-cropper img-fluid rounded-circle" alt="placeholder" src="../static/images/p4h.png"</img>
+            {% if profile.user.name == 'Admin' %}
+            <img id="profile_pic_img" class="image-cropper img-fluid rounded-circle" alt="placeholder" src="../static/images/p4h.png"/>
             {% else %}
-            <img id="profile_pic_img" class="image-cropper img-fluid rounded-circle" alt="placeholder" src="../static/images/me.png"/>
+            <img id="profile_pic_img" class="image-cropper img-fluid rounded-circle" alt="placeholder" src="{{profile.profile_pic}}"/>
             {% endif %}
           </div>
           <div class="col-8 col-sm-3">
@@ -44,7 +44,7 @@
           <p>School:</p>
         </div>
         <div class="col-8">
-          <textarea class="text_box" name="school" id="school_name" style="width: 100%;" placeholder="{{user.sortable_name}}"  size="5" ></textarea>
+          <textarea class="text_box" name="school" id="school_name" style="width: 100%;" placeholder="{{profile.user.sortable_name}}"  size="5" ></textarea>
         </div>
       </div>
       <div class="row">
@@ -52,7 +52,7 @@
           <p>Email:</p>
         </div>
         <div class="col-8">
-          <textarea class="text_box" name="email" id="email_name" style="width: 100%;" placeholder="{{user.email}}" size="5" ></textarea>
+          <textarea class="text_box" name="email" id="email_name" style="width: 100%;" placeholder="{{profile.user.email}}" size="5" ></textarea>
         </div>
       </div>
       <div class="row">
@@ -60,7 +60,7 @@
           <p>Phone:</p>
         </div>
         <div class="col-8">
-          <textarea class="text_box" name="phone" id="phone" style="width: 100%;" placeholder="{{user.short_name}}"size="5" ></textarea>
+          <textarea class="text_box" name="phone" id="phone" style="width: 100%;" placeholder="{{profile.user.short_name}}"size="5" ></textarea>
         </div>
       </div>
       <div class="row">
@@ -68,7 +68,7 @@
           <p>Location:</p>
         </div>
         <div class="col-8">
-          <textarea class="text_box" name="location" id="loc" style="width: 100%;" placeholder="{{user.title}}"  size="5" ></textarea>
+          <textarea class="text_box" name="location" id="loc" style="width: 100%;" placeholder="{{profile.user.title}}"  size="5" ></textarea>
         </div>
       </div>
       <div class="row">
@@ -76,7 +76,7 @@
           <p>Biography:</p>
         </div>
         <div class="row col-12 col-sm-8">
-          <textarea class="text_box" name="bio" id="bio" style="width: 100%; height:50px;" placeholder="{{user.bio}}" size="5" ></textarea>
+          <textarea class="text_box" name="bio" id="bio" style="width: 100%; height:50px;" placeholder="{{profile.user.bio}}" size="5" ></textarea>
         </div>
       </div>
       <div class="row">
@@ -106,14 +106,14 @@
   </div>
   <div class="row">
     <div class="col-3">
-      {% if user.name == 'Admin' %}
+      {% if profile.user.name == 'Admin' %}
       <img class="image-cropper img-fluid rounded-circle" alt="placeholder" src="../static/images/p4h.png"</img>
       {% else %}
       <figure class="thumbnail"><img class="img-fluid rounded-circle" alt="placeholder" src="../static/images/me.png"/></figure>
       {% endif %}
     </div>
     <div class="col-8 col-sm-8 ">
-      <h4>{{user.name}}</h4>
+      <h4>{{profile.user.name}}</h4>
       <small class=""> <b>Pozisyon:</b> Elementary Teacher </small> <br>
       <small> <b>De Mwen :</b> Mwen anseye lekòl elemantè</small> </div>
   </div>
@@ -133,7 +133,7 @@
     </div>
   </div>
   <div class="buttons_row">
-      {% if(user.id == current_user.id) %}
+      {% if(profile.user.id == current_user.id) %}
       <div class="col-6 col-sm-5">
         <button type="submit" id="edit_profile" class="profile_button" name="edit">Edit Pwofil</button>
       </div>
@@ -152,10 +152,10 @@
         <div id="write_post"> 
           <div style="text-align: center;" class="post_box">
             <div class = "profile_name">
-            {% if user.name == 'Admin' %}
+            {% if profile.user.name == 'Admin' %}
             <figure class=" col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="../static/images/p4h.png"/></figure>
             {% else %}
-            <figure class=" col-2"><img alt="{{user}}"class="img-fluid rounded-circle" src="../static/images/me.png"/></figure>
+            <figure class=" col-2"><img alt="{{profile.user}}"class="img-fluid rounded-circle" src="{{profile.profile_pic}}"/></figure>
             {% endif %}
             <div class="col-10" id="">
               <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="Write Post Here" onkeyup="" size="5" ></textarea><span id="upload_profile" class="oi oi-cloud-download upload_icon" aria-hidden="true"></span><input type="file" name="file" id="upload_profile_input" class="inputfile"style="display: none;" data-multiple-caption="{count} files selected" multiple/>
@@ -168,7 +168,7 @@
           </div>
         </div>
         <!-- Post Loop --> 
-        {% for i in range(posts | length)%}
+        {% for i in range(profile.posts | length)%}
           {% include 'post.html' %}
         {% endfor %}
       <img id="pic" class="img-fluid"/>
@@ -179,7 +179,7 @@
           <label>User Id</label>
         </div>
         <div class="col-md-6">
-          <p>{{user.id}}</p>
+          <p>{{profile.user.id}}</p>
         </div>
       </div>
         <div class="row">
@@ -187,7 +187,7 @@
             <label>Name</label>
           </div>
           <div class="col-md-6">
-            <p>{{user.name}}</p>
+            <p>{{profile.user.name}}</p>
           </div>
         </div>
         <div class="row">
@@ -195,7 +195,7 @@
             <label>Email</label>
           </div>
           <div class="col-md-6">
-            <p>{{user.email}}</p>
+            <p>{{profile.user.email}}</p>
           </div>
         </div>
         <div class="row">
@@ -203,7 +203,7 @@
             <label>Phone</label>
           </div>
           <div class="col-md-6">
-            <p>{{user.short_name}}</p>
+            <p>{{profile.user.short_name}}</p>
           </div>
         </div>
         <div class="row">
@@ -211,7 +211,7 @@
             <label>Location</label>
           </div>
           <div class="col-md-6">
-            <p>{{user.title}}</p> 
+            <p>{{profile.user.title}}</p> 
           </div>
         </div>
         <div class="row">
@@ -219,7 +219,7 @@
             <label>School</label>
           </div>
           <div class="col-md-6">
-            <p>{{user.sortable_name}}</p> 
+            <p>{{profile.user.sortable_name}}</p> 
           </div>
         </div>
       </div>
