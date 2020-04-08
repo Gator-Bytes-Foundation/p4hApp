@@ -7,7 +7,7 @@
       {% if(profile.posts[i].title == 'Admin' or profile.posts[i].title == 'Announcement' ) %}
         <figure class="thumbnail"><img alt="placeholder"class="img-fluid rounded-circle" src="../static/images/p4h.png"/></figure>
       {% else %}
-        <figure class="thumbnail"> <img alt="placeholder"class="img-fluid rounded-circle" src="../static/images/me.png"/> </figure>
+        <figure class="thumbnail"> <img alt="placeholder"class="img-fluid rounded-circle" src="{{profile.profile_pic}}"/> </figure>
       {% endif %}
     </div>
     <div class="col-10">
@@ -22,12 +22,12 @@
             {{profile.posts[i].message}}
           </div>
         <hr>
-          {% if( (profile.profile.comments[profile.posts[i].id | string] | length) > 0 ) %}
+          {% if( (profile.comments[profile.posts[i].id | string] | length) > 0 ) %}
           <div class="text-center">
               <p class=""><a href="" name="{{profile.posts[i].id}}" id="view_more-{{profile.posts[i].id}}" class="profile_button view_more">View Comments</a></p>
           </div>
           {%endif%}              
-          <div id="profile.comments-{{profile.posts[i].id}}" style="display:none;">
+          <div id="profile-comments-{{profile.posts[i].id}}" style="display:none;"> <!-- changes from on to off based off "view comments button -->
           <label class = "comment_label" for="from"><b>profile.comments</b></label>
           {% for j in range(profile.comments[profile.posts[i].id | string] | length) | reverse %}
           <div class="post_comment">
@@ -53,6 +53,6 @@ $(document).on("click", ".view_more", function(e) {
   e.preventDefault();
   var id = e.currentTarget.name;
   console.log("view more: ", id);
-  $("#profile.comments-"+id).css("display",""); 
+  $("#profile-comments-"+id).show(); 
 });
 </script>
