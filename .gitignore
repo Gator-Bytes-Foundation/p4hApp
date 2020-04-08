@@ -1,2 +1,6 @@
 myproject
-__pycache__
+*.txt
+
+*.pyc
+
+canvas.py
