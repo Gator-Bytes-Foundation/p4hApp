@@ -23,9 +23,7 @@ def loadProfile(user_look_up_id, profile_posts, profile_comments, date,current_u
   profile.comments = profile_comments
   print(profile.user)
   return render_template('profile.html', profile = profile, current_user= lc.current_user,users = all_users)
-#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
-# apikey psw: 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
-#10.128.0.2 bitnami-canvaslms-bcff.us-central1-f.c.p4h-teach.internal bitnami-canvaslms-bcff  # Added by Google
+  
 def loadProgress(user):
   user_assignments = user.get_assignments(1)._get_next_page()
   for i in range(len(user_assignments)):

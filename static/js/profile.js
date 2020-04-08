@@ -150,26 +150,20 @@ $(function() {
 SEARCH BAR 
 
 */
-/* When the user clicks on the button,
-toggle between hiding and showing the dropdown content of the search bar */
-function showSearchBar() {
-  document.getElementById("myDropdown").classList.toggle("show");
-}
-
+/* filters the search bar of all users */ 
 function filterFunction() {
-  var input, filter, ul, li, a, i;
-  input = document.getElementById("myInput");
+  let input, filter, dropdown, profileLinks;
+  input = document.getElementById("profileSearchInput");
   filter = input.value.toUpperCase();
-  list_of_items = document.getElementsByClassName("list_of_items");
-  list_of_items[0].style.display = "block"
-  div = document.getElementById("myDropdown");
-  a = div.getElementsByTagName("a");
-  for (i = 0; i < a.length; i++) {
-    txtValue = a[i].textContent || a[i].innerText;
+  dropdown = $("#profileSearchDropdown")[0]; // 1st index of Jqeury object is DOM object
+  dropdown.style.display = "block"
+  profileLinks = dropdown.getElementsByTagName("a"); // gets all <a></a> links in dropdown div
+  for (let i = 0; i < profileLinks.length; i++) {
+    txtValue = profileLinks[i].textContent || profileLinks[i].innerText;
     if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      a[i].style.display = "";
+      profileLinks[i].style.display = ""; 
     } else {
-      a[i].style.display = "none";
+      profileLinks[i].style.display = "none"; // hides all users that are filtered out
     }
   }
   

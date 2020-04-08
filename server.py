@@ -92,7 +92,7 @@ def progress():
 @app.route('/profile.html', methods=['GET', 'POST'])
 def profile(user_lookup_id):   
   profile_posts, profile_comments,date = Post.load_profile(user_lookup_id,0,9) # 35 is Logan and 1 is Admin 
-  return loadProfile(user_lookup_id, profile_posts, profile_comments, date,login_controller.current_user,None)
+  return loadProfile(user_lookup_id, profile_posts, profile_comments, date,login_controller.current_user,login_controller.all_users)
 
 # LOGGING IN AND SIGNING REQUESTS #
 @app.route('/signup.html', methods=['GET', 'POST'])
@@ -105,7 +105,7 @@ def signup_user():
   if(signupSuccess):
     #try:
       profile_posts, profile_comments,date = Post.load_profile(login_controller.current_user,0,9) # 35 is Logan and 1 is Admin 
-      return loadProfile(login_controller.current_user.id, profile_posts, profile_comments, date,login_controller.current_user,None)
+      return loadProfile(login_controller.current_user.id, profile_posts, profile_comments, date,login_controller.current_user,login_controller.all_users)
     #except:
       #return render_template('signup.html', error = "profile could not be loaded", current_user = login_controller.current_user, users = None)
   else:

@@ -88,13 +88,15 @@
     </div>
     </div>
   </div>
+  <!------------------------ search bar -------------------------->
   <div class="dropdown">
     <!--<button onclick="showSearchBar()" class="profile_button col-4">Search Profiles</button>-->
     <div class="dropdown-content">
         <span class="oi oi-magnifying-glass" aria-hidden="true"></span>
-        <input class="" type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
+        <!-- input element calls filter function anytime user types -->
+        <input class="" type="text" placeholder="Search.." id="profileSearchInput" onkeyup="filterFunction()">
     </div>
-      <div id="myDropdown" class="list_of_items">
+      <div id="profileSearchDropdown"class="list_of_items">
         {% if(users != None) %}
           {% for i in range(users | length) %}
           <form method="POST" action="profile_{{users[i].id}}"> <!-- pass the username into the route url -->
@@ -125,8 +127,9 @@
                 <label class="custom-file-label" for="inputGroupFile01">Choose file</label> -->
 
   <div class="col-md-10 col-12">
-    <div id="mytabs" class="">
+    <div id="mytabs" class="class=fakeclasshere2">
       <ul class="nav nav-tabs"  role="tablist">
+        </divjnjfdk>
         <li class="nav-item"> <a class="nav-link"  href="#about" aria-controls="about" id="about-tab" rel="about" data-toggle="tab"  role="tab"  aria-selected="true">About</a> </li>
         <li class="nav-item"> <a class="nav-link" href="#timeline" aria-controls="timeline"  id="timeline-tab" rel="timeline" data-toggle="tab" role="tab"  aria-selected="false">Timeline</a> </li>
       </ul>

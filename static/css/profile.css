@@ -2,7 +2,7 @@
 @import url(//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
 /*Comment List styles*/
 /* haitian flag blue: #1632AA
-/* haitian flag red: ##B30D2C
+/* haitian flag red: #B30D2C
 /*circle profile picture crop version */ 
 
 b {
@@ -197,7 +197,7 @@ b {
 
 
 /* The search field */
-#myInput {
+#profileSearchInput {
   left:0px;
   width: calc(100% - 20px);
   box-sizing: border-box;
@@ -211,7 +211,7 @@ b {
 }
 
 /* The search field when it gets focus/clicked on */
-#myInput:focus {outline: 3px solid #ddd;}
+#profileSearchInput:focus {outline: 3px solid #ddd;}
 
 /* The container <div> - needed to position the dropdown content */
 .dropdown {
