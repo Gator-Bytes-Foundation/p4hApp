@@ -25,7 +25,7 @@ main() {
   local response_code
 
   log "Starting server as forked process"
-  python server.py > /dev/null 2>&1 &
+  ./bin/start > /dev/null 2>&1 &
 
   log "Giving server 5 seconds to boot..."
   sleep 5
@@ -35,7 +35,7 @@ main() {
 
   if [[ "${response_code}" -ne 200 ]]; then
     log "Failure: got back a bad HTTP status code from server: ${response_code}"
-    log "exiting"
+    log "Exiting"
     kill_server_processes
     exit 1
   else
@@ -44,7 +44,7 @@ main() {
 
   kill_server_processes
 
-  log "success!"
+  log "Success!"
 
   exit 0
 }

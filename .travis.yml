@@ -1,0 +1,9 @@
+language: python
+python:
+  - "3.7"
+
+install:
+  - ./bin/setup
+
+script:
+  - ./bin/ci/start-test
