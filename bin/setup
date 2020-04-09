@@ -1,0 +1,7 @@
+#! /usr/bin/env bash
+
+main() {
+  python -m pip install --user -r requirements.txt
+}
+
+main "$@"
