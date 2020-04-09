@@ -10,7 +10,6 @@ from oauth2client.service_account import ServiceAccountCredentials, client
 from oauth2client import file, client, tools
 import random
 import os
-from pyper import *
 import pickle as p
 import logging
 #from users import *
