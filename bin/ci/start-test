@@ -9,44 +9,44 @@
 # Usage: ./bin/ci/start-test
 
 log() {
-  echo "----> $@"
+	echo "----> $@"
 }
 
 kill_server_processes() {
-    local pids
+	local pids
 
-    log "Killing server processes"
-    pids="$(ps -ef | grep -v grep | grep server.py |  awk '{print $2}' | tr "\n" ' ')"
-    kill -9 $pids
+	log "Killing server processes"
+	pids="$(ps -ef | grep -v grep | grep server.py | awk '{print $2}' | tr "\n" ' ')"
+	kill -9 $pids
 }
 
 main() {
-  local server_process_pid
-  local response_code
+	local server_process_pid
+	local response_code
 
-  log "Starting server as forked process"
-  ./bin/start > /dev/null 2>&1 &
+	log "Starting server as forked process"
+	./bin/start >/dev/null 2>&1 &
 
-  log "Giving server 5 seconds to boot..."
-  sleep 5
+	log "Giving server 5 seconds to boot..."
+	sleep 5
 
-  log "Pinging server"
-  response_code=$(curl --write-out "%{http_code}\n" --silent --output /dev/null "localhost:5000")
+	log "Pinging server"
+	response_code=$(curl --write-out "%{http_code}\n" --silent --output /dev/null "localhost:5000")
 
-  if [[ "${response_code}" -ne 200 ]]; then
-    log "Failure: got back a bad HTTP status code from server: ${response_code}"
-    log "Exiting"
-    kill_server_processes
-    exit 1
-  else
-    log "Server responded with a 200!"
-  fi
+	if [[ "${response_code}" -ne 200 ]]; then
+		log "Failure: got back a bad HTTP status code from server: ${response_code}"
+		log "Exiting"
+		kill_server_processes
+		exit 1
+	else
+		log "Server responded with a 200!"
+	fi
 
-  kill_server_processes
+	kill_server_processes
 
-  log "Success!"
+	log "Success!"
 
-  exit 0
+	exit 0
 }
 
 main "$@"

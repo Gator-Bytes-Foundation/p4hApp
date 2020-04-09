@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 main() {
-  python server.py
+	python server.py
 }
 
 main "$@"
