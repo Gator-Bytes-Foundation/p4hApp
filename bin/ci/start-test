@@ -1,0 +1,52 @@
+#! /usr/bin/env bash
+
+# This script will:
+# - start the app as a child process
+# - give it some time to boot up
+# - ping the root path and check for a 200 status code in the response
+# - kill the server processes before exiting
+#
+# Usage: ./bin/ci/start-test
+
+log() {
+  echo "----> $@"
+}
+
+kill_server_processes() {
+    local pids
+
+    log "Killing server processes"
+    pids="$(ps -ef | grep -v grep | grep server.py |  awk '{print $2}' | tr "\n" ' ')"
+    kill -9 $pids
+}
+
+main() {
+  local server_process_pid
+  local response_code
+
+  log "Starting server as forked process"
+  python server.py > /dev/null 2>&1 &
+
+  log "Giving server 5 seconds to boot..."
+  sleep 5
+
+  log "Pinging server"
+  response_code=$(curl --write-out "%{http_code}\n" --silent --output /dev/null "localhost:5000")
+
+  if [[ "${response_code}" -ne 200 ]]; then
+    log "Failure: got back a bad HTTP status code from server: ${response_code}"
+    log "exiting"
+    kill_server_processes
+    exit 1
+  else
+    log "Server responded with a 200!"
+  fi
+
+  kill_server_processes
+
+  log "success!"
+
+  exit 0
+}
+
+main "$@"
