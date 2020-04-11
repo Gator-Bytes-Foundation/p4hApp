@@ -59,9 +59,9 @@
         <div class="navbar-nav"> 
           <!--<a href="" class="nav-item nav-link active animated" >Lakay</a>--> 
           <a href="profile_{{current_user.id}}" class="nav-item nav-link animated" style="">Profile</a> 
-          <a href="messaging.html" class="nav-item nav-link animated">Mesaj</a>
-          <a href="discussion.html" class="nav-item nav-link animated">Anons</a>
-          <a href="resources.html" class="nav-item nav-link disabled animated" tabindex="-1">Resous</a>
+          <a href="{{ url_for('messaging') }}" class="nav-item nav-link animated">Mesaj</a>
+          <a href="{{ url_for('announcements') }}" class="nav-item nav-link animated">Anons</a>
+          <a href="{{ url_for('resources') }}" class="nav-item nav-link disabled animated" tabindex="-1">Resous</a>
           <a href="/" class="nav-item nav-link disabled animated" tabindex="-1">Logout</a>
         </div>
         <!--<div class="navbar-nav ml-auto"> <a href="#" class="nav-item nav-link animated">Anviwònman</a> </div>-->
@@ -69,10 +69,21 @@
     {% endif %}
   </nav>
   </div>
+  <!-- show flash messages to user in all views -->
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <ul>
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+  </ul>
+  {% endif %}
+  {% endwith %}
+
 <!-- This paragraph is just for testing. Remove in prod -->
 <div style="height:calc(100% - 153px);"> 
   {% block content %}
-    {% endblock %} 
+  {% endblock %} 
 </div>
 </body>
 <script>

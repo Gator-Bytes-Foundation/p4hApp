@@ -4,3 +4,4 @@ myproject
 *.pyc
 
 canvas.py
+wsgi.py

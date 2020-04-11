@@ -1,9 +1,10 @@
-from canvas import *
+from app.canvas import * # inject canvas, course objects into file
+from app.controllers.login_controller import *
 import os
 import requests
 
 
-def file_download(page_to_load, course):
+def file_download(page_to_load):
   # brute force loop to get file/folder ids from url. Url is currently dictating what view is loaded, and url is dynamic for files
   readingFileId = False
   readingFolderId = False
@@ -36,7 +37,6 @@ def file_download(page_to_load, course):
 
 
 def render_resources(current_user):    
-  course = canvas.get_course(1)
   folders_ = course.get_folders()._get_next_page()
   folders = [] 
   icons = []
@@ -50,4 +50,4 @@ def render_resources(current_user):
       icons.append("oi-book")
     #print("folders_ ", folders_[i].name)
   
-  return render_template('resources.html', folders = folders,icons = icons, current_user = current_user)
+  return render_template('resources.html', folders = folders,icons = icons,  CURRENT_USER =  CURRENT_USER)

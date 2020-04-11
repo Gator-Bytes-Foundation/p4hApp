@@ -1,37 +1,35 @@
-from canvas import *
-import login_controller as lc
-from profile_model import Profile
+from app.canvas import * # inject canvas, course objects into file
+from app.models.profile_model import Profile
+from flask import url_for, flash, redirect, request, render_template, send_file
 
-def loadProfile(user_look_up_id, profile_posts, profile_comments, date,current_user,all_users):
-  profile = Profile()
-  if(user_look_up_id == None):
+
+current_user = CANVAS.get_user(1)
+
+def loadProfile(profile,all_users):
+  
+  if(profile.user == None):
     print("loading default profile")
-    user_look_up_id = current_user.id # in case no user_id is passed into function, we assign the current user
-  user_look_up = canvas.get_user(user_look_up_id) # user_look_up could be a new profile being searched OR loading the user's own profile
+    profile.user = current_user.id # if no user_id is passed, we assign current user
+  # temp use of global variable
   global edit_mode_on
   edit_mode_on = False
-  profile_pic = lc.current_user.get_avatars()[1].url
+
+  profile_pic = profile.user.get_avatars()[1].url
   print('profile pic: ')
-  print(lc.current_user.get_avatars()[1])
-  #print ("comment object: ", profile_comments)
-  #print("user: ", user_look_up.id, "current_user: ", current_user.id)
-  #print("current user specs ",vars(lc.current_user))
+  print(current_user.get_avatars()[1])
+
   profile.profile_pic = profile_pic
-  profile.posts = profile_posts
-  profile.date = date
-  profile.user = user_look_up
-  profile.comments = profile_comments
-  print(profile.user)
-  return render_template('profile.html', profile = profile, current_user= lc.current_user,users = all_users)
-  
+  print(profile)
+  return render_template('profile.html', profile = profile,  current_user= current_user,users = all_users)
+
 def loadProgress(user):
   user_assignments = user.get_assignments(1)._get_next_page()
   for i in range(len(user_assignments)):
     user_assignments[i].description = user_assignments[i].description.replace('<p>','').replace('</p>','') #get rid of stupid html tags. like why is this even being returned
 
-  return render_template('progress.html', assignments = user_assignments,user = user,current_user= lc.current_user)
+  return render_template('progress.html', assignments = user_assignments,user = user, current_user= current_user)
 
-def assignment_download(page_to_load, course):
+def assignment_download(page_to_load):
   assignment_id = page_to_load.replace('download_assignment_','')
   page_to_load = page_to_load.replace('download_','') # so the url will stay the same on reload
   int_assignment_id = int(assignment_id)
@@ -55,25 +53,25 @@ def updateProfile(req):
   files = req.files
   print("file: ",files)
   if(files != None):
-    lc.current_user.edit(user = {"avatar":files})
+    current_user.edit(user = {"avatar":files})
   if(name_ != ''):
-    lc.current_user.edit(user = {"name":name_})
+    current_user.edit(user = {"name":name_})
   if(school_ != ''):
-    lc.current_user.edit(user = {"sortable_name":school_}) #Since we are using Canvas User objects, we store phone as sortable_name
+    current_user.edit(user = {"sortable_name":school_}) #Since we are using Canvas User objects, we store phone as sortable_name
   if(email_ != ''):
-    lc.current_user.edit(user = {"email":email_})
+    current_user.edit(user = {"email":email_})
   if(phone_ != ''):
-    lc.current_user.edit(user = {"short_name":phone_}) #Since we are using Canvas User objects, we store phone as short_name
+    current_user.edit(user = {"short_name":phone_}) #Since we are using Canvas User objects, we store phone as short_name
   if(location_ != ''):
-    lc.current_user.edit(user = {"title":location_})
+    current_user.edit(user = {"title":location_})
   if(bio_ != ''):
-    lc.current_user.edit(user = {"bio":bio_})
+    current_user.edit(user = {"bio":bio_})
   return #todo
 
 
 def handle_submission(page_to_load, request, course, canvas_user):    
   #try:
-  admin = canvas.get_user(1)
+  admin = CANVAS.get_user(1)
   id_number = page_to_load.replace('submit_','');
   submission_dict = {}
   submission_dict['submission_type'] = 'online_upload'
