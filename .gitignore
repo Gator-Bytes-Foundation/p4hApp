@@ -1,7 +1,10 @@
 myproject
-*.txt
+
 
 *.pyc
 
 canvas.py
 wsgi.py
+settings.py
+
+app.yaml
