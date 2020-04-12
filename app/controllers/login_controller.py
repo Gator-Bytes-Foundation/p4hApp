@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import DataRequired
+from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from app.models.user_model import User
 from app.canvas import * # inject canvas, course objects into file
 
@@ -13,6 +13,13 @@ def loadHome():
     return 'login.html'
   else:
     return 'profile.html'
+
+class SignUpForm(FlaskForm):
+  username = StringField('Username', validators=[DataRequired()])
+  email = StringField('Email', validators=[DataRequired()])
+  password = PasswordField('Password', validators=[DataRequired()])
+  admin = BooleanField('Is Admin')
+  submit = SubmitField('Sign Up')
 
 class LoginForm(FlaskForm):
   username = StringField('Username', validators=[DataRequired()])

@@ -8,15 +8,21 @@ from app.models.user_model import User
 from app.controllers.resources_controller import file_download, render_resources
 ''' Import Needed Libraries ''' 
 import json
-from googleapiclient.discovery import build
 import requests
-from flask import make_response
-from oauth2client.service_account import ServiceAccountCredentials, client
-from oauth2client import file, client, tools
 import random
-from pyper import *
-import pickle as p
 import logging
+
+#
+# If a request from client has variable data in it, we handle it here and get the data out of the url before routing the user
+#
+@app.route('/resources/<page_to_load>', methods=['GET', 'POST'])
+def customResourceCalls(page_to_load): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
+  #print("page loading: ",page_to_load)
+
+  if('file' in page_to_load):
+    return files_page(page_to_load)
+  
+  return render_template(page_to_load)
 
 # RESOURCES REQUESTS #
 @app.route('/resources', methods=['GET', 'POST'])
@@ -24,7 +30,7 @@ def resources():
   return render_resources(current_user)
 def files_page(page_to_load):
   if('download' in page_to_load): # check if file, then download
-    folder_id, file_to_download = file_download(page_to_load, course)
+    folder_id, file_to_download = file_download(page_to_load)
     return send_file('tmp\downloadfile', as_attachment=True,attachment_filename=file_to_download.filename)
   # else, user clicked folder => load next layer
   folder_id = page_to_load.replace('files_','').replace('.html','')

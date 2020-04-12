@@ -22,11 +22,11 @@
   
   <link rel="shortcut icon" type="image/x-icon" href="/dist/images/favicon-e10d657a73.ico" />
   <link rel="apple-touch-icon" href="/dist/images/apple-touch-icon-585e5d997d.png" />
-  <link rel="stylesheet" media="all" href="/dist/brandable_css/default/variables-8391c84da435c9cfceea2b2b3317ff66.css" />
+  <link rel="stylesheet" media="all" href="/dist/brandable_css/3a3733b95a1d12a52b08ea318dcb7e81/variables-8391c84da435c9cfceea2b2b3317ff66.css" />
   <link rel="stylesheet" media="all" href="/dist/brandable_css/new_styles_normal_contrast/bundles/common-2a7bbfea25.css" />
   
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#008EE2">
+  <meta name="theme-color" content="#1632AA">
   <link rel="stylesheet" media="all" href="/dist/brandable_css/no_variables/bundles/not_found_index-7a37b91917.css" />
   
   <script>
@@ -47,13 +47,13 @@
 
   <script>
     INST = {"environment":"production","disableCrocodocPreviews":true,"logPageViews":true,"maxVisibleEditorButtons":3,"editorButtons":[]};
-    ENV = {"ASSET_HOST":"","active_brand_config_json_url":"/dist/brandable_css/default/variables-8391c84da435c9cfceea2b2b3317ff66.json","url_to_what_gets_loaded_inside_the_tinymce_editor_css":["/dist/brandable_css/default/variables-8391c84da435c9cfceea2b2b3317ff66.css","/dist/brandable_css/new_styles_normal_contrast/bundles/what_gets_loaded_inside_the_tinymce_editor-ddd12b3167.css"],"url_for_high_contrast_tinymce_editor_css":["/dist/brandable_css/default/variables-high_contrast-8391c84da435c9cfceea2b2b3317ff66.css","/dist/brandable_css/new_styles_high_contrast/bundles/what_gets_loaded_inside_the_tinymce_editor-353496c567.css"],"current_user_id":null,"current_user_roles":null,"current_user_disabled_inbox":null,"files_domain":"35.184.234.66","DOMAIN_ROOT_ACCOUNT_ID":"10000000000001","k12":false,"use_responsive_layout":false,"use_rce_enhancements":null,"DIRECT_SHARE_ENABLED":false,"help_link_name":"Help","help_link_icon":"help","use_high_contrast":null,"LTI_LAUNCH_FRAME_ALLOWANCES":["geolocation","microphone","camera","midi","encrypted-media","autoplay"],"DEEP_LINKING_POST_MESSAGE_ORIGIN":"https://35.184.234.66","DEEP_LINKING_LOGGING":null,"SETTINGS":{"open_registration":false,"collapse_global_nav":null,"show_feedback_link":false},"current_user":{},"context_asset_string":null,"TIMEZONE":"America/Denver","LOCALE":"en","BIGEASY_LOCALE":"en_US","FULLCALENDAR_LOCALE":"en","MOMENT_LOCALE":"en","notices":[],"active_context_tab":"files"};
+    ENV = {"ASSET_HOST":"","active_brand_config_json_url":"/dist/brandable_css/3a3733b95a1d12a52b08ea318dcb7e81/variables-8391c84da435c9cfceea2b2b3317ff66.json","url_to_what_gets_loaded_inside_the_tinymce_editor_css":["/dist/brandable_css/3a3733b95a1d12a52b08ea318dcb7e81/variables-8391c84da435c9cfceea2b2b3317ff66.css","/dist/brandable_css/new_styles_normal_contrast/bundles/what_gets_loaded_inside_the_tinymce_editor-ddd12b3167.css"],"url_for_high_contrast_tinymce_editor_css":["/dist/brandable_css/default/variables-high_contrast-8391c84da435c9cfceea2b2b3317ff66.css","/dist/brandable_css/new_styles_high_contrast/bundles/what_gets_loaded_inside_the_tinymce_editor-353496c567.css"],"current_user_id":null,"current_user_roles":null,"current_user_disabled_inbox":null,"files_domain":"104.197.115.26","DOMAIN_ROOT_ACCOUNT_ID":"10000000000001","k12":false,"use_responsive_layout":false,"use_rce_enhancements":null,"DIRECT_SHARE_ENABLED":false,"help_link_name":"Help","help_link_icon":"help","use_high_contrast":null,"LTI_LAUNCH_FRAME_ALLOWANCES":["geolocation","microphone","camera","midi","encrypted-media","autoplay"],"DEEP_LINKING_POST_MESSAGE_ORIGIN":"https://104.197.115.26","DEEP_LINKING_LOGGING":null,"SETTINGS":{"open_registration":false,"collapse_global_nav":null,"show_feedback_link":false},"current_user":{},"context_asset_string":null,"TIMEZONE":"America/Denver","LOCALE":"en","BIGEASY_LOCALE":"en_US","FULLCALENDAR_LOCALE":"en","MOMENT_LOCALE":"en","notices":[],"active_context_tab":"files"};
   </script>
 
-  <link rel="preload" href="/dist/brandable_css/default/variables-8391c84da435c9cfceea2b2b3317ff66.js" as="script" type="text/javascript"><link rel="preload" href="/dist/timezone/America/Denver-40670c6af7.js" as="script" type="text/javascript"><link rel="preload" href="/dist/timezone/en_US-80a0ce259b.js" as="script" type="text/javascript"><link rel="preload" href="/dist/webpack-production/main-e-6853e3f6b1.js" as="script" type="text/javascript"><script>
+  <link rel="preload" href="/dist/brandable_css/3a3733b95a1d12a52b08ea318dcb7e81/variables-8391c84da435c9cfceea2b2b3317ff66.js" as="script" type="text/javascript"><link rel="preload" href="/dist/timezone/America/Denver-40670c6af7.js" as="script" type="text/javascript"><link rel="preload" href="/dist/timezone/en_US-80a0ce259b.js" as="script" type="text/javascript"><link rel="preload" href="/dist/webpack-production/main-e-6853e3f6b1.js" as="script" type="text/javascript"><script>
 //<![CDATA[
 
-      ;["/dist/brandable_css/default/variables-8391c84da435c9cfceea2b2b3317ff66.js", "/dist/timezone/America/Denver-40670c6af7.js", "/dist/timezone/en_US-80a0ce259b.js", "/dist/webpack-production/main-e-6853e3f6b1.js"].forEach(function(src) {
+      ;["/dist/brandable_css/3a3733b95a1d12a52b08ea318dcb7e81/variables-8391c84da435c9cfceea2b2b3317ff66.js", "/dist/timezone/America/Denver-40670c6af7.js", "/dist/timezone/en_US-80a0ce259b.js", "/dist/webpack-production/main-e-6853e3f6b1.js"].forEach(function(src) {
         var s = document.createElement('script')
         s.src = src
         s.async = false
@@ -93,7 +93,7 @@
     <a href="#content" id="skip_navigation_link">Skip To Content</a>
       <div role="region" class="ic-app-header__main-navigation" aria-label="Global Navigation">
         <div class="ic-app-header__logomark-container">
-          <a href="https://35.184.234.66/" class="ic-app-header__logomark">
+          <a href="https://104.197.115.26/" class="ic-app-header__logomark">
             <span class="screenreader-only">Dashboard</span>
           </a>
         </div>
@@ -110,7 +110,7 @@
               </a>
             </li>
           <li class="ic-app-header__menu-list-item ">
-            <a id="global_nav_dashboard_link" href="https://35.184.234.66/" class="ic-app-header__menu-list-link">
+            <a id="global_nav_dashboard_link" href="https://104.197.115.26/" class="ic-app-header__menu-list-link">
               <div class="menu-item-icon-container" aria-hidden="true">
                 <svg xmlns="http://www.w3.org/2000/svg" class="ic-icon-svg ic-icon-svg--dashboard" version="1.1" x="0" y="0" viewBox="0 0 280 200" enable-background="new 0 0 280 200" xml:space="preserve"><path d="M273.09,180.75H197.47V164.47h62.62A122.16,122.16,0,1,0,17.85,142a124,124,0,0,0,2,22.51H90.18v16.29H6.89l-1.5-6.22A138.51,138.51,0,0,1,1.57,142C1.57,65.64,63.67,3.53,140,3.53S278.43,65.64,278.43,142a137.67,137.67,0,0,1-3.84,32.57ZM66.49,87.63,50.24,71.38,61.75,59.86,78,76.12Zm147,0L202,76.12l16.25-16.25,11.51,11.51ZM131.85,53.82v-23h16.29v23Zm15.63,142.3a31.71,31.71,0,0,1-28-16.81c-6.4-12.08-15.73-72.29-17.54-84.25a8.15,8.15,0,0,1,13.58-7.2c8.88,8.21,53.48,49.72,59.88,61.81a31.61,31.61,0,0,1-27.9,46.45ZM121.81,116.2c4.17,24.56,9.23,50.21,12,55.49A15.35,15.35,0,1,0,161,157.3C158.18,152,139.79,133.44,121.81,116.2Z" /></svg>
 

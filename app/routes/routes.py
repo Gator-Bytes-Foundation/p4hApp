@@ -8,11 +8,10 @@ from app.controllers.login_controller import LoginForm, loadHome
 from app.canvas import CANVAS, course # inject canvas, course objects into file
 from app.models.profile_model import Profile
 from app.models.user_model import User
-from app.controllers.profile_controller import loadProfile, updateProfile, handle_submission, loadProgress, assignment_download, Comment
-from app.controllers.posts_controller import loadPosts, loadNewsFeed, handlePost
+from app.controllers.profile_controller import loadProfile, updateProfile, handle_submission, loadProgress, assignment_download
+from app.controllers.posts_controller import loadPosts, loadNewsFeed, handlePost, handlePost, handleComment
 from app.controllers.resources_controller import file_download, render_resources
 from app.controllers.messaging_controller import load_messages
-from app.routes.profile_routes import profile
 ''' Import Needed Libraries ''' 
 import json
 from googleapiclient.discovery import build
@@ -29,26 +28,15 @@ import logging
 # If a request from client has variable data in it, we handle it here and get the data out of the url before routing the user
 #
 @app.route('/<page_to_load>', methods=['GET', 'POST'])
-def page_load(page_to_load): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
+def customGeneralCalls(page_to_load): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
   #print("page loading: ",page_to_load)
-  if('profile' in page_to_load):
-    return profile(page_to_load.replace('profile_','')) # calls profile function on username from route str
-  elif('file' in page_to_load):
-    return files_page(page_to_load)
-  elif('edit_save' in page_to_load):
-    updateProfile(request)
-    return profile(current_user.id) # this isnt efficient since it reloads the entire page from scratch
-  elif('download_assignment' in page_to_load): # check for file download
-    assignment_download(page_to_load)
 
   if(request.method == 'POST'):
     if('comment' in page_to_load and (request.get_json() != {})):   
       print("Request data -> " + str(request.get_json()))
-      return Comment.handle_comment(page_to_load, request, course, current_user)
+      return handleComment(page_to_load, request)
     elif('post' in page_to_load):    
-      return Post.handle_post(page_to_load, request, course, current_user)
-    elif('submit' in page_to_load):
-      return handle_submission(page_to_load, request, course, current_user)
+      return handlePost(page_to_load, request)
     else:
       return '' # in case a null request is made
   
@@ -58,6 +46,10 @@ def page_load(page_to_load): #url being routed is saved to 'page_to_load' which 
 @app.route('/announcements', methods=['GET', 'POST'])
 def announcements():    
   newsfeed_posts, newsfeed_comments, date = loadNewsFeed()
+  profile = Profile()
+  profile.newsfeed_posts = newsfeed_posts
+  profile.newsfeed_comments = newsfeed_comments
+  profile.date = date
   #print ("comment object: ", profile_comments)
-  return render_template('discussion.html', posts = newsfeed_posts, comments = newsfeed_comments, date = date,  current_user= current_user)
+  return render_template('discussion.html', profile=profile,  current_user= current_user)
 

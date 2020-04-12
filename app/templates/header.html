@@ -58,7 +58,7 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <div class="navbar-nav"> 
           <!--<a href="" class="nav-item nav-link active animated" >Lakay</a>--> 
-          <a href="profile_{{current_user.id}}" class="nav-item nav-link animated" style="">Profile</a> 
+          <a href="{{url_for('profile')}}" class="nav-item nav-link animated" style="">Profile</a> 
           <a href="{{ url_for('messaging') }}" class="nav-item nav-link animated">Mesaj</a>
           <a href="{{ url_for('announcements') }}" class="nav-item nav-link animated">Anons</a>
           <a href="{{ url_for('resources') }}" class="nav-item nav-link disabled animated" tabindex="-1">Resous</a>

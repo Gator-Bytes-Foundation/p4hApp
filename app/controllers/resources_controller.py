@@ -1,3 +1,5 @@
+from flask import url_for, flash, redirect, request, render_template, send_file
+
 from app.canvas import * # inject canvas, course objects into file
 from app.controllers.login_controller import *
 import os
@@ -50,4 +52,4 @@ def render_resources(current_user):
       icons.append("oi-book")
     #print("folders_ ", folders_[i].name)
   
-  return render_template('resources.html', folders = folders,icons = icons,  CURRENT_USER =  CURRENT_USER)
+  return render_template('resources.html', folders = folders,icons = icons,  current_user =  current_user)

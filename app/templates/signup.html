@@ -13,23 +13,34 @@
       <center><div class="image-cropper"><img class="profile-pic img-fluid" src="../static/images/p4h.png" id="icon" alt="User Icon" /></div></center>
     </div>
 
-    <!-- Login Form -->
-    <form method="POST" action="signup">
-      <input type="text" id="fname" class="fadeIn second" name="fname" placeholder="First Name">
-      <input type="text" id="lname" class="fadeIn second" name="lname" placeholder="Last Name">
-      <input type="text" id="email" class="fadeIn second" name="email" placeholder="Email">
-      <!--
-      <br>
-      <input type="radio" id="userType" class="fadeIn second" name="userType" value="Teacher">Teacher
-      <input type="radio" id="userType" class="fadeIn second" name="userType" value="Admin">Admin
-      -->
-      <input id="password" type="password" class="fadeIn third" name="password" placeholder="Password">
-      <!--<input id="password" type="password" class="fadeIn third" name="password" placeholder="Retype Password">-->
-      <input type="submit" class="fadeIn fourth" value="Sign Up">
-      <div id="formFooter">
-        <a class="underlineHover" href="/">Login</a>
-      </div>
+    <!-- Signup Form -->
+    <form method="POST" action="" novalidate>
+      {{ form.hidden_tag() }}
+        <p class="fadeIn second">
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}<br>
+            {% for error in form.username.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p class="fadeIn second">
+          {{ form.email.label }}<br>
+          {{ form.email(size=32) }}<br>
+          {% for error in form.email.errors %}
+          <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}
+        </p>
+        <p class="fadeIn third">
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}<br>
+            {% for error in form.password.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p type="radio" id="userType" class="fadeIn second" >{{ form.admin }}</p>
+        <p class="fadeIn fourth" >{{ form.submit() }}</p>       
     </form>
+
     {% if error %}
       <p class=error><strong>Error:</strong> {{ error }}
     {% endif %}

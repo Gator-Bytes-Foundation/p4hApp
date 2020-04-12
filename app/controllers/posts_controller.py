@@ -1,25 +1,12 @@
-from app.canvas import CANVAS,course # inject canvas, course objects into file
+from app.canvas import CANVAS,course, CanvasException # inject canvas, course objects into file
 from app.models.profile_model import Profile
+
 #
 # Post class controls all methods regarding a profile post or announcemnt post
 # 
 
 
-def loadPostComents(post):
-  comments = post.list_topic_entries()._get_next_page()
-  allCommentsMap = {}
-  postComments = []
 
-  for j in range(len(comments)):
-    if(comments[j].message is not None):
-      comments[j].message = comments[j].message.replace('</p>', '')
-      comments[j].message = comments[j].message.replace('<p>', '') # get rid of the html
-    # store the comment in an array
-    postComments.append(comments[j])
-
-  # store all comments of this post in object/map to map to one another on client side
-  allCommentsMap[str(post.id)] = postComments
-  return allCommentsMap
 
 #  
 # loads all canvas discussion posts that the profile user has posted and their associated comments
@@ -72,7 +59,6 @@ def loadNewsFeed():
   array_of_comments = {}
   proper_date = ''
   try:
-    course = canvas.get_course(1)
     #announcements = canvas.get_announcements(context_codes='course_1') # canvas announcements lack documentation, so gonna just use regular discussion posts
     announcements = course.get_discussion_topics()
     topics = announcements._get_next_page() # this is the list of all topics (with embedded posts) in the course
@@ -108,7 +94,7 @@ def loadNewsFeed():
   return recentPosts, array_of_comments, proper_date      
 
 
-def handlePost(page_to_load, request, course, canvas_user): 
+def handlePost(page_to_load, request): 
   #print(request.files['file'] )
   new_post = str(request.form['text'])
   #attachments_ = []
@@ -147,42 +133,44 @@ def handlePost(page_to_load, request, course, canvas_user):
   post_html = '<article id="' + post_id + '"class="post_box"> <div class="profile_name"> <div class="profile_pic"> <figure class="thumbnail "><img alt="placeholder" class="img-fluid rounded-circle" src="' + post.author['avatar_image_url'] + '"/></figure></div> <div class="col-10"><header class="text-left"><figcaption class="comment-user"><b>'+canvas_user.name+'</b></figcaption><time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> ' + proper_date + '</time></header></div></div> <div class="post"> <div class="">' + new_post + '</div><hr>   <div class="text-center"></div> <div id="comments-' + post_id + '" ><label class = "comment_label" for="from">Comments</label> <div id="reply_div-' + post_id + '"class="reply_div"> <div class="col-8"> <textarea class= "text_box" name="message" id="textbox_reply-' + post_id + '" style="" onkeyup="Expand(this);" size="5" placeholder="Comment"></textarea><span class="upload_icon oi oi-cloud-camera" aria-hidden="true"></span></div> <a href=""name="' + post_id + '" id="reply-' + post_id + '" class="reply_button col-4 btn-sm"><i class="fa fa-reply"></i> Reply</a></div></div></article>'  
   return post_html  
 
-  
+def loadPostComents(post):
+  comments = post.list_topic_entries()._get_next_page()
+  allCommentsMap = {}
+  postComments = []
+
+  for j in range(len(comments)):
+    if(comments[j].message is not None):
+      comments[j].message = comments[j].message.replace('</p>', '')
+      comments[j].message = comments[j].message.replace('<p>', '') # get rid of the html
+    # store the comment in an array
+    postComments.append(comments[j])
+
+  # store all comments of this post in object/map to map to one another on client side
+  allCommentsMap[str(post.id)] = postComments
+  return allCommentsMap
+def handleComment(self,page_to_load, request):
+  new_comment = request.get_json()["text"]
+  print("reply:", new_comment)
+  topic_id = page_to_load.replace('comment_','')
+  # make post in canvas
+  topic = course.get_discussion_topic(topic_id)
+  comment = topic.post_entry(
+      message = new_comment
+  )
+  # send back html for post
+  comment_html = '<div class="post_comment"><figure class="thumbnail col-2"><img alt="placeholder" class="img-fluid rounded-circle" src="'+ comment.user['avatar_image_url']+'"/></figure><div class="word_bubble col-10"><p><b>' + canvasUser.name + ':</b><br>' + new_comment + '</p></div></div>'
+  return comment_html  
 
 
 
-class Comment():
+class Post():
   def __init__(self,post,user_object, post_message, post_media):
     post.user = user_object
     post.message = post_message
     post.media = post_media 
     
+
   
-  def handle_comment(self,page_to_load, request, course,canvasUser):
-    new_comment = request.get_json()["text"]
-    print("reply:", new_comment)
-    topic_id = page_to_load.replace('comment_','')
-    # make post in canvas
-    topic = course.get_discussion_topic(topic_id)
-    comment = topic.post_entry(
-        message = new_comment
-    )
-    # send back html for post
-    comment_html = '<div class="post_comment"><figure class="thumbnail col-2"><img alt="placeholder" class="img-fluid rounded-circle" src="'+ comment.user['avatar_image_url']+'"/></figure><div class="word_bubble col-10"><p><b>' + canvasUser.name + ':</b><br>' + new_comment + '</p></div></div>'
-    return comment_html 
-  
-  def load_all_replies(self):
-    recentReplies = []
-    for i in range(len(test_replies)):
-      recentReplies.append(test_replies[i])
-    return recentReplies   
-
-
-#test_replies = [ Comment(canvas.get_user(34),"looks good!",""), Comment(canvas.get_user(34),"looks great!","")  ]
-#test_replies2 = [ Comment(canvas.get_user(34),"looks awesome!",""), Comment(canvas.get_user(34),"Thanks!","")  ]
-# need GET request to Canvas discussion posts
-#test_user_data = [Post( canvas.get_user(34),"I need some feedback on this lesson plan","",test_replies,0 ),Post(canvas.get_user(34),"Here is some helpful tools","placeholder.jpg",test_replies2,1)]
-
 
 
   
