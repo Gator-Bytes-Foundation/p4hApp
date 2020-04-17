@@ -23,9 +23,9 @@ from app.routes import resources_routes
 from app.routes import messaging_routes
 from app.routes import login_routes
 from app.routes import profile_routes
-app.run(debug=True)
 
-
+if __name__ == '__main__':
+  app.run(debug=True)
 
 ''' for when db is finished setting up
 from app import User, Profile
@@ -33,7 +33,7 @@ from app import User, Profile
 @app.shell_context_processor
 def make_shell_context():
     return {'db': db, 'User': User, 'Profile': Profile}
-  
+
 if __name__ == "__main__":
   #logging.basicConfig(level=logging.DEBUG)
   app.run(debug=True)
