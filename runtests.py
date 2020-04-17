@@ -11,8 +11,9 @@ from django.test.utils import get_runner
 # with a `_` (this will be considred private)
 def test_modules():
     dirs = [x[0] for x in os.walk("tests")]
+    is_private = lambda path: any(pathPart[0] == "_" for pathPart in path.split("/"))
     return list(
-        filter(lambda path: path != "tests" and path.split("/")[1] != "_", dirs)
+        filter(lambda path: not is_private(path), dirs)
     )
 
 
