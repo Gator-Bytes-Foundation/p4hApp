@@ -23,9 +23,6 @@ from app.routes import resources_routes
 from app.routes import messaging_routes
 from app.routes import login_routes
 from app.routes import profile_routes
-app.run(debug=True)
-
-
 
 ''' for when db is finished setting up
 from app import User, Profile
