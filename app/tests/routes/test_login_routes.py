@@ -1,16 +1,18 @@
 from urllib.parse import urlparse
 from app.tests import client
 
-def test_root_for_user_that_is_not_logged_in(client):
-    """Should return the login form for a user that is not logged in"""
 
-    ## KICKOFF
+class TestLoginRoutes:
+    def test_root_for_user_that_is_not_logged_in(self, client):
+        """Should return the login form page for a user that is not logged in"""
 
-    response = client.get("/", follow_redirects=False)
+        ## KICKOFF
 
-    ## ASSERTIONS
+        response = client.get("/", follow_redirects=False)
 
-    assert response.status_code == 302
+        ## ASSERTIONS
 
-    path_redirected_to = urlparse(response.location).path
-    assert path_redirected_to == "/login"
+        assert response.status_code == 302
+
+        path_redirected_to = urlparse(response.location).path
+        assert path_redirected_to == "/login"
