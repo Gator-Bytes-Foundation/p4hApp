@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from app.canvas import Config
+from flask_manage_webpack import FlaskManageWebpack
+
 app = Flask(__name__)
 
 app.config.from_object(Config)
@@ -14,7 +16,9 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-
+# Register Flask-Manage-Webpack
+manage_webpack = FlaskManageWebpack()
+manage_webpack.init_app(app)
 
 #import app.routes #, user_model, profile_model
 #from app.routes import *
