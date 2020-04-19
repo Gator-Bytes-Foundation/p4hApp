@@ -11,3 +11,4 @@ app.yaml
 
 # cache dir created by pytest
 .cache
+node_modules
