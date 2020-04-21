@@ -4,12 +4,12 @@ const webpack = require("webpack");
 
 const basenameWithoutExt = (filePath) => path.basename(filePath).split(".")[0];
 
-const entries = glob.sync(path.resolve(".", "src/Page/*.*")).reduce(
+const entries = glob.sync(path.resolve(".", "src/js/*.*")).reduce(
   (acc, entryPath) => ({
     ...acc,
     [basenameWithoutExt(entryPath)]: entryPath,
   }),
-  { main: path.resolve(".", "src/main.js") }
+  { main: path.resolve(".", "src/js/main.js") }
 );
 
 const outputPath = path.resolve(__dirname, "../app/static/build");
