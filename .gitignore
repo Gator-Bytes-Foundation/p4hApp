@@ -12,3 +12,6 @@ app.yaml
 # cache dir created by pytest
 .cache
 node_modules
+
+# static build dir for assets
+static/build

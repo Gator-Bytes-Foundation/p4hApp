@@ -1,0 +1,10 @@
+#! /usr/bin/env bash
+
+main() {
+  (
+    cd frontend
+    yarn start
+  )
+}
+
+main "$@"

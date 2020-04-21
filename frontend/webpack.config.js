@@ -41,25 +41,20 @@ if (ip_address != undefined) {
 
 const basenameWithoutExt = (filePath) => path.basename(filePath).split(".")[0];
 
-const entry = glob.sync(path.resolve(".", "src/Page/*.elm")).reduce(
+const entries = glob.sync(path.resolve(".", "src/Page/*.*")).reduce(
   (acc, entryPath) => ({
     ...acc,
     [basenameWithoutExt(entryPath)]: entryPath,
   }),
-  {}
+  { main: path.resolve(".", "src/main.js") }
 );
 
-console.log("entry", entry);
-
 module.exports = {
-  // configuration
   context: __dirname,
-  entry: entry,
+  entry: entries,
   output: {
-    path: path.join(__dirname, "app", "static"),
-    publicPath: `${publicHost}/static/`,
-    filename: "js/[name]." + hashType + ".js",
-    chunkFilename: "js/[name]." + hashType + ".chunk.js",
+    filename: "[name].js",
+    path: path.resolve(__dirname, "../app/static/build"),
   },
   optimization: {
     minimizer: [
