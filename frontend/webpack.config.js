@@ -4,7 +4,7 @@ const webpack = require("webpack");
 
 const basenameWithoutExt = (filePath) => path.basename(filePath).split(".")[0];
 
-const entries = glob.sync(path.resolve(".", "src/js/*.*")).reduce(
+const entries = glob.sync(path.resolve(".", "src/js/entry/*.js")).reduce(
   (acc, entryPath) => ({
     ...acc,
     [basenameWithoutExt(entryPath)]: entryPath,

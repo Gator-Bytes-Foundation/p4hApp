@@ -18,10 +18,6 @@
   />
   <link
     rel="stylesheet"
-    href="{{ url_for('static', filename='css/login.css') }}"
-  />
-  <link
-    rel="stylesheet"
     href="{{ url_for('static', filename='icons/font/css/open-iconic-bootstrap.css') }}"
   />
   <link
@@ -138,6 +134,7 @@
   </div>
 </body>
 <script src="{{ static_path('main.js')}}"></script>
+<script src="{{ resolve_entry_script(self) }}"></script>
 <script>
   // handle posts
   $(".nav-item").mouseover(function (e) {
