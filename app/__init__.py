@@ -24,6 +24,8 @@ from app.routes import messaging_routes
 from app.routes import login_routes
 from app.routes import profile_routes
 
+from app.helpers import context_processors
+
 ''' for when db is finished setting up
 from app import User, Profile
 

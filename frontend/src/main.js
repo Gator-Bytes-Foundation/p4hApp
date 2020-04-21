@@ -5,4 +5,8 @@
  *
  */
 
-import "bootstrap";
+function main() {
+  throw new Error("ah");
+}
+
+main();
