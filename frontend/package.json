@@ -1,16 +1,14 @@
 {
   "scripts": {
     "build": "NODE_ENV=production webpack --progress --colors -p",
-    "start": "webpack-dev-server",
-    "webpack-dev-server": "NODE_ENV=debug webpack-dev-server --host=0.0.0.0 --port 2992 --hot --inline",
-    "flask-server": "flask run",
-    "lint": "eslint \"assets/js/*.js\""
+    "start": "webpack-dev-server"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
     "@babel/preset-env": "^7.8.4",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.5.2",
+    "style-loader": "^1.1.4",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.2",
     "webpack-dev-server": "^3.10.3"
