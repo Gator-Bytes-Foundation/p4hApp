@@ -5,8 +5,4 @@
  *
  */
 
-function main() {
-  throw new Error("ah");
-}
-
-main();
+import "bootstrap/dist/css/bootstrap.min.css";

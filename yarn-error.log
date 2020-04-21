@@ -1,0 +1,36 @@
+Arguments: 
+  /usr/bin/node /usr/share/yarn/bin/yarn.js add -D style-loaer
+
+PATH: 
+  /usr/bin:/usr/local/sbin:/usr/lib/go-1.11/bin:/home/shayne/.go/bin:/home/shayne/bin://home/shayne/.local/bin:/home/shayne/.yarn/bin:/home/shayne/opt:/home/shayne/.cargo/bin:/home/shayne/.cabal/bin:/home/shayne/dotfiles-manager/bin:/home/shayne/provision/bin:/var/lib/snapd/snap/bin:/usr/bin:/usr/local/sbin:/usr/lib/go-1.11/bin:/home/shayne/.go/bin:/home/shayne/bin://home/shayne/.local/bin:/home/shayne/.yarn/bin:/home/shayne/opt:/home/shayne/.cargo/bin:/home/shayne/.cabal/bin:/home/shayne/dotfiles-manager/bin:/home/shayne/provision/bin:/var/lib/snapd/snap/bin:/home/shayne/.asdf/shims:/home/shayne/.asdf/bin:/usr/bin:/usr/local/sbin:/usr/lib/go-1.11/bin:/home/shayne/.go/bin:/home/shayne/bin://home/shayne/.local/bin:/home/shayne/.yarn/bin:/home/shayne/opt:/home/shayne/.cargo/bin:/home/shayne/.cabal/bin:/home/shayne/dotfiles-manager/bin:/home/shayne/provision/bin:/var/lib/snapd/snap/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin
+
+Yarn version: 
+  1.22.4
+
+Node version: 
+  12.16.1
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/style-loaer: Not found
+      at Request.params.callback [as _callback] (/usr/share/yarn/lib/cli.js:66987:18)
+      at Request.self.callback (/usr/share/yarn/lib/cli.js:140748:22)
+      at Request.emit (events.js:311:20)
+      at Request.<anonymous> (/usr/share/yarn/lib/cli.js:141720:10)
+      at Request.emit (events.js:311:20)
+      at IncomingMessage.<anonymous> (/usr/share/yarn/lib/cli.js:141642:12)
+      at Object.onceWrapper (events.js:417:28)
+      at IncomingMessage.emit (events.js:323:22)
+      at endReadableNT (_stream_readable.js:1204:12)
+      at processTicksAndRejections (internal/process/task_queues.js:84:21)
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
