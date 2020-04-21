@@ -1,2 +1,2 @@
-frontend: ./bin/run-frontend-dev
-backend: ./bin/run-backend-dev
+frontend: ./bin/dev/run-frontend
+backend: ./bin/dev/run-backend

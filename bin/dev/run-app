@@ -1,0 +1,7 @@
+#! /usr/bin/env bash
+
+main() {
+    honcho start
+}
+
+main "$@"
