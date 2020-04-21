@@ -10,13 +10,12 @@ Flask-SQLAlchemy==2.4.0
 Flask-WTF==0.14.2
 Flask-User==1.0.1.5
 
-# Frontend/Asset Packages
-Flask-Manage-Webpack==1.4.1
-
 # Automated tests
 pytest==3.0.5
 pytest-cov==2.4.0
 
+# Dev App Runner
+honcho==1.0.1
 
 # Google API
 google-api-python-client==1.6.2
