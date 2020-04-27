@@ -75,7 +75,7 @@ $("#post").on("click", function (e) {
   e.preventDefault();
   var value = $("#textbox_post").val();
   console.log(value);
-  input = document.getElementById("post_file"); // grabs the right file by ID
+  const input = document.getElementById("post_file"); // grabs the right file by ID
   var formData = new FormData();
   if (input != null) {
     files = input.files[0];
@@ -92,13 +92,13 @@ $("#post").on("click", function (e) {
     processData: false,
     dataType: "text",
     error: function (data) {
-      response = eval(data);
-      post = JSON.stringify(response);
+      const response = eval(data);
+      const post = JSON.stringify(response);
       console.log("error" + post);
       $("#write_post").append(post);
     },
     success: function (data) {
-      post = data;
+      const post = data;
       console.log("post being created " + post);
       $("#write_post").append(post);
       if (typeof file !== "undefined") {
@@ -188,7 +188,7 @@ function filterFunction() {
 }
 // function to cancel the search dropdown (by clicking outside of it in function below)
 function cancelDropDown() {
-  list_of_items = document.getElementsByClassName("list_of_items");
+  const list_of_items = document.getElementsByClassName("list_of_items");
   list_of_items[0].style.display = "none";
 }
 
@@ -198,8 +198,8 @@ WINDOW CLICKS
 
 */
 window.onclick = function (event) {
-  list_of_items = document.getElementsByClassName("list_of_items");
-  edit_menu = document.getElementsByClassName("overlayBlock")[0];
+  const list_of_items = document.getElementsByClassName("list_of_items");
+  const edit_menu = document.getElementsByClassName("overlayBlock")[0];
   if (!event.target.matches("list_of_items")) {
     // cancels dropdown box if clicked somewhere outside of dropdown box
     if (list_of_items[0].style.display == "block") {
