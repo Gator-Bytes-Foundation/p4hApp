@@ -201,7 +201,7 @@ b {
   left:0px;
   width: calc(100% - 20px);
   box-sizing: border-box;
-  background-image: url('searchicon.png');
+/* TODO: Image is missing and needs to be added  background-image: url('searchicon.png'); */
   background-position: 14px 12px;
   background-repeat: no-repeat;
   font-size: 16px;
