@@ -1,4 +1,5 @@
 // for changing the file name dynamically //
+import "../../css/progress.css";
 var inputs = document.querySelectorAll(".inputfile"); // looks if a file is set for upload
 Array.prototype.forEach.call(inputs, function (input) {
   var label = input.nextElementSibling, // gets the inner html of the label attribute that is visually seen (the file input is invisible)
