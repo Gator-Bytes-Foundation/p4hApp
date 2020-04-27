@@ -9,3 +9,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import $ from "jquery";
 
 window.$ = $;
+
+// handle posts
+$(".nav-item").mouseover(function (e) {
+  $(this).addClass("pulse");
+});
+$(".nav-item").mouseout(function (e) {
+  $(this).removeClass("pulse");
+});

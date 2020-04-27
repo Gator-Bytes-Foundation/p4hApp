@@ -135,12 +135,3 @@
 </body>
 <script src="{{ static_path('main.js')}}"></script>
 <script src="{{ resolve_entry_script(self) }}"></script>
-<script>
-  // handle posts
-  $(".nav-item").mouseover(function (e) {
-    $(this).addClass("pulse");
-  });
-  $(".nav-item").mouseout(function (e) {
-    $(this).removeClass("pulse");
-  });
-</script>
