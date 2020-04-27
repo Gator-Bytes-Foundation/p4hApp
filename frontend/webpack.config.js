@@ -1,6 +1,7 @@
 const glob = require("glob");
 const path = require("path");
 const webpack = require("webpack");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 const basenameWithoutExt = (filePath) => path.basename(filePath).split(".")[0];
 
@@ -12,7 +13,7 @@ const entries = glob.sync(path.resolve(".", "src/js/entry/*.js")).reduce(
   { main: path.resolve(".", "src/js/main.js") }
 );
 
-const outputPath = path.resolve(__dirname, "../app/static/build");
+const outputPath = path.resolve(__dirname, "../app/static/js");
 
 module.exports = {
   context: __dirname,
@@ -38,6 +39,7 @@ module.exports = {
       },
     ],
   },
+  plugins: [new CleanWebpackPlugin()],
   devServer: {
     contentBase: outputPath,
     compress: true,

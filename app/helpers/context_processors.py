@@ -1,4 +1,4 @@
-from app import app
+from app import app, environment
 
 ##
 # This will make some utility functions available so that they can be called in the HTML templates
@@ -8,10 +8,10 @@ def utility_processor():
 
     def static_path(resource):
         # if is_dev:
-        if True:
+        if environment == "development":
             return "http://localhost:9000/" + resource
         else:
-            return ""
+            return "/static/js/" + resource
 
     def resolve_entry_script(template):
         template_name = template._TemplateReference__context.name

@@ -14,4 +14,4 @@ app.yaml
 node_modules
 
 # static build dir for assets
-app/static/build
+app/static/js
