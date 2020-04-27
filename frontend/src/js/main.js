@@ -6,6 +6,7 @@
  */
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import "../css/navbar.css";
 import $ from "jquery";
 
 window.$ = $;
