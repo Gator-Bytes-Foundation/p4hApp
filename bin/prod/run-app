@@ -3,22 +3,22 @@
 SCRIPT_DIR=$(dirname "$0")
 
 build_assets() {
-	local frontend_dir="$SCRIPT_DIR/../../frontend"
-	(
-		cd "$frontend_dir"
-		yarn
-		yarn build
-	)
+  local frontend_dir="$SCRIPT_DIR/../../frontend"
+  (
+    cd "$frontend_dir"
+    yarn
+    yarn build
+  )
 }
 
 run_server() {
-	"$SCRIPT_DIR/../dev/run-backend"
+  "$SCRIPT_DIR/../dev/run-backend"
 }
 
 main() {
-	export ENVIRONMENT="production"
-	build_assets
-	run_server
+  export ENVIRONMENT="production"
+  build_assets
+  run_server
 }
 
 main "$@"
