@@ -8,3 +8,6 @@ wsgi.py
 settings.py
 
 app.yaml
+
+# cache dir created by pytest
+.cache
