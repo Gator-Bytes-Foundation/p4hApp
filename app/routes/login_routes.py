@@ -20,10 +20,6 @@ import logging
 
 
 # LOGGING IN AND SIGNING REQUESTS #
-@app.route('/signup.html', methods=['GET', 'POST'])
-def signInUser():
-  return render_template('signup.html')
-
 @app.route('/signup', methods=['GET', 'POST'])
 def signUp():
   form = SignUpForm()
