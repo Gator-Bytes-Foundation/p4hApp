@@ -1,7 +1,12 @@
 #! /usr/bin/env bash
 
+# This script runs the app in production mode
+#
+# Usage: ./bin/prod/run-app
+
 SCRIPT_DIR=$(dirname "$0")
 
+# Here we are using webpack to build the frontend assets that will be dumped into app/static
 build_assets() {
   local frontend_dir="$SCRIPT_DIR/../../frontend"
   (

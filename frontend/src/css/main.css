@@ -1,3 +1,5 @@
+/* This is the main CSS stylesheet that will get loaded on every page */
+
 /* CSS to overwrite any bootstrap */
 .bs-example {
     margin-bottom: 20px;

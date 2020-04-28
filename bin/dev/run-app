@@ -1,5 +1,10 @@
 #! /usr/bin/env bash
 
+# This script will start the app for running in development.
+# It delegates to `honcho` will start the services defined in the `Procfile`.
+#
+# Usage: ./bin/dev/run-app
+
 main() {
   honcho start
 }

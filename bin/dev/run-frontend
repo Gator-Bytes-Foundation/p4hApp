@@ -1,5 +1,9 @@
 #! /usr/bin/env bash
 
+# This script installs the frontend dependencies and starts the webpack dev server.
+#
+# Usage: ./bin/dev/run-frontend
+
 SCRIPT_DIR=$(dirname "$0")
 
 main() {
