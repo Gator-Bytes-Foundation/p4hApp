@@ -6,6 +6,7 @@ main() {
   local frontend_dir="$SCRIPT_DIR/../../frontend"
   (
     cd "$frontend_dir"
+    yarn
     yarn start
   )
 }
