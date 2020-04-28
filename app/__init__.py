@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -14,7 +15,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-
+environment = os.getenv('ENVIRONMENT', default='development')
 
 #import app.routes #, user_model, profile_model
 #from app.routes import *
@@ -23,6 +24,8 @@ from app.routes import resources_routes
 from app.routes import messaging_routes
 from app.routes import login_routes
 from app.routes import profile_routes
+
+from app.helpers import context_processors, static_asset_resolve
 
 ''' for when db is finished setting up
 from app import User, Profile

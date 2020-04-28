@@ -1,0 +1,15 @@
+/* This is the main CSS stylesheet that will get loaded on every page */
+
+/* CSS to overwrite any bootstrap */
+.bs-example {
+    margin-bottom: 20px;
+}
+/* overwrite bootstrap blue primary color */
+.btn {
+    background-color: #1632aa;
+    color: white;
+    border-color: #112787;
+}
+.btn:hover {
+    background-color: #112787; /* Green */
+}
