@@ -1,0 +1,11 @@
+#! /usr/bin/env bash
+
+# This script starts the Flask server
+#
+# Usage: ./bin/dev/run-backend
+
+main() {
+  python __main__.py
+}
+
+main "$@"

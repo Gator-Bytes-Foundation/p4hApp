@@ -1,96 +1,90 @@
 <!DOCTYPE html>
 
-  <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta charset="utf-8">
-
-  <!-- for production -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/messaging.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='icons/font/css/open-iconic-bootstrap.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
-  <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/bootstrap.bundle.js') }}"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css"> <!-- the source of css animations -->
-  <!--
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> 
-<link href="css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<link href="css/bootstrap.css" rel="stylesheet" id="bootstrap.min-css">
-<script src="js/bootstrap.bundle.js"></script>
-<link href="css/navbar.css" rel="stylesheet" id="navbar-css">
-  <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-
--->
+<head>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+  <meta charset="utf-8" />
   <!-- Static references -->
-  <link rel='icon' href='../static/images/profile_pic.jpg' type='image/x-icon'/ >
-  <link rel="canonical" href="https://getbootstrap.com/docs/4.1/examples/navbars/">
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-<!-- CSS to overwrite any bootstrap -->
-<style type="text/css">
-.bs-example {
-  margin-bottom: 20px;
-}
-/* overwrite bootstrap blue primary color */
-.btn {
-  background-color: #1632AA;
-  color:white; border-color:#112787;
-}
-.btn:hover {
-  background-color: #112787; /* Green */
-}
-</style>
-  </head>
-  <body>
-<div class="bs-example">
-    <nav class="navbar navbar-expand-md navbar-dark" id="navbar-container" > <a href="#" class="navbar-brand">
-      <h1 id="nav-logo-p4h" ><img style="height:45px; vertical-align: middle;" class=" img-fluid" src="../static/images/white_log.png" id="icon" alt="User Icon" /></h1>
+  <link rel='icon' href='../static/images/profile_pic.jpg' type='image/x-icon'/
+  >
+  <link
+    rel="canonical"
+    href="https://getbootstrap.com/docs/4.1/examples/navbars/"
+  />
+</head>
+<body>
+  <div class="bs-example">
+    <nav class="navbar navbar-expand-md navbar-dark" id="navbar-container">
+      <a href="#" class="navbar-brand">
+        <h1 id="nav-logo-p4h">
+          <img
+            style="height: 45px; vertical-align: middle;"
+            class="img-fluid"
+            src="../static/images/white_log.png"
+            id="icon"
+            alt="User Icon"
+          />
+        </h1>
       </a>
-    {% if (current_user != None) %}
-    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse"> <span class="navbar-toggler-icon"></span> </button>
-    
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-        <div class="navbar-nav"> 
-          <!--<a href="" class="nav-item nav-link active animated" >Lakay</a>--> 
-          <a href="{{url_for('profile')}}" class="nav-item nav-link animated" style="">Profile</a> 
-          <a href="{{ url_for('messaging') }}" class="nav-item nav-link animated">Mesaj</a>
-          <a href="{{ url_for('announcements') }}" class="nav-item nav-link animated">Anons</a>
-          <a href="{{ url_for('resources') }}" class="nav-item nav-link disabled animated" tabindex="-1">Resous</a>
-          <a href="/" class="nav-item nav-link disabled animated" tabindex="-1">Logout</a>
+      {% if (current_user != None) %}
+      <button
+        type="button"
+        class="navbar-toggler"
+        data-toggle="collapse"
+        data-target="#navbarCollapse"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="navbar-nav">
+          <!--<a href="" class="nav-item nav-link active animated" >Lakay</a>-->
+          <a
+            href="{{url_for('profile')}}"
+            class="nav-item nav-link animated"
+            style=""
+            >Profile</a
+          >
+          <a
+            href="{{ url_for('messaging') }}"
+            class="nav-item nav-link animated"
+            >Mesaj</a
+          >
+          <a
+            href="{{ url_for('announcements') }}"
+            class="nav-item nav-link animated"
+            >Anons</a
+          >
+          <a
+            href="{{ url_for('resources') }}"
+            class="nav-item nav-link disabled animated"
+            tabindex="-1"
+            >Resous</a
+          >
+          <a href="/" class="nav-item nav-link disabled animated" tabindex="-1"
+            >Logout</a
+          >
         </div>
         <!--<div class="navbar-nav ml-auto"> <a href="#" class="nav-item nav-link animated">Anviwònman</a> </div>-->
       </div>
-    {% endif %}
-  </nav>
+      {% endif %}
+    </nav>
   </div>
   <!-- show flash messages to user in all views -->
-  {% with messages = get_flashed_messages() %}
-  {% if messages %}
+  {% with messages = get_flashed_messages() %} {% if messages %}
   <ul>
-      {% for message in messages %}
-      <li>{{ message }}</li>
-      {% endfor %}
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
   </ul>
-  {% endif %}
-  {% endwith %}
+  {% endif %} {% endwith %}
 
-<!-- This paragraph is just for testing. Remove in prod -->
-<div style="height:calc(100% - 153px);"> 
-  {% block content %}
-  {% endblock %} 
-</div>
+  <!-- This paragraph is just for testing. Remove in prod -->
+  <div style="height: calc(100% - 153px);">
+    {% block content %} {% endblock %}
+  </div>
 </body>
-<script>
-// handle posts
-$(".nav-item").mouseover(
-  function(e) { $(this).addClass('pulse')});
-$(".nav-item").mouseout(
-  function(e) { $(this).removeClass('pulse')});
-
-</script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script src="{{ url_for('static', filename=resolve_entry_script(self)) }}"></script>
