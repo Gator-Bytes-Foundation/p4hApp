@@ -1,8 +1,6 @@
-from app import app, environment
 from urllib.parse import urljoin
-
 from flask import redirect
-
+from app import app, environment
 
 @app.endpoint("static")
 def static(filename):
