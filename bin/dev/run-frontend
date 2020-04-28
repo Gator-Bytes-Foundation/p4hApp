@@ -1,8 +1,11 @@
 #! /usr/bin/env bash
 
+SCRIPT_DIR=$(dirname "$0")
+
 main() {
+  local frontend_dir="$SCRIPT_DIR/../../frontend"
   (
-    cd frontend
+    cd "$frontend_dir"
     yarn start
   )
 }
