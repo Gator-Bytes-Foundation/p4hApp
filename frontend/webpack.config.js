@@ -41,7 +41,7 @@ module.exports = {
         loader: "babel-loader",
       },
       {
-        test: /\.(woff|svg|otf|eot|ttf)$/i,
+        test: /\.(woff2?|svg|otf|eot|ttf)$/i,
         use: [
           {
             loader: "url-loader",
