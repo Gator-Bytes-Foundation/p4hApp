@@ -1,0 +1,9 @@
+language: python
+python:
+  - "3.7"
+
+install:
+  - ./bin/dev/install-deps
+
+script:
+  - ./bin/test

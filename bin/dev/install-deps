@@ -1,0 +1,20 @@
+#! /usr/bin/env bash
+
+# This script installs the dependencies necessary to run the app in development
+#
+# Usage: ./bin/dev/install-deps
+
+SCRIPT_DIR=$(dirname "$0")
+
+main() {
+  local frontend_dir="$SCRIPT_DIR/../../frontend"
+
+  python -m pip install --user -r requirements.txt
+
+  (
+    cd "$frontend_dir"
+    yarn
+  )
+}
+
+main "$@"
