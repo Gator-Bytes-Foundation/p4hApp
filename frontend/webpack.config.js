@@ -5,6 +5,8 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const ManifestPlugin = require("webpack-manifest-plugin");
 
+const isProduction = process.env.NODE_ENV === "production";
+
 const basenameWithoutExt = (filePath) => path.basename(filePath).split(".")[0];
 
 const entries = glob.sync(path.resolve(".", "src/js/entry/*.js")).reduce(
@@ -24,6 +26,7 @@ module.exports = {
   output: {
     filename: "js/[name].js",
     path: outputPath,
+    publicPath: isProduction ?  "/static/" : "/",
   },
   resolve: {
     extensions: [".js", ".css"],
