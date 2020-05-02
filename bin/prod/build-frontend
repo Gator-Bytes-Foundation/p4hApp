@@ -1,0 +1,18 @@
+#! /usr/bin/env bash
+
+# This script builds the frontend bundle
+#
+# Usage: ./bin/prod/build-frontend
+
+SCRIPT_DIR=$(dirname "$0")
+
+main() {
+  local frontend_dir="$SCRIPT_DIR/../../frontend"
+  (
+    cd "$frontend_dir"
+    yarn
+    yarn build
+  )
+}
+
+main "$@"
