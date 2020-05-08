@@ -6,23 +6,9 @@
 
 SCRIPT_DIR=$(dirname "$0")
 
-# Here we are using webpack to build the frontend assets that will be dumped into app/static
-build_assets() {
-  local frontend_dir="$SCRIPT_DIR/../../frontend"
-  (
-    cd "$frontend_dir"
-    yarn
-    yarn build
-  )
-}
-
-run_server() {
-  "$SCRIPT_DIR/../dev/run-backend"
-}
-
 main() {
   export ENVIRONMENT="production"
-  build_assets
+  "${SCRIPT_DIR}/build-frontend"
   run_server
 }
 

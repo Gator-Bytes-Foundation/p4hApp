@@ -1,4 +1,4 @@
-name: Backend Tests
+name: CI Checks
 
 on: push
 
@@ -13,10 +13,6 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: 3.8
-    - name: Install dependencies
+    - name: Verify production build of frontend
       run: |
-        python -m pip install --upgrade pip
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Test with pytest
-      run: |
-        ./bin/test
+        ./bin/prod/build-frontend
