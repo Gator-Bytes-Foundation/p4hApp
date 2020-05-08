@@ -30,7 +30,7 @@ def customProfileCalls(page_to_load): #url being routed is saved to 'page_to_loa
     return profile(page_to_load.replace('profile_','')) # calls profile function on username from route str
   elif('edit_save' in page_to_load):
     updateProfile(request)
-    return profile(current_user.id) # this isnt efficient since it reloads the entire page from scratch
+    return profile() # this isnt efficient since it reloads the entire page from scratch
   elif('download_assignment' in page_to_load): # check for file download
     assignment_download(page_to_load)
   
@@ -46,7 +46,6 @@ def progress():
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required #
 def profile(*args): 
-  print('here')
   all_users = list(course.get_users())
   if(args is None or args is ()):
     loadProfile(current_user, all_users)

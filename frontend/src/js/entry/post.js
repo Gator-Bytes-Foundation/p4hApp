@@ -1,38 +1,16 @@
 import "../../css/profile.css";
 /*
-#######################################    Functions to handle all actions in profile.html    ##########################################
+#######################################    Functions to handle all actions in post.html    ##########################################
 */
-/*
 
-PROFILE TABS
-
-*/
-// Dictates which view is seen by clickng on the tabs
-$(document).ready(function () {
-  //  When user clicks on tab, this code will be executed
-  $("#timeline-tab").addClass("active");
-  $("#timeline-tab").addClass("show");
+//* show comments for profile posts */ 
+$(document).on("click", ".view_more", function(e) { 
+  e.preventDefault();
+  var id = e.currentTarget.name;
+  console.log("view more: ", id);
+  $("#profile-comments-"+id).show(); 
 });
-/*
 
-EDIT PROFILE MENU 
-
-*/
-function cancelExitMenu() {
-  document.getElementsByClassName("backgroundOverlay")[0].style.display =
-    "none";
-  $("#entire_profile").css({ pointerEvents: "visible" });
-}
-$("#edit_profile").on("click", function (e) {
-  let edit_menu = document.getElementsByClassName("backgroundOverlay");
-  //console.log(edit_menu[0]);
-  edit_menu[0].style.display = "flex";
-  $("#entire_profile").css({ pointerEvents: "none" });
-  $("#edit_profile_menu").css({ pointerEvents: "visible" });
-});
-$("#exit_edit").on("click", function (e) {
-  cancelExitMenu();
-});
 /*
 
 REPLY BUTTON
@@ -85,12 +63,18 @@ $("#post").on("click", function (e) {
   formData.append("text", value);
   $.ajax({
     type: "POST",
-    url: "\post",
+    url: "/post",
     data: formData,
     cache: false,
     contentType: false,
     processData: false,
     dataType: "text",
+    error: function (data) {
+      const response = eval(data);
+      const post = JSON.stringify(response);
+      console.log("error" + post);
+      $("#write_post").append(post);
+    },
     success: function (data) {
       const post = data;
       console.log("post being created " + post);
@@ -112,12 +96,6 @@ $("#post").on("click", function (e) {
         }
       }
     },
-    error: function (data,err,exception) {
-      const response = eval(data);
-      const post = JSON.stringify(response);
-      console.log(err);
-      console.log(exception);
-    }
   });
 });
 // handle textbox as user types
@@ -162,35 +140,6 @@ $(function () {
       }
     });
 });
-
-/* 
-
-SEARCH BAR 
-
-*/
-/* filters the search bar of all users */
-
-function filterFunction() {
-  let input, filter, dropdown, profileLinks;
-  input = document.getElementById("profileSearchInput");
-  filter = input.value.toUpperCase();
-  dropdown = $("#profileSearchDropdown")[0]; // 1st index of Jqeury object is DOM object
-  dropdown.style.display = "block";
-  profileLinks = dropdown.getElementsByTagName("a"); // gets all <a></a> links in dropdown div
-  for (let i = 0; i < profileLinks.length; i++) {
-    txtValue = profileLinks[i].textContent || profileLinks[i].innerText;
-    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      profileLinks[i].style.display = "";
-    } else {
-      profileLinks[i].style.display = "none"; // hides all users that are filtered out
-    }
-  }
-}
-// function to cancel the search dropdown (by clicking outside of it in function below)
-function cancelDropDown() {
-  const list_of_items = document.getElementsByClassName("list_of_items");
-  list_of_items[0].style.display = "none";
-}
 
 /*
 

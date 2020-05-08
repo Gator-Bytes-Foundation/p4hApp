@@ -28,7 +28,7 @@
       {% if(posts|length == 0)%}
         <h3 style='text-align: center;'>No Announcements at this time</h3>
       {% endif %}
-    {% for i in range(posts|length) %}
+    {% for post in posts %}
         {% include 'post.html' %}
     {%endfor%}
   </div>

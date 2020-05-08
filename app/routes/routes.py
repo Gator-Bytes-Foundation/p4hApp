@@ -27,16 +27,18 @@ import logging
 #
 # If a request from client has variable data in it, we handle it here and get the data out of the url before routing the user
 #
-@app.route('/<page_to_load>', methods=['GET', 'POST'])
+@app.route('/post', methods=['GET', 'POST'])
 def customGeneralCalls(page_to_load): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
-  #print("page loading: ",page_to_load)
+  print("page loading: ",page_to_load)
 
   if(request.method == 'POST'):
     if('comment' in page_to_load and (request.get_json() != {})):   
       print("Request data -> " + str(request.get_json()))
       return handleComment(page_to_load, request)
+    
     elif('post' in page_to_load):    
       return handlePost(page_to_load, request)
+    
     else:
       return '' # in case a null request is made
   
@@ -46,10 +48,6 @@ def customGeneralCalls(page_to_load): #url being routed is saved to 'page_to_loa
 @app.route('/announcements', methods=['GET', 'POST'])
 def announcements():    
   newsfeed_posts, newsfeed_comments, date = loadNewsFeed()
-  profile = Profile()
-  profile.newsfeed_posts = newsfeed_posts
-  profile.newsfeed_comments = newsfeed_comments
-  profile.date = date
   #print ("comment object: ", profile_comments)
-  return render_template('discussion.html', profile=profile,  current_user= current_user)
+  return render_template('announcements.html',  posts=newsfeed_posts, comments=newsfeed_comments, date=date, current_user= current_user)
 

@@ -2,13 +2,12 @@
 
 {% extends "header.html" %} <!-- all html files should extend from the header, (the header contains all static references as well) --> 
 {% block content %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html) -->
-
 <div id="entire_profile" class="container emp-profile">
    <div id="edit_menu" style="display:none;" class="backgroundOverlay">
     <div class="wrapper overlayBlock fadeInDown " id="edit_profile_menu">
       <button id="exit_edit" class="exit_icon" style="float:left;"aria-label="Close Account Info Modal Box">&times;</button>
       <div style="top:40px; position:relative;">
-        <form action="edit_save" method="post"  enctype="multipart/form-data">
+        <form action="profile/edit_save" method="post"  enctype="multipart/form-data">
       <div style="text-align: center; margin-bottom: 35px;" class="">
         <h3>Edit Menu</h3>
       </div>
@@ -171,7 +170,8 @@
           </div>
         </div>
         <!-- Post Loop --> 
-        {% for i in range(profile.posts | length)%}
+
+        {% for post in profile.posts %}
           {% include 'post.html' %}
         {% endfor %}
       <img id="pic" class="img-fluid"/>

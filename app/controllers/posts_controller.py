@@ -148,7 +148,7 @@ def loadPostComents(post):
   # store all comments of this post in object/map to map to one another on client side
   allCommentsMap[str(post.id)] = postComments
   return allCommentsMap
-def handleComment(self,page_to_load, request):
+def handleComment(page_to_load, request):
   new_comment = request.get_json()["text"]
   print("reply:", new_comment)
   topic_id = page_to_load.replace('comment_','')

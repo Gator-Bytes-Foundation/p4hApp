@@ -3,11 +3,13 @@
  */
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import "font-awesome/css/font-awesome.min.css";
+import "jquery/dist/jquery.min.js";
+//import "font-awesome/css/font-awesome.min.css";
 import "animate.css/animate.min.css";
-import "open-iconic/font/css/open-iconic-bootstrap.css";
+//import "open-iconic/font/css/open-iconic-bootstrap.css";
 import "../css/main.css";
 import "../css/navbar.css";
+
 import $ from "jquery";
 
 window.$ = $;
