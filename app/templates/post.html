@@ -22,19 +22,19 @@
             {{post.message}}
           </div>
         <hr>
-          {% if( (comments[post.id | string] | length) > 0 ) %}
+          {% if( (profile.comments[post.id | string] | length) > 0 ) %}
           <div class="text-center">
               <p class=""><a href="" name="{{post.id}}" id="view_more-{{post.id}}" class="profile_button view_more">View Comments</a></p>
           </div>
           {%endif%}              
           <div id="profile-comments-{{post.id}}" style="display:none;"> <!-- changes from on to off based off "view comments button -->
           <label class = "comment_label" for="from"><b>comments</b></label>
-          {% for j in range(comments[(post.id | string)] | length) | reverse %}
+          {% for j in range(profile.comments[(post.id | string)] | length) | reverse %}
           <div class="post_comment">
             <figure class=" col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="../static/images/me.png"/></figure>
             <div class="word_bubble col-10">
-              <p class=""><b>{{comments[post.id | string][j].user["display_name"]}}:</b><br>
-                {{comments[(post.id | string)][j].message}}</p>
+              <p class=""><b>{{profile.comments[post.id | string][j].user["display_name"]}}:</b><br>
+                {{profile.comments[(post.id | string)][j].message}}</p>
             </div>
           </div>
           {% endfor %}

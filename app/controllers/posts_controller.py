@@ -42,7 +42,7 @@ def loadPosts(user_id,start_index,end_index):
       posts[i].posted_at = proper_date # replace old ugly format
       # push profile post into recent posts array
       recentPosts.append(posts[i])
-      commentsMap = loadPostComents(posts[i])
+      commentsMap = loadPostComments(posts[i])
     # end of if statement
 
   # now adding posts to profile
@@ -129,7 +129,7 @@ def handlePost(request):
   post_html = '<article id="' + post_id + '"class="post_box"> <div class="profile_name"> <div class="profile_pic"> <figure class="thumbnail "><img alt="placeholder" class="img-fluid rounded-circle" src="' + post.author['avatar_image_url'] + '"/></figure></div> <div class="col-10"><header class="text-left"><figcaption class="comment-user"><b>'+canvas_user.name+'</b></figcaption><time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> ' + proper_date + '</time></header></div></div> <div class="post"> <div class="">' + new_post + '</div><hr>   <div class="text-center"></div> <div id="comments-' + post_id + '" ><label class = "comment_label" for="from">Comments</label> <div id="reply_div-' + post_id + '"class="reply_div"> <div class="col-8"> <textarea class= "text_box" name="message" id="textbox_reply-' + post_id + '" style="" onkeyup="Expand(this);" size="5" placeholder="Comment"></textarea><span class="upload_icon oi oi-cloud-camera" aria-hidden="true"></span></div> <a href=""name="' + post_id + '" id="reply-' + post_id + '" class="reply_button col-4 btn-sm"><i class="fa fa-reply"></i> Reply</a></div></div></article>'  
   return post_html
 
-def loadPostComents(post):
+def loadPostComments(post):
   comments = post.list_topic_entries()._get_next_page()
   allCommentsMap = {}
   postComments = []
