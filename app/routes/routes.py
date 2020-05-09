@@ -27,22 +27,9 @@ import logging
 #
 # If a request from client has variable data in it, we handle it here and get the data out of the url before routing the user
 #
-@app.route('/post', methods=['GET', 'POST'])
-def customGeneralCalls(page_to_load): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
-  print("page loading: ",page_to_load)
-
-  if(request.method == 'POST'):
-    if('comment' in page_to_load and (request.get_json() != {})):   
-      print("Request data -> " + str(request.get_json()))
-      return handleComment(page_to_load, request)
-    
-    elif('post' in page_to_load):    
-      return handlePost(page_to_load, request)
-    
-    else:
-      return '' # in case a null request is made
-  
-  return render_template(page_to_load)
+@app.route('/post', methods=['POST'])
+def customGeneralCalls():
+  return handlePost(request)
 
 # DISCUSSION REQUESTS #
 @app.route('/announcements', methods=['GET', 'POST'])
