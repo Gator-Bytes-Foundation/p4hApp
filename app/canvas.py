@@ -70,7 +70,5 @@ def authenticate(scopes, call):
         resp = requests.post(token_url, serviceKey).json()
     except CanvasException as e:
         print(e)
-    # http2 = Http()
-    # credentials.authorize(http2)
     print("resp ", resp)
     return credentials
