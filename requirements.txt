@@ -32,7 +32,6 @@ rocketchat_API>=0.0
 
 # Misc.
 pyper==1.1.2
-django==3.0.2
 certifi==2019.6.16
 chardet==3.0.4
 Click==7.0
@@ -49,3 +48,4 @@ twilio==6.29.1
 urllib3==1.25.3
 Werkzeug==0.15.5
 gunicorn==19.9.0
+PyYAML==5.3.1
