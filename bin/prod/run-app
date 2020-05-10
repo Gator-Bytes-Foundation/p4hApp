@@ -1,0 +1,15 @@
+#! /usr/bin/env bash
+
+# This script runs the app in production mode
+#
+# Usage: ./bin/prod/run-app
+
+SCRIPT_DIR=$(dirname "$0")
+
+main() {
+  export ENVIRONMENT="production"
+  "${SCRIPT_DIR}/build-frontend"
+  run_server
+}
+
+main "$@"

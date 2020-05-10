@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+{% extends "header.html" %} <!-- all html files should extend from the header, (the header contains all static references as well) --> 
+{% block content %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
+
+<header> 
+  <!--{{ super() }}--> 
+</header>
+<div class="container emp-profile">
+    <div class="">
+      <div class="col-12">
+        <h1>Anons</h1>
+        {% if(current_user.name == 'Admin') %}
+        <div id="write_post"> 
+        <div style="text-align: center;" class="post_box row">
+          <figure class="thumbnail col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="../static/images/p4h.png"/></figure>
+          <div class="col-9" id="textbox_p">
+            <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="Write Announcement" onclick="this.value=''"></textarea><span class="oi oi-cloud-download upload_icon" aria-hidden="true"></span>
+          </div>
+          <a href="#" name="action" id="post" value="Post" style="width:100%;" class="profile_button btn-sm">Post</a>
+          </div>
+        </div>
+      {% endif %}
+      </div>
+    </div>
+    <div class="row">
+    <div class="col-12 ">
+      {% if(posts|length == 0)%}
+        <h3 style='text-align: center;'>No Announcements at this time</h3>
+      {% endif %}
+    {% for post in posts %}
+        {% include 'post.html' %}
+    {%endfor%}
+  </div>
+</div>
+</div>
+{% endblock %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html --> 

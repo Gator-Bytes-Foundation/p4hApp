@@ -1,0 +1,276 @@
+/*font Awesome http://fontawesome.io*/
+@import url(//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
+/*Comment List styles*/
+/* haitian flag blue: #1632AA
+/* haitian flag red: #B30D2C
+/*circle profile picture crop version */ 
+
+b {
+  color: rgba(22,50,170, 0.90);
+}
+.image-cropper {
+  width: 70px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+}
+.upload_icon {
+  vertical-align: middle;
+  color: rgba(22,50,170, 0.90);  
+}
+.exit_icon {
+  background-color:#fff;
+  color: rgba(22,50,170, 0.9);
+  border-style: none;
+  border-radius: 10px;
+  width:30px;
+}
+.backgroundOverlay {
+  position: fixed;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 2;
+  pointer-events: none;
+}
+.overlayBlock {
+  display:block;
+  position: absolute;
+  top:12%;
+  background: #FFFFFF;
+  backface-visibility: visible;
+  width:85%;
+  height:76%;
+  border-radius: 10px;
+}
+  .overlayBlock .upload_icon {
+    font-size:20px;
+  }
+
+
+.overlayBlock .row {
+  padding-right:20px;
+  padding-left:20px;
+  padding-bottom:10px;
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.overlayBlock .col-8, .overlayBlock .col-4, .overlayBlock .col-sm-8   {
+  padding-right:5px;
+  padding-left:5px;
+}
+.overlayBlock .col-8 .row {
+  justify-content: center;
+}
+.profile-pic {
+}
+.profile-pic img{
+  margin: 0 auto;
+  /*margin-left: -25%; centers the image */
+  width: 100%;
+  height: 100%;
+}
+.buttons_row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+/* CSS for profile posts */
+.post_box {
+  position:relative;
+  border-style:solid; 
+  border-width:thin;  
+  border-color:rgba(130,67,68,0.40);
+  padding:14px 8px 8px 8px;
+  border-radius:5px 5px 5px 5px;
+  margin-bottom:10px;
+}
+.post_box .row {
+  margin:0; /* get rid of annoying bootstrap margins for "row" class */
+  justify-content: center;
+}
+.profile_name {
+  width:100%;
+  display: flex;
+}
+.profile_name .upload_icon {
+  position:absolute !important;
+  right:10%; 
+  top:10% !important;
+  font-size:12px;
+  padding:5px!important;
+}
+.thumbnail {
+  display:flex;
+  justify-content: center;
+}
+.post {
+  width:100%; 
+}
+
+
+.profile_button {
+  cursor:pointer;
+  display: block;
+  width:100%;
+  max-width:450px;
+  text-align: center;
+  font-size: 1rem;
+  padding:7px;
+  /*margin-right:6px !important;
+  margin-left:6px !important;*/
+  padding-right: 14px;
+  padding-left: 14px;
+  margin: 7px 0px 5px 0;
+  border: thin;
+  border-style: solid;
+  border-color: rgba(22,80,200,0.20); 
+  color:#1632AA;
+  background-color: transparent; /* same color as #1632AA with low opacity */
+  box-shadow: 0px 4px 7px 0px rgba(22,50,170, 0.10);/* same color as #1632AA with low opacity */
+}
+.custom-file {
+  width:90%;
+}
+.custom-file input {
+  background-color: transparent;
+}
+.profile_button:hover {
+  background-color: rgba(22,50,170,0.07); /* same color as #1632AA with low opacity */
+  color:#1B3FD7;
+  text-decoration: none !important;
+}
+.reply_div {
+  margin-bottom:8px;
+  width:100%;
+  position: relative;
+  display:flex;
+  flex-wrap:wrap; 
+}
+.reply_button {
+  border: thin;
+  height:35px;
+  text-align: center;
+  border-style: solid;
+  border-color: rgba(22,80,200,0.20); 
+  color:#1632AA;
+  background-color: transparent; /* same color as #1632AA with low opacity */
+  box-shadow: 0px 4px 7px 0px rgba(22,50,170, 0.10);/* same color as #1632AA with low opacity */
+  
+}
+.reply_button:hover {
+  background-color: rgba(22,50,170,0.07); /* same color as #1632AA with low opacity */
+  color:#1B3FD7;
+  text-decoration: none !important;
+}
+.text_box {
+  resize:none;
+  border-radius: 20px 20px 20px 20px;  
+  width: 100%;
+  height: 35px;
+  line-height:120%;
+  padding:8px;
+  position: relative;
+  box-shadow: 0px 4px 7px 0px rgba(22,50,170, 0.10);/* same color as #1632AA with low opacity */
+  border:thin;
+  border-style: solid;
+  border-color: rgba(22,80,200,0.20); 
+}
+
+.post_comment {
+  display:flex;
+  flex-wrap:wrap; 
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.word_bubble {
+  background-color: rgba(22,50,170, 0.07) ; 
+  border-radius: 20px 20px 20px 20px;  
+}
+
+
+/* The search field */
+#profileSearchInput {
+  left:0px;
+  width: calc(100% - 20px);
+  box-sizing: border-box;
+/* TODO: Image is missing and needs to be added  background-image: url('searchicon.png'); */
+  background-position: 14px 12px;
+  background-repeat: no-repeat;
+  font-size: 16px;
+  padding: 7px 20px 7px 15px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+}
+
+/* The search field when it gets focus/clicked on */
+#profileSearchInput:focus {outline: 3px solid #ddd;}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  width:100%;
+  margin-bottom:15px; 
+}
+.list_of_items {
+  display:none;
+  position: absolute;
+  background-color: #f6f6f6;
+  width:100%;
+  border: 1px solid #ddd;
+  z-index: 1;
+}
+/* Links inside the dropdown */
+.list_of_items a {
+  color: black;
+  display: block;
+  position:relative;
+  padding: 12px 16px;
+  text-decoration: none;
+}
+/* Change color of dropdown links on hover */
+.list_of_items a:hover {background-color: #f1f1f1}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  left:3%;
+  width:80%;
+  display:flex;
+  flex-wrap: wrap;
+  position: relative;
+  min-width: 220px;
+}
+.dropdown-content .oi {
+  align-self: center;
+  padding:5px !important;
+  width:20px;
+}
+.erase { /* submit form only worked with button, so i made an invisble button behind a <a>link</a> */
+  opacity:0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;}
+
+/* Portrait tablets and medium desktops */
+@media (min-width: 768px) {
+.overlayBlock {
+  width:750px;
+  }
+  .buttons_row {
+    max-width:75%;
+  }
+}

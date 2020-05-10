@@ -1,0 +1,55 @@
+  <!DOCTYPE html>
+
+{% extends "header.html" %}<!-- all html files should extend from the header, (the header contains all static references as well) -->
+{% block content %}
+<html>
+<section class="login">
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    <div class="fadeIn first">
+      <center><div class="image-cropper"><img class="profile-pic img-fluid" src="../static/images/p4h.png" id="icon" alt="User Icon" /></div></center>
+    </div>
+
+    <!-- Login Form -->
+    <form method="POST" action="" novalidate>
+      {{ form.hidden_tag() }}
+        <p class="fadeIn second">
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}<br>
+            {% for error in form.username.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p class="fadeIn third">
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}<br>
+            {% for error in form.password.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+        <p class="fadeIn fourth" >{{ form.submit() }}</p>
+
+    </form>
+    {% if error %}
+      <p class=error><strong>Error:</strong> {{ error }}
+    {% endif %}
+
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+      <a class="underlineHover" href="#">Forgot Password?</a>
+    </div>
+     <div id="formFooter">
+          <a href="/signup" class="underlineHover">Sign Up</a>
+    </div>
+          
+
+
+  </div>
+</div>
+</section>
+</html>
+{% endblock %}

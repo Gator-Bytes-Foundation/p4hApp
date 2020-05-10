@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+  
+
+<article id="post_{{post.id}}" class="post_box">
+  <div class="profile_name">
+    <div class="profile-pic">
+      {% if(post.title == 'Admin' or post.title == 'Announcement' ) %}
+        <figure class="thumbnail"><img alt="placeholder"class="img-fluid rounded-circle" src="../static/images/p4h.png"/></figure>
+      {% else %}
+        <figure class="thumbnail"> <img alt="placeholder"class="img-fluid rounded-circle" src="{{profile_pic}}"/> </figure>
+      {% endif %}
+    </div>
+    <div class="col-10">
+      <header class="text-left">
+        <figcaption class="comment-user"><b>{{post.title}}</b></figcaption>
+        <time class="comment-date" datetime="{{date}}"><i class="fa fa-clock-o"></i> {{date}}</time>
+      </header>
+    </div>
+  </div>
+        <div class="post">
+          <div class="">
+            {{post.message}}
+          </div>
+        <hr>
+          {% if( (comments[post.id | string] | length) > 0 ) %}
+          <div class="text-center">
+              <p class=""><a href="" name="{{post.id}}" id="view_more-{{post.id}}" class="profile_button view_more">View Comments</a></p>
+          </div>
+          {%endif%}              
+          <div id="profile-comments-{{post.id}}" style="display:none;"> <!-- changes from on to off based off "view comments button -->
+          <label class = "comment_label" for="from"><b>comments</b></label>
+          {% for j in range(comments[(post.id | string)] | length) | reverse %}
+          <div class="post_comment">
+            <figure class=" col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="../static/images/me.png"/></figure>
+            <div class="word_bubble col-10">
+              <p class=""><b>{{comments[post.id | string][j].user["display_name"]}}:</b><br>
+                {{comments[(post.id | string)][j].message}}</p>
+            </div>
+          </div>
+          {% endfor %}
+          </div>
+          <div id="reply_div-{{post.id}}" class="reply_div "> 
+            <div class="col-8">
+              <textarea class= "text_box" name="message" id="textbox_reply-{{post.id}}" style="" onkeyup="Expand(this);" size="5" placeholder="Comment"></textarea><span class="upload_icon oi oi-cloud-camera" aria-hidden="true"></span>
+            </div>
+            <a href="" name="{{post.id}}" id="reply-{{post.id}}"  class="col-4 reply_button btn-sm"><i class="fa fa-reply"></i> Reply</a>
+          </div>
+        </div>
+      </article>
