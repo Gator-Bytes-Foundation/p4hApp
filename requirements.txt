@@ -32,7 +32,7 @@ rocketchat_API>=0.0
 
 # Misc.
 pyper==1.1.2
-django==3.0.2
+django==3.0.3
 certifi==2019.6.16
 chardet==3.0.4
 Click==7.0
