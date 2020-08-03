@@ -2,6 +2,7 @@ from flask import url_for, flash, redirect, request, render_template, send_file
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.urls import url_parse
 from app import app,db  # from /app import flask app TODO: import db
+from is_safe_url import is_safe_url
 ''' Import Needed Modules ''' 
 from app.models.user_model import User
 from app.controllers.login_controller import LoginForm, loadHome, SignUpForm
@@ -41,7 +42,7 @@ def signUp():
   if(signupSuccess):
     #try:
       user_profile = loadPosts(current_user.id,0,9)
-      return loadProfile(user_profile, all_users)
+      return loadProfile(user_profile, all_users,current_user)
     #except:
       #return render_template('signup.html', error = "profile could not be loaded",  current_user =   current_user, users = None)
   else:
@@ -50,20 +51,28 @@ def signUp():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+  print(current_user)
   if current_user.is_authenticated:
     return redirect(url_for('profile'))
   
   form = LoginForm()
   if form.validate_on_submit():   
     user = User.query.filter_by(username=form.username.data).first() # query db
-    canvas_user = CANVAS.get_user(1)  
+    if(user.canvasId == None):
+      user.canvasId = CANVAS.get_user(1) 
+
     print(user)
     if(user is None or not user.check_password(form.password.data)):
       flash('Invalid username or password')
       return redirect(url_for('login'))
     login_user(user, remember=form.remember_me.data)
+    flash('Logged in successfully.')
+    next = request.args.get('next')
+    is_safe_url("//example.com/redirect/target", {"example.com", "www.example.com"})
+    if not is_safe_url(next,{"http://localhost:5000", "p4hteach.org", "www.p4hteach.org"}):
+        return flask.abort(400)    
+    return profile(canvas_user.id)    
     
-    return profile(canvas_user.id)
   else : #if login form hasn't been sumbitted yet
     return render_template('login.html', title='login',  form=form)
     

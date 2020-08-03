@@ -11,6 +11,7 @@ import json
 import requests
 import random
 import logging
+import os
 
 #
 # If a request from client has variable data in it, we handle it here and get the data out of the url before routing the user
@@ -31,7 +32,9 @@ def resources():
 def files_page(page_to_load):
   if('download' in page_to_load): # check if file, then download
     folder_id, file_to_download = file_download(page_to_load)
-    return send_file('tmp\downloadfile', as_attachment=True,attachment_filename=file_to_download.filename)
+    APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+    UPLOAD_FOLDER = os.path.join(APP_ROOT, 'tmp')
+    return send_file('../tmp/downloadfile', as_attachment=True,attachment_filename=file_to_download.filename)
   # else, user clicked folder => load next layer
   folder_id = page_to_load.replace('files_','').replace('.html','')
   int_id = int(folder_id)

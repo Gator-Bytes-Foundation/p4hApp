@@ -16,7 +16,7 @@
           <p>Profile Name:</p>
         </div>
         <div class="col-8">
-          <textarea class="text_box" name="name" id="profile_name" style="width: 100%;" placeholder="{{profile.user.name}}" size="5" ></textarea>
+          <textarea class="text_box" name="name" id="profile_name" style="width: 100%;" placeholder="{{profile.canvas_user.name}}" size="5" ></textarea>
         </div>
       </div>
       <div class="row">
@@ -26,14 +26,15 @@
         <div class="col-8 col-sm-9">
         <div class="row">
           <div class="row col-sm-4">
-            {% if profile.user.name == 'Admin' %}
+            {% if profile.canvas_user.name == 'Admin' %}
             <img id="profile_pic_img" class="image-cropper img-fluid rounded-circle" alt="placeholder" src="../static/images/p4h.png"/>
             {% else %}
             <img id="profile_pic_img" class="image-cropper img-fluid rounded-circle" alt="placeholder" src="{{profile.profile_pic}}"/>
             {% endif %}
           </div>
           <div class="col-8 col-sm-3">
-            <span id="profile_pic" class="profile_button oi oi-cloud-upload upload_icon" aria-hidden="true"></span><input type="file" name="profile_pic" id="profile_pic_input" class="inputfile"style="display: none;" data-multiple-caption="{count} files selected" multiple/>
+            <span id="profile_pic" class="profile_button oi oi-cloud-upload upload_icon" aria-hidden="true"></span>
+            <input type="file" name="profile_pic" id="profile_pic_input" class="inputfile"style="display: none;" data-multiple-caption="{count} files selected" multiple/>
           </div>
       </div>
         </div>
@@ -43,7 +44,7 @@
           <p>School:</p>
         </div>
         <div class="col-8">
-          <textarea class="text_box" name="school" id="school_name" style="width: 100%;" placeholder="{{profile.user.sortable_name}}"  size="5" ></textarea>
+          <textarea class="text_box" name="school" id="school_name" style="width: 100%;" placeholder="{{profile.canvas_user.sortable_name}}"  size="5" ></textarea>
         </div>
       </div>
       <div class="row">
@@ -51,7 +52,7 @@
           <p>Email:</p>
         </div>
         <div class="col-8">
-          <textarea class="text_box" name="email" id="email_name" style="width: 100%;" placeholder="{{profile.user.email}}" size="5" ></textarea>
+          <textarea class="text_box" name="email" id="email_name" style="width: 100%;" placeholder="{{profile.canvas_user.email}}" size="5" ></textarea>
         </div>
       </div>
       <div class="row">
@@ -59,7 +60,7 @@
           <p>Phone:</p>
         </div>
         <div class="col-8">
-          <textarea class="text_box" name="phone" id="phone" style="width: 100%;" placeholder="{{profile.user.short_name}}"size="5" ></textarea>
+          <textarea class="text_box" name="phone" id="phone" style="width: 100%;" placeholder="{{profile.canvas_user.short_name}}"size="5" ></textarea>
         </div>
       </div>
       <div class="row">
@@ -67,7 +68,7 @@
           <p>Location:</p>
         </div>
         <div class="col-8">
-          <textarea class="text_box" name="location" id="loc" style="width: 100%;" placeholder="{{profile.user.title}}"  size="5" ></textarea>
+          <textarea class="text_box" name="location" id="loc" style="width: 100%;" placeholder="{{profile.canvas_user.title}}"  size="5" ></textarea>
         </div>
       </div>
       <div class="row">
@@ -75,7 +76,7 @@
           <p>Biography:</p>
         </div>
         <div class="row col-12 col-sm-8">
-          <textarea class="text_box" name="bio" id="bio" style="width: 100%; height:50px;" placeholder="{{profile.user.bio}}" size="5" ></textarea>
+          <textarea class="text_box" name="bio" id="bio" style="width: 100%; height:50px;" placeholder="{{profile.canvas_user.bio}}" size="5" ></textarea>
         </div>
       </div>
       <div class="row">
@@ -107,7 +108,7 @@
   </div>
   <div class="row">
     <div class="col-3">
-      {% if profile.user.name == 'Admin' %}
+      {% if profile.canvas_user.name == 'Admin' %}
       <img class="image-cropper img-fluid rounded-circle" alt="placeholder" src="../static/images/p4h.png">
       {% else %}
       <figure class="thumbnail"><img class="img-fluid rounded-circle" alt="placeholder" src="{{profile.profile_pic}}"/></figure>
@@ -135,13 +136,13 @@
     </div>
   </div>
   <div class="buttons_row">
-      {% if(profile.user.id == current_user.id) %}
+      {% if(profile.user.id == current_user.canvasId) %}
       <div class="col-6 col-sm-5">
         <button type="submit" id="edit_profile" class="profile_button" name="edit">Edit Pwofil</button>
       </div>
       {% endif %}
       <div class="col-6 col-sm-5">
-        <form action="progress.html">
+        <form action="profile/{{profile.user.canvasId}}/progress">
           <button type="submit" class="profile_button">Pwogre Mwen</button>
         </form>
       </div>
@@ -154,23 +155,24 @@
         <div id="write_post"> 
           <div style="text-align: center;" class="post_box">
             <div class = "profile_name">
-            {% if profile.user.name == 'Admin' %}
+            {% if profile.canvas_user.name == 'Admin' %}
             <figure class=" col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="../static/images/p4h.png"/></figure>
             {% else %}
-            <figure class=" col-2"><img alt="{{profile.user}}"class="img-fluid rounded-circle" src="{{profile.profile_pic}}"/></figure>
+            <figure class=" col-2"><img alt="{{profile.canvas_user}}"class="img-fluid rounded-circle" src="{{profile.profile_pic}}"/></figure>
             {% endif %}
             <div class="col-10" id="">
-              <textarea class="text_box" name="message" id="textbox_post" style="width: 100%;" placeholder="Write Post Here" onkeyup="" size="5" ></textarea><span id="upload_profile" class="oi oi-cloud-download upload_icon" aria-hidden="true"></span><input type="file" name="file" id="upload_profile_input" class="inputfile"style="display: none;" data-multiple-caption="{count} files selected" multiple/>
+              <textarea class="text_box" name="message" id="textbox-0" style="width: 100%;" placeholder="Write Post Here" onkeyup="" size="5" ></textarea>
+              <span id="upload_profile" class="oi oi-cloud-download upload_icon" aria-hidden="true"></span>
+              <input type="file" name="file" id="upload-0" class="inputfile"style="display: none;" data-multiple-caption="{count} files selected" multiple/>
                 <!--<label class="profile_button" id="label-1" for="file-1"><strong>Choose a file</strong></label>-->
             </div>
             </div>
             <div class="row">
-              <a href="#" name="action" id="post" value="Post" style="width:100%;" class="profile_button btn-sm">Post</a>
+              <a href="#" name="{{profile.canvas_user.id}}" id="post" value="Post" style="width:100%;" class="profile_button btn-sm">Post</a>
             </div>
           </div>
         </div>
         <!-- Post Loop --> 
-
         {% for post in profile.posts %}
           {% include 'post.html' %}
         {% endfor %}
@@ -190,7 +192,7 @@
             <label>Name</label>
           </div>
           <div class="col-md-6">
-            <p>{{profile.user.name}}</p>
+            <p>{{profile.canvas_user.name}}</p>
           </div>
         </div>
         <div class="row">
@@ -206,7 +208,7 @@
             <label>Phone</label>
           </div>
           <div class="col-md-6">
-            <p>{{profile.user.short_name}}</p>
+            <p>{{profile.canvas_user.short_name}}</p>
           </div>
         </div>
         <div class="row">
@@ -214,7 +216,7 @@
             <label>Location</label>
           </div>
           <div class="col-md-6">
-            <p>{{profile.user.title}}</p> 
+            <p>{{profile.canvas_user.title}}</p> 
           </div>
         </div>
         <div class="row">
@@ -222,7 +224,7 @@
             <label>School</label>
           </div>
           <div class="col-md-6">
-            <p>{{profile.user.sortable_name}}</p> 
+            <p>{{profile.canvas_user.sortable_name}}</p> 
           </div>
         </div>
       </div>

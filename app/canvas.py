@@ -21,9 +21,7 @@ proxy_dict = {"http": "https://p4hteach.rocket.chat"}
 # Initialize a new Canvas object
 CANVAS = Canvas(API_URL, API_KEY)
 # Both course and canvas objects are used for majority of API calls
-course = CANVAS.get_course(
-    1
-)  # only 1 course being used on canvas so initialize it globally to avoid repeated API calls
+course = CANVAS.get_course(1)  # only 1 course being used on canvas so initialize it globally to avoid repeated API calls
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
