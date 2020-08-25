@@ -62,7 +62,7 @@ def authenticate(scopes, call):
         + "&redirect_uri="
         + serviceKey["redirect_uri"]
     )
-    print(canvas_url_with_required)
+    #print(canvas_url_with_required)
     token_url = API_URL + "login/oauth2/token"
     try:
         resp = requests.post(token_url, serviceKey).json()

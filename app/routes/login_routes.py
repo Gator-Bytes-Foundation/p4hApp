@@ -1,7 +1,6 @@
-from flask import url_for, flash, redirect, request, render_template, send_file
+from flask import url_for, flash, redirect, request, render_template, send_file, session, abort
 from flask_login import login_user, logout_user, current_user, login_required
-from werkzeug.urls import url_parse
-from app import app,db  # from /app import flask app TODO: import db
+from app import app  # from /app import flask app 
 from is_safe_url import is_safe_url
 ''' Import Needed Modules ''' 
 from app.models.user_model import User
@@ -9,45 +8,24 @@ from app.controllers.login_controller import LoginForm, loadHome, SignUpForm
 from app.canvas import CANVAS, course # inject canvas, course objects into file
 from app.routes.profile_routes import profile
 ''' Import Needed Libraries ''' 
-import json
-from googleapiclient.discovery import build
 import requests
-from flask import make_response
-from oauth2client.service_account import ServiceAccountCredentials, client
-from oauth2client import file, client, tools
-import random
-from pyper import *
-import logging
 
 
 # LOGGING IN AND SIGNING REQUESTS #
 @app.route('/signup', methods=['GET', 'POST'])
 def signUp():
   form = SignUpForm()
-  if form.validate_on_submit():
-    makeUser = User(username=form.username.data,email=form.email.data)
-    makeUser.set_password(form.password.data)
-    db.session.add(makeUser)
-    db.session.commit()
-    print(makeUser)
-    login_user(makeUser) 
-    canvas_user = CANVAS.get_user(1)
-    #flash('Congratulations, you are now a registered user!')
-    return redirect(url_for('login')) 
-  else:
-    return render_template('signup.html', title='signUp', form=form)
+  return form.makeUser()
 
-  ''' temp disabled until rocket chat is reconfigured 
-  signupSuccess, current_user, rocket_user =  makeUser(request)
-  if(signupSuccess):
-    #try:
-      user_profile = loadPosts(current_user.id,0,9)
-      return loadProfile(user_profile, all_users,current_user)
-    #except:
-      #return render_template('signup.html', error = "profile could not be loaded",  current_user =   current_user, users = None)
-  else:
-    return render_template('signup.html', error = current_user,  current_user = None, users = None)
-  '''
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    if session.get('was_once_logged_in'):
+        # prevent flashing automatically logged out message
+        del session['was_once_logged_in']
+    flash('You have successfully logged yourself out.')
+    return redirect('/login')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -68,10 +46,9 @@ def login():
     login_user(user, remember=form.remember_me.data)
     flash('Logged in successfully.')
     next = request.args.get('next')
-    is_safe_url("//example.com/redirect/target", {"example.com", "www.example.com"})
-    if not is_safe_url(next,{"http://localhost:5000", "p4hteach.org", "www.p4hteach.org"}):
-        return flask.abort(400)    
-    return profile(canvas_user.id)    
+    #if not is_safe_url(next,{"http://localhost:5000", "p4hteach.org", "www.p4hteach.org"}):
+        #return abort(400)    
+    return redirect(url_for('profile'))    
     
   else : #if login form hasn't been sumbitted yet
     return render_template('login.html', title='login',  form=form)

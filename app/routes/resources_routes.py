@@ -29,12 +29,15 @@ def customResourceCalls(page_to_load): #url being routed is saved to 'page_to_lo
 @app.route('/resources', methods=['GET', 'POST'])
 def resources():    
   return render_resources(current_user)
+
 def files_page(page_to_load):
   if('download' in page_to_load): # check if file, then download
     folder_id, file_to_download = file_download(page_to_load)
-    APP_ROOT = os.path.dirname(os.path.abspath(__file__))
-    UPLOAD_FOLDER = os.path.join(APP_ROOT, 'tmp')
-    return send_file('../tmp/downloadfile', as_attachment=True,attachment_filename=file_to_download.filename)
+    filename = file_to_download.filename
+    print(filename)
+    #APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+    #UPLOAD_FOLDER = os.path.join(APP_ROOT, 'tmp')
+    return send_file('../tmp/downloadfile', as_attachment=True,attachment_filename=filename)
   # else, user clicked folder => load next layer
   folder_id = page_to_load.replace('files_','').replace('.html','')
   int_id = int(folder_id)

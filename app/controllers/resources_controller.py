@@ -29,7 +29,6 @@ def file_download(page_to_load):
   int_file = int(file_id)
   file_to_download = course.get_file(int_file)
   download_path = '/'.join( os.getcwd().split('/')[:3] ) + '/Downloads'
-  print("file ", file_id)
   #file_to_download.url = file_to_download.url.replace('https://admin.p4hteach.org','https://35.184.234.66') # this url needs to be added to environment variables
   #file_to_download.download(file_to_download)
   r = requests.get(file_to_download.url,verify=False)

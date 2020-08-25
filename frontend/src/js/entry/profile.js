@@ -38,9 +38,12 @@ $("#exit_edit").on("click", function (e) {
 
 // handle textbox as user types
 $(function () {
+  
   //  changes mouse cursor when highlighting loawer right of box
-  $("textarea")
-    .mousemove(function (e) {
+  $("#newsfeed").on({
+    mousemove: function (e) {
+      //stuff to do on mouse enter
+      console.log("profile.js");
       var myPos = $(this).offset();
       myPos.bottom = $(this).offset().top + $(this).outerHeight();
       myPos.right = $(this).offset().left + $(this).outerWidth();
@@ -55,10 +58,8 @@ $(function () {
       } else {
         $(this).css({ cursor: "" });
       }
-    })
-    //  the following simple make the textbox "Auto-Expand" as it is typed in
-    .css("overflow", "hidden")
-    .keyup(function (e) {
+    },
+    keyup: function (e) {
       //  this if statement checks to see if backspace or delete was pressed, if so, it resets the height of the box so it can be resized properly
       if (e.which == 8 || e.which == 46) {
         $(this).height(
@@ -76,7 +77,9 @@ $(function () {
       ) {
         $(this).height($(this).height() + 1);
       }
-    });
+    }
+  }, "textarea");
+    //  the following simple make the textbox "Auto-Expand" as it is typed in
 });
 
 /* 
@@ -140,18 +143,16 @@ function debug(data,err,exception) {
 
 
 /* Progress Upload */ 
+/*
 function uploadMilestone(input,milestone_id){ 
-  let file = input.files[0];
   let user_id = '{{profile.user.canvasId}}'; 
   console.log(user_id);
   // to do - let approvedFile = checkFileType(file)
   let formData = new FormData();
   if (input != null && input.files.length > 0) {
-    let files = input.files[0];
-    formData.append("file", files);
+    formData.append("file", input.files);
   }
   formData.append("userid", user_id); 
-  /* Server call to upload milestone to canvas as an assignment */ 
   $.ajax({
     type: "PUT",
     url: "/profile/"+user_id+"/progress/"+milestone_id,
@@ -165,7 +166,7 @@ function uploadMilestone(input,milestone_id){
     },
     error: debug() 
   });
-  /*
+  
   let reader = new FileReader();
   
   reader.onload = function (e) {
@@ -175,8 +176,8 @@ function uploadMilestone(input,milestone_id){
     $("#" + img_id).attr("src", e.target.result);
   };
   reader.readAsDataURL(file);
-  */
-}
+  
+}*/
 function getPostData(id) {
   let formData = new FormData();
   let value = $("#textbox-" + id).val();
@@ -191,17 +192,7 @@ function getPostData(id) {
   return formData; 
 }
 
-$("#post").on("click", function (e) {
-  e.preventDefault();
-  var profile_id = e.currentTarget.name;
-  //console.log("post id " + id_number);
-  let formData = getPostData(0); // 0 is first textbox on page 
-});
-// when upload icon is clicked, trigger the file browser input (the input is hidden visually but can be "clicked" on)
-$(".progress-choose").click(function (e) {
-  var id = e.currentTarget.id;
-  $("#" + "file-" + id).trigger("click"); // trigger hidden file input button to bring up file browser
-}); // triggers $('input[type="file"]').on("change")
+
 /*
 
 WINDOW CLICKS
@@ -239,6 +230,7 @@ $('input[type="file"]').on("change", function (e) {
     changeProfilePic(input,objectId);
   }
   if(name == 'progress-file'){
+    console.log('her');
     uploadMilestone(input,objectId); 
   }
 });

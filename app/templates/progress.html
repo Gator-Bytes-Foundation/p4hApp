@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 {% extends "header.html" %}<!-- all html files should extend from the header, (the header contains all static references as well) --> 
 {% block content %}<!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
-
-<link rel="stylesheet" href="{{ url_for('static', filename='css/progress.css') }}">
+<script type="text/javascript">
+  var userId = "{{user_id}}";
+</script>
+<!--<link rel="stylesheet" href="{{ url_for('static', filename='css/progress.css') }}">-->
 <div class="container">
   <div class="row">
     <div class="col-md-12">
@@ -10,7 +12,7 @@
         <h1>Timeline</h1>
         <hr>
       </div>
-      <ul class="timeline">
+      <ul class="timeline" id="timeline-{{user_id}}">
         {% for i in range(milestones | length)%}
         <li class="timeline-item">
                       <div class="timeline-body col-12">
@@ -25,18 +27,17 @@
             <div class="file_upload col-12 col-sm-8">
               <div class="col-12">
                 <input type="file" name="{{milestones[i].id}}" id="file-{{milestones[i].id}}" class="inputfile" data-multiple-caption="{count} files selected" multiple/>
-                <label class="profile_button progress-choose" name="{{milestones[i].id}}" id="{{milestones[i].id}}" for="file-1"><strong>Choose a file</strong></label>
+                <label class="p4h progress-choose" name="{{milestones[i].id}}" id="label-{{milestones[i].id}}" for="file-{{milestones[i].id}}"><strong>Choose a file</strong></label>
                 <!--<label id="label-1" class="custom-file-label" for="file-1"></label>--> 
               </div>
               <div class="input-group" style="justify-content: center;">
                 <div class="input-group-prepend col-8 col-md-6"> 
-                  <span class="input-group-text profile_button progress-upload" name="{{milestones[i].name}}"  id="{{milestones[i].id}}">Upload</span> 
+                  <button class="p4h p4h-btn p4h-pad col-6 upload" name="{{milestones[i].id}}"  id="upload-{{milestones[i].id}}">Upload</button> 
               </div>
               <div class="input-group-prepend col-8 col-md-6"> 
-                  <a href="profile/profile.canvas_user.id/progress/{{milestones[i].id}}" class="input-group-text profile_button download" name="{{milestones[i].id}}"  id="{{milestones[i].id}}">Download</a> 
+                  <a href="progress/{{milestones[i].id}}" class="input-group-text profile_button download" name="{{milestones[i].id}}"  id="download-{{milestones[i].id}}">Download</a> 
               </div>
             </div>
-
           </div>
         </li>
         {% endfor %}

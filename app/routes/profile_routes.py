@@ -6,14 +6,12 @@ from app import app  # from /app import flask app TODO: import db
 from app.models.user_model import User
 from app.canvas import CANVAS, course # inject canvas, course objects into file
 from app.models.profile_model import Profile
-from app.controllers.profile_controller import loadProfile, updateProfile, getProgress, loadProgress
+from app.controllers.profile_controller import loadProfile, updateProfile, getProgress, updateProgress, loadProgress
 from app.controllers.posts_controller import loadPosts, loadNewsFeed, handlePost, handleComment
 ''' Import Needed Libraries ''' 
 import json
 import requests
 from flask import make_response
-from oauth2client.service_account import ServiceAccountCredentials, client
-from oauth2client import file, client, tools
 import random
 from pyper import *
 import pickle as p
@@ -45,6 +43,7 @@ def profile(*args):
     user_profile = loadPosts(args[0]) 
   else: # your profile
     user_profile = loadPosts(current_user)
+    print(user_profile.user)
   # Brings user to their profile view
   return loadProfile(user_profile, all_canvas_users,current_user)
 
@@ -60,16 +59,15 @@ def progress(user_id):
 ## Download milestone - READ
 @app.route('/profile/<user_id>/progress/<milestone_id>', methods=['GET'])
 def progressGet(user_id,milestone_id):    
-  #if(request.method == 'GET'):
   file_to_download = getProgress(request,user_id,milestone_id)
-  return send_file('../tmp/downloadfile', as_attachment=True,attachment_filename=file_to_download.filename)
+  return send_file('../tmp/downloadMilestone', as_attachment=True,attachment_filename=file_to_download["display_name"])
 
-## Download milestone - UPDATE
-@app.route('/profile/<user_id>/progress/<milestone_id>', methods=['PUT'])
+## Upload milestone - UPDATE
+@app.route('/profile/<user_id>/progress/<milestone_id>', methods=['POST'])
 def progressPut(user_id,milestone_id):    
   #if(request.method == 'PUT'):
   file_uploaded = updateProgress(request,user_id,milestone_id)
-  print(file_uploaded)
+  #print(file_uploaded)
   return json.dumps({'success':True}), 200, {'ContentType':False}
 
 ## Delete milestone - DELETE - to do

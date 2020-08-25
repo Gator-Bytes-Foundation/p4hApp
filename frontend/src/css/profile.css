@@ -182,6 +182,7 @@ b {
   border:thin;
   border-style: solid;
   border-color: rgba(22,80,200,0.20); 
+  overflow:hidden;
 }
 
 .post_comment {

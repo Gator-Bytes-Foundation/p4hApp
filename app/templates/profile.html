@@ -115,7 +115,7 @@
       {% endif %}
     </div>
     <div class="col-8 col-sm-8 ">
-      <h4>{{profile.user.name}}</h4>
+      <h4>{{profile.canvas_user.name}}</h4>
       <small class=""> <b>Pozisyon:</b> Elementary Teacher </small> <br>
       <small> <b>De Mwen :</b> Mwen anseye lekòl elemantè</small> </div>
   </div>
@@ -136,7 +136,7 @@
     </div>
   </div>
   <div class="buttons_row">
-      {% if(profile.user.id == current_user.canvasId) %}
+      {% if(profile.canvas_user.id == current_user.canvasId) %}
       <div class="col-6 col-sm-5">
         <button type="submit" id="edit_profile" class="profile_button" name="edit">Edit Pwofil</button>
       </div>
@@ -149,7 +149,7 @@
   </div>
   <div class="col-12 col-lg-9 ">
   <div class="tab-content profile-tab ">
-    <div id="timeline" class="profile-work tab-pane fade active show in" role="tabpanel"> 
+    <div id="newsfeed" class="profile-work tab-pane fade active show in" role="tabpanel"> 
       <!-- 1st tab {% if active=='timeline' %}show active{% endif %}-->
       <h3>Prowfil Pos</h3>
         <div id="write_post"> 

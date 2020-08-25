@@ -66,7 +66,7 @@ $("#post").on("click", function (e) {
     success: function (data) {
       const post = data;
       console.log("post being created " + post);
-      $("#write_post").append(post);
+      $("#write_post").append(post).css("overflow", "hidden");
       if (typeof file !== "undefined") {
         console.log("file");
         if (

@@ -1,6 +1,7 @@
 from app.canvas import * # inject canvas, course objects into file
 from app.models.profile_model import Profile
 from flask import url_for, flash, redirect, request, render_template, send_file
+import requests 
 
 def loadProfile(profile,all_users,current_user):
   global edit_mode_on
@@ -9,14 +10,15 @@ def loadProfile(profile,all_users,current_user):
   if(profile.canvas_user == None):
     print("default profile")
     profile.canvas_user = CANVAS.get_user(1) # if no user_id is passed, we assign current user
+
   # temp use of global variable
   #profile_pic = profile.canvas_user.get_avatars()[1] returns dotted pic for some reason
   if(len(profile.posts) > 0):
-    profile_pic = profile.posts[0].author['avatar_image_url']
-  
-  profile.profile_pic = profile_pic
-  profile.user = profile.user
-  print(profile)
+    profile.profile_pic = profile.posts[0].author['avatar_image_url']
+  else: 
+    profile_pic = profile.canvas_user.get_avatars()[0]  
+  profile.user = current_user
+  print(current_user.username)
   return render_template('profile.html', profile = profile,  current_user = current_user, users = all_users)
 
 def loadProgress(profile_id):
@@ -27,7 +29,7 @@ def loadProgress(profile_id):
   # abort(Response('You do not have permission to view this teacher's progress'))
   user = CANVAS.get_user(1) #temp until canvas users are synced with user db
   user_assignments = list(user.get_assignments(user.id))
-  print(user_assignments)
+  #print(user_assignments)
   for i in range(len(user_assignments)):
     user_assignments[i].description = user_assignments[i].description.replace('<p>','').replace('</p>','') #get rid of stupid html tags. like why is this even being returned
 
@@ -36,43 +38,48 @@ def loadProgress(profile_id):
 
 def getProgress(request,user_id,assignment_id):
   #int_assignment_id = int(assignment_id)
-  assignment = course.get_assignment(int_assignment_id)
+  assignment = course.get_assignment(assignment_id)
   submission = assignment.get_submission(user_id)
   if(submission.attachments != None):
-    for i in range(len(submission.attachments)):
-      print("submission attachment ", submission.attachments[i])
-      file_to_download = course.get_file(int(submission.attachments[i]['id']))
-      file_to_download.download(file_to_download.filename) # download each file associated with assignment submission 
-      return file_to_download
+    #for i in range(len(submission.attachments)):
+      #print("submission attachment ", submission.attachments[i])
+      file_url = submission.attachments[0]['url']
+      r = requests.get(file_url,verify=False)
+      open('tmp/downloadMilestone', 'wb').write(r.content)
+
+      #file_to_download.download(file_to_download.filename) # download each file associated with assignment submission 
+      #return file_to_download
+      print(submission.attachments[0])
+      return submission.attachments[0]
   else:  
     return abort(Response('Progress has not been uploaded')) 
 
 # admins should be only ones uploading progress
 def updateProgress(request,user_id,assignment_id):
+  print("uploading asssignment")
   #int_assignment_id = int(assignment_id)
   assignment = course.get_assignment(assignment_id)
   # user_id = getUserIdFromProfile(profile_id)
   # oorrr canvas_id getUser(user_id).canvasId
-  admin_id = 1
   canvas_user = CANVAS.get_user(user_id) # temp
   #submission_dict = {}
   #submission_dict['submission_type'] = 'online_upload'
   #submission_dict['assignment_id'] = assignment_id
   #submission_dict['user_id'] = canvas_user.id
-
-  print(request.files['file'])
-  try:
+  #for file in request.files:
+    #upload_file
+  #try:
     #assignment.submit(submission_dict,request.files['file'])
     #assignment.submit(submission_dict)
-    assignment.submit(
-        submission={"submission_type": "online_upload"},
-        file=request.files['file'],
-        as_user_id=admin_id # canvas people said this will only work with admin id
-    )
-    return True
-  except(e):
-    print(e)
-    return False
+  assignment.submit(
+      submission={"submission_type": "online_upload"},
+      file=request.files["milestone.png"],
+      as_user_id=user_id # canvas people said this will only work with admin id
+  )
+  return True
+  #except():
+    #print("submission error")
+    #return False
 
 def updateProfile(req):
   #print(req.form)
@@ -83,7 +90,7 @@ def updateProfile(req):
   location_ = req.form['location']
   bio_ = req.form['bio']
   files = req.files
-  print("file: ",files)
+  #print("file: ",files)
   if(files != None):
     current_user.edit(user = {"avatar":files})
   if(name_ != ''):

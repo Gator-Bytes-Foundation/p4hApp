@@ -1,6 +1,5 @@
 from flask import url_for, flash, redirect, request, render_template, send_file
 from flask_login import login_user, logout_user, current_user, login_required
-from werkzeug.urls import url_parse
 from app import app  # from /app import flask app TODO: import db
 ''' Import Needed Modules ''' 
 from app.models.user_model import User
@@ -10,13 +9,9 @@ from app.models.user_model import User
 from app.controllers.posts_controller import loadPosts, loadNewsFeed, handlePost, handlePost, handleComment
 ''' Import Needed Libraries ''' 
 import json
-from googleapiclient.discovery import build
 import requests
 from flask import make_response
-from oauth2client.service_account import ServiceAccountCredentials, client
-from oauth2client import file, client, tools
 import random
-import pickle as p
 import logging
 
 
@@ -37,7 +32,7 @@ def comments(comment_id): #url being routed is saved to 'page_to_load' which we 
   #print("page loading: ",post)
   #print(current_user)
   if(request.method == 'POST'):
-      print("Request data -> " + str(request.get_json()))
+      #print("Request data -> " + str(request.get_json()))
       return handleComment(comment_id, request,current_user)
   
   return render_template(post)
