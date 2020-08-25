@@ -3,11 +3,13 @@
 {% extends "header.html" %} <!-- all html files should extend from the header, (the header contains all static references as well) --> 
 {% block content %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html) -->
 <div id="entire_profile" class="container emp-profile">
+
+  <!-- MODAL OVERLAY FOR EDIT PROFILE -->
    <div id="edit_menu" style="display:none;" class="backgroundOverlay">
     <div class="wrapper overlayBlock fadeInDown " id="edit_profile_menu">
       <button id="exit_edit" class="exit_icon" style="float:left;"aria-label="Close Account Info Modal Box">&times;</button>
       <div style="top:40px; position:relative;">
-        <form action="profile/edit_save" method="post"  enctype="multipart/form-data">
+        <form action="/profile/{{profile.user.canvasId}}" method="POST"  enctype="multipart/form-data">
       <div style="text-align: center; margin-bottom: 35px;" class="">
         <h3>Edit Menu</h3>
       </div>
@@ -23,22 +25,18 @@
         <div class="col-4 col-sm-3">
           <p>Profile Picture</p>
         </div>
-        <div class="col-8 col-sm-9">
-        <div class="row">
-          <div class="row col-sm-4">
-            {% if profile.canvas_user.name == 'Admin' %}
-            <img id="profile_pic_img" class="image-cropper img-fluid rounded-circle" alt="placeholder" src="../static/images/p4h.png"/>
-            {% else %}
-            <img id="profile_pic_img" class="image-cropper img-fluid rounded-circle" alt="placeholder" src="{{profile.profile_pic}}"/>
-            {% endif %}
-          </div>
-          <div class="col-8 col-sm-3">
-            <span id="profile_pic" class="profile_button oi oi-cloud-upload upload_icon" aria-hidden="true"></span>
-            <input type="file" name="profile_pic" id="profile_pic_input" class="inputfile"style="display: none;" data-multiple-caption="{count} files selected" multiple/>
-          </div>
-      </div>
+        <div class="">
+          {% if profile.canvas_user.name == 'Admin' %}
+          <img id="profile_pic_img" class="image-cropper img-fluid rounded-circle" alt="placeholder" src="../static/images/p4h.png"/>
+          {% else %}
+          <img id="profile_pic_img" class="image-cropper img-fluid rounded-circle" alt="Profile Picture" src="{{profile.profile_pic}}"/>
+          {% endif %}
         </div>
-          </div>
+        <div class="col-3 col-sm-4">
+          <span id="profile_pic" class="profile_button oi oi-cloud-upload upload_icon" aria-hidden="true">Upload Picture</span>
+          <input type="file" name="profile_pic" id="profile_pic_input" class="inputfile"style="display: none;" data-multiple-caption="{count} files selected" multiple/>
+        </div>
+      </div>
       <div class="row">
         <div class="col-4 col-sm-3">
           <p>School:</p>
@@ -99,7 +97,7 @@
       <div id="profileSearchDropdown"class="list_of_items">
         {% if(users != None) %}
           {% for i in range(users | length) %}
-          <form method="POST" action="profile_{{users[i].id}}"> <!-- pass the username into the route url -->
+          <form method="GET" action="/profile/{{users[i].id}}"> <!-- pass the username into the route url -->
             <a><button type="submit" class="erase"></button>{{users[i].name}}</a>
           </form>
           {% endfor %}
@@ -135,15 +133,15 @@
       </ul>
     </div>
   </div>
-  <div class="buttons_row">
+  <div class="buttons_row"> <!-- current_user (SQL DB, not canvas) is user stored in Flask Login => so it shows if the current user is looking at someone elses profile -->
       {% if(profile.canvas_user.id == current_user.canvasId) %}
       <div class="col-6 col-sm-5">
-        <button type="submit" id="edit_profile" class="profile_button" name="edit">Edit Pwofil</button>
+        <button type="submit" id="edit_profile" class="profile_button button-bg" name="edit">Edit Pwofil</button>
       </div>
       {% endif %}
       <div class="col-6 col-sm-5">
-        <form action="profile/{{profile.user.canvasId}}/progress">
-          <button type="submit" class="profile_button">Pwogre Mwen</button>
+        <form action="/profile/{{profile.user.canvasId}}/progress">
+          <button type="submit" class="profile_button button-bg">Pwogre Mwen</button>
         </form>
       </div>
   </div>
@@ -168,7 +166,7 @@
             </div>
             </div>
             <div class="row">
-              <a href="#" name="{{profile.canvas_user.id}}" id="post" value="Post" style="width:100%;" class="profile_button btn-sm">Post</a>
+              <a href="#" name="{{profile.canvas_user.id}}" id="post" value="Post" style="width:100%;" class="profile_button">Post</a>
             </div>
           </div>
         </div>

@@ -21,17 +21,15 @@ import logging
 #
 # If a request from client has variable data in it, we handle it here and get the data out of the url before routing the user
 #
-@app.route('/profile/<profile_id>', methods=['GET', 'POST'])
+@app.route('/profile/<profile_id>', methods=['GET'])
 def customProfileCalls(profile_id): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
   #print("page loading: ",page_to_load)
-  if('profile' in profile_id):
-    return profile(profile_id.replace('profile_','')) # calls profile function on username from route str
-  elif('edit_save' in profile_id):
-    updateProfile(request)
-    return profile() # this isnt efficient since it reloads the entire page from scratch
-  
-  return render_template(profile_id)
+  return profile(profile_id.replace('profile_','')) # calls profile function on username from route str
 
+@app.route('/profile/<profile_id>', methods=['POST'])
+def saveProfile(profile_id):
+  updateProfile(request,current_user)
+  return profile() # this isnt efficient since it reloads the entire page from scratch
 
 @app.route('/')
 @app.route('/profile', methods=['GET', 'POST'])

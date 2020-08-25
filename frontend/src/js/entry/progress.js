@@ -33,6 +33,12 @@ Array.prototype.forEach.call(inputs, function (input) {
   });
 });
 
+let debugJSON = function(data,err,exception) {
+  let response = JSON.stringify(eval(data));
+  console.log(response);
+  console.log(exception);
+}
+
 // is triggered when upload is clicked
 $(document).on("click", ".upload", function (e) {
   e.preventDefault();
@@ -75,39 +81,6 @@ $(document).on("click", ".upload", function (e) {
       console.log("the file submission returned ", data);
       $("#label-" + milestoneId).empty();
     },
-    error: function (data) {
-      let error = JSON.stringify(eval(data));
-      console.log(error);
-    }
+    error: debugJSON
   });
 });
-// when upload icon is clicked, trigger the file browser input (the input is hidden visually but can be "clicked" on) 
-/*
-$(".progress-upload").click(function (e) {
-  let milestoneId = e.currentTarget.name; 
-  $("#" + "file-" + milestoneId).trigger("click"); // trigger hidden file input button to bring up file browser
-}); // triggers $('input[type="file"]').on("change")
-*/
-
-// is triggered when download is clicked 
-/*
-$(document).on("click", ".download", function (e) {
-  e.preventDefault();
-  let milestoneId = e.currentTarget.name;
-  console.log("clicked " + milestoneId);
-  $.ajax({
-    type: "GET",
-    url: "/profile/" + userId + "/progress/" + milestoneId,
-    cache: false,
-    contentType: false,
-    processData: false,
-    dataType: "file",
-    success: function (data) {
-      console.log("the file submission returned ", data);
-    },
-    error: function (data) {
-      let error = JSON.stringify(eval(data));
-      console.log(error);
-    }
-  });
-});*/

@@ -81,7 +81,7 @@ def updateProgress(request,user_id,assignment_id):
     #print("submission error")
     #return False
 
-def updateProfile(req):
+def updateProfile(req,current_user):
   #print(req.form)
   name_ = req.form['name']
   school_ = req.form['school']
@@ -90,21 +90,23 @@ def updateProfile(req):
   location_ = req.form['location']
   bio_ = req.form['bio']
   files = req.files
+  canvas_user = course.get_user(current_user.canvasId)
   #print("file: ",files)
+  # TO DO change the db user as well 
   if(files != None):
-    current_user.edit(user = {"avatar":files})
+    canvas_user.edit(user = {"avatar":files})
   if(name_ != ''):
-    current_user.edit(user = {"name":name_})
+    canvas_user.edit(user = {"name":name_})
   if(school_ != ''):
-    current_user.edit(user = {"sortable_name":school_}) #Since we are using Canvas User objects, we store phone as sortable_name
+    canvas_user.edit(user = {"sortable_name":school_}) #Since we are using Canvas User objects, we store phone as sortable_name
   if(email_ != ''):
-    current_user.edit(user = {"email":email_})
+    canvas_user.edit(user = {"email":email_})
   if(phone_ != ''):
-    current_user.edit(user = {"short_name":phone_}) #Since we are using Canvas User objects, we store phone as short_name
+    canvas_user.edit(user = {"short_name":phone_}) #Since we are using Canvas User objects, we store phone as short_name
   if(location_ != ''):
-    current_user.edit(user = {"title":location_})
+    canvas_user.edit(user = {"title":location_})
   if(bio_ != ''):
-    current_user.edit(user = {"bio":bio_})
+    canvas_user.edit(user = {"bio":bio_})
   return #todo
    
 

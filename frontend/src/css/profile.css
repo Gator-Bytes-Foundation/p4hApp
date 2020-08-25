@@ -48,10 +48,11 @@ b {
   height:76%;
   border-radius: 10px;
 }
+/*
   .overlayBlock .upload_icon {
     font-size:20px;
   }
-
+*/
 
 .overlayBlock .row {
   padding-right:20px;
@@ -122,12 +123,11 @@ b {
   width:100%;
   max-width:450px;
   text-align: center;
-  font-size: 1rem;
-  padding:7px;
+  
+  
   /*margin-right:6px !important;
   margin-left:6px !important;*/
-  padding-right: 14px;
-  padding-left: 14px;
+  padding:4px; 
   margin: 7px 0px 5px 0;
   border: thin;
   border-style: solid;
@@ -135,6 +135,12 @@ b {
   color:#1632AA;
   background-color: transparent; /* same color as #1632AA with low opacity */
   box-shadow: 0px 4px 7px 0px rgba(22,50,170, 0.10);/* same color as #1632AA with low opacity */
+}
+.button-bg {
+  font-size: 1rem !important; 
+  padding:7px !important;
+  padding-right: 14px !important;
+  padding-left: 14px !important;
 }
 .custom-file {
   width:90%;

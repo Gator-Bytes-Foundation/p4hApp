@@ -135,49 +135,6 @@ function changeProfilePic(input,id) {
   }
 }
 
-function debug(data,err,exception) {
-  const response = eval(data);
-  console.log(response);
-  console.log(exception);
-}
-
-
-/* Progress Upload */ 
-/*
-function uploadMilestone(input,milestone_id){ 
-  let user_id = '{{profile.user.canvasId}}'; 
-  console.log(user_id);
-  // to do - let approvedFile = checkFileType(file)
-  let formData = new FormData();
-  if (input != null && input.files.length > 0) {
-    formData.append("file", input.files);
-  }
-  formData.append("userid", user_id); 
-  $.ajax({
-    type: "PUT",
-    url: "/profile/"+user_id+"/progress/"+milestone_id,
-    data: formData,
-    contentType: false,
-    processData: false,
-    dataType: "text",
-    success: function (data) {
-      const response = eval(data);
-      console.log("milestone uploaded " + response);
-    },
-    error: debug() 
-  });
-  
-  let reader = new FileReader();
-  
-  reader.onload = function (e) {
-    if(e) console.log(e.target); 
-    
-    let img_id = String(id).replace("_input", "_img"); // profile_pic_img
-    $("#" + img_id).attr("src", e.target.result);
-  };
-  reader.readAsDataURL(file);
-  
-}*/
 function getPostData(id) {
   let formData = new FormData();
   let value = $("#textbox-" + id).val();
@@ -215,24 +172,5 @@ window.onclick = function (event) {
     cancelExitMenu();
   }
 };
-// change the name next to icon on file upload
-$('input[type="file"]').on("change", function (e) {
-  let val = $(this).val();
-  let elementId = e.currentTarget.id;
-  let objectId = e.currentTarget.name;
-  input = document.getElementById(elementId); // grabs the right file by ID
-  if (val.length > 8) {
-    val = val.substring(0, 8);
-    val = " " + val + "..."; // keep filename CSS in boundaries
-  }
-  $(this).siblings("span").text(val);
-  if(name == 'profile_pic') { 
-    changeProfilePic(input,objectId);
-  }
-  if(name == 'progress-file'){
-    console.log('her');
-    uploadMilestone(input,objectId); 
-  }
-});
 
 
