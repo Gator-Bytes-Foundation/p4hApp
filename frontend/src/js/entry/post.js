@@ -55,7 +55,8 @@ $(document).on("click", ".reply_button", function (e) {
 
 // handle textbox as user types  
   //  changes mouse cursor when highlighting loawer right of box
-$(document).on("mousemove", ".text_box", function(e) {
+$("textarea")
+.mousemove(function (e) {
     console.log("post.js");
     var myPos = $(this).offset();
     myPos.bottom = $(this).offset().top + $(this).outerHeight();
