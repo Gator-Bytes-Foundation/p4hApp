@@ -96,7 +96,7 @@
     </div>
       <div id="profileSearchDropdown"class="list_of_items">
         {% if(users != None) %}
-          {% for i in range(users | length) %}
+          {% for i in range(users | length) %} <!-- users variable is canvas user objects -->
           <form method="GET" action="/profile/{{users[i].id}}"> <!-- pass the username into the route url -->
             <a><button type="submit" class="erase"></button>{{users[i].name}}</a>
           </form>

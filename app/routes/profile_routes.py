@@ -24,7 +24,7 @@ import logging
 @app.route('/profile/<profile_id>', methods=['GET'])
 def customProfileCalls(profile_id): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
   #print("page loading: ",page_to_load)
-  return profile(profile_id.replace('profile_','')) # calls profile function on username from route str
+  return profile(profile_id) # calls profile function on username from route str
 
 @app.route('/profile/<profile_id>', methods=['POST'])
 def saveProfile(profile_id):
@@ -40,7 +40,7 @@ def profile(*args):
     # args[0] holds user id to look up if it exists
     user_profile = loadPosts(args[0]) 
   else: # your profile
-    user_profile = loadPosts(current_user)
+    user_profile = loadPosts(current_user.canvasId)
     print(user_profile.user)
   # Brings user to their profile view
   return loadProfile(user_profile, all_canvas_users,current_user)

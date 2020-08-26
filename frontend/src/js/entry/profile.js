@@ -89,6 +89,10 @@ SEARCH BAR
 */
 /* filters the search bar of all users */
 
+$('#profileSearchInput').keyup((e) => {
+  filterFunction(); 
+});
+
 function filterFunction() {
   let input, filter, dropdown, profileLinks;
   input = document.getElementById("profileSearchInput");
