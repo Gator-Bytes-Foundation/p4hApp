@@ -1,6 +1,7 @@
 from app.canvas import CANVAS,course, CanvasException # inject canvas, course objects into file
 from app.models.profile_model import Profile
 from flask import abort, Response
+from app.models.user_model import User
 #
 # Post class controls all methods regarding a profile post or announcemnt post
 # 
@@ -11,12 +12,12 @@ from flask import abort, Response
 #  
 # loads all canvas discussion posts that the profile user has posted and their associated comments
 #
-def loadPosts(user):
+def loadPosts(canvas_id):
   # initialize variables
   profile = Profile()
-  canvas_id = user.canvasId 
   recentPosts = []
   commentsMap = {}
+  user = User.query.filter_by(canvasId=canvas_id).first()
    # user_look_up could be a new profile being searched OR loading the user's own profile
   proper_date = ''
   
