@@ -4,18 +4,32 @@
 {% block content %}<!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
 <html>
 <section class="login">
-<div class="wrapper fadeInDown">
+<div class="wrapper fadeInDown center">
   <div id="formContent">
     <!-- Tabs Titles -->
 
     <!-- Icon -->
     <div class="fadeIn first">
-      <center><div class="image-cropper"><img class="profile-pic img-fluid" src="../static/images/p4h.png" id="icon" alt="User Icon" /></div></center>
+      <div class="image-cropper"><img class="profile-pic img-fluid" src="../static/images/p4h.png" id="icon" alt="User Icon" /></div>
     </div>
 
     <!-- Signup Form -->
     <form method="POST" action="" novalidate>
       {{ form.hidden_tag() }}
+        <p class="fadeIn second">
+            {{ form.fname.label }}<br>
+            {{ form.fname(size=32) }}<br>
+            {% for error in form.fname.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p class="fadeIn second">
+            {{ form.lname.label }}<br>
+            {{ form.lname(size=32) }}<br>
+            {% for error in form.lname.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
         <p class="fadeIn second">
             {{ form.username.label }}<br>
             {{ form.username(size=32) }}<br>
@@ -44,10 +58,6 @@
     {% if error %}
       <p class=error><strong>Error:</strong> {{ error }}
     {% endif %}
-
-          
-
-
   </div>
 </div>
 </section>

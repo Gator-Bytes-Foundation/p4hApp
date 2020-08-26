@@ -13,6 +13,8 @@ $(document).ready(function () {
   $("#timeline-tab").addClass("active");
   $("#timeline-tab").addClass("show");
 });
+
+
 /*
 
 EDIT PROFILE MENU 
@@ -33,98 +35,15 @@ $("#edit_profile").on("click", function (e) {
 $("#exit_edit").on("click", function (e) {
   cancelExitMenu();
 });
-/*
 
-REPLY BUTTON
-
-*/
-// anytime reply button is clicked, make a ajax call to server
-$(document).on("click", ".reply_button", function (e) {
-  /* old regular expression I was using to find all reply ids: a[id|='reply' */
-  e.preventDefault();
-  var id_number = e.currentTarget.name;
-  console.log("comment_id " + id_number);
-  var value = $("#textbox_reply-" + id_number).val();
-  console.log(value);
-
-  //alert(value);
-  $.ajax({
-    type: "POST",
-    url: "/comment_" + id_number,
-    data: JSON.stringify({ text: value }),
-    contentType: "application/json; charset=utf-8",
-    dataType: "text",
-    error: function (data) {
-      response = eval(data);
-      comment = JSON.stringify(response);
-      console.log("error" + comment);
-    },
-    success: function (data) {
-      comment = data;
-      console.log("ajax return comment ", comment);
-      $("#comments-" + id_number).append(comment);
-    },
-  });
-});
-/*
-
-POST BUTTON 
-
-*/
-$("#post").on("click", function (e) {
-  e.preventDefault();
-  var value = $("#textbox_post").val();
-  console.log(value);
-  const input = document.getElementById("post_file"); // grabs the right file by ID
-  var formData = new FormData();
-  if (input != null) {
-    files = input.files[0];
-    formData.append("file", files);
-  }
-
-  formData.append("text", value);
-  $.ajax({
-    type: "POST",
-    url: "\post",
-    data: formData,
-    cache: false,
-    contentType: false,
-    processData: false,
-    dataType: "text",
-    success: function (data) {
-      const post = data;
-      console.log("post being created " + post);
-      $("#write_post").append(post);
-      if (typeof file !== "undefined") {
-        console.log("file");
-        if (
-          file.name.includes(".jpg") ||
-          file.name.includes(".png") ||
-          file.name.includes(".pdf") ||
-          file.name.includes(".webp")
-        ) {
-          console.log("is an image");
-          var reader = new FileReader();
-          reader.onload = function (e) {
-            $("#pic").attr("src", e.target.result);
-          };
-          reader.readAsDataURL(file);
-        }
-      }
-    },
-    error: function (data,err,exception) {
-      const response = eval(data);
-      const post = JSON.stringify(response);
-      console.log(err);
-      console.log(exception);
-    }
-  });
-});
 // handle textbox as user types
 $(function () {
+  
   //  changes mouse cursor when highlighting loawer right of box
-  $("textarea")
-    .mousemove(function (e) {
+  $("#newsfeed").on({
+    mousemove: function (e) {
+      //stuff to do on mouse enter
+      console.log("profile.js");
       var myPos = $(this).offset();
       myPos.bottom = $(this).offset().top + $(this).outerHeight();
       myPos.right = $(this).offset().left + $(this).outerWidth();
@@ -139,10 +58,8 @@ $(function () {
       } else {
         $(this).css({ cursor: "" });
       }
-    })
-    //  the following simple make the textbox "Auto-Expand" as it is typed in
-    .css("overflow", "hidden")
-    .keyup(function (e) {
+    },
+    keyup: function (e) {
       //  this if statement checks to see if backspace or delete was pressed, if so, it resets the height of the box so it can be resized properly
       if (e.which == 8 || e.which == 46) {
         $(this).height(
@@ -160,7 +77,9 @@ $(function () {
       ) {
         $(this).height($(this).height() + 1);
       }
-    });
+    }
+  }, "textarea");
+    //  the following simple make the textbox "Auto-Expand" as it is typed in
 });
 
 /* 
@@ -192,6 +111,45 @@ function cancelDropDown() {
   list_of_items[0].style.display = "none";
 }
 
+/* Profile Picture Change */ 
+// when upload icon is clicked, trigger the file browser input (the input is hidden visually but can be "clicked" on)
+$(".upload_icon").click(function (e) {
+  var id = e.currentTarget.id;
+  $("#" + id + "_input").trigger("click"); 
+});
+
+
+function changeProfilePic(input,id) {
+  file = input.files[0];
+  console.log("file");
+  if (file.name.includes(".jpg") || file.name.includes(".png") ||
+      file.name.includes(".pdf") || file.name.includes(".webp")) 
+  {
+    console.log("is an image");
+    let reader = new FileReader();
+    reader.onload = function (e) {
+      let img_id = String(id).replace("_input", "_img"); // profile_pic_img
+      $("#" + img_id).attr("src", e.target.result);
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+function getPostData(id) {
+  let formData = new FormData();
+  let value = $("#textbox-" + id).val();
+  formData.append("text", value);
+  console.log('{{profile.canvas_user.id}}');
+  const input = document.getElementById("upload-" + id); // grabs the right file by ID
+  if (input != null && input.files.length > 0) {
+    let files = input.files[0];
+    formData.append("file", files);
+  }
+  formData.append("userid", '{{profile.canvas_user.id}}'); 
+  return formData; 
+}
+
+
 /*
 
 WINDOW CLICKS
@@ -215,36 +173,4 @@ window.onclick = function (event) {
   }
 };
 
-// when upload icon is clicked, trigger the file browser input (the input is hidden visually but can be "clicked" on)
-$(".upload_icon").click(function (e) {
-  var id = e.currentTarget.id;
-  $("#" + id + "_input").trigger("click");
-});
-// change the name next to icon on file upload
-$('input[type="file"]').on("change", function (e) {
-  var val = $(this).val();
-  if (val.length > 8) {
-    val = val.substring(0, 8);
-    val = " " + val + "...";
-  }
-  $(this).siblings("span").text(val);
 
-  var id = e.currentTarget.id;
-  input = document.getElementById(id); // grabs the right file by ID
-  file = input.files[0];
-  console.log("file");
-  if (
-    file.name.includes(".jpg") ||
-    file.name.includes(".png") ||
-    file.name.includes(".pdf") ||
-    file.name.includes(".webp")
-  ) {
-    console.log("is an image");
-    var reader = new FileReader();
-    reader.onload = function (e) {
-      var img_id = String(id).replace("_input", "_img");
-      $("#" + img_id).attr("src", e.target.result);
-    };
-    reader.readAsDataURL(file);
-  }
-});

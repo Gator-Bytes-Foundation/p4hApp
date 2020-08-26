@@ -3,144 +3,96 @@ import "../../css/profile.css";
 #######################################    Functions to handle all actions in post.html    ##########################################
 */
 
-//* show comments for profile posts */ 
-$(document).on("click", ".view_more", function(e) { 
-  e.preventDefault();
-  var id = e.currentTarget.name;
-  console.log("view more: ", id);
-  $("#profile-comments-"+id).show(); 
-});
-
 /*
 
 REPLY BUTTON
 
 */
-// anytime reply button is clicked, make a ajax call to server
-$(document).on("click", ".reply_button", function (e) {
-  /* old regular expression I was using to find all reply ids: a[id|='reply' */
-  e.preventDefault();
-  var id_number = e.currentTarget.name;
-  console.log("comment_id " + id_number);
-  var value = $("#textbox_reply-" + id_number).val();
-  console.log(value);
-
-  //alert(value);
-  $.ajax({
-    type: "POST",
-    url: "/comment_" + id_number,
-    data: JSON.stringify({ text: value }),
-    contentType: "application/json; charset=utf-8",
-    dataType: "text",
-    error: function (data) {
-      response = eval(data);
-      comment = JSON.stringify(response);
-      console.log("error" + comment);
-    },
-    success: function (data) {
-      comment = data;
-      console.log("ajax return comment ", comment);
-      $("#comments-" + id_number).append(comment);
-    },
-  });
-});
-/*
-
-POST BUTTON 
-
-*/
-$("#post").on("click", function (e) {
-  e.preventDefault();
-  var value = $("#textbox_post").val();
-  console.log(value);
-  const input = document.getElementById("post_file"); // grabs the right file by ID
-  var formData = new FormData();
+function getPostData(id) {
+  let formData = new FormData();
+  let value = $("#textbox-" + id).val();
+  formData.append("text", value);
+  console.log('{{profile.canvas_user.id}}');
+  const input = document.getElementById("upload-" + id); // grabs the right file by ID
   if (input != null) {
     files = input.files[0];
     formData.append("file", files);
   }
-
-  formData.append("text", value);
+  formData.append("userid", '{{profile.canvas_user.id}}'); 
+  return formData; 
+}
+// anytime reply button is clicked, make a ajax call to server
+$(document).on("click", ".reply_button", function (e) {
+  /* old regular expression I was using to find all reply ids: a[id|='reply' */
+  e.preventDefault();
+  var comment_id = e.currentTarget.id;
+  //console.log("comment_id " + comment_id);
+  let formData = getPostData(comment_id);
+  console.log('commenting');
+  //alert(value);
   $.ajax({
     type: "POST",
-    url: "/post",
+    url: "/comment/" + comment_id,
     data: formData,
     cache: false,
     contentType: false,
     processData: false,
+    //contentType: "application/json; charset=utf-8",
     dataType: "text",
-    error: function (data) {
-      const response = eval(data);
-      const post = JSON.stringify(response);
-      console.log("error" + post);
-      $("#write_post").append(post);
-    },
     success: function (data) {
-      const post = data;
-      console.log("post being created " + post);
-      $("#write_post").append(post);
-      if (typeof file !== "undefined") {
-        console.log("file");
-        if (
-          file.name.includes(".jpg") ||
-          file.name.includes(".png") ||
-          file.name.includes(".pdf") ||
-          file.name.includes(".webp")
-        ) {
-          console.log("is an image");
-          var reader = new FileReader();
-          reader.onload = function (e) {
-            $("#pic").attr("src", e.target.result);
-          };
-          reader.readAsDataURL(file);
-        }
-      }
+      var comment = data;
+      console.log("ajax return comment ", comment);
+      $("#comments-" + comment_id).append(comment);
     },
+    error: function (data,err,exception) {
+      let response = eval(data);
+      var comment = JSON.stringify(response);
+      console.log("error " + err);
+      console.log("status " + exception);
+    }
   });
 });
-// handle textbox as user types
-$(function () {
+
+// handle textbox as user types  
   //  changes mouse cursor when highlighting loawer right of box
-  $("textarea")
-    .mousemove(function (e) {
-      var myPos = $(this).offset();
-      myPos.bottom = $(this).offset().top + $(this).outerHeight();
-      myPos.right = $(this).offset().left + $(this).outerWidth();
+$(document).on("mousemove", ".text_box", function(e) {
+    console.log("post.js");
+    var myPos = $(this).offset();
+    myPos.bottom = $(this).offset().top + $(this).outerHeight();
+    myPos.right = $(this).offset().left + $(this).outerWidth();
 
-      if (
-        myPos.bottom > e.pageY &&
-        e.pageY > myPos.bottom - 16 &&
-        myPos.right > e.pageX &&
-        e.pageX > myPos.right - 16
-      ) {
-        $(this).css({ cursor: "nw-resize" });
-      } else {
-        $(this).css({ cursor: "" });
-      }
-    })
-    //  the following simple make the textbox "Auto-Expand" as it is typed in
-    .css("overflow", "hidden")
-    .keyup(function (e) {
-      //  this if statement checks to see if backspace or delete was pressed, if so, it resets the height of the box so it can be resized properly
-      if (e.which == 8 || e.which == 46) {
-        $(this).height(
-          parseFloat($(this).css("min-height")) != 0
-            ? parseFloat($(this).css("min-height"))
-            : parseFloat($(this).css("font-size"))
-        );
-      }
-      //  the following will help the text expand as typing takes place
-      while (
-        $(this).outerHeight() <
-        this.scrollHeight +
-          parseFloat($(this).css("borderTopWidth")) +
-          parseFloat($(this).css("borderBottomWidth"))
-      ) {
-        $(this).height($(this).height() + 1);
-      }
-    });
-});
-
+    if (
+      myPos.bottom > e.pageY &&
+      e.pageY > myPos.bottom - 16 &&
+      myPos.right > e.pageX &&
+      e.pageX > myPos.right - 16
+    ) {
+      $(this).css({ cursor: "nw-resize" });
+    } else {
+      $(this).css({ cursor: "" });
+    }
+  })
+  //  the following simple make the textbox "Auto-Expand" as it is typed in
+  .css("overflow", "hidden")
+  .keyup(function (e) {
+    //  this if statement checks to see if backspace or delete was pressed, if so, it resets the height of the box so it can be resized properly
+    if (e.which == 8 || e.which == 46) {
+      $(this).height(
+        parseFloat($(this).css("min-height")) != 0
+          ? parseFloat($(this).css("min-height"))
+          : parseFloat($(this).css("font-size"))
+      );
+    }
+    //  the following will help the text expand as typing takes place
+    while (
+      $(this).outerHeight() <
+      this.scrollHeight +
+        parseFloat($(this).css("borderTopWidth")) +
+        parseFloat($(this).css("borderBottomWidth"))
+    ) {
+      $(this).height($(this).height() + 1);
+    }
+  });
 /*
 
 WINDOW CLICKS

@@ -3,7 +3,7 @@ $(document).on("click", ".reply_button", function (e) {
   e.preventDefault();
   var id_number = e.currentTarget.name;
   console.log("comment_id " + id_number);
-  var value = $("#textbox_reply-" + id_number).val();
+  var value = $("#textbox-" + id_number).val();
   console.log(value);
 
   //alert(value);

@@ -21,9 +21,7 @@ proxy_dict = {"http": "https://p4hteach.rocket.chat"}
 # Initialize a new Canvas object
 CANVAS = Canvas(API_URL, API_KEY)
 # Both course and canvas objects are used for majority of API calls
-course = CANVAS.get_course(
-    1
-)  # only 1 course being used on canvas so initialize it globally to avoid repeated API calls
+course = CANVAS.get_course(1)  # only 1 course being used on canvas so initialize it globally to avoid repeated API calls
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -64,7 +62,7 @@ def authenticate(scopes, call):
         + "&redirect_uri="
         + serviceKey["redirect_uri"]
     )
-    print(canvas_url_with_required)
+    #print(canvas_url_with_required)
     token_url = API_URL + "login/oauth2/token"
     try:
         resp = requests.post(token_url, serviceKey).json()

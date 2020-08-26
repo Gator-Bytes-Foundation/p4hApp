@@ -1,6 +1,6 @@
 from app.canvas import CANVAS,course, CanvasException # inject canvas, course objects into file
 from app.models.profile_model import Profile
-
+from flask import abort, Response
 #
 # Post class controls all methods regarding a profile post or announcemnt post
 # 
@@ -11,28 +11,30 @@ from app.models.profile_model import Profile
 #  
 # loads all canvas discussion posts that the profile user has posted and their associated comments
 #
-def loadPosts(user_id,start_index,end_index):
+def loadPosts(user):
   # initialize variables
   profile = Profile()
+  canvas_id = user.canvasId 
   recentPosts = []
   commentsMap = {}
-  profile.user = CANVAS.get_user(user_id) # user_look_up could be a new profile being searched OR loading the user's own profile
+   # user_look_up could be a new profile being searched OR loading the user's own profile
   proper_date = ''
-
+  
   try:
-    posts = list(course.get_discussion_topics()) # load profile posts
+    posts = list(course.get_discussion_topics()) # load profile posts    
     #print("topic in load profile: ", vars(topics[0]))
   except CanvasException as e:
-    print("error", e)
+    abort(Response('course not found')) 
 
   # temporarily checking only up to 9 profile posts. Will eventually remove cap when "see earlier posts" button added
   if(len(posts) < 9):
     end_index = len(posts)
-  print(start_index, " ", end_index)
-  
+  else: 
+    end_index = 9
+    
   # loop through all profile posts
-  for i in range(start_index,end_index):
-    if(posts[i].title == profile.user.name and posts[i].message is not None): #only shows posts that the user has posted
+  for i in range(end_index):
+    if(posts[i].author['id'] == canvas_id and posts[i].message is not None): #only shows posts that the user has posted
       posts[i].message = posts[i].message.replace('</p>', '').replace('<p>', '')
       # format date info 
       year = posts[i].posted_at[2:4]
@@ -41,13 +43,15 @@ def loadPosts(user_id,start_index,end_index):
       proper_date = ''.join([month,'/', day, '/', year])
       posts[i].posted_at = proper_date # replace old ugly format
       # push profile post into recent posts array
+      posts[i].comments = loadPostComents(posts[i])
+      #posts[i].avatar = posts[i].canvas_user.get_avatars()[1].url
       recentPosts.append(posts[i])
-      commentsMap = loadPostComents(posts[i])
     # end of if statement
 
   # now adding posts to profile
   profile.posts = recentPosts
-  profile.comments = commentsMap 
+  profile.user = user
+  profile.canvas_user = CANVAS.get_user(canvas_id)
       
   return profile
 #
@@ -94,9 +98,12 @@ def loadNewsFeed():
   return recentPosts, array_of_comments, proper_date      
 
 
-def handlePost(page_to_load, request): 
-  #print(request.files['file'] )
+def handlePost(user_id, request,current_user): 
+  if(current_user.is_anonymous == True):
+    abort(Response('Must be logged in to post')) 
+
   new_post = str(request.form['text'])
+  userid = str(request.form['userid'])
   #attachments_ = []
   try:
     attachments_ = (request.files['file']) # check to see if there was files attached
@@ -104,20 +111,19 @@ def handlePost(page_to_load, request):
     attachments_ = None
   #print(new_post)
   # make post in canvas
-  if('announcement' in page_to_load):
+  if('announcement' in user_id):
     title = 'Announcement'
   else:
-    title = canvas_user.name 
+    title = current_user.username
   post = course.create_discussion_topic(
       title = title,
-      user_name = canvas_user.id,
-      author = canvas_user,
+      user_name = current_user.email,
+      author = user_id,
       message = new_post,
       user_can_see_posts = True,
       published = True,
       attachments = attachments_,
       file = {'attachment':attachments_}
-      
       
   )
   #print("current post ", vars(post))
@@ -130,7 +136,7 @@ def handlePost(page_to_load, request):
   print("topic being posted: ", post, " entry: ", "nothin fo now")
   # send back html for post
   post_id = str(post.id)
-  post_html = '<article id="' + post_id + '"class="post_box"> <div class="profile_name"> <div class="profile_pic"> <figure class="thumbnail "><img alt="placeholder" class="img-fluid rounded-circle" src="' + post.author['avatar_image_url'] + '"/></figure></div> <div class="col-10"><header class="text-left"><figcaption class="comment-user"><b>'+canvas_user.name+'</b></figcaption><time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> ' + proper_date + '</time></header></div></div> <div class="post"> <div class="">' + new_post + '</div><hr>   <div class="text-center"></div> <div id="comments-' + post_id + '" ><label class = "comment_label" for="from">Comments</label> <div id="reply_div-' + post_id + '"class="reply_div"> <div class="col-8"> <textarea class= "text_box" name="message" id="textbox_reply-' + post_id + '" style="" onkeyup="Expand(this);" size="5" placeholder="Comment"></textarea><span class="upload_icon oi oi-cloud-camera" aria-hidden="true"></span></div> <a href=""name="' + post_id + '" id="reply-' + post_id + '" class="reply_button col-4 btn-sm"><i class="fa fa-reply"></i> Reply</a></div></div></article>'  
+  post_html = '<article id="' + post_id + '"class="post_box"> <div class="profile_name"> <div class="profile_pic"> <figure class="thumbnail "><img alt="placeholder" class="img-fluid rounded-circle" src="' + post.author['avatar_image_url'] + '"/></figure></div> <div class="col-10"><header class="text-left"><figcaption class="comment-user"><b>' + current_user.username + '</b></figcaption><time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> ' + proper_date + '</time></header></div></div> <div class="post"> <div class="">' + new_post + '</div><hr>   <div class="text-center"></div> <div id="comments-' + post_id + '" ><label class = "comment_label" for="from">Comments</label> <div id="reply_div-' + post_id + '"class="reply_div"> <div class="col-8"> <textarea class= "text_box" name="message" id="textbox-' + post_id + '"onkeyup="" size="5" placeholder="Comment"></textarea><span class="upload_icon oi oi-cloud-camera" aria-hidden="true"></span></div> <a href=""name="' + post_id + '" id="reply-' + post_id + '" class="reply_button col-4 btn-sm"><i class="fa fa-reply"></i> Reply</a></div></div></article>'  
   return post_html  
 
 def loadPostComents(post):
@@ -148,17 +154,18 @@ def loadPostComents(post):
   # store all comments of this post in object/map to map to one another on client side
   allCommentsMap[str(post.id)] = postComments
   return allCommentsMap
-def handleComment(page_to_load, request):
-  new_comment = request.get_json()["text"]
-  print("reply:", new_comment)
-  topic_id = page_to_load.replace('comment_','')
+
+def handleComment(comment_id, request,current_user):
+  #new_comment = request.get_json()["text"]
+  comment_text = request.form['text']
+  print("reply:", comment_text)
   # make post in canvas
-  topic = course.get_discussion_topic(topic_id)
+  topic = course.get_discussion_topic(comment_id)
   comment = topic.post_entry(
-      message = new_comment
+      message = comment_text
   )
   # send back html for post
-  comment_html = '<div class="post_comment"><figure class="thumbnail col-2"><img alt="placeholder" class="img-fluid rounded-circle" src="'+ comment.user['avatar_image_url']+'"/></figure><div class="word_bubble col-10"><p><b>' + canvasUser.name + ':</b><br>' + new_comment + '</p></div></div>'
+  comment_html = '<div class="post_comment"><figure class="thumbnail col-2"><img alt="placeholder" class="img-fluid rounded-circle" src="'+ comment.user['avatar_image_url']+'"/></figure><div class="word_bubble col-10"><p><b>' + current_user.username + ':</b><br>' + comment_text + '</p></div></div>'
   return comment_html  
 
 
