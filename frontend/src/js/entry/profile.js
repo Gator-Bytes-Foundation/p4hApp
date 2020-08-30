@@ -38,7 +38,6 @@ $("#exit_edit").on("click", function (e) {
 
 // handle textbox as user types
 $(function () {
-  
   //  changes mouse cursor when highlighting loawer right of box
   $("#newsfeed").on({
     mousemove: function (e) {
@@ -115,14 +114,18 @@ function cancelDropDown() {
   list_of_items[0].style.display = "none";
 }
 
-/* Profile Picture Change */ 
+/* Upload Profile File */ 
 // when upload icon is clicked, trigger the file browser input (the input is hidden visually but can be "clicked" on)
-$(".upload_icon").click(function (e) {
-  var id = e.currentTarget.id;
-  $("#" + id + "_input").trigger("click"); 
+$(document).ready(function() {
+  $(".upload_icon").click(function (e) {
+    let id = e.currentTarget.id;
+    $("#label-"+id).trigger("click"); 
+  });
 });
 
 
+
+/* Profile Picture Change */ 
 function changeProfilePic(input,id) {
   file = input.files[0];
   console.log("file");
@@ -139,19 +142,7 @@ function changeProfilePic(input,id) {
   }
 }
 
-function getPostData(id) {
-  let formData = new FormData();
-  let value = $("#textbox-" + id).val();
-  formData.append("text", value);
-  console.log('{{profile.canvas_user.id}}');
-  const input = document.getElementById("upload-" + id); // grabs the right file by ID
-  if (input != null && input.files.length > 0) {
-    let files = input.files[0];
-    formData.append("file", files);
-  }
-  formData.append("userid", '{{profile.canvas_user.id}}'); 
-  return formData; 
-}
+
 
 
 /*

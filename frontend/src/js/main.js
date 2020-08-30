@@ -30,31 +30,61 @@ $(document).on("click", ".view_more", function(e) {
   $("#comments-"+id).show(); 
 });
 
-
 /*
 
 POST BUTTON 
 
 */
-function getPostData(id) {
+// change the name next to icon on file upload
+$('input[type="file"]').on("change", function (e) {
+  let val = $(this).val();
+  if (val.length > 8) {
+    val = val.substring(0, 8);
+    val = " " + val + "...";
+  }
+  $(this).siblings("span").text(val);
+
+  let id = e.currentTarget.id;
+  let input = document.getElementById(id); // grabs the right file by ID
+  let file = input.files[0];
+  console.log(id);
+  if (
+    file.name.includes(".jpg") ||
+    file.name.includes(".png") ||
+    file.name.includes(".pdf") ||
+    file.name.includes(".webp")
+  ) {
+    console.log("is an image");
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      var img_id = String(id).replace("input", "display");
+      $("#" + img_id).attr("src", e.target.result);
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+function getPostData(id,profile_id) {
   let formData = new FormData();
   let value = $("#textbox-" + id).val();
   formData.append("text", value);
-  console.log('{{profile.canvas_user.id}}');
-  const input = document.getElementById("upload-" + id); // grabs the right file by ID
+  const input = document.getElementById("input-upload-" + id); // grabs the right file by ID
   if (input != null && input.files.length > 0) {
     let files = input.files[0];
     formData.append("file", files);
   }
-  formData.append("userid", '{{profile.canvas_user.id}}'); 
+  formData.append("userid", profile_id); 
   return formData; 
 }
 
 $("#post").on("click", function (e) {
   e.preventDefault();
-  var profile_id = e.currentTarget.name;
+  let profile_id = e.currentTarget.name;
+  let post_id = e.currentTarget.id;
   //console.log("post id " + id_number);
-  let formData = getPostData(0); // 0 is first textbox on page 
+  let formData = getPostData(post_id,profile_id); // 0 is first textbox on page 
+  console.log(post_id);
+
   $.ajax({
     type: "POST",
     url: "/post/"+profile_id,
@@ -64,8 +94,10 @@ $("#post").on("click", function (e) {
     processData: false,
     dataType: "text",
     success: function (data) {
-      const post = data;
-      console.log("post being created " + post);
+      console.log("post being created " + data);
+      const post = data.html;
+      const new_post_id = data.post_id;
+      
       $("#write_post").append(post).css("overflow", "hidden");
       if (typeof file !== "undefined") {
         console.log("file");
@@ -78,7 +110,7 @@ $("#post").on("click", function (e) {
           console.log("is an image");
           var reader = new FileReader();
           reader.onload = function (e) {
-            $("#pic").attr("src", e.target.result);
+            $("#display-upload-"+new_post_id).attr("src", e.target.result);
           };
           reader.readAsDataURL(file);
         }

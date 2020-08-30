@@ -41,7 +41,8 @@ def profile(*args):
     user_profile = loadPosts(args[0]) 
   else: # your profile
     user_profile = loadPosts(current_user.canvasId)
-    print(user_profile.user)
+    print('current user: ')
+    print(current_user.canvasId)
   # Brings user to their profile view
   return loadProfile(user_profile, all_canvas_users,current_user)
 

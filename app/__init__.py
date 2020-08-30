@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from app.canvas import Config
+import logging
 app = Flask(__name__)
 
 app.config.from_object(Config)
@@ -26,6 +27,7 @@ from app.routes import login_routes
 from app.routes import profile_routes
 
 from app.helpers import context_processors, static_asset_resolve
+app.logger.setLevel(logging.DEBUG)
 
 ''' for when db is finished setting up
 from app import User, Profile

@@ -13,6 +13,7 @@ import requests
 from flask import make_response
 import random
 import logging
+from flask.json import jsonify
 
 
 #
@@ -23,7 +24,11 @@ def posts(post_id): #url being routed is saved to 'page_to_load' which we can th
   print("page loading: ",post_id)
   print(current_user)
   if(request.method == 'POST'):
-    return handlePost(post_id, request,current_user)
+    html, post_id = handlePost(post_id, request,current_user)
+    return json.dumps({
+      'html':html,
+      'post_id': post_id
+    }), 200, {'ContentType':'application/json'}
   
   return jsonify(request)
 

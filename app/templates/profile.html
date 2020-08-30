@@ -154,27 +154,30 @@
           <div style="text-align: center;" class="post_box">
             <div class = "profile_name">
             {% if profile.canvas_user.name == 'Admin' %}
-            <figure class=" col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="../static/images/p4h.png"/></figure>
+            <figure class="profile-pic-post col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="../static/images/p4h.png"/></figure>
             {% else %}
-            <figure class=" col-2"><img alt="{{profile.canvas_user}}"class="img-fluid rounded-circle" src="{{profile.profile_pic}}"/></figure>
+            <figure class="profile-pic-post post col-2"><img alt="{{profile.canvas_user}}"class="img-fluid rounded-circle" src="{{profile.profile_pic}}"/></figure>
             {% endif %}
             <div class="col-10" id="">
-              <textarea class="text_box" name="message" id="textbox-0" style="width: 100%;" placeholder="Write Post Here" onkeyup="" size="5" ></textarea>
-              <span id="upload_profile"  class="iconify upload_icon" data-icon="ant-design:cloud-upload-outlined" data-inline="false"></span>
-              <input type="file" name="file" id="upload-0" class="inputfile"style="display: none;" data-multiple-caption="{count} files selected" multiple/>
-                <!--<label class="profile_button" id="label-1" for="file-1"><strong>Choose a file</strong></label>-->
+              <textarea class="text_box" name="message" id="textbox-post" style="width: 100%;" placeholder="Write Post Here" onkeyup="" size="5" ></textarea>
+              <span id="upload-post"  class="iconify upload_icon" data-icon="ant-design:cloud-upload-outlined" data-inline="false"></span>
+              <input type="file" name="file" id="input-upload-post" class="invisble" data-multiple-caption="{count} files selected" multiple/>
+              <label class="invisble" id="label-upload-post" style="display: none;" for="input-upload-post"><strong>Choose a file</strong></label>
+              <div class="row ">
+                <a href="#" name="{{profile.canvas_user.id}}" id="post" value="Post" style="width:100%;" class="profile_button">Post</a>
+              </div>  
             </div>
-            </div>
-            <div class="row">
-              <a href="#" name="{{profile.canvas_user.id}}" id="post" value="Post" style="width:100%;" class="profile_button">Post</a>
-            </div>
+
+          </div>
+
+            <img id="display-upload-post" class="img-fluid post-pic"/>
           </div>
         </div>
         <!-- Post Loop --> 
         {% for post in profile.posts %}
           {% include 'post.html' %}
         {% endfor %}
-      <img id="pic" class="img-fluid"/>
+      
     </div>
     <div id="about"  class="tab-pane fade in" role="tabpanel">
       <div class="row">

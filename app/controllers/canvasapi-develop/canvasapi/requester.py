@@ -17,7 +17,7 @@ from canvasapi.exceptions import (
 from canvasapi.util import clean_headers
 
 
-logger = logging.getLogger(__name__)
+logger = logging.setLevel(logging.DEBUG)
 
 
 class Requester(object):
@@ -87,10 +87,11 @@ class Requester(object):
         :param data: The data to send with this request.
         :type data: dict
         """
-
+        print('HERE')
         # Grab file from data.
         files = None
         for field, value in data:
+            print(field)
             if field == "file":
                 if isinstance(value, dict):
                     files = value

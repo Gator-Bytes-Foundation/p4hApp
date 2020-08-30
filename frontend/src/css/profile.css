@@ -14,10 +14,16 @@ b {
   overflow: hidden;
   border-radius: 50%;
 }
+.image-cropper .post{
+  max-height:30px; 
+}
+
 .upload_icon {
   vertical-align: middle;
   color: rgba(22,50,170, 0.90);  
+  cursor: pointer;
 }
+
 .exit_icon {
   background-color:#fff;
   color: rgba(22,50,170, 0.9);
@@ -69,13 +75,15 @@ b {
 .overlayBlock .col-8 .row {
   justify-content: center;
 }
-.profile-pic {
-}
+
 .profile-pic img{
   margin: 0 auto;
   /*margin-left: -25%; centers the image */
   width: 100%;
   height: 100%;
+}
+.profile-pic-post img {
+  min-height:90%; 
 }
 .buttons_row {
   display: flex;
@@ -113,7 +121,10 @@ b {
 .post {
   width:100%; 
 }
-
+.post-pic {
+  max-height: 350px;
+  padding:10px;
+}
 
 .profile_button {
   cursor:pointer;
@@ -121,12 +132,10 @@ b {
   width:100%;
   max-width:450px;
   text-align: center;
-  
-  
   /*margin-right:6px !important;
   margin-left:6px !important;*/
-  padding:4px; 
-  margin: 7px 0px 5px 0;
+  padding:6px; 
+  margin: 10px 2px 10px 2px;
   border: thin;
   border-style: solid;
   border-color: rgba(22,80,200,0.20); 
@@ -278,4 +287,8 @@ b {
   .buttons_row {
     max-width:75%;
   }
+}
+.invisble {
+  height:0px; 
+  display:none; 
 }
