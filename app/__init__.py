@@ -11,8 +11,8 @@ app = Flask(__name__)
 
 app.config.from_object(Config)
 # Other FLASK config varaibles ...
-app.config["ALLOWED_EXTENSIONS"] = ["jpg", "png", "mov", "mp4", "mpg"]
-app.config["MAX_CONTENT_LENGTH"] = 1000 * 1024 * 1024  # 1000mb
+#app.config["ALLOWED_EXTENSIONS"] = ["jpg", "png", "mov", "mp4", "mpg"]
+#app.config["MAX_CONTENT_LENGTH"] = 1000 * 1024 * 1024  # 1000mb
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -23,7 +23,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-file_upload = FileUpload(app, db)
+#file_upload = FileUpload(app, db)
 
 
 environment = os.getenv('ENVIRONMENT', default='development')
