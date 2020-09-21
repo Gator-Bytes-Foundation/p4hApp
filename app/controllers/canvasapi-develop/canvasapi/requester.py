@@ -17,7 +17,7 @@ from canvasapi.exceptions import (
 from canvasapi.util import clean_headers
 
 
-logger = logging.setLevel(logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 
 class Requester(object):
