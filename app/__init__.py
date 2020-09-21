@@ -3,7 +3,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
-from flask_file_upload import FileUpload
+#from flask_file_upload import FileUpload
 from app.canvas import Config
 import logging
 import sys
