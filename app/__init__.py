@@ -30,7 +30,6 @@ environment = os.getenv('ENVIRONMENT', default='development')
 
 #import app.routes #, user_model, profile_model
 #from app.routes import *
-print(app)
 from app.routes import routes
 from app.routes import resources_routes
 from app.routes import messaging_routes
