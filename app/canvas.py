@@ -6,7 +6,7 @@ from canvasapi.exceptions import CanvasException
 from pprint import pprint
 from rocketchat_API.rocketchat import RocketChat
 from requests import sessions
-#from app.helpers.load_secrets import secrets
+from app.helpers.load_secrets import secrets
 
 # Canvas API URL
 global API_URL
@@ -15,8 +15,8 @@ API_URL = "https://admin.p4hteach.org"
 ROCKET_URL = "https://open.rocket.chat"
 
 # Canvas API key
-#API_KEY = secrets.get("canvas_api_key")
-API_KEY = "diunZ1Uva1UHgOTw2aTS4CnDOq0cTpSFDWYv4NtMFcQdvAxfRE02NBO4f8Wnjfge"
+API_KEY = secrets.get("canvas_api_key")
+
 proxy_dict = {"http": "https://p4hteach.rocket.chat"}
 # Initialize a new Canvas object
 CANVAS = Canvas(API_URL, API_KEY)
@@ -37,8 +37,8 @@ class Config(object):
 
 with sessions.Session() as session:
     rocket = RocketChat(
-        #secrets.get("rocket_chat_email"),
-        #secrets.get("rocket_chat_password"),
+        secrets.get("rocket_chat_email"),
+        secrets.get("rocket_chat_password"),
         server_url=ROCKET_URL,
         session=session,
     )
@@ -51,10 +51,8 @@ def authenticate(scopes, call):
         "response_type": "code",
         "redirect_uri": "http://localhost:8000/oauth_complete",
         "grant_type": "authorization_code",
-        #"code": secrets.get("canvas_auth_code"),
-        "code": "e8MQdcca34Suq9XzwzYWTcec7oILoJ1558Y3b0fvVEgcOqx66DuwnCFvdo2CuK74",
-        #"client_secret": secrets.get("canvas_client_secret"),
-        "client_secret": "test_developer_key",
+        "code": secrets.get("canvas_auth_code"),
+        "client_secret": secrets.get("canvas_client_secret"),
     }
     canvas_url_with_required = (
         canvas_url
