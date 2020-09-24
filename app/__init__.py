@@ -23,7 +23,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-#file_upload = FileUpload(app, db)
+file_upload = FileUpload(app, db)
 
 
 environment = os.getenv('ENVIRONMENT', default='development')
