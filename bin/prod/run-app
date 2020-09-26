@@ -9,7 +9,7 @@ SCRIPT_DIR=$(dirname "$0")
 main() {
   export ENVIRONMENT="production"
   "${SCRIPT_DIR}/build-frontend"
-  run_server
+  python __main__.py
 }
 
 main "$@"
