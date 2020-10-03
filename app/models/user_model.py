@@ -1,5 +1,7 @@
+from app import login_manager, db#, file_upload
 from datetime import datetime
-from app import login_manager, db
+from flask import request
+from flask import render_template
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.canvas import CANVAS, course # inject canvas, course objects into file
@@ -15,6 +17,7 @@ class User(UserMixin,db.Model):
   canvasId = db.Column(db.Integer, index=True, unique=True)
   email = db.Column(db.String(120), index=True, unique=True)
   password_hash = db.Column(db.String(128))
+  userFiles = db.relationship("UserFiles", backref="UserFiles")
   #profile = db.relationship('Profile', backref='author', lazy='dynamic')
   
   def __init__(self, *args,**kwargs):
@@ -54,7 +57,7 @@ def load_user(userId):
     return User.query.get(userId)
   except:
     return None
-
+'''
 @login_manager.unauthorized_handler
 def unauthorized_handler():
     if request.is_xhr:
@@ -64,5 +67,15 @@ def unauthorized_handler():
     else:
         return render_template('login.html'), 401
     #
+  '''
   #return CANVAS.get_user(1) # for now lets just automatically load admin (id of 1)
   
+#@file_upload.Model
+class UserFiles(db.Model):
+  __tablename__ = "UserFiles"
+  id = db.Column(db.Integer, primary_key=True)
+  #userFile = file_upload.Column() #file_name and file_type and mime_type included
+  userId = db.Column(db.Integer, db.ForeignKey("User.id"))
+  postId = db.Column(db.Integer)
+  data = db.Column(db.LargeBinary)
+

@@ -1,232 +1,232 @@
-<!DOCTYPE html>
-
-{% extends "header.html" %} <!-- all html files should extend from the header, (the header contains all static references as well) --> 
-{% block content %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html) -->
+<!DOCTYPE html> {% extends "header.html" %}
+<!-- all html files should extend from the header, (the header contains all static references as well) -->
+{% block content %}
+<!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html) -->
 <div id="entire_profile" class="container emp-profile">
 
-  <!-- MODAL OVERLAY FOR EDIT PROFILE -->
-   <div id="edit_menu" style="display:none;" class="backgroundOverlay">
-    <div class="wrapper overlayBlock fadeInDown " id="edit_profile_menu">
-      <button id="exit_edit" class="exit_icon" style="float:left;"aria-label="Close Account Info Modal Box">&times;</button>
-      <div style="top:40px; position:relative;">
-        <form action="/profile/{{profile.user.canvasId}}" method="POST"  enctype="multipart/form-data">
-      <div style="text-align: center; margin-bottom: 35px;" class="">
-        <h3>Edit Menu</h3>
-      </div>
-      <div class="row">
-        <div class="col-4 col-sm-3">
-          <p>Profile Name:</p>
+    <!-- MODAL OVERLAY FOR EDIT PROFILE -->
+    <div id="edit_menu" style="display:none;" class="backgroundOverlay">
+        <div class="wrapper overlayBlock fadeInDown " id="edit_profile_menu">
+            <button id="exit_edit" class="exit_icon" style="float:left;" aria-label="Close Account Info Modal Box">&times;</button>
+            <div style="top:40px; position:relative;">
+                <form action="/profile/{{profile.user.canvasId}}" method="POST" enctype="multipart/form-data">
+                    <div style="text-align: center; margin-bottom: 35px;" class="">
+                        <h3>Edit Menu</h3>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 col-sm-3">
+                            <p>Profile Name:</p>
+                        </div>
+                        <div class="col-8">
+                            <textarea class="text_box" name="name" id="profile_name" style="width: 100%;" placeholder="{{profile.canvas_user.name}}" size="5"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 col-sm-3">
+                            <p>Profile Picture</p>
+                        </div>
+                        <div class="">
+                            {% if profile.canvas_user.name == 'Admine' %}
+                            <img id="profile_pic_img" class="image-cropper img-fluid rounded-circle" alt="placeholder" src="../static/images/p4h.png" /> {% else %}
+                            <img id="profile_pic_img" class="image-cropper img-fluid rounded-circle" alt="Profile Picture" src="{{profile.profile_pic}}" /> {% endif %}
+                        </div>
+                        <div class="col-3 col-sm-4">
+                            <span id="profile_pic" class="profile_button oi oi-cloud-upload upload_icon" aria-hidden="true">Upload Picture</span>
+                            <input type="file" name="profile_pic" id="profile_pic_input" class="inputfile" style="display: none;" data-multiple-caption="{count} files selected" multiple/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 col-sm-3">
+                            <p>School:</p>
+                        </div>
+                        <div class="col-8">
+                            <textarea class="text_box" name="school" id="school_name" style="width: 100%;" placeholder="{{profile.canvas_user.sortable_name}}" size="5"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 col-sm-3">
+                            <p>Email:</p>
+                        </div>
+                        <div class="col-8">
+                            <textarea class="text_box" name="email" id="email_name" style="width: 100%;" placeholder="{{profile.canvas_user.email}}" size="5"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 col-sm-3">
+                            <p>Phone:</p>
+                        </div>
+                        <div class="col-8">
+                            <textarea class="text_box" name="phone" id="phone" style="width: 100%;" placeholder="{{profile.canvas_user.short_name}}" size="5"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 col-sm-3">
+                            <p>Location:</p>
+                        </div>
+                        <div class="col-8">
+                            <textarea class="text_box" name="location" id="loc" style="width: 100%;" placeholder="{{profile.canvas_user.title}}" size="5"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 col-sm-3">
+                            <p>Biography:</p>
+                        </div>
+                        <div class="row col-12 col-sm-8">
+                            <textarea class="text_box" name="bio" id="bio" style="width: 100%; height:50px;" placeholder="{{profile.canvas_user.bio}}" size="5"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <input type="submit" value="Save" class="profile_button">
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="col-8">
-          <textarea class="text_box" name="name" id="profile_name" style="width: 100%;" placeholder="{{profile.canvas_user.name}}" size="5" ></textarea>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-4 col-sm-3">
-          <p>Profile Picture</p>
-        </div>
-        <div class="">
-          {% if profile.canvas_user.name == 'Admin' %}
-          <img id="profile_pic_img" class="image-cropper img-fluid rounded-circle" alt="placeholder" src="../static/images/p4h.png"/>
-          {% else %}
-          <img id="profile_pic_img" class="image-cropper img-fluid rounded-circle" alt="Profile Picture" src="{{profile.profile_pic}}"/>
-          {% endif %}
-        </div>
-        <div class="col-3 col-sm-4">
-          <span id="profile_pic" class="profile_button oi oi-cloud-upload upload_icon" aria-hidden="true">Upload Picture</span>
-          <input type="file" name="profile_pic" id="profile_pic_input" class="inputfile"style="display: none;" data-multiple-caption="{count} files selected" multiple/>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-4 col-sm-3">
-          <p>School:</p>
-        </div>
-        <div class="col-8">
-          <textarea class="text_box" name="school" id="school_name" style="width: 100%;" placeholder="{{profile.canvas_user.sortable_name}}"  size="5" ></textarea>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-4 col-sm-3">
-          <p>Email:</p>
-        </div>
-        <div class="col-8">
-          <textarea class="text_box" name="email" id="email_name" style="width: 100%;" placeholder="{{profile.canvas_user.email}}" size="5" ></textarea>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-4 col-sm-3">
-          <p>Phone:</p>
-        </div>
-        <div class="col-8">
-          <textarea class="text_box" name="phone" id="phone" style="width: 100%;" placeholder="{{profile.canvas_user.short_name}}"size="5" ></textarea>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-4 col-sm-3">
-          <p>Location:</p>
-        </div>
-        <div class="col-8">
-          <textarea class="text_box" name="location" id="loc" style="width: 100%;" placeholder="{{profile.canvas_user.title}}"  size="5" ></textarea>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-4 col-sm-3">
-          <p>Biography:</p>
-        </div>
-        <div class="row col-12 col-sm-8">
-          <textarea class="text_box" name="bio" id="bio" style="width: 100%; height:50px;" placeholder="{{profile.canvas_user.bio}}" size="5" ></textarea>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12">
-          <input type="submit" value="Save" class="profile_button">
-        </div>
-      </div>
-          </form>
     </div>
+    <!------------------------ search bar -------------------------->
+    <div class="dropdown">
+        <!--<button onclick="showSearchBar()" class="profile_button col-4">Search Profiles</button>-->
+        <div class="dropdown-content">
+            <span class="oi oi-magnifying-glass" aria-hidden="true"></span>
+            <!-- input element calls filter function anytime user types -->
+            <input class="" type="text" placeholder="Search.." id="profileSearchInput" onkeyup="filterFunction()">
+        </div>
+        <div id="profileSearchDropdown" class="list_of_items">
+            {% if(users != None) %} {% for i in range(users | length) %}
+            <!-- users variable is canvas user objects -->
+            <form method="GET" action="/profile/{{users[i].id}}">
+                <!-- pass the username into the route url -->
+                <a><button type="submit" class="erase"></button>{{users[i].name}}</a>
+            </form>
+            {% endfor %} {% endif %}
+        </div>
     </div>
-  </div>
-  <!------------------------ search bar -------------------------->
-  <div class="dropdown">
-    <!--<button onclick="showSearchBar()" class="profile_button col-4">Search Profiles</button>-->
-    <div class="dropdown-content">
-        <span class="oi oi-magnifying-glass" aria-hidden="true"></span>
-        <!-- input element calls filter function anytime user types -->
-        <input class="" type="text" placeholder="Search.." id="profileSearchInput" onkeyup="filterFunction()">
+    <div class="row">
+        <div class="col-3">
+            {% if profile.canvas_user.name == 'Admine' %}
+            <img class="image-cropper img-fluid rounded-circle" alt="placeholder" src="../static/images/p4h.png"> {% else %}
+            <figure class="thumbnail"><img class="img-fluid rounded-circle" alt="placeholder" src="{{profile.profile_pic}}" /></figure>
+            {% endif %}
+        </div>
+        <div class="col-8 col-sm-8 ">
+            <h4>{{profile.canvas_user.name}}</h4>
+            <small class=""> <b>Pozisyon:</b> Elementary Teacher </small> <br>
+            <small> <b>De Mwen :</b> Mwen anseye lekòl elemantè</small> </div>
     </div>
-      <div id="profileSearchDropdown"class="list_of_items">
-        {% if(users != None) %}
-          {% for i in range(users | length) %} <!-- users variable is canvas user objects -->
-          <form method="GET" action="/profile/{{users[i].id}}"> <!-- pass the username into the route url -->
-            <a><button type="submit" class="erase"></button>{{users[i].name}}</a>
-          </form>
-          {% endfor %}
-      {% endif %}
-      </div>
-  </div>
-  <div class="row">
-    <div class="col-3">
-      {% if profile.canvas_user.name == 'Admin' %}
-      <img class="image-cropper img-fluid rounded-circle" alt="placeholder" src="../static/images/p4h.png">
-      {% else %}
-      <figure class="thumbnail"><img class="img-fluid rounded-circle" alt="placeholder" src="{{profile.profile_pic}}"/></figure>
-      {% endif %}
-    </div>
-    <div class="col-8 col-sm-8 ">
-      <h4>{{profile.canvas_user.name}}</h4>
-      <small class=""> <b>Pozisyon:</b> Elementary Teacher </small> <br>
-      <small> <b>De Mwen :</b> Mwen anseye lekòl elemantè</small> </div>
-  </div>
-  <!--<div class="input-group"> 
+    <!--<div class="input-group"> 
             <div class="input-group-prepend"> <span class="input-group-text" id="inputGroupFileAddon01">Upload</span> </div>
               <div class="custom-file">
                 <input type="file" class="custom-file-input" id="inputGroupFile01"
         aria-describedby="inputGroupFileAddon01">
                 <label class="custom-file-label" for="inputGroupFile01">Choose file</label> -->
 
-  <div class="col-md-10 col-12">
-    <div id="mytabs" class="class=fakeclasshere2">
-      <ul class="nav nav-tabs"  role="tablist">
-        </divjnjfdk>
-        <li class="nav-item"> <a class="nav-link"  href="#about" aria-controls="about" id="about-tab" rel="about" data-toggle="tab"  role="tab"  aria-selected="true">About</a> </li>
-        <li class="nav-item"> <a class="nav-link" href="#timeline" aria-controls="timeline"  id="timeline-tab" rel="timeline" data-toggle="tab" role="tab"  aria-selected="false">Timeline</a> </li>
-      </ul>
+    <div class="col-md-10 col-12">
+        <div id="mytabs" class="class=fakeclasshere2">
+            <ul class="nav nav-tabs" role="tablist">
+                </divjnjfdk>
+                <li class="nav-item"> <a class="nav-link" href="#about" aria-controls="about" id="about-tab" rel="about" data-toggle="tab" role="tab" aria-selected="true">About</a> </li>
+                <li class="nav-item"> <a class="nav-link" href="#timeline" aria-controls="timeline" id="timeline-tab" rel="timeline" data-toggle="tab" role="tab" aria-selected="false">Timeline</a> </li>
+            </ul>
+        </div>
     </div>
-  </div>
-  <div class="buttons_row"> <!-- current_user (SQL DB, not canvas) is user stored in Flask Login => so it shows if the current user is looking at someone elses profile -->
-      {% if(profile.canvas_user.id == current_user.canvasId) %}
-      <div class="col-6 col-sm-5">
-        <button type="submit" id="edit_profile" class="profile_button button-bg" name="edit">Edit Pwofil</button>
-      </div>
-      {% endif %}
-      <div class="col-6 col-sm-5">
-        <form action="/profile/{{profile.user.canvasId}}/progress">
-          <button type="submit" class="profile_button button-bg">Pwogre Mwen</button>
-        </form>
-      </div>
-  </div>
-  <div class="col-12 col-lg-9 ">
-  <div class="tab-content profile-tab ">
-    <div id="newsfeed" class="profile-work tab-pane fade active show in" role="tabpanel"> 
-      <!-- 1st tab {% if active=='timeline' %}show active{% endif %}-->
-      <h3>Prowfil Pos</h3>
-        <div id="write_post"> 
-          <div style="text-align: center;" class="post_box">
-            <div class = "profile_name">
-            {% if profile.canvas_user.name == 'Admin' %}
-            <figure class=" col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="../static/images/p4h.png"/></figure>
-            {% else %}
-            <figure class=" col-2"><img alt="{{profile.canvas_user}}"class="img-fluid rounded-circle" src="{{profile.profile_pic}}"/></figure>
-            {% endif %}
-            <div class="col-10" id="">
-              <textarea class="text_box" name="message" id="textbox-0" style="width: 100%;" placeholder="Write Post Here" onkeyup="" size="5" ></textarea>
-              <span id="upload_profile"  class="iconify upload_icon" data-icon="ant-design:cloud-upload-outlined" data-inline="false"></span>
-              <input type="file" name="file" id="upload-0" class="inputfile"style="display: none;" data-multiple-caption="{count} files selected" multiple/>
-                <!--<label class="profile_button" id="label-1" for="file-1"><strong>Choose a file</strong></label>-->
-            </div>
-            </div>
-            <div class="row">
-              <a href="#" name="{{profile.canvas_user.id}}" id="post" value="Post" style="width:100%;" class="profile_button">Post</a>
-            </div>
-          </div>
+    <div class="buttons_row">
+        <!-- current_user (SQL DB, not canvas) is user stored in Flask Login => so it shows if the current user is looking at someone elses profile -->
+        {% if(profile.canvas_user.id == current_user.canvasId) %}
+        <div class="col-6 col-sm-5">
+            <button type="submit" id="edit_profile" class="profile_button button-bg" name="edit">Edit Pwofil</button>
         </div>
-        <!-- Post Loop --> 
-        {% for post in profile.posts %}
-          {% include 'post.html' %}
-        {% endfor %}
-      <img id="pic" class="img-fluid"/>
+        {% endif %}
+        <div class="col-6 col-sm-5">
+            <form action="/profile/{{profile.user.canvasId}}/progress">
+                <button type="submit" class="profile_button button-bg">Pwogre Mwen</button>
+            </form>
+        </div>
     </div>
-    <div id="about"  class="tab-pane fade in" role="tabpanel">
-      <div class="row">
-        <div class="col-md-6">
-          <label>User Id</label>
+    <div class="col-12 col-lg-9 ">
+        <div class="tab-content profile-tab ">
+            <div id="newsfeed" class="profile-work tab-pane fade active show in" role="tabpanel">
+                <!-- 1st tab {% if active=='timeline' %}show active{% endif %}-->
+                <h3>Prowfil Pos</h3>
+                <div id="write_post">
+                    <div style="text-align: center;" class="post_box">
+                        <div class="profile_name">
+                            {% if profile.canvas_user.name == 'Admin' %}
+                            <figure class="profile-pic-post col-2"><img alt="placeholder" class="img-fluid rounded-circle" src="../static/images/p4h.png" /></figure>
+                            {% else %}
+                            <figure class="profile-pic-post post col-2"><img alt="{{profile.canvas_user}}" class="img-fluid rounded-circle" src="{{profile.profile_pic}}" /></figure>
+                            {% endif %}
+                            <div class="col-10" id="">
+                                <textarea class="text_box" name="message" id="textbox-post" style="width: 100%;" placeholder="Write Post Here" onkeyup="" size="5"></textarea>
+                                <span id="upload-post" class="iconify upload_icon" data-icon="ant-design:cloud-upload-outlined" data-inline="false"></span>
+                                <input type="file" name="userFile" id="input-upload-post" class="invisble" data-multiple-caption="{count} files selected" multiple/>
+                                <label class="invisble" id="label-upload-post" style="display: none;" for="input-upload-post"><strong>Choose a file</strong></label>
+                                <div class="row ">
+                                    <a href="#" name="{{profile.user.id}}" id="post" value="Post" style="width:100%;" class="profile_button">Post</a>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <img id="display-upload-post" class="img-fluid post-pic" />
+                    </div>
+                </div>
+                <!-- Post Loop -->
+                {% for post in profile.posts %} {% include 'post.html' %} {% endfor %}
+
+            </div>
+            <div id="about" class="tab-pane fade in" role="tabpanel">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>User Id</label>
+                    </div>
+                    <div class="col-md-6">
+                        <p>{{profile.user.id}}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Name</label>
+                    </div>
+                    <div class="col-md-6">
+                        <p>{{profile.canvas_user.name}}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Email</label>
+                    </div>
+                    <div class="col-md-6">
+                        <p>{{profile.user.email}}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Phone</label>
+                    </div>
+                    <div class="col-md-6">
+                        <p>{{profile.canvas_user.short_name}}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Location</label>
+                    </div>
+                    <div class="col-md-6">
+                        <p>{{profile.canvas_user.title}}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>School</label>
+                    </div>
+                    <div class="col-md-6">
+                        <p>{{profile.canvas_user.sortable_name}}</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-6">
-          <p>{{profile.user.id}}</p>
-        </div>
-      </div>
-        <div class="row">
-          <div class="col-md-6">
-            <label>Name</label>
-          </div>
-          <div class="col-md-6">
-            <p>{{profile.canvas_user.name}}</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <label>Email</label>
-          </div>
-          <div class="col-md-6">
-            <p>{{profile.user.email}}</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <label>Phone</label>
-          </div>
-          <div class="col-md-6">
-            <p>{{profile.canvas_user.short_name}}</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <label>Location</label>
-          </div>
-          <div class="col-md-6">
-            <p>{{profile.canvas_user.title}}</p> 
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <label>School</label>
-          </div>
-          <div class="col-md-6">
-            <p>{{profile.canvas_user.sortable_name}}</p> 
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
-{% endblock %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html --> 
+{% endblock %}
+<!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->

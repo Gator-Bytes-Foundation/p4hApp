@@ -214,7 +214,7 @@ class Course(CanvasObject):
 
         return Section(self._requester, response.json())
 
-    def create_discussion_topic(self, **kwargs):
+    def create_discussion_topic(self, files, **kwargs):
         """
         Creates a new discussion topic for the course or group.
 
@@ -223,12 +223,14 @@ class Course(CanvasObject):
 
         :rtype: :class:`canvasapi.discussion_topic.DiscussionTopic`
         """
+        print('DISCUSSION')
         response = self._requester.request(
             "POST",
             "courses/{}/discussion_topics".format(self.id),
             _kwargs=combine_kwargs(**kwargs),
+            files = files
         )
-
+        
         response_json = response.json()
         response_json.update({"course_id": self.id})
 

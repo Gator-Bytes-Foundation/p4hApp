@@ -32,6 +32,7 @@ class Config(object):
         "DATABASE_URL"
     ) or "sqlite:///" + os.path.join(basedir, "app.db")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    UPLOAD_FOLDER = os.path.join(basedir,"../frontend/assets/uploads")
 
 
 with sessions.Session() as session:

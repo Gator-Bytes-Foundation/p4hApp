@@ -117,11 +117,6 @@ window.onclick = function (event) {
   }
 };
 
-// when upload icon is clicked, trigger the file browser input (the input is hidden visually but can be "clicked" on)
-$(".upload_icon").click(function (e) {
-  var id = e.currentTarget.id;
-  $("#" + id + "_input").trigger("click");
-});
 // change the name next to icon on file upload
 $('input[type="file"]').on("change", function (e) {
   var val = $(this).val();

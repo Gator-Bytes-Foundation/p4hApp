@@ -1,25 +1,30 @@
-<!DOCTYPE html>
-
-{% extends "header.html" %}<!-- all html files should extend from the header, (the header contains all static references as well) -->
-{% block content %}<!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
+<!DOCTYPE html> {% extends "header.html" %}
+<!-- all html files should extend from the header, (the header contains all static references as well) -->
+{% block content %}
+<!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
 
 <html>
+
 <head>
-<style>
-  body, html {
-    height: 100%; 
-    margin: 0; 
-    padding:0;
-  }
-  </style>
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
 </head>
+
 <body>
-<div class="full_width_height">
-  <h3 class="text-center">Messaging</h3>
-  <div class="full_width_height">
-    <iframe class="full_width_height" src="https://open.rocket.chat/directory"></iframe>
-  </div>
-</div>
+    <div class="full_width_height">
+        <h3 class="text-center">Messaging</h3>
+        <div class="full_width_height">
+            <iframe class="full_width_height" src="https://messaging.p4hteach.org/directory/channels"></iframe>
+        </div>
+    </div>
 </body>
+
 </html>
-{% endblock %}<!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
+{% endblock %}
+<!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->

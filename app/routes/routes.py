@@ -13,17 +13,22 @@ import requests
 from flask import make_response
 import random
 import logging
+from flask.json import jsonify
 
 
 #
 # If a request from client has variable data in it, we handle it here and get the data out of the url before routing the user
 #
-@app.route('/post/<post_id>', methods=['GET', 'POST'])
-def posts(post_id): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
-  print("page loading: ",post_id)
+@app.route('/post/<user_id>', methods=['GET', 'POST'])
+def posts(user_id): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
+  print("page loading: ",user_id)
   print(current_user)
   if(request.method == 'POST'):
-    return handlePost(post_id, request,current_user)
+    html, post_id = handlePost(user_id, request,current_user)
+    return json.dumps({
+      'html':html,
+      'post_id': post_id
+    }), 200, {'ContentType':'application/json'}
   
   return jsonify(request)
 

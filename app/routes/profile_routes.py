@@ -36,12 +36,14 @@ def saveProfile(profile_id):
 @login_required #
 def profile(*args): 
   all_canvas_users = list(course.get_users())
-  if(len(args) > 0): # another user
-    # args[0] holds user id to look up if it exists
-    user_profile = loadPosts(args[0]) 
-  else: # your profile
-    user_profile = loadPosts(current_user.canvasId)
-    print(user_profile.user)
+  if(len(args) > 0):
+    user = User.query.filter_by(canvasId=args[0]).first()
+  else: user = current_user
+  # args[0] holds user id to look up if it exists
+  
+  user_profile = loadPosts(user)     
+  print('current user: ')
+  print(current_user.canvasId)
   # Brings user to their profile view
   return loadProfile(user_profile, all_canvas_users,current_user)
 

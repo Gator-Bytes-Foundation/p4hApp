@@ -8,7 +8,7 @@ Array.prototype.forEach.call(inputs, function (input) {
     labelVal = label.innerHTML;
 
   input.addEventListener("change", function (e) { // upon a file input being selected, we want to update the label to show what file was selected
-    let milestoneId = e.currentTarget.name; 
+    let id = e.currentTarget.name; 
     let fileName = "";
     if (this.files && this.files.length > 1)
       fileName = (this.getAttribute("data-multiple-caption") || "").replace(
@@ -18,17 +18,14 @@ Array.prototype.forEach.call(inputs, function (input) {
     else {
       fileName = e.target.value.split("\\").pop();
     }
-    console.log(milestoneId);
+    console.log(id);
     if (fileName) {
       input.nextElementSibling.querySelector( 'strong' ).innerHTML = fileName;
-      //$("#label-"+milestoneId).empty();
-      //$("#label-1"+milestoneId).append(fileName);
     } 
     else {
       label.innerHTML = labelVal;
-      $("#label-"+milestoneId).empty();
-      $("#label-"+milestoneId).append(file.name);
-      console.log("labelVal");
+      $("#label-"+id).empty();
+      $("#label-"+id).append(file.name);
     }
   });
 });
