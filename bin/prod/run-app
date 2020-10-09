@@ -9,7 +9,7 @@ SCRIPT_DIR=$(dirname "$0")
 main() {
   export ENVIRONMENT="production"
   "${SCRIPT_DIR}/build-frontend"
-  gunicorn --certfile=server.crt --keyfile=server.key --bind 0.0.0.0:443 run:app
+  gunicorn --certfile=server.crt --keyfile=server.key --bind 127.0.0.1:443 run:app
 }
 
 main "$@"
