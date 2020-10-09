@@ -6,8 +6,6 @@ from flask_login import LoginManager
 from flask_file_upload import FileUpload
 from app.canvas import Config
 
-
-
 import logging
 import sys
 app = Flask(__name__)
