@@ -6,10 +6,6 @@ from flask_login import LoginManager
 from flask_file_upload import FileUpload
 from app.canvas import Config
 
-from OpenSSL import SSL
-context = SSL.Context(SSL.PROTOCOL_TLSv1_2)
-context.use_privatekey_file('server.key')
-context.use_certificate_file('server.crt')
 
 import logging
 import sys
@@ -62,5 +58,5 @@ def make_shell_context():
   
 if __name__ == "__main__":
   #logging.basicConfig(level=logging.DEBUG)
-  app.run(host='127.0.0.1', debug=True, ssl_context=context)
+  app.run(debug=True)
   '''
