@@ -26,7 +26,7 @@ module.exports = {
   output: {
     filename: "js/[name].js",
     path: outputPath,
-    publicPath: isProduction ?  "/static/" : "/",
+    publicPath: isProduction ?  "/static/" : "/static",
   },
   resolve: {
     extensions: [".js", ".css"],
