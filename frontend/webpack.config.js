@@ -59,7 +59,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new CopyPlugin([{ from: assetPath, to: outputPath }]),
-    new ManifestPlugin({ publicPath: "http://localhost:9000/" }),
+    new ManifestPlugin({ publicPath: "https://localhost:9000/" }),
   ],
   devServer: {
     contentBase: outputPath,
