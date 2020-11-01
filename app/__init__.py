@@ -9,7 +9,7 @@ from app.canvas import Config
 
 import logging
 import sys
-app = Flask(__name__)
+app = Flask(__name__,static_url_path="/app")
 
 app.config.from_object(Config)
 # Other FLASK config varaibles ...
