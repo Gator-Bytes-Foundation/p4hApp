@@ -28,6 +28,8 @@ def customProfileCalls(profile_id): #url being routed is saved to 'page_to_load'
 
 @app.route('/profile/<profile_id>', methods=['POST'])
 def saveProfile(profile_id):
+  print('request: ')
+  print(request)
   updateProfile(request,current_user)
   return profile() # this isnt efficient since it reloads the entire page from scratch
 

@@ -54,7 +54,7 @@ $('input[type="file"]').on("change", function(e) {
         file.name.includes(".pdf") ||
         file.name.includes(".webp")
     ) {
-        console.log("is an image");
+        console.log("is an image" + id);
         var reader = new FileReader();
         reader.onload = function(e) {
             var img_id = String(id).replace("input", "display");

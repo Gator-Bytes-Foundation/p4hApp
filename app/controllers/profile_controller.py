@@ -82,7 +82,8 @@ def updateProgress(request,user_id,assignment_id):
     #return False
 
 def updateProfile(req,current_user):
-  #print(req.form)
+  print('form')
+  print(req.form)
   name_ = req.form['name']
   school_ = req.form['school']
   email_ = req.form['email']
@@ -91,7 +92,7 @@ def updateProfile(req,current_user):
   bio_ = req.form['bio']
   files = req.files
   canvas_user = course.get_user(current_user.canvasId)
-  #print("file: ",files)
+  print("file: ",files)
   # TO DO change the db user as well 
   if(files != None):
     canvas_user.edit(user = {"avatar":files})
