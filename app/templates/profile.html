@@ -9,7 +9,7 @@
         <div class="wrapper overlayBlock fadeInDown " id="edit_profile_menu">
             <button id="exit_edit" class="exit_icon" style="float:left;" aria-label="Close Account Info Modal Box">&times;</button>
             <div style="top:40px; position:relative;">
-                <form action="/profile/{{profile.user.canvasId}}" method="POST" enctype="multipart/form-data">
+                <form id="edit-profile" action="/profile/{{profile.user.canvasId}}" method="POST" enctype="multipart/form-data">
                     <div style="text-align: center; margin-bottom: 35px;" class="">
                         <h3>Edit Menu</h3>
                     </div>
@@ -25,14 +25,12 @@
                         <div class="col-4 col-sm-3">
                             <p>Profile Picture</p>
                         </div>
-                        <div class="">
-                            {% if profile.canvas_user.name == 'Admine' %}
-                            <img id="profile_pic_img" class="image-cropper img-fluid rounded-circle" alt="placeholder" src="../static/images/p4h.png" /> {% else %}
-                            <img id="profile_pic_img" class="image-cropper img-fluid rounded-circle" alt="Profile Picture" src="{{profile.profile_pic}}" /> {% endif %}
+                        <div class="col-3 col-xs-4">
+                            <span id="profile-pic" class="profile_button oi oi-cloud-upload upload_icon" aria-hidden="true">Upload Picture</span>
+                            <input type="file" name="profile_pic" id="input-profile-pic" class="inputfile" style="display: none;" data-multiple-caption="{count} files selected" multiple/>
                         </div>
-                        <div class="col-3 col-sm-4">
-                            <span id="profile_pic" class="profile_button oi oi-cloud-upload upload_icon" aria-hidden="true">Upload Picture</span>
-                            <input type="file" name="profile_pic" id="profile_pic_input" class="inputfile" style="display: none;" data-multiple-caption="{count} files selected" multiple/>
+                        <div class="">
+                            <img id="display-profile-pic" class="image-cropper img-fluid rounded-circle" alt="Profile Picture" src="{{profile.profile_pic}}" /> 
                         </div>
                     </div>
                     <div class="row">

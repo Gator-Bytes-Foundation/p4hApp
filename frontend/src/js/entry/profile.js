@@ -13,6 +13,13 @@ $(function(){
   //  When user clicks on tab, this code will be executed
   $("#timeline-tab").addClass("active");
   $("#timeline-tab").addClass("show");
+
+  /* Upload Profile File */ 
+// when upload icon is clicked, trigger the file browser input (the input is hidden visually but can be "clicked" on)
+  $(".upload_icon").on('click', function (e) {
+    let id = e.currentTarget.id;
+    $("#input-"+id).trigger("click"); 
+  });
 });
 
 /*
@@ -25,6 +32,7 @@ function cancelExitMenu() {
     "none";
   $("#entire_profile").css({ pointerEvents: "visible" });
 }
+
 $("#edit_profile").on("click", function (e) {
   let edit_menu = document.getElementsByClassName("backgroundOverlay");
   //console.log(edit_menu[0]);
@@ -114,19 +122,10 @@ function cancelDropDown() {
   list_of_items[0].style.display = "none";
 }
 
-/* Upload Profile File */ 
-// when upload icon is clicked, trigger the file browser input (the input is hidden visually but can be "clicked" on)
-$(document).ready(function() {
-  $(".upload_icon").click(function (e) {
-    let id = e.currentTarget.id;
-    $("#label-"+id).trigger("click"); 
-  });
-});
-
-
 
 /* Profile Picture Change */ 
 function changeProfilePic(input,id) {
+
   file = input.files[0];
   console.log("file");
   if (file.name.includes(".jpg") || file.name.includes(".png") ||
@@ -141,10 +140,23 @@ function changeProfilePic(input,id) {
     reader.readAsDataURL(file);
   }
 }
+$("form#edit-profile").on('submit', function(e) {
+  e.preventDefault();
+  console.log("FORM SUBMITTED" + window.location.pathname);
+  var formData = new FormData(this);
 
-
-
-
+  $.ajax({
+      url: window.location.pathname,
+      type: 'POST',
+      data: formData,
+      success: function (data) {
+          alert("Successfully updated profile")
+      },
+      cache: false,
+      contentType: false,
+      processData: false
+  });
+});
 /*
 
 WINDOW CLICKS
