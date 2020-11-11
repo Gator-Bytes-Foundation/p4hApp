@@ -18,3 +18,5 @@ app/static
 
 # this will contain secret keys and tokens
 secrets.yml
+app/app.db
+*.db
