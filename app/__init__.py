@@ -5,14 +5,15 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_file_upload import FileUpload
 from app.canvas import Config
+
 import logging
 import sys
 app = Flask(__name__)
 
 app.config.from_object(Config)
 # Other FLASK config varaibles ...
-app.config["ALLOWED_EXTENSIONS"] = ["jpg", "png", "mov", "mp4", "mpg"]
-app.config["MAX_CONTENT_LENGTH"] = 1000 * 1024 * 1024  # 1000mb
+#app.config["ALLOWED_EXTENSIONS"] = ["jpg", "png", "mov", "mp4", "mpg"]
+#app.config["MAX_CONTENT_LENGTH"] = 1000 * 1024 * 1024  # 1000mb
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)

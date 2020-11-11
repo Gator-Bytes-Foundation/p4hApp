@@ -8,12 +8,12 @@ PROFILE TABS
 
 */
 // Dictates which view is seen by clickng on the tabs
-$(document).ready(function () {
+$(function(){
+  // DOM Ready - do your stuff 
   //  When user clicks on tab, this code will be executed
   $("#timeline-tab").addClass("active");
   $("#timeline-tab").addClass("show");
 });
-
 
 /*
 
@@ -88,7 +88,7 @@ SEARCH BAR
 */
 /* filters the search bar of all users */
 
-$('#profileSearchInput').keyup((e) => {
+$('#profileSearchInput').on('keyup', function(ev){
   filterFunction(); 
 });
 
@@ -100,7 +100,7 @@ function filterFunction() {
   dropdown.style.display = "block";
   profileLinks = dropdown.getElementsByTagName("a"); // gets all <a></a> links in dropdown div
   for (let i = 0; i < profileLinks.length; i++) {
-    txtValue = profileLinks[i].textContent || profileLinks[i].innerText;
+    let txtValue = profileLinks[i].textContent || profileLinks[i].innerText;
     if (txtValue.toUpperCase().indexOf(filter) > -1) {
       profileLinks[i].style.display = "";
     } else {
