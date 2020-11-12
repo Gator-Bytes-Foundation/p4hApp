@@ -7,6 +7,8 @@ from app import db
 from app.models.user_model import User
 from app.canvas import CANVAS, course # inject canvas, course objects into file
 import ftplib
+from django.db import IntegrityError
+
 
 #from user_model import *
 
@@ -66,7 +68,13 @@ class SignUpForm(FlaskForm):
       newUser = User(username=form.username.data,email=form.email.data,canvasId=canvas_user.id)
       newUser.set_password(form.password.data)
       db.session.add(newUser)
-      db.session.commit()
+      try:
+        #newUser.save()
+        db.session.commit()
+      except sqlite3.IntegrityError as e: 
+        if('UNIQUE constraint' in e.message):
+          print("Identical user")
+
       login_user(newUser) 
       #flash('Congratulations, you are now a registered user!')
       login_info = {
