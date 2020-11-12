@@ -13,7 +13,7 @@
         {% if(current_user.name == 'Admin') %}
         <div id="write_post"> 
         <div style="text-align: center;" class="post_box row">
-          <figure class="thumbnail col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="../static/images/p4h.png"/></figure>
+          <figure class="thumbnail col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="../static/assets/images/p4h.png"/></figure>
           <div class="col-9" id="textbox_p">
             <textarea class="text_box" name="message" id="textbox-0" style="width: 100%;" placeholder="Write Announcement" onclick="this.value=''"></textarea><span class="oi oi-cloud-download upload_icon" aria-hidden="true"></span>
           </div>
@@ -34,4 +34,5 @@
   </div>
 </div>
 </div>
+<script src="{{ url_for('static', filename='src/js/entry/announcements.js') }}"></script>
 {% endblock %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html --> 
