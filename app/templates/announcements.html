@@ -13,11 +13,7 @@
         {% if(current_user.name == 'Admin') %}
         <div id="write_post"> 
         <div style="text-align: center;" class="post_box row">
-<<<<<<< Updated upstream
-          <figure class="thumbnail col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="../static/assets/images/p4h.png"/></figure>
-=======
           <figure class="thumbnail col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="{{ url_for('static', filename='images/p4h.png') }}"/></figure>
->>>>>>> Stashed changes
           <div class="col-9" id="textbox_p">
             <textarea class="text_box" name="message" id="textbox-0" style="width: 100%;" placeholder="Write Announcement" onclick="this.value=''"></textarea><span class="oi oi-cloud-download upload_icon" aria-hidden="true"></span>
           </div>
