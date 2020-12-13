@@ -103,7 +103,7 @@
     <div class="row">
         <div class="col-3">
             {% if profile.canvas_user.name == 'Admine' %}
-            <img class="image-cropper img-fluid rounded-circle" alt="placeholder" src="../static/images/p4h.png"> {% else %}
+            <img class="image-cropper img-fluid rounded-circle" alt="placeholder" src="{{ url_for('static', filename='images/p4h.png') }}"> {% else %}
             <figure class="thumbnail"><img class="img-fluid rounded-circle" alt="placeholder" src="{{profile.profile_pic}}" /></figure>
             {% endif %}
         </div>

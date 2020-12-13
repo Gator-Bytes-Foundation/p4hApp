@@ -2,6 +2,7 @@
 
 {% extends "header.html" %}<!-- all html files should extend from the header, (the header contains all static references as well) -->
 {% block content %}
+
 <html>
 <section class="login">
 <div class="wrapper fadeInDown">
@@ -10,7 +11,11 @@
 
     <!-- Icon -->
     <div class="fadeIn first">
+<<<<<<< Updated upstream
       <center><div class="image-cropper"><img class="profile-pic img-fluid" src="../static/assets/images/p4h.png" id="icon" alt="User Icon" /></div></center>
+=======
+      <center><div class="image-cropper"><img class="profile-pic img-fluid" src="{{ url_for('static', filename='images/p4h.png') }}" id="icon" alt="User Icon" /></div></center>
+>>>>>>> Stashed changes
     </div>
 
     <!-- Login Form -->
