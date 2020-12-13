@@ -3,7 +3,7 @@
     <div class="profile_name">
         <div class="profile-pic">
             {% if(post.title == 'Admin' or post.title == 'Announcement' ) %}
-            <figure class="thumbnail"><img alt="placeholder" class="img-fluid rounded-circle" src="{{ url_for('static', filename='images/p4h.png') }}" /></figure>
+            <figure class="thumbnail"><img alt="placeholder" class="img-fluid rounded-circle" src="../static/images/p4h.png" /></figure>
             {% else %}
             <figure class="thumbnail"> <img alt="placeholder" class="img-fluid rounded-circle" src="{{post.author['avatar_image_url']}}" /> </figure>
             {% endif %}

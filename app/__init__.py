@@ -8,11 +8,7 @@ from app.canvas import Config
 
 import logging
 import sys
-<<<<<<< Updated upstream
 app = Flask(__name__,static_url_path="/app") #
-=======
-app = Flask(__name__,static_url_path="/app/static", static_folder="static")
->>>>>>> Stashed changes
 
 app.config.from_object(Config)
 # Other FLASK config varaibles ...
