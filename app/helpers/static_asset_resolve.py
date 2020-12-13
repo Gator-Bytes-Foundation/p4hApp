@@ -8,8 +8,19 @@ from app import app, environment
 # In production, the asset is served as it normally would.
 @app.endpoint("static")
 def static(filename):
+<<<<<<< Updated upstream
     if environment == "development":
         assert_path = urljoin("http://localhost:9000", filename)
         return redirect(assert_path)
     else:
         return app.send_static_file(filename)
+=======
+    #if(filename.contains('.css')) 
+
+    print("STATIC " + filename)
+    #if environment == "development":
+    #    assert_path = urljoin("http://localhost:9000", filename)
+    #    return redirect(assert_path)
+    #else:
+    return app.send_static_file(filename)
+>>>>>>> Stashed changes

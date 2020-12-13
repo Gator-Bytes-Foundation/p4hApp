@@ -1,4 +1,4 @@
-from flask import url_for, flash, redirect, request, render_template, send_file
+from flask import url_for, flash, redirect, request, render_template, send_file, send_from_directory
 from flask_login import login_user, logout_user, current_user, login_required
 from app import app  # from /app import flask app TODO: import db
 ''' Import Needed Modules ''' 
@@ -50,4 +50,13 @@ def announcements():
   newsfeed_posts, newsfeed_comments, date = loadNewsFeed()
   #print ("comment object: ", profile_comments)
   return render_template('announcements.html',  posts=newsfeed_posts, comments=newsfeed_comments, date=date, current_user= current_user)
+'''
+@app.route('/js/<path:path>')
+def send_js(path):
+    return send_from_directory('static/js', path)
+'''
+@app.route('/static/css/<path:path>')
+def send_css(path):
+    print(path)
+    return send_from_directory('static/css', path + '.css')
 

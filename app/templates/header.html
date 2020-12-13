@@ -7,12 +7,9 @@
   />
   <meta charset="utf-8" />
   <!-- Static references -->
-  <link rel='icon' href='../static/images/white_log.png' type='image/x-icon'/
+  <link rel='icon' href="{{ url_for('static', filename='images/white_log.png') }}" type='image/x-icon'/
   >
-  <link
-    rel="canonical"
-    href="https://getbootstrap.com/docs/4.1/examples/navbars/"
-  />
+  <link rel="canonical" href="https://getbootstrap.com/docs/4.1/examples/navbars/"/>
 </head>
 <body>
   <div class="bs-example">
@@ -22,7 +19,7 @@
           <img
             style="height: 45px; vertical-align: middle;"
             class="img-fluid"
-            src="/static/images/white_log.png"
+            src="{{ url_for('static', filename='images/white_log.png') }}"
             id="icon"
             alt="User Icon"
           />
@@ -89,6 +86,20 @@
     {% block content %} {% endblock %}
   </div>
 </body>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link  href="{{ url_for('static', filename='css/navbar.css') }}"  rel="stylesheet"></link>
+<link  href="{{ url_for('static', filename='css/main.css') }}"  rel="stylesheet"></link>
+
+<!--<link href="{{ url_for('static', filename='../../frontend/node_modules/bootstrap/dist/css/bootstrap.min.css') }}"></link>-->
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='js/jquery/dist/jquery.min.js') }}"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<<<<<<< Updated upstream
 <!--<script src="{{ url_for('static', filename=resolve_entry_script(self)) }}"></script>-->
+=======
+<script  src="{{ url_for('static', filename=resolve_entry_script(self)) }}"></script>
+>>>>>>> Stashed changes
 <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
