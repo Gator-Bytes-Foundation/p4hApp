@@ -20,4 +20,6 @@ app/static
 secrets.yml
 app/app.db
 app/canvas.py
+bin/prod/server.key
+bin/prod/server.crt
 *.db
