@@ -1,6 +1,6 @@
 /**
  * This is the main JS file that will get loaded on every page
- */
+ 
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "jquery/dist/jquery.min.js";
@@ -10,7 +10,7 @@ import "animate.css/animate.min.css";
 import "../css/main.css";
 import "../css/navbar.css";
 
-import $ from "jquery";
+import $ from "jquery";*/
 
 window.$ = $;
 

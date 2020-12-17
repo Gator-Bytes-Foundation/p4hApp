@@ -1,4 +1,4 @@
-import "../../css/profile.css";
+//import "../../css/profile.css";
 /*
 #######################################    Functions to handle all actions in profile.html    ##########################################
 */

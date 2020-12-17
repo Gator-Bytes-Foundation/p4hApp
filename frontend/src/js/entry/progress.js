@@ -1,5 +1,5 @@
 // for changing the file name dynamically //
-import "../../css/progress.css";
+//import "../../css/progress.css";
 
 var inputs = document.querySelectorAll(".inputfile"); // looks if a file is set for upload
 
