@@ -6,7 +6,7 @@ from canvasapi.exceptions import CanvasException
 from pprint import pprint
 from rocketchat_API.rocketchat import RocketChat
 from requests import sessions
-from app.helpers.load_secrets import secrets
+#from app.helpers.load_secrets import secrets
 
 # Canvas API URL
 global API_URL
@@ -39,7 +39,7 @@ with sessions.Session() as session:
         "lcundiff@ufl.edu",
         #secrets.get("rocket_chat_email"),
         "NF!Deku2",
-        secrets.get("rocket_chat_password"),
+        #secrets.get("rocket_chat_password"),
         server_url=ROCKET_URL,
         session=session,
     )

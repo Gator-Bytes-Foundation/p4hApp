@@ -1,9 +1,12 @@
 import os
+import sys
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
-from flask_file_upload import FileUpload
+#from flask_file_upload import FileUpload
 from app.canvas import Config
 
 import logging
@@ -24,13 +27,14 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-file_upload = FileUpload(app, db)
+#file_upload = FileUpload(app, db)
 
 
 environment = os.getenv('ENVIRONMENT', default='development')
 
 #import app.routes #, user_model, profile_model
-#from app.routes import *
+from app.routes import *
+
 from app.routes import routes
 from app.routes import resources_routes
 from app.routes import messaging_routes

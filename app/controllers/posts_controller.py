@@ -2,7 +2,7 @@ from app.canvas import CANVAS,course, CanvasException # inject canvas, course ob
 from app.models.profile_model import Profile
 from flask import Flask, abort, Response, request
 from app.models.user_model import User, UserFiles
-from app import file_upload
+#from app import file_upload
 from app import db
 import base64
 
