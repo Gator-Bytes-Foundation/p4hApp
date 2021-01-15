@@ -14,14 +14,14 @@ $(function(){
   $("#timeline-tab").addClass("active");
   $("#timeline-tab").addClass("show");
 
-  /* Upload Profile File */ 
+  /* Upload Profile File  
 // when upload icon is clicked, trigger the file browser input (the input is hidden visually but can be "clicked" on)
   $(".upload_icon").on('click', function (e) {
     let id = e.currentTarget.id;
     $("#input-"+id).trigger("click"); 
   });
 });
-
+*/
 /*
 
 EDIT PROFILE MENU 

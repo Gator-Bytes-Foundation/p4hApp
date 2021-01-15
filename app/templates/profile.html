@@ -26,7 +26,7 @@
                             <p>Profile Picture</p>
                         </div>
                         <div class="col-3 col-xs-4">
-                            <span id="profile-pic" class="profile_button oi oi-cloud-upload upload_icon" aria-hidden="true">Upload Picture</span>
+                            <span onclick="document.getElementById('input-profile-pic').click();"  id="profile-pic" class="profile_button oi oi-cloud-upload" aria-hidden="true">Upload Picture</span>
                             <input type="file" name="profile_pic" id="input-profile-pic" class="inputfile" style="display: none;" data-multiple-caption="{count} files selected" multiple/>
                         </div>
                         <div class="">
@@ -103,8 +103,9 @@
     <div class="row">
         <div class="col-3">
             {% if profile.canvas_user.name == 'Admine' %}
-            <img class="image-cropper img-fluid rounded-circle" alt="placeholder" src="{{ url_for('static', filename='images/p4h.png') }}"> {% else %}
-            <figure class="thumbnail"><img class="img-fluid rounded-circle" alt="placeholder" src="{{profile.profile_pic}}" /></figure>
+            <img class="image-cropper img-fluid rounded-circle" alt="placeholder" src="{{ url_for('static', filename='images/p4h.png') }}"> 
+            {% else %}
+            <figure class="thumbnail"><img id="profile_pic_img" class="img-fluid rounded-circle" alt="placeholder" src="{{profile.profile_pic}}" /></figure>
             {% endif %}
         </div>
         <div class="col-8 col-sm-8 ">

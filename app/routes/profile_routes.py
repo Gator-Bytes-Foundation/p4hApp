@@ -26,7 +26,7 @@ def customProfileCalls(profile_id): #url being routed is saved to 'page_to_load'
   #print("page loading: ",page_to_load)
   return profile(profile_id) # calls profile function on username from route str
 
-@app.route('/profile/<profile_id>', methods=['POST'])
+@app.route('/profile', methods=['POST'])
 def saveProfile(profile_id):
   print('request: ')
   print(request)
@@ -34,7 +34,7 @@ def saveProfile(profile_id):
   return profile() # this isnt efficient since it reloads the entire page from scratch
 
 @app.route('/')
-@app.route('/profile', methods=['GET', 'POST'])
+@app.route('/profile', methods=['GET'])
 @login_required #
 def profile(*args): 
   all_canvas_users = list(course.get_users())
