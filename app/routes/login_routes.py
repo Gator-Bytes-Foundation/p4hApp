@@ -36,6 +36,7 @@ def login():
   form = LoginForm()
   if form.validate_on_submit():   
     user = User.query.filter_by(username=form.username.data).first() # query db
+    if(not user) print("User not found")
     if(user.canvasId == None):
       user.canvasId = CANVAS.get_user(1) 
 
