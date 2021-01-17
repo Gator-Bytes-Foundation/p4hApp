@@ -147,11 +147,12 @@ def handlePost(user_id, request,current_user):
   )
   if(post_file is not None):
     userFileModel = UserFiles(userId=current_user.id,postId=post.id,data=post_file.read(),userFile__file_name=post_file.filename)
-    db.session.add(userFileModel)
-    db.session.commit()
-  #userFile = file_upload.save_files(userFileModel, files={
-  #  "userFile": post_file,
-  #})
+    #db.session.add(userFileModel)
+    #db.session.commit()
+    #post_file.save(os.path.join(app.config['UPLOAD_PATH'], post_file.filename))
+    userFile = file_upload.save_files(userFileModel, files={
+      "userFile": post_file,
+    })
   
   print(post.id)
   #print("current post ", vars(post))

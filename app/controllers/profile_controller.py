@@ -16,7 +16,7 @@ def loadProfile(profile,all_users,current_user):
   if(len(profile.posts) > 0):
     profile.profile_pic = profile.posts[0].author['avatar_image_url']
   else: 
-    profile_pic = profile.canvas_user.get_avatars()[0]  
+    profile_pic = profile.canvas_user.get_avatars()[1]  
   profile.user = current_user
   print(current_user.username)
   return render_template('profile.html', profile = profile,  current_user = current_user, users = all_users)

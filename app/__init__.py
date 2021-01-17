@@ -12,8 +12,8 @@ app = Flask(__name__,static_url_path="/app/static", static_folder="static")
 
 app.config.from_object(Config)
 # Other FLASK config varaibles ...
-#app.config["ALLOWED_EXTENSIONS"] = ["jpg", "png", "mov", "mp4", "mpg"]
-#app.config["MAX_CONTENT_LENGTH"] = 1000 * 1024 * 1024  # 1000mb
+app.config["ALLOWED_EXTENSIONS"] = ["jpg", "png", "mov", "mp4", "mpg"]
+app.config["MAX_CONTENT_LENGTH"] = 1000 * 1024 * 1024  # 1000mb
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 db = SQLAlchemy(app)

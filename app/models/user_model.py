@@ -1,4 +1,4 @@
-from app import login_manager, db#, file_upload
+from app import login_manager, db, file_upload
 from datetime import datetime
 from flask import request
 from flask import render_template
@@ -70,11 +70,11 @@ def unauthorized_handler():
   '''
   #return CANVAS.get_user(1) # for now lets just automatically load admin (id of 1)
   
-#@file_upload.Model
+@file_upload.Model
 class UserFiles(db.Model):
   __tablename__ = "UserFiles"
   id = db.Column(db.Integer, primary_key=True)
-  #userFile = file_upload.Column() #file_name and file_type and mime_type included
+  userFile = file_upload.Column() #file_name and file_type and mime_type included
   userId = db.Column(db.Integer, db.ForeignKey("User.id"))
   postId = db.Column(db.Integer)
   data = db.Column(db.LargeBinary)
