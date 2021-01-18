@@ -1,2 +1,1 @@
-frontend: ./bin/dev/run-frontend
-backend: ./bin/dev/run-backend
+web: gunicorn app:app
