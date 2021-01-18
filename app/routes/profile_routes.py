@@ -1,5 +1,7 @@
-from flask import url_for, flash, redirect, request, render_template, send_file, Response
+from flask import url_for, flash, redirect, request, render_template, send_file, Response,make_response
 from flask_login import login_user, logout_user, current_user, login_required
+#from flask_api import status
+
 from werkzeug.urls import url_parse
 from app import app  # from /app import flask app TODO: import db
 ''' Import Needed Modules ''' 
@@ -11,7 +13,6 @@ from app.controllers.posts_controller import loadPosts, loadNewsFeed, handlePost
 ''' Import Needed Libraries ''' 
 import json
 import requests
-from flask import make_response
 import random
 from pyper import *
 import pickle as p
@@ -37,7 +38,12 @@ def saveProfile(profile_id):
 @app.route('/profile', methods=['GET'])
 @login_required #
 def profile(*args): 
-  all_canvas_users = list(course.get_users())
+  try:
+    all_canvas_users = list(course.get_users())
+  except:
+    error = "Canvas server is currently down"
+    return 400
+
   if(len(args) > 0):
     user = User.query.filter_by(canvasId=args[0]).first()
   else: user = current_user

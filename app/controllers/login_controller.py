@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from flask import url_for, flash, redirect, request, render_template, send_file
+from flask import url_for, flash, redirect, request, render_template, send_file, make_response
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from flask_login import login_user, logout_user, current_user
@@ -111,8 +111,11 @@ class LoginForm(FlaskForm):
     result = request.form # get form data from request object sent from html form
     print("form login data: ",result) # log the data
     
-    all_users = course.get_users() # get all users in p4h
-
+    try:
+      all_users = course.get_users() # get all users in p4h
+    except: 
+      error = "canvas is down"
+      return "404 Error", 404
     # temp way of checking user credentials
     # TODO: replace with actual canvas login auth (also log user into rocket chat eventually)
     for user in all_users:

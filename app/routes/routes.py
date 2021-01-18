@@ -15,8 +15,22 @@ import random
 import logging
 from flask.json import jsonify
 
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('404.html',error = e), 404
 
-#
+
+@app.errorhandler(500)
+def internal_error(e):
+    # note that we set the 404 status explicitly
+    return render_template('500.html',error = e), 500
+
+@app.errorhandler(400)
+def bad_request(e):
+    # note that we set the 404 status explicitly
+    return render_template('400.html',error = e), 400
+
 # If a request from client has variable data in it, we handle it here and get the data out of the url before routing the user
 #
 @app.route('/post/<user_id>', methods=['GET', 'POST'])

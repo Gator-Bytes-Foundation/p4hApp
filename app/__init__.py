@@ -9,14 +9,18 @@ from flask_login import LoginManager
 from flask_file_upload import FileUpload
 from app.canvas import Config
 from whitenoise import WhiteNoise
-
-
 import logging
 import sys
+
+
 app = Flask(__name__)
 app.wsgi_app = WhiteNoise(app.wsgi_app,
         root=os.path.join(os.path.dirname(__file__), 'static'),
         prefix='static/')
+
+
+        
+#app.register_error_handler(404, page_not_found)
 #app.wsgi_app = WhiteNoise(app.wsgi_app, root='static/', prefix='static/')
 
 app.config.from_object(Config)
