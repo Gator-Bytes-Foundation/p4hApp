@@ -7,7 +7,6 @@ from app import db
 from app.models.user_model import User
 from app.canvas import CANVAS, course # inject canvas, course objects into file
 import ftplib
-from django.db import IntegrityError
 
 
 #from user_model import *
