@@ -14,7 +14,7 @@ from whitenoise import WhiteNoise
 import logging
 import sys
 app = Flask(__name__)
-app.wsgi_app = WhiteNoise(app.wsgi_app, root='app/static/')
+app.wsgi_app = WhiteNoise(app.wsgi_app, root='static/')
 
 app.config.from_object(Config)
 # Other FLASK config varaibles ...
