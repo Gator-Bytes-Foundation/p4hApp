@@ -1,7 +1,7 @@
 import os
 import sys
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+#sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -17,7 +17,7 @@ app = Flask(__name__)
 app.wsgi_app = WhiteNoise(app.wsgi_app,
         root=os.path.join(os.path.dirname(__file__), 'static'),
         prefix='static/')
-        
+
 app.config.from_object(Config)
 # Other FLASK config varaibles ...
 app.config["ALLOWED_EXTENSIONS"] = ["jpg", "png", "mov", "mp4", "mpg"]
