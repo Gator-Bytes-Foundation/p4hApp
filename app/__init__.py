@@ -8,10 +8,13 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_file_upload import FileUpload
 from app.canvas import Config
+from whitenoise import WhiteNoise
+
 
 import logging
 import sys
-app = Flask(__name__,static_url_path="/app/static", static_folder="static")
+app = Flask(__name__,static_url_path="/static", static_folder="static")
+app.wsgi_app = WhiteNoise(app.wsgi_app, root='static/')
 
 app.config.from_object(Config)
 # Other FLASK config varaibles ...
