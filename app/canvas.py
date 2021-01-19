@@ -15,17 +15,17 @@ API_URL = "https://admin.p4hteach.org"
 ROCKET_URL = "https://open.rocket.chat"
 
 # Canvas API key
-API_KEY = "diunZ1Uva1UHgOTw2aTS4CnDOq0cTpSFDWYv4NtMFcQdvAxfRE02NBO4f8Wnjfge" #secrets.get("canvas_api_key")
+API_KEY = "VZTgalVB2FygzDpduVL10t0KAqC5bY0spLWJFARMDKub7mEnEhydo4Rsh3GYwd7D" #secrets.get("canvas_api_key")
 
 proxy_dict = {"http": "https://p4hteach.rocket.chat"}
 # Initialize a new Canvas object
 CANVAS = Canvas(API_URL, API_KEY)
 # Both course and canvas objects are used for majority of API calls
-try:
-    course = Canvas.get_course(1)  # only 1 course being used on canvas so initialize it globally to avoid repeated API calls
-except:
-    print("canvas is down")
-    course = None
+#try:
+course = CANVAS.get_course(1)  # only 1 course being used on canvas so initialize it globally to avoid repeated API calls
+#except:
+    #print("canvas is down")
+    #course = None
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 

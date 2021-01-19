@@ -3,6 +3,8 @@ from flask import url_for, flash, redirect, request, render_template, send_file,
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from flask_login import login_user, logout_user, current_user
+from sqlalchemy import exc
+
 from app import db
 from app.models.user_model import User
 from app.canvas import CANVAS, course # inject canvas, course objects into file
@@ -70,7 +72,8 @@ class SignUpForm(FlaskForm):
       try:
         #newUser.save()
         db.session.commit()
-      except sqlite3.IntegrityError as e: 
+      except exc.IntegrityError as e: 
+        db.session.rollback()
         if('UNIQUE constraint' in e.message):
           print("Identical user")
 
