@@ -10,7 +10,6 @@ PROFILE TABS
 // Dictates which view is seen by clickng on the tabs
 $(function(){
   // DOM Ready - do your stuff 
-  //  When user clicks on tab, this code will be executed
   $("#timeline-tab").addClass("active");
   $("#timeline-tab").addClass("show");
 
@@ -21,7 +20,26 @@ $(function(){
     $("#input-"+id).trigger("click"); 
   });
 });
+
 */
+});
+
+  //  When user clicks on tab, this code will be executed
+  function openTab(evt, tabName) {
+    console.log(tabName);
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tab-pane");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("nav-link");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+
 /*
 
 EDIT PROFILE MENU 

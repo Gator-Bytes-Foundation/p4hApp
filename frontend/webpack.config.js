@@ -17,7 +17,7 @@ const entries = glob.sync(path.resolve(".", "src/js/entry/*.js")).reduce(
   { main: path.resolve(".", "src/js/main.js") }
 );
 
-const outputPath = path.resolve(__dirname, "./app/static");
+const outputPath = path.resolve(__dirname, "./src/static");
 const assetPath = path.resolve(__dirname, "assets");
 
 module.exports = {

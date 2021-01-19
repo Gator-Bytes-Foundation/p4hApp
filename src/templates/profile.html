@@ -1,0 +1,228 @@
+<!DOCTYPE html> {% extends "header.html" %}
+<!-- all html files should extend from the header, (the header contains all static references as well) -->
+{% block content %}
+<!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html) -->
+<div id="entire_profile" class="container emp-profile">
+
+    <!-- MODAL OVERLAY FOR EDIT PROFILE -->
+    <div id="edit_menu" style="display:none;" class="backgroundOverlay">
+        <div class="wrapper overlayBlock fadeInDown " id="edit_profile_menu">
+            <button id="exit_edit" class="exit_icon" style="float:left;" aria-label="Close Account Info Modal Box">&times;</button>
+            <div style="top:40px; position:relative;">
+                <form id="edit-profile" action="/profile/{{profile.user.canvasId}}" method="POST" enctype="multipart/form-data">
+                    <div style="text-align: center; margin-bottom: 35px;" class="">
+                        <h3>Edit Menu</h3>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 col-sm-3">
+                            <p>Profile Name:</p>
+                        </div>
+                        <div class="col-8">
+                            <textarea class="text_box" name="name" id="profile_name" style="width: 100%;" placeholder="{{profile.canvas_user.name}}" size="5"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 col-sm-3">
+                            <p>Profile Picture</p>
+                        </div>
+                        <div class="col-3 col-xs-4">
+                            <span onclick="document.getElementById('input-profile-pic').click();"  id="profile-pic" class="profile_button oi oi-cloud-upload" aria-hidden="true">Upload Picture</span>
+                            <input type="file" name="profile_pic" id="input-profile-pic" class="inputfile" style="display: none;" data-multiple-caption="{count} files selected" multiple/>
+                        </div>
+                        <div class="">
+                            <img id="display-profile-pic" class="image-cropper img-fluid rounded-circle" alt="Profile Picture" src="{{profile.profile_pic}}" /> 
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 col-sm-3">
+                            <p>School:</p>
+                        </div>
+                        <div class="col-8">
+                            <textarea class="text_box" name="school" id="school_name" style="width: 100%;" placeholder="{{profile.canvas_user.sortable_name}}" size="5"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 col-sm-3">
+                            <p>Email:</p>
+                        </div>
+                        <div class="col-8">
+                            <textarea class="text_box" name="email" id="email_name" style="width: 100%;" placeholder="{{profile.canvas_user.email}}" size="5"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 col-sm-3">
+                            <p>Phone:</p>
+                        </div>
+                        <div class="col-8">
+                            <textarea class="text_box" name="phone" id="phone" style="width: 100%;" placeholder="{{profile.canvas_user.short_name}}" size="5"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 col-sm-3">
+                            <p>Location:</p>
+                        </div>
+                        <div class="col-8">
+                            <textarea class="text_box" name="location" id="loc" style="width: 100%;" placeholder="{{profile.canvas_user.title}}" size="5"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 col-sm-3">
+                            <p>Biography:</p>
+                        </div>
+                        <div class="row col-12 col-sm-8">
+                            <textarea class="text_box" name="bio" id="bio" style="width: 100%; height:50px;" placeholder="{{profile.canvas_user.bio}}" size="5"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <input type="submit" value="Save" class="profile_button">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!------------------------ search bar -------------------------->
+    <div class="dropdown">
+        <!--<button onclick="showSearchBar()" class="profile_button col-4">Search Profiles</button>-->
+        <div class="dropdown-content">
+            <span class="oi oi-magnifying-glass" aria-hidden="true"></span>
+            <!-- input element calls filter function anytime user types -->
+            <input class="" type="text" placeholder="Search.." id="profileSearchInput" >
+        </div>
+        <div id="profileSearchDropdown" class="list_of_items">
+            {% if(users != None) %} {% for i in range(users | length) %}
+            <!-- users variable is canvas user objects -->
+            <form method="GET" action="/profile/{{users[i].id}}">
+                <!-- pass the username into the route url -->
+                <a><button type="submit" class="erase"></button>{{users[i].name}}</a>
+            </form>
+            {% endfor %} {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            {% if profile.canvas_user.name == 'Admine' %}
+            <img class="image-cropper img-fluid rounded-circle" alt="placeholder" src="{{ url_for('static', filename='images/p4h.png') }}"> 
+            {% else %}
+            <figure class="thumbnail"><img id="profile_pic_img" class="img-fluid rounded-circle" alt="placeholder" src="{{profile.profile_pic}}" /></figure>
+            {% endif %}
+        </div>
+        <div class="col-8 col-sm-8 ">
+            <h4>{{profile.canvas_user.name}}</h4>
+            <small class=""> <b>Pozisyon:</b> Elementary Teacher </small> <br>
+            <small> <b>De Mwen :</b> Mwen anseye lekòl elemantè</small> </div>
+    </div>
+    <!--<div class="input-group"> 
+            <div class="input-group-prepend"> <span class="input-group-text" id="inputGroupFileAddon01">Upload</span> </div>
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="inputGroupFile01"
+        aria-describedby="inputGroupFileAddon01">
+                <label class="custom-file-label" for="inputGroupFile01">Choose file</label> -->
+
+    <div class="col-md-10 col-12">
+        <div id="mytabs" class="class=fakeclasshere2">
+            <ul class="nav nav-tabs" role="tablist">
+                </divjnjfdk>
+                <li class="nav-item"> <a class="nav-link" onclick="openTab(event, 'about')" aria-controls="about" id="about-tab" rel="about" data-toggle="tab" role="tab" aria-selected="true">About</a> </li>
+                <li class="nav-item"> <a class="nav-link" onclick="openTab(event, 'timeline')" aria-controls="timeline" id="timeline-tab" rel="timeline" data-toggle="tab" role="tab" aria-selected="false">Timeline</a> </li>
+            </ul>
+        </div>
+    </div>
+    <div class="buttons_row">
+        <!-- current_user (SQL DB, not canvas) is user stored in Flask Login => so it shows if the current user is looking at someone elses profile -->
+        {% if(profile.canvas_user.id == current_user.canvasId) %}
+        <div class="col-6 col-sm-5">
+            <button type="submit" id="edit_profile" class="profile_button button-bg" name="edit">Edit Pwofil</button>
+        </div>
+        {% endif %}
+        <div class="col-6 col-sm-5">
+            <form action="/profile/{{profile.user.canvasId}}/progress">
+                <button type="submit" class="profile_button button-bg">Pwogre Mwen</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-12 col-lg-9 ">
+        <div class="profile-tab ">
+            <div id="timeline" class="profile-work tab-pane fade in show " role="tabpanel">
+                <!-- 1st tab -->
+                <h3>Prowfil Pos</h3>
+                <div id="write_post">
+                    <div style="text-align: center;" class="post_box">
+                        <div class="profile_name">
+                            <figure class="profile-pic-post post col-2"><img alt="{{profile.canvas_user}}" class="img-fluid rounded-circle" src="{{profile.profile_pic}}" /></figure>
+                            <div class="col-10" id="">
+                                <textarea class="text_box" name="message" id="textbox-post" style="width: 100%;" placeholder="Write Post Here" size="5"></textarea>
+                                <span id="upload-post" onclick="document.getElementById('input-upload-post').click();" class="iconify upload_icon" data-icon="ant-design:cloud-upload-outlined" data-inline="false"></span>
+                                <input type="file" name="userFile" id="input-upload-post" class="invisble" data-multiple-caption="{count} files selected" onclick="this.value = null" multiple/>
+                                <label class="invisble" id="label-upload-post" style="display: none;" for="input-upload-post"><strong>Choose a file</strong></label>
+                                <div class="row ">
+                                    <a href="#" name="{{profile.user.id}}" id="post" value="Post" style="width:100%;" class="profile_button">Post</a>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <img id="display-upload-post" class="img-fluid post-pic" />
+                    </div>
+                </div>
+                <!-- Post Loop -->
+                {% for post in profile.posts %} {% include 'post.html' %} {% endfor %}
+
+            </div>
+            <table id="about" class="about-block tab-pane fade in " role="tabpanel">
+                <tr class="">
+                    <td class="">
+                        <label>User Id: </label>
+                    </td>
+                    <td class="left">
+                        <div>{{profile.user.id}}</div>
+                    </td>
+                </tr>
+                <tr class="">
+                    <td class="">
+                        <label>Name: </label>
+                    </td>
+                    <td class="left">
+                        <div>{{profile.canvas_user.name}}</div>
+                    </td>
+                </tr>
+                <tr class="">
+                    <td class="">
+                        <label>Email: </label>
+                    </td>
+                    <td class="left">
+                        <div>{{profile.user.email}}</div>
+                    </td>
+                </tr>
+                <tr class="">
+                    <td class="">
+                        <label>Phone: </label>
+                    </td>
+                    <td class="left">
+                        <div>{{profile.canvas_user.short_name}}</div>
+                    </td>
+                </tr>
+                <tr class="">
+                    <td class="">
+                        <label>Location: </label>
+                    </td>
+                    <td class="left">
+                        <div>{{profile.canvas_user.title}}</div>
+                    </td>
+                </tr>
+                <tr class="">
+                    <td class="">
+                        <label>School: </label>
+                    </td>
+                    <td class="left">
+                        <div>{{profile.canvas_user.sortable_name}}</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+{% endblock %}
+<!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->

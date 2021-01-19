@@ -1,2 +1,0 @@
-# Don't show diff of auto-generated files
-./**/yarn.lock linguist-generated=true

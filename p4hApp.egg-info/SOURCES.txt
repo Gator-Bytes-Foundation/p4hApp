@@ -1,8 +1,8 @@
 README.md
 setup.py
-app/__init__.py
-app/canvas.py
-app/main.py
+src/__init__.py
+src/canvas.py
+src/main.py
 p4hApp.egg-info/PKG-INFO
 p4hApp.egg-info/SOURCES.txt
 p4hApp.egg-info/dependency_links.txt

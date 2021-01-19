@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+
+<head>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+  <meta charset="utf-8" />
+  <!-- Static references -->
+  <link rel='icon' href="{{ url_for('static', filename='images/white_log.png') }}" type='image/x-icon'/>
+  <link  href="{{ url_for('static', filename='css/navbar.css') }}" ></link>
+<link  href="{{ url_for('static', filename='css/main.css') }}" ></link>
+  <link rel="canonical" href="https://getbootstrap.com/docs/4.1/examples/navbars/"/>
+</head>
+<body>
+  <div class="bs-example">
+    <nav class="navbar navbar-expand-md navbar-dark" id="navbar-container">
+      <a href="#" class="navbar-brand">
+        <h1 id="nav-logo-p4h">
+          <img
+            style="height: 45px; vertical-align: middle;"
+            class="img-fluid"
+            src="{{ url_for('static', filename='images/white_log.png') }}"
+            id="icon"
+            alt="User Icon"
+          />
+        </h1>
+      </a>
+      {% if (current_user != None) %}
+      <button
+        type="button"
+        class="navbar-toggler"
+        data-toggle="collapse"
+        data-target="#navbarCollapse"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="navbar-nav">
+          <!--<a href="" class="nav-item nav-link active animated" >Lakay</a>-->
+          <a
+            href="{{url_for('profile')}}"
+            class="nav-item nav-link animated"
+            style=""
+            >Profile</a
+          >
+          <a
+            href="{{ url_for('messaging') }}"
+            class="nav-item nav-link animated"
+            >Mesaj</a
+          >
+          <a
+            href="{{ url_for('announcements') }}"
+            class="nav-item nav-link animated"
+            >Anons</a
+          >
+          <a
+            href="{{ url_for('resources') }}"
+            class="nav-item nav-link animated"
+            tabindex="-1"
+            >Resous
+            </a>
+          <a 
+            href="/logout" 
+            class="nav-item nav-link animated" 
+            tabindex="-1"
+            >Logout
+            </a>
+        </div>
+        <!--<div class="navbar-nav ml-auto"> <a href="#" class="nav-item nav-link animated">Anviwònman</a> </div>-->
+      </div>
+      {% endif %}
+    </nav>
+  </div>
+  <!-- show flash messages to user in all views -->
+  {% with messages = get_flashed_messages() %} {% if messages %}
+  <ul>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %} {% endwith %}
+
+  <!-- This paragraph is just for testing. Remove in prod -->
+  <div style="height: calc(100% - 153px);">
+    {% block content %} {% endblock %} <!-- <router-outlet></router-outlet> angular could work here as well -->
+  </div>
+</body>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!--<link href="{{ url_for('static', filename='../../frontend/node_modules/bootstrap/dist/css/bootstrap.min.css') }}"></link>-->
+
+<script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!--<script src="{{ url_for('static', filename='js/jquery/dist/jquery.min.js') }}"></script>-->
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+<script  src="{{ url_for('static', filename=resolve_entry_script(self)) }}"></script>
+<script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+
