@@ -21,10 +21,11 @@ import logging
 # PROFILE MODULE #
 #
 # If a request from client has variable data in it, we handle it here and get the data out of the url before routing the user
+# will either get profile or update it and then return the new profile
 #
-@app.route('/profile/<profile_id>', methods=['GET'])
+@app.route('/profile/<profile_id>', methods=['GET','POST'])
 def customProfileCalls(profile_id): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
-  #print("page loading: ",page_to_load)
+  #print("page loading: ",page_to_load) 
   return profile(profile_id) # calls profile function on username from route str
 
 @app.route('/profile', methods=['POST'])

@@ -12,11 +12,14 @@ def loadProfile(profile,all_users,current_user):
     profile.canvas_user = CANVAS.get_user(1) # if no user_id is passed, we assign current user
 
   # temp use of global variable
-  #profile_pic = profile.canvas_user.get_avatars()[1] returns dotted pic for some reason
+  #avatar = profile.canvas_user.get_avatars()[1] returns dotted pic for some reason
   if(len(profile.posts) > 0):
-    profile.profile_pic = profile.posts[0].author['avatar_image_url']
+    avatar = profile.posts[0].author['avatar_image_url']
   else: 
-    profile_pic = profile.canvas_user.get_avatars()[1]  
+    avatar = profile.canvas_user.get_avatars()[1]  
+  if(avatar): 
+    profile.profile_pic = base64.b64encode(avatar.data).decode("utf-8")
+
   profile.user = current_user
   print(current_user.username)
   return render_template('profile.html', profile = profile,  current_user = current_user, users = all_users)

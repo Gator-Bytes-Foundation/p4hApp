@@ -105,7 +105,7 @@
             {% if profile.canvas_user.name == 'Admine' %}
             <img class="image-cropper img-fluid rounded-circle" alt="placeholder" src="{{ url_for('static', filename='images/p4h.png') }}"> 
             {% else %}
-            <figure class="thumbnail"><img id="profile_pic_img" class="img-fluid rounded-circle" alt="placeholder" src="{{profile.profile_pic}}" /></figure>
+            <figure class="thumbnail"><img id="profile_pic_img" class="img-fluid rounded-circle" alt="placeholder" src="data:;base64,{{ profile.profile_pic}}}" /></figure>
             {% endif %}
         </div>
         <div class="col-8 col-sm-8 ">
