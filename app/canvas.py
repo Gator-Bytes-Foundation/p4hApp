@@ -15,7 +15,7 @@ API_URL = "https://admin.p4hteach.org"
 ROCKET_URL = "https://open.rocket.chat"
 
 # Canvas API key
-API_KEY = "diunZ1Uva1UHgOTw2aTS4CnDOq0cTpSFDWYv4NtMFcQdvAxfRE02NBO4f8Wnjfge" #secrets.get("canvas_api_key")
+API_KEY = "o3L0UcLfXZ6GY74oLqCtctxC3WsqfzP3uaYqgInp5EVQ1VMRfqvv4dFjTyaMR6AD" #secrets.get("canvas_api_key")
 
 proxy_dict = {"http": "https://p4hteach.rocket.chat"}
 # Initialize a new Canvas object
