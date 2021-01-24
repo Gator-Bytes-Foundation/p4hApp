@@ -65,13 +65,10 @@ class SignUpForm(FlaskForm):
         return render_template('signup.html', title='signUp', form=form, error=error)
 
       #add user in DB
-      profilePicFile = open("../static/images/default.jpg", "r")
-      newUser = User(username=form.username.data,email=form.email.data,canvasId=canvas_user.id,profilePic__file_name="default.jpg")
+      #profilePicFile = open("../static/images/profile.png", "r")
+      newUser = User(username=form.username.data,email=form.email.data,canvasId=canvas_user.id) #,profilePic__file_name="profile.png")
       newUser.set_password(form.password.data)
 
-      profilePic = file_upload.save_files(newUser, files={
-        "profilePic": profilePicFile,
-      })
       db.session.add(newUser)
       try:
         #newUser.save()

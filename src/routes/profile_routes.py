@@ -51,6 +51,7 @@ def profile(*args):
 
 
 @app.route('/profile', methods=['POST'])
+@login_required
 def saveProfile():
   print('request: ')
   print(request)
@@ -60,6 +61,7 @@ def saveProfile():
 
 ## PROGRESS SUB MODULE ## 
 ## Load progress page - routing
+@login_required
 @app.route('/profile/<user_id>/progress')
 def progress(user_id):    
   milestones = loadProgress(user_id)

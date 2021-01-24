@@ -40,7 +40,7 @@ def login():
     if(user.canvasId == None):
       user.canvasId = CANVAS.get_user(1) 
 
-    print(user)
+    print('current user: ', user)
     if(user is None or not user.check_password(form.password.data)):
       flash('Invalid username or password')
       return redirect(url_for('login'))

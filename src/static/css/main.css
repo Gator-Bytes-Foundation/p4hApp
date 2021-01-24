@@ -35,14 +35,13 @@
     border-color: rgba(22,80,200,0.20); 
 }
 .p4h-pad {
-    padding:6px;
-    /*margin-right:6px !important;
-    margin-left:6px !important;*/
     padding-right: 14px;
     padding-left: 14px;
-    margin: 7px 0px 5px 0;
+    padding-bottom:5px;
 }
-
+.bottom {
+    margin-bottom:10px;
+}
     
 
 

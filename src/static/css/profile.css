@@ -86,6 +86,7 @@ b {
 }
 .profile-pic-post img {
   min-height:90%; 
+  max-width:80%;
 }
 .buttons_row {
   display: flex;

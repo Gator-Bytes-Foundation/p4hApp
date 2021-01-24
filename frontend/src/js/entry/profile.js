@@ -21,9 +21,8 @@ $(function(){
   });
 });
 
-*/
-});
 
+*/
   //  When user clicks on tab, this code will be executed
   function openTab(evt, tabName) {
     console.log(tabName);
@@ -39,6 +38,9 @@ $(function(){
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.className += " active";
   }
+});
+
+
 
 /*
 

@@ -5,6 +5,8 @@
     name="viewport"
     content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
   <meta charset="utf-8" />
+  <!-- favicon -->
+  <link rel='icon' href="{{ url_for('static', filename='images/white_log.png') }}" type='image/x-icon'/>
   <!-- Static references -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}"></link>
   <link  rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" ></link>
@@ -80,6 +82,7 @@
   </ul>
   {% endif %} {% endwith %}
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script  src="{{ url_for('static', filename=resolve_entry_script(self)) }}"></script>
 
   <!-- This paragraph is just for testing. Remove in prod -->
   <div style="height: calc(100% - 153px);">
@@ -94,5 +97,4 @@
 
 <script src="{{ url_for('static', filename='js/core.js') }}"></script>
 
-<script  src="{{ url_for('static', filename=resolve_entry_script(self)) }}"></script>
 

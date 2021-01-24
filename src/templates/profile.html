@@ -100,12 +100,12 @@
             {% endfor %} {% endif %}
         </div>
     </div>
-    <div class="row">
-        <div class="col-3">
+    <div class="row bottom">
+        <div class="col-3 p4h-pad">
             {% if profile.canvas_user.name == 'Admine' %}
             <img class="image-cropper img-fluid rounded-circle" alt="placeholder" src="{{ url_for('static', filename='images/p4h.png') }}"> 
             {% else %}
-            <figure class="thumbnail"><img id="profile_pic_img" class="img-fluid rounded-circle" alt="placeholder" src="data:;base64,{{ profile.profile_pic}}" /></figure>
+            <img id="profile_pic_img" class="img-fluid rounded-circle" alt="placeholder" src="data:;base64,{{ profile.profile_pic}}" /></img>
             {% endif %}
         </div>
         <div class="col-8 col-sm-8 ">
@@ -136,11 +136,13 @@
             <button type="submit" id="edit_profile" class="profile_button button-bg" name="edit">Edit Pwofil</button>
         </div>
         {% endif %}
+        {% if( (profile.canvas_user.id == current_user.canvasId) or (current_user.canvasId == 1)) %} <!-- 1 is admin -->
         <div class="col-6 col-sm-5">
             <form action="/profile/{{profile.user.canvasId}}/progress">
                 <button type="submit" class="profile_button button-bg">Pwogre Mwen</button>
             </form>
         </div>
+        {% endif %}
     </div>
     <div class="col-12 col-lg-9 ">
         <div class="profile-tab ">
@@ -150,7 +152,7 @@
                 <div id="write_post"> <!-- ID being used for appending posts -->
                     <div style="text-align: center;" class="post_box">
                         <div class="profile_name">
-                            <figure class="profile-pic-post post col-2"><img alt="No Profile Picture" class="img-fluid rounded-circle" src="data:;base64,{{ profile.profile_pic}}" /></figure>
+                            <figure class="profile-pic-post post"><img alt="No Profile Picture" class="img-fluid rounded-circle" src="data:;base64,{{ profile.profile_pic}}" /></figure>
                             <div class="col-10" id="">
                                 <textarea class="text_box" name="message" id="textbox-post" style="width: 100%;" placeholder="Write Post Here" size="5"></textarea>
                                 <span id="upload-post" onclick="document.getElementById('input-upload-post').click();" class="iconify upload_icon" data-icon="ant-design:cloud-upload-outlined" data-inline="false"></span>
@@ -223,6 +225,6 @@
         </div>
     </div>
 </div>
-<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+<!--<script src="{{ url_for('static', filename='js/profile.js') }}"></script>-->
 {% endblock %}
 <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->

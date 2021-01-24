@@ -9,10 +9,8 @@ from src import file_upload
 def loadProfile(profile,all_users,current_user):
   global edit_mode_on
   edit_mode_on = False
-  print('loading profile')
-  if(profile.canvas_user == None):
-    print("default profile")
-    profile.canvas_user = CANVAS.get_user(1) # if no user_id is passed, we assign current user
+  #print('loading profile')
+  #profile.canvas_user = CANVAS.get_user(1) # if no user_id is passed, we assign current user
 
   # Canvas does not allow external files to change profile pictures
   #avatar = profile.canvas_user.get_avatars()[1] returns dotted pic for some reason
@@ -22,10 +20,14 @@ def loadProfile(profile,all_users,current_user):
 
   avatar = UserFiles.query.filter_by(userId=current_user.id,postId=current_user.canvasId).first()
   if(avatar): 
-    print('using avatar from db')
-    print(avatar)
+    #print('using avatar from db')
+    #print(avatar)
     avatarImg = base64.b64encode(avatar.data).decode("utf-8")
     profile.profile_pic = avatarImg
+  else: # no avatar set 
+    avatarFile = open('src/static/images/profile.png', 'rb').read()
+    avatarImg = base64.b64encode(avatarFile).decode('utf-8')
+    profile.profile_pic = avatarImg  
 
   profile.user = current_user
   print(current_user.username)
