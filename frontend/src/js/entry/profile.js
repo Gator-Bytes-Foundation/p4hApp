@@ -158,6 +158,7 @@ function changeProfilePic(input,id) {
     reader.readAsDataURL(file);
   }
 }
+
 $("form#edit-profile").on('submit', function(e) {
   e.preventDefault();
   console.log("FORM SUBMITTED" + window.location.pathname);

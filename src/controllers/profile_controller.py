@@ -1,7 +1,10 @@
 from src.canvas import * # inject canvas, course objects into file
 from src.models.profile_model import Profile
 from flask import url_for, flash, redirect, request, render_template, send_file
+from src.models.user_model import User, UserFiles
 import requests 
+import base64
+from src import file_upload
 
 def loadProfile(profile,all_users,current_user):
   global edit_mode_on
@@ -16,9 +19,16 @@ def loadProfile(profile,all_users,current_user):
   if(len(profile.posts) > 0):
     avatar = profile.posts[0].author['avatar_image_url']
   else: 
-    avatar = profile.canvas_user.get_avatars()[1]  
-  if(avatar): 
-    profile.profile_pic = base64.b64encode(avatar.data).decode("utf-8")
+    avatar = UserFiles.query.filter_by(userId=current_user.id,postId=current_user.canvasId).all()
+    print('no avatar on canvas', avatar)
+    if(hasattr(avatar,'data')): 
+      print('using avatar from db')
+      profile.profile_pic = base64.b64encode(avatar.data).decode("utf-8")
+    #avatars = profile.canvas_user.get_avatars()
+    #print(type(avatars[1]))  
+  #if(avatar): 
+    #profile.profile_pic = base64.b64encode(avatar.data).decode("utf-8")
+
 
   profile.user = current_user
   print(current_user.username)
@@ -87,18 +97,26 @@ def updateProgress(request,user_id,assignment_id):
 def updateProfile(req,current_user):
   print('form')
   print(req.form)
+  canvas_user = course.get_user(current_user.canvasId)
+
   name_ = req.form['name']
   school_ = req.form['school']
   email_ = req.form['email']
   phone_ = req.form['phone']
   location_ = req.form['location']
   bio_ = req.form['bio']
-  files = req.files
-  canvas_user = course.get_user(current_user.canvasId)
-  print("file: ",files)
+  profileAvatar = req.files['avatar'] # check to see if there was profile file attached
+  print("new profile img: ",profileAvatar)
+
+  if(profileAvatar):
+    userFileModel = UserFiles(userId=current_user.id,postId=current_user.canvasId,data=profileAvatar.read(),userFile__file_name=profileAvatar.filename)
+    avatar = file_upload.save_files(userFileModel, files={
+      "userFile": profileAvatar,
+    })
+    
   # TO DO change the db user as well 
-  if(files != None):
-    canvas_user.edit(user = {"avatar":files})
+  if(profileAvatar != None):
+    canvas_user.edit(user = {"avatar":profileAvatar}) # not working
   if(name_ != ''):
     canvas_user.edit(user = {"name":name_})
   if(school_ != ''):

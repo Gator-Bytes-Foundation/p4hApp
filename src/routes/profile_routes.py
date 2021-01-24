@@ -28,13 +28,6 @@ def customProfileCalls(profile_id): #url being routed is saved to 'page_to_load'
   #print("page loading: ",page_to_load) 
   return profile(profile_id) # calls profile function on username from route str
 
-@app.route('/profile', methods=['POST'])
-def saveProfile(profile_id):
-  print('request: ')
-  print(request)
-  updateProfile(request,current_user)
-  return profile() # this isnt efficient since it reloads the entire page from scratch
-
 @app.route('/')
 @app.route('/profile', methods=['GET'])
 @login_required #
@@ -55,6 +48,15 @@ def profile(*args):
   print(current_user.canvasId)
   # Brings user to their profile view
   return loadProfile(user_profile, all_canvas_users,current_user)
+
+
+@app.route('/updateProfile', methods=['POST'])
+def saveProfile():
+  print('request: ')
+  print(request)
+  updateProfile(request,current_user)
+  return profile() # this isnt efficient since it reloads the entire page from scratch
+
 
 ## PROGRESS SUB MODULE ## 
 ## Load progress page - routing
