@@ -18,7 +18,7 @@ node_modules
 
 # this will contain secret keys and tokens
 secrets.yml
-#src/app.db
+src/app.db
 src/canvas.py
 bin/prod/server.key
 bin/prod/server.crt
