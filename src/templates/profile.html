@@ -1,6 +1,7 @@
 <!DOCTYPE html> {% extends "header.html" %}
 <!-- all html files should extend from the header, (the header contains all static references as well) -->
 {% block content %}
+<link  rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}" ></link>
 <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html) -->
 <div id="entire_profile" class="container emp-profile">
 
@@ -146,7 +147,7 @@
     </div>
     <div class="col-12 col-lg-9 ">
         <div class="profile-tab ">
-            <div id="timeline" class="profile-work tab-pane fade in show " role="tabpanel">
+            <div id="timeline" class="profile-work tab-pane" role="tabpanel">
                 <!-- 1st tab -->
                 <h3>Prowfil Pos</h3>
                 <div id="write_post"> <!-- ID being used for appending posts -->
@@ -172,7 +173,7 @@
                 {% for post in profile.posts %} {% include 'post.html' %} {% endfor %}
 
             </div>
-            <table id="about" class="about-block tab-pane fade in " role="tabpanel">
+            <table id="about" class="about-block tab-pane" style="display:none" role="tabpanel">
                 <tr class="">
                     <td class="">
                         <label>User Id: </label>
@@ -225,6 +226,6 @@
         </div>
     </div>
 </div>
-<!--<script src="{{ url_for('static', filename='js/profile.js') }}"></script>-->
+<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
 {% endblock %}
 <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->

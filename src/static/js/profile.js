@@ -1,2 +1,203 @@
-!function(n){var e={};function t(o){if(e[o])return e[o].exports;var i=e[o]={i:o,l:!1,exports:{}};return n[o].call(i.exports,i,i.exports,t),i.l=!0,i.exports}t.m=n,t.c=e,t.d=function(n,e,o){t.o(n,e)||Object.defineProperty(n,e,{enumerable:!0,get:o})},t.r=function(n){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(n,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(n,"__esModule",{value:!0})},t.t=function(n,e){if(1&e&&(n=t(n)),8&e)return n;if(4&e&&"object"==typeof n&&n&&n.__esModule)return n;var o=Object.create(null);if(t.r(o),Object.defineProperty(o,"default",{enumerable:!0,value:n}),2&e&&"string"!=typeof n)for(var i in n)t.d(o,i,function(e){return n[e]}.bind(null,i));return o},t.n=function(n){var e=n&&n.__esModule?function(){return n.default}:function(){return n};return t.d(e,"a",e),e},t.o=function(n,e){return Object.prototype.hasOwnProperty.call(n,e)},t.p="/static/",t(t.s=23)}({1:function(n,e,t){"use strict";var o,i=function(){return void 0===o&&(o=Boolean(window&&document&&document.all&&!window.atob)),o},r=function(){var n={};return function(e){if(void 0===n[e]){var t=document.querySelector(e);if(window.HTMLIFrameElement&&t instanceof window.HTMLIFrameElement)try{t=t.contentDocument.head}catch(n){t=null}n[e]=t}return n[e]}}(),a=[];function s(n){for(var e=-1,t=0;t<a.length;t++)if(a[t].identifier===n){e=t;break}return e}function l(n,e){for(var t={},o=[],i=0;i<n.length;i++){var r=n[i],l=e.base?r[0]+e.base:r[0],c=t[l]||0,p="".concat(l," ").concat(c);t[l]=c+1;var d=s(p),u={css:r[1],media:r[2],sourceMap:r[3]};-1!==d?(a[d].references++,a[d].updater(u)):a.push({identifier:p,updater:g(u,e),references:1}),o.push(p)}return o}function c(n){var e=document.createElement("style"),o=n.attributes||{};if(void 0===o.nonce){var i=t.nc;i&&(o.nonce=i)}if(Object.keys(o).forEach((function(n){e.setAttribute(n,o[n])})),"function"==typeof n.insert)n.insert(e);else{var a=r(n.insert||"head");if(!a)throw new Error("Couldn't find a style target. This probably means that the value for the 'insert' parameter is invalid.");a.appendChild(e)}return e}var p,d=(p=[],function(n,e){return p[n]=e,p.filter(Boolean).join("\n")});function u(n,e,t,o){var i=t?"":o.media?"@media ".concat(o.media," {").concat(o.css,"}"):o.css;if(n.styleSheet)n.styleSheet.cssText=d(e,i);else{var r=document.createTextNode(i),a=n.childNodes;a[e]&&n.removeChild(a[e]),a.length?n.insertBefore(r,a[e]):n.appendChild(r)}}function f(n,e,t){var o=t.css,i=t.media,r=t.sourceMap;if(i?n.setAttribute("media",i):n.removeAttribute("media"),r&&btoa&&(o+="\n/*# sourceMappingURL=data:application/json;base64,".concat(btoa(unescape(encodeURIComponent(JSON.stringify(r))))," */")),n.styleSheet)n.styleSheet.cssText=o;else{for(;n.firstChild;)n.removeChild(n.firstChild);n.appendChild(document.createTextNode(o))}}var h=null,m=0;function g(n,e){var t,o,i;if(e.singleton){var r=m++;t=h||(h=c(e)),o=u.bind(null,t,r,!1),i=u.bind(null,t,r,!0)}else t=c(e),o=f.bind(null,t,e),i=function(){!function(n){if(null===n.parentNode)return!1;n.parentNode.removeChild(n)}(t)};return o(n),function(e){if(e){if(e.css===n.css&&e.media===n.media&&e.sourceMap===n.sourceMap)return;o(n=e)}else i()}}n.exports=function(n,e){(e=e||{}).singleton||"boolean"==typeof e.singleton||(e.singleton=i());var t=l(n=n||[],e);return function(n){if(n=n||[],"[object Array]"===Object.prototype.toString.call(n)){for(var o=0;o<t.length;o++){var i=s(t[o]);a[i].references--}for(var r=l(n,e),c=0;c<t.length;c++){var p=s(t[c]);0===a[p].references&&(a[p].updater(),a.splice(p,1))}t=r}}}},2:function(n,e,t){"use strict";n.exports=function(n){var e=[];return e.toString=function(){return this.map((function(e){var t=function(n,e){var t=n[1]||"",o=n[3];if(!o)return t;if(e&&"function"==typeof btoa){var i=(a=o,s=btoa(unescape(encodeURIComponent(JSON.stringify(a)))),l="sourceMappingURL=data:application/json;charset=utf-8;base64,".concat(s),"/*# ".concat(l," */")),r=o.sources.map((function(n){return"/*# sourceURL=".concat(o.sourceRoot||"").concat(n," */")}));return[t].concat(r).concat([i]).join("\n")}var a,s,l;return[t].join("\n")}(e,n);return e[2]?"@media ".concat(e[2]," {").concat(t,"}"):t})).join("")},e.i=function(n,t,o){"string"==typeof n&&(n=[[null,n,""]]);var i={};if(o)for(var r=0;r<this.length;r++){var a=this[r][0];null!=a&&(i[a]=!0)}for(var s=0;s<n.length;s++){var l=[].concat(n[s]);o&&i[l[0]]||(t&&(l[2]?l[2]="".concat(t," and ").concat(l[2]):l[2]=t),e.push(l))}},e}},23:function(n,e,t){"use strict";t.r(e);t(3);function o(){document.getElementsByClassName("backgroundOverlay")[0].style.display="none",$("#entire_profile").css({pointerEvents:"visible"})}$(document).ready((function(){$("#timeline-tab").addClass("active"),$("#timeline-tab").addClass("show")})),$("#edit_profile").on("click",(function(n){document.getElementsByClassName("backgroundOverlay")[0].style.display="flex",$("#entire_profile").css({pointerEvents:"none"}),$("#edit_profile_menu").css({pointerEvents:"visible"})})),$("#exit_edit").on("click",(function(n){o()})),$((function(){$("#newsfeed").on({mousemove:function(n){console.log("profile.js");var e=$(this).offset();e.bottom=$(this).offset().top+$(this).outerHeight(),e.right=$(this).offset().left+$(this).outerWidth(),e.bottom>n.pageY&&n.pageY>e.bottom-16&&e.right>n.pageX&&n.pageX>e.right-16?$(this).css({cursor:"nw-resize"}):$(this).css({cursor:""})},keyup:function(n){for(8!=n.which&&46!=n.which||$(this).height(0!=parseFloat($(this).css("min-height"))?parseFloat($(this).css("min-height")):parseFloat($(this).css("font-size")));$(this).outerHeight()<this.scrollHeight+parseFloat($(this).css("borderTopWidth"))+parseFloat($(this).css("borderBottomWidth"));)$(this).height($(this).height()+1)}},"textarea")})),$("#profileSearchInput").keyup(n=>{!function(){let n,e,t,o;n=document.getElementById("profileSearchInput"),e=n.value.toUpperCase(),t=$("#profileSearchDropdown")[0],t.style.display="block",o=t.getElementsByTagName("a");for(let n=0;n<o.length;n++)txtValue=o[n].textContent||o[n].innerText,txtValue.toUpperCase().indexOf(e)>-1?o[n].style.display="":o[n].style.display="none"}()}),$(document).ready((function(){$(".upload_icon").click((function(n){let e=n.currentTarget.id;$("#label-"+e).trigger("click")}))})),window.onclick=function(n){const e=document.getElementsByClassName("list_of_items"),t=document.getElementsByClassName("overlayBlock")[0];n.target.matches("list_of_items")||"block"==e[0].style.display&&(document.getElementsByClassName("list_of_items")[0].style.display="none"),t.contains(n.target)||n.target.matches("#edit_profile")||o()}},3:function(n,e,t){var o=t(1),i=t(4);"string"==typeof(i=i.__esModule?i.default:i)&&(i=[[n.i,i,""]]);var r={insert:"head",singleton:!1},a=(o(i,r),i.locals?i.locals:{});n.exports=a},4:function(n,e,t){(e=t(2)(!1)).push([n.i,"@import url(//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);"]),e.push([n.i,"/*font Awesome http://fontawesome.io*/\n/*Comment List styles*/\n/* haitian flag blue: #1632AA\n/* haitian flag red: #B30D2C\n/*circle profile picture crop version */ \n\nb {\n  color: rgba(22,50,170, 0.90);\n}\n.image-cropper {\n  width: 70px;\n  position: relative;\n  overflow: hidden;\n  border-radius: 50%;\n}\n.image-cropper .post{\n  max-height:30px; \n}\n\n.upload_icon {\n  vertical-align: middle;\n  color: rgba(22,50,170, 0.90);  \n  cursor: pointer;\n}\n\n.exit_icon {\n  background-color:#fff;\n  color: rgba(22,50,170, 0.9);\n  border-style: none;\n  border-radius: 10px;\n  width:30px;\n}\n.backgroundOverlay {\n  position: fixed;\n  justify-content: center;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0,0,0,0.5);\n  z-index: 2;\n  pointer-events: none;\n}\n.overlayBlock {\n  display:block;\n  position: absolute;\n  top:12%;\n  background: #FFFFFF;\n  backface-visibility: visible;\n  width:85%;\n  height:76%;\n  border-radius: 10px;\n}\n/*\n  .overlayBlock .upload_icon {\n    font-size:20px;\n  }\n*/\n\n.overlayBlock .row {\n  padding-right:20px;\n  padding-left:20px;\n  padding-bottom:10px;\n  margin-right: 0;\n  margin-left: 0;\n}\n\n.overlayBlock .col-8, .overlayBlock .col-4, .overlayBlock .col-sm-8   {\n  padding-right:5px;\n  padding-left:5px;\n}\n.overlayBlock .col-8 .row {\n  justify-content: center;\n}\n\n.profile-pic img{\n  margin: 0 auto;\n  /*margin-left: -25%; centers the image */\n  width: 100%;\n  height: 100%;\n}\n.profile-pic-post img {\n  min-height:90%; \n}\n.buttons_row {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: space-around;\n}\n\n/* CSS for profile posts */\n.post_box {\n  position:relative;\n  border-style:solid; \n  border-width:thin;  \n  border-color:rgba(130,67,68,0.40);\n  padding:14px 8px 8px 8px;\n  border-radius:5px 5px 5px 5px;\n  margin-bottom:10px;\n}\n.post_box .row {\n  margin:0; /* get rid of annoying bootstrap margins for \"row\" class */\n  justify-content: center;\n}\n.profile_name {\n  width:100%;\n  display: flex;\n}\n.profile_name .upload_icon {\n  position:absolute !important;\n  right:10%; \n  top: 8px !important;\n}\n.thumbnail {\n  display:flex;\n  justify-content: center;\n}\n.post {\n  width:100%; \n}\n.post-pic {\n  max-height: 350px;\n  padding:10px;\n}\n\n.profile_button {\n  cursor:pointer;\n  display: block;\n  width:100%;\n  max-width:450px;\n  text-align: center;\n  /*margin-right:6px !important;\n  margin-left:6px !important;*/\n  padding:6px; \n  margin: 10px 2px 10px 2px;\n  border: thin;\n  border-style: solid;\n  border-color: rgba(22,80,200,0.20); \n  color:#1632AA;\n  background-color: transparent; /* same color as #1632AA with low opacity */\n  box-shadow: 0px 4px 7px 0px rgba(22,50,170, 0.10);/* same color as #1632AA with low opacity */\n}\n.button-bg {\n  font-size: 1rem !important; \n  padding:7px !important;\n  padding-right: 14px !important;\n  padding-left: 14px !important;\n}\n.custom-file {\n  width:90%;\n}\n.custom-file input {\n  background-color: transparent;\n}\n.profile_button:hover {\n  background-color: rgba(22,50,170,0.07); /* same color as #1632AA with low opacity */\n  color:#1B3FD7;\n  text-decoration: none !important;\n}\n.reply_div {\n  margin-bottom:8px;\n  width:100%;\n  position: relative;\n  display:flex;\n  flex-wrap:wrap; \n}\n.reply_button {\n  border: thin;\n  height:35px;\n  text-align: center;\n  border-style: solid;\n  border-color: rgba(22,80,200,0.20); \n  color:#1632AA;\n  background-color: transparent; /* same color as #1632AA with low opacity */\n  box-shadow: 0px 4px 7px 0px rgba(22,50,170, 0.10);/* same color as #1632AA with low opacity */\n  \n}\n.reply_button:hover {\n  background-color: rgba(22,50,170,0.07); /* same color as #1632AA with low opacity */\n  color:#1B3FD7;\n  text-decoration: none !important;\n}\n.text_box {\n  resize:none;\n  border-radius: 20px 20px 20px 20px;  \n  width: 100%;\n  height: 35px;\n  line-height:120%;\n  padding:8px;\n  position: relative;\n  box-shadow: 0px 4px 7px 0px rgba(22,50,170, 0.10);/* same color as #1632AA with low opacity */\n  border:thin;\n  border-style: solid;\n  border-color: rgba(22,80,200,0.20); \n  overflow:hidden;\n}\n\n.post_comment {\n  display:flex;\n  flex-wrap:wrap; \n  margin-top: 10px;\n  margin-bottom: 10px;\n}\n.word_bubble {\n  background-color: rgba(22,50,170, 0.07) ; \n  border-radius: 20px 20px 20px 20px;  \n}\n\n\n/* The search field */\n#profileSearchInput {\n  left:0px;\n  width: calc(100% - 20px);\n  box-sizing: border-box;\n/* TODO: Image is missing and needs to be added  background-image: url('searchicon.png'); */\n  background-position: 14px 12px;\n  background-repeat: no-repeat;\n  font-size: 16px;\n  padding: 7px 20px 7px 15px;\n  border: none;\n  border-bottom: 1px solid #ddd;\n}\n\n/* The search field when it gets focus/clicked on */\n#profileSearchInput:focus {outline: 3px solid #ddd;}\n\n/* The container <div> - needed to position the dropdown content */\n.dropdown {\n  position: relative;\n  display: inline-block;\n  width:100%;\n  margin-bottom:15px; \n}\n.list_of_items {\n  display:none;\n  position: absolute;\n  background-color: #f6f6f6;\n  width:100%;\n  border: 1px solid #ddd;\n  z-index: 1;\n}\n/* Links inside the dropdown */\n.list_of_items a {\n  color: black;\n  display: block;\n  position:relative;\n  padding: 12px 16px;\n  text-decoration: none;\n}\n/* Change color of dropdown links on hover */\n.list_of_items a:hover {background-color: #f1f1f1}\n\n/* Dropdown Content (Hidden by Default) */\n.dropdown-content {\n  left:3%;\n  width:80%;\n  display:flex;\n  flex-wrap: wrap;\n  position: relative;\n  min-width: 220px;\n}\n.dropdown-content .oi {\n  align-self: center;\n  padding:5px !important;\n  width:20px;\n}\n.erase { /* submit form only worked with button, so i made an invisble button behind a <a>link</a> */\n  opacity:0;\n  width: 100%;\n  height: 100%;\n  position: absolute;\n  top: 0;\n  left: 0;\n  cursor: pointer;\n}\n/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */\n.show {display:block;}\n\n/* Portrait tablets and medium desktops */\n@media (min-width: 768px) {\n.overlayBlock {\n  width:750px;\n  }\n  .buttons_row {\n    max-width:75%;\n  }\n}\n.invisble {\n  height:0px; \n  display:none; \n}\n",""]),n.exports=e}});
-//# sourceMappingURL=profile.js.map
+//import "../../css/profile.css";
+/*
+#######################################    Functions to handle all actions in profile.html    ##########################################
+*/
+/*
+
+PROFILE TABS
+
+*/
+// Dictates which view is seen by clickng on the tabs
+$(function(){
+    // DOM Ready - do your stuff 
+    $("#timeline-tab").addClass("active");
+    $("#timeline-tab").addClass("show");
+  
+    /* Upload Profile File  */
+  // when upload icon is clicked, trigger the file browser input (the input is hidden visually but can be "clicked" on)
+    /*$(".upload_icon").on('click', function (e) {
+      let id = e.currentTarget.id;
+      $("#label-"+id).trigger("click"); 
+    });
+  
+  */
+  });
+        //  When user clicks on tab, this code will be executed
+        function openTab(evt, tabName) {
+          console.log(tabName);
+          var i, tabcontent, tablinks;
+          tabcontent = document.getElementsByClassName("tab-pane");
+          for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+          }
+          tablinks = document.getElementsByClassName("nav-link");
+          for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace("active", "");
+          }
+          //$('#'+tabName).css('display', 'block');
+          $('#'+tabName).show();
+          evt.currentTarget.className += " active";
+        }
+  
+  
+  /*
+  
+  EDIT PROFILE MENU 
+  
+  */
+  function cancelExitMenu() {
+    document.getElementsByClassName("backgroundOverlay")[0].style.display =
+      "none";
+    $("#entire_profile").css({ pointerEvents: "visible" });
+  }
+  
+  $("#edit_profile").on("click", function (e) {
+    let edit_menu = document.getElementsByClassName("backgroundOverlay");
+    //console.log(edit_menu[0]);
+    edit_menu[0].style.display = "flex";
+    $("#entire_profile").css({ pointerEvents: "none" });
+    $("#edit_profile_menu").css({ pointerEvents: "visible" });
+  });
+  $("#exit_edit").on("click", function (e) {
+    cancelExitMenu();
+  });
+  
+  // handle textbox as user types
+  $(function () {
+    //  changes mouse cursor when highlighting loawer right of box
+    $("#newsfeed").on({
+      mousemove: function (e) {
+        //stuff to do on mouse enter
+        console.log("profile.js");
+        var myPos = $(this).offset();
+        myPos.bottom = $(this).offset().top + $(this).outerHeight();
+        myPos.right = $(this).offset().left + $(this).outerWidth();
+  
+        if (
+          myPos.bottom > e.pageY &&
+          e.pageY > myPos.bottom - 16 &&
+          myPos.right > e.pageX &&
+          e.pageX > myPos.right - 16
+        ) {
+          $(this).css({ cursor: "nw-resize" });
+        } else {
+          $(this).css({ cursor: "" });
+        }
+      },
+      keyup: function (e) {
+        //  this if statement checks to see if backspace or delete was pressed, if so, it resets the height of the box so it can be resized properly
+        if (e.which == 8 || e.which == 46) {
+          $(this).height(
+            parseFloat($(this).css("min-height")) != 0
+              ? parseFloat($(this).css("min-height"))
+              : parseFloat($(this).css("font-size"))
+          );
+        }
+        //  the following will help the text expand as typing takes place
+        while (
+          $(this).outerHeight() <
+          this.scrollHeight +
+            parseFloat($(this).css("borderTopWidth")) +
+            parseFloat($(this).css("borderBottomWidth"))
+        ) {
+          $(this).height($(this).height() + 1);
+        }
+      }
+    }, "textarea");
+      //  the following simple make the textbox "Auto-Expand" as it is typed in
+  });
+  
+  /* 
+  
+  SEARCH BAR 
+  
+  */
+  /* filters the search bar of all users */
+  
+  $('#profileSearchInput').on('keyup', function(ev){
+    filterFunction(); 
+  });
+  
+  function filterFunction() {
+    let input, filter, dropdown, profileLinks;
+    input = document.getElementById("profileSearchInput");
+    filter = input.value.toUpperCase();
+    dropdown = $("#profileSearchDropdown")[0]; // 1st index of Jqeury object is DOM object
+    dropdown.style.display = "block";
+    profileLinks = dropdown.getElementsByTagName("a"); // gets all <a></a> links in dropdown div
+    for (let i = 0; i < profileLinks.length; i++) {
+      let txtValue = profileLinks[i].textContent || profileLinks[i].innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        profileLinks[i].style.display = "";
+      } else {
+        profileLinks[i].style.display = "none"; // hides all users that are filtered out
+      }
+    }
+  }
+  // function to cancel the search dropdown (by clicking outside of it in function below)
+  function cancelDropDown() {
+    const list_of_items = document.getElementsByClassName("list_of_items");
+    list_of_items[0].style.display = "none";
+  }
+  
+  
+  /* Profile Picture Change */ 
+  function changeProfilePic(input,id) {
+  
+    file = input.files[0];
+    console.log("file");
+    if (file.name.includes(".jpg") || file.name.includes(".png") ||
+        file.name.includes(".pdf") || file.name.includes(".webp")) 
+    {
+      console.log("is an image");
+      let reader = new FileReader();
+      reader.onload = function (e) {
+        let img_id = String(id).replace("_input", "_img"); // profile_pic_img
+        $("#" + img_id).attr("src", e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+  
+  $("form#edit-profile").on('submit', function(e) {
+    e.preventDefault();
+    console.log("FORM SUBMITTED" + window.location.pathname);
+    var formData = new FormData(this);
+  
+    $.ajax({
+        url: window.location.pathname,
+        type: 'POST',
+        data: formData,
+        success: function (data) {
+            alert("Successfully updated profile")
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+  });
+  /*
+  
+  WINDOW CLICKS
+  
+  */
+  window.onclick = function (event) {
+    const list_of_items = document.getElementsByClassName("list_of_items");
+    const edit_menu = document.getElementsByClassName("overlayBlock")[0];
+    if (!event.target.matches("list_of_items")) {
+      // cancels dropdown box if clicked somewhere outside of dropdown box
+      if (list_of_items[0].style.display == "block") {
+        cancelDropDown();
+      }
+    }
+    // minimizes the edit profile menu when clicking out of it
+    if (
+      !edit_menu.contains(event.target) &&
+      !event.target.matches("#edit_profile")
+    ) {
+      cancelExitMenu();
+    }
+  };
+  
+  
+  
