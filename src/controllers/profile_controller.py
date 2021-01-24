@@ -14,24 +14,18 @@ def loadProfile(profile,all_users,current_user):
     print("default profile")
     profile.canvas_user = CANVAS.get_user(1) # if no user_id is passed, we assign current user
 
-  # temp use of global variable
+  # Canvas does not allow external files to change profile pictures
   #avatar = profile.canvas_user.get_avatars()[1] returns dotted pic for some reason
-  if(len(profile.posts) > 0):
-    avatar = profile.posts[0].author['avatar_image_url']
-  else: 
-    avatar = UserFiles.query.filter_by(userId=current_user.id,postId=current_user.canvasId).all()
-    print('no avatar on canvas', avatar)
-    #if(hasattr(avatar,'data')): 
-    if(len(avatar) > 0 and avatar[0].data != None): 
-      print('using avatar from db')
-      avatarImg = base64.b64encode(avatar[0].data).decode("utf-8")
-      print(avatar[0])
-      profile.profile_pic = avatarImg
-    #avatars = profile.canvas_user.get_avatars()
-    #print(type(avatars[1]))  
-  #if(avatar): 
-    #profile.profile_pic = base64.b64encode(avatar.data).decode("utf-8")
+  #if(len(profile.posts) > 0):
+    #avatar = profile.posts[0].author['avatar_image_url']
+  #else: 
 
+  avatar = UserFiles.query.filter_by(userId=current_user.id,postId=current_user.canvasId).first()
+  if(avatar): 
+    print('using avatar from db')
+    print(avatar)
+    avatarImg = base64.b64encode(avatar.data).decode("utf-8")
+    profile.profile_pic = avatarImg
 
   profile.user = current_user
   print(current_user.username)

@@ -20,9 +20,10 @@
             {{post.message}}
         </div>
         {% if( (post.files | length) > 0 ) %}
-        <img alt="attachment" class="img-fluid" src="data:;base64,{{ post.img }}" />
-            {% if( !(post.img) ) %} <!-- file is NOT an image -->
-            <span class="iconify" data-icon="oi-file" data-inline="false"></span>
+            {% if( post.img ) %} <!-- file is an image -->
+            <img alt="attachment" class="img-fluid" src="data:;base64,{{ post.img }}" />
+            {% else %}
+            <span class="iconify" data-icon="oi-file"></span>
             {%endif%}
         {%endif%}
 

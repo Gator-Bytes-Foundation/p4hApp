@@ -81,6 +81,7 @@
     {% endfor %}
   </ul>
   {% endif %} {% endwith %}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
   <!-- This paragraph is just for testing. Remove in prod -->
   <div style="height: calc(100% - 153px);">
@@ -92,10 +93,8 @@
 <!--<link href="{{ url_for('static', filename='../../frontend/node_modules/bootstrap/dist/css/bootstrap.min.css') }}"></link>-->
 
 <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!--<script src="{{ url_for('static', filename='js/jquery/dist/jquery.min.js') }}"></script>-->
 
-<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script src="{{ url_for('static', filename='js/core.js') }}"></script>
 
 <script  src="{{ url_for('static', filename=resolve_entry_script(self)) }}"></script>
 <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
