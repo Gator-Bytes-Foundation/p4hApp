@@ -22,7 +22,7 @@ def loadProfile(profile,all_users,current_user):
     avatar = UserFiles.query.filter_by(userId=current_user.id,postId=current_user.canvasId).all()
     print('no avatar on canvas', avatar)
     #if(hasattr(avatar,'data')): 
-    if(len(avatar) > 0): 
+    if(len(avatar) > 0 and avatar[0].data != None): 
       print('using avatar from db')
       avatarImg = base64.b64encode(avatar[0].data).decode("utf-8")
       print(avatar[0])
@@ -108,18 +108,27 @@ def updateProfile(req,current_user):
   phone_ = req.form['phone']
   location_ = req.form['location']
   bio_ = req.form['bio']
-  profileAvatar = req.files['avatar'] # check to see if there was profile file attached
-  print("new profile img: ",profileAvatar)
+  avatarUpdate = req.files['avatar'] # check to see if there was profile file attached
 
-  if(profileAvatar):
-    userFileModel = UserFiles(userId=current_user.id,postId=current_user.canvasId,data=profileAvatar.read(),userFile__file_name=profileAvatar.filename)
-    avatar = file_upload.save_files(userFileModel, files={
-      "userFile": profileAvatar,
-    })
+  if(avatarUpdate):
+    prevAvatar = UserFiles.query.filter_by(userId=current_user.id,postId=current_user.canvasId).first() # check if avatar already exists
+    print("model: ", prevAvatar)
+    if(prevAvatar):
+      print("updating avatar")
+      prevAvatar.data = avatarUpdate.read()
+      avatar = file_upload.update_files(prevAvatar, files={
+          "userFile": avatarUpdate
+      })
+    else:
+      userFileModel = UserFiles(userId=current_user.id,postId=current_user.canvasId,data=avatarUpdate.read())
+      avatar = file_upload.save_files(userFileModel, files={
+        "userFile": avatarUpdate,
+      })
+
     
   # TO DO change the db user as well 
-  if(profileAvatar != None):
-    canvas_user.edit(user = {"avatar":profileAvatar}) # not working
+  if(avatarUpdate != None):
+    canvas_user.edit(user = {"avatar":avatarUpdate}) # not working
   if(name_ != ''):
     canvas_user.edit(user = {"name":name_})
   if(school_ != ''):

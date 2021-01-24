@@ -50,7 +50,7 @@ def profile(*args):
   return loadProfile(user_profile, all_canvas_users,current_user)
 
 
-@app.route('/updateProfile', methods=['POST'])
+@app.route('/profile', methods=['POST'])
 def saveProfile():
   print('request: ')
   print(request)
