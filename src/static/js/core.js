@@ -90,12 +90,11 @@ $("#post").on("click", function(e) {
         url: "/post/" + userId,
         data: formData,
         cache: false,
-        contentType: "application/json; charset=utf-8",
         processData: false,
-        dataType: "json",
+        dataType: "text",
         success: function(data) {
-            console.log(data);
-            const post = data.html;
+            const post = JSON.parse(data).html;
+            //console.log("post being created " + data);
             const new_post_id = data.post_id;
 
             $("#write_post").append(post).css("overflow", "hidden");

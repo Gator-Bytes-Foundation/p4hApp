@@ -3,13 +3,11 @@
 <head>
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1, shrink-to-fit=no"
-  />
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
   <meta charset="utf-8" />
   <!-- Static references -->
-  <link rel='icon' href="{{ url_for('static', filename='images/white_log.png') }}" type='image/x-icon'/>
-  <link  href="{{ url_for('static', filename='css/navbar.css') }}" ></link>
-<link  href="{{ url_for('static', filename='css/main.css') }}" ></link>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}"></link>
+  <link  rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" ></link>
   <link rel="canonical" href="https://getbootstrap.com/docs/4.1/examples/navbars/"/>
 </head>
 <body>
@@ -97,5 +95,4 @@
 <script src="{{ url_for('static', filename='js/core.js') }}"></script>
 
 <script  src="{{ url_for('static', filename=resolve_entry_script(self)) }}"></script>
-<script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
 
