@@ -21,9 +21,12 @@ def loadProfile(profile,all_users,current_user):
   else: 
     avatar = UserFiles.query.filter_by(userId=current_user.id,postId=current_user.canvasId).all()
     print('no avatar on canvas', avatar)
-    if(hasattr(avatar,'data')): 
+    #if(hasattr(avatar,'data')): 
+    if(len(avatar) > 0): 
       print('using avatar from db')
-      profile.profile_pic = base64.b64encode(avatar.data).decode("utf-8")
+      avatarImg = base64.b64encode(avatar[0].data).decode("utf-8")
+      print(avatar[0])
+      profile.profile_pic = avatarImg
     #avatars = profile.canvas_user.get_avatars()
     #print(type(avatars[1]))  
   #if(avatar): 
