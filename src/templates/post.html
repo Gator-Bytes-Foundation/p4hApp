@@ -29,7 +29,7 @@
 
         <hr> {% if( (post.comments[post.id | string] | length) > 0 ) %}
         <div class="text-center">
-            <p class=""><a id="view_more-{{post.id}}" name="{{post.id}}" class="profile_button view_more">View Comments</a></p>
+            <p class=""><a id="view_more-{{post.id}}" onclick="$('#comments-' + '{{post.id}}').show();" class="profile_button view_more">View Comments</a></p>
         </div>
         {%endif%}
         <div id="comments-{{post.id}}" style="display:none;">

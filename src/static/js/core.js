@@ -22,14 +22,6 @@ $(".nav-item").mouseout(function(e) {
     $(this).removeClass("pulse");
 });
 
-//* show comments for all posts in p4h teach */ 
-$(document).on("click", ".view_more", function(e) {
-    e.preventDefault();
-    var id = e.currentTarget.id;
-    console.log("view more: ", id);
-    $("#comments-" + id).show();
-});
-
 /*
 
 POST BUTTON 
