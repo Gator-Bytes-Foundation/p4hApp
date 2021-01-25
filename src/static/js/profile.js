@@ -1,4 +1,4 @@
-//import "../../css/profile.css";
+//import "../css/profile.css";
 /*
 #######################################    Functions to handle all actions in profile.html    ##########################################
 */
@@ -22,22 +22,36 @@ $(function(){
   
   */
   });
-        //  When user clicks on tab, this code will be executed
-        function openTab(evt, tabName) {
-          console.log(tabName);
-          var i, tabcontent, tablinks;
-          tabcontent = document.getElementsByClassName("tab-pane");
-          for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-          }
-          tablinks = document.getElementsByClassName("nav-link");
-          for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace("active", "");
-          }
-          //$('#'+tabName).css('display', 'block');
-          $('#'+tabName).show();
-          evt.currentTarget.className += " active";
+    //  When user clicks on tab, this code will be executed
+    function openTab(evt, tabName) {
+        console.log(tabName);
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tab-pane");
+        for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
         }
+        tablinks = document.getElementsByClassName("nav-link");
+        for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace("active", "");
+        }
+        //$('#'+tabName).css('display', 'block');
+        $('#'+tabName).show();
+        evt.currentTarget.className += " active";
+    }
+
+    function downloadMilestone(event) {
+        let milestoneId = event.currentTarget.id;
+        $.ajax({
+            url: 'progress/' + milestoneId,
+            type: 'GET',
+            success: function (data) {
+                alert("Successfully downloaded file")
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    }
   
   
   /*

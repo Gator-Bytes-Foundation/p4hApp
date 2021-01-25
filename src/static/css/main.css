@@ -39,10 +39,14 @@
     padding-left: 14px;
     padding-bottom:5px;
 }
+.slim {
+    padding-right:0 !important;
+    padding-left:0 !important; 
+}
 .bottom {
     margin-bottom:10px;
 }
-    
+
 
 
   

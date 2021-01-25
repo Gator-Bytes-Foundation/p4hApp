@@ -73,7 +73,10 @@ def progress(user_id):
 @app.route('/profile/<user_id>/progress/<milestone_id>', methods=['GET'])
 def progressGet(user_id,milestone_id):    
   file_to_download = getProgress(request,user_id,milestone_id)
-  return send_file('../tmp/downloadMilestone', as_attachment=True,attachment_filename=file_to_download["display_name"])
+  if(file_to_download):
+    return send_file('../tmp/downloadMilestone', as_attachment=True,attachment_filename=file_to_download["display_name"])
+  else:
+    return json.dumps({'success':False}), 200, {'ContentType':False}
 
 ## Upload milestone - UPDATE
 @app.route('/profile/<user_id>/progress/<milestone_id>', methods=['POST'])

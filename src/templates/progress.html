@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 {% extends "header.html" %}<!-- all html files should extend from the header, (the header contains all static references as well) --> 
 {% block content %}<!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
-<!--<link rel="stylesheet" href="{{ url_for('static', filename='css/progress.css') }}">-->
+<link  rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}" ></link>
 <div class="container">
   <div class="row">
     <div class="col-md-12">
@@ -34,7 +34,7 @@
               </div>
               {% endif %}
               <div class="input-group-prepend col-8 col-md-6"> 
-                  <a href="progress/{{milestones[i].id}}" class="input-group-text profile_button download" name="{{milestones[i].id}}"  id="download-{{milestones[i].id}}">Download</a> 
+                  <button onclick="downloadMilestone(event)" class="input-group-text profile_button download" name="{{milestones[i].id}}"  id="download-{{milestones[i].id}}">Download</button> 
               </div>
             </div>
           </div>

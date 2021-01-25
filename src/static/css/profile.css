@@ -85,8 +85,8 @@ b {
   height: 100%;
 }
 .profile-pic-post img {
-  min-height:90%; 
-  max-width:80%;
+  min-height:40px; 
+  max-height:100px;
 }
 .buttons_row {
   display: flex;
@@ -295,7 +295,9 @@ b {
   height:0px; 
   display:none; 
 }
-
+.nav-link {
+  cursor: pointer
+}
 .about-block {
   width:100%;
   max-width:400px;
@@ -307,4 +309,10 @@ b {
 }
 .left {
   float: left;
+}
+.slim-row {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
 }
