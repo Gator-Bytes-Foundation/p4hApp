@@ -113,18 +113,20 @@ def loadNewsFeed():
   # after looping through each post, return the array
   return recentPosts, array_of_comments, proper_date      
 
-
-def handlePost(user_id, request,current_user): 
+'''
+  abstract: Takes in user info on who is posting and where they are posting and adds the post on Canvas
+'''
+def handlePost(user_id, req,current_user): 
   if(current_user.is_anonymous == True):
     abort(Response('Must be logged in to post')) 
   user = User.query.filter_by(id=user_id).first()
   canvas_user = CANVAS.get_user(user.canvasId)
   
-  new_post = str(request.form['text'])
-  userid = str(request.form['userid'])
+  new_post = str(req.form['text'])
+  userid = str(req.form['userid'])
   #attachments_ = []
   try:
-    post_file = (request.files['file']) # check to see if there was files attached
+    post_file = (req.files['file']) # check to see if there was files attached
     print(post_file)
   except:
     post_file = None
@@ -186,9 +188,9 @@ def loadPostComents(post):
   allCommentsMap[str(post.id)] = postComments
   return allCommentsMap
 
-def handleComment(comment_id, request,current_user):
-  #new_comment = request.get_json()["text"]
-  comment_text = request.form['text']
+def handleComment(comment_id, req,current_user):
+  #new_comment = req.get_json()["text"]
+  comment_text = req.form['text']
   print("reply:", comment_text)
   # make post in canvas
   topic = course.get_discussion_topic(comment_id)

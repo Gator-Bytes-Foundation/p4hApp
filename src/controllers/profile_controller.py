@@ -1,22 +1,34 @@
 from src.canvas import * # inject canvas, course objects into file
 from src.models.profile_model import Profile
 from flask import url_for, flash, redirect, request, render_template, send_file
+from src.models.user_model import User, UserFiles
 import requests 
+import base64
+from src import file_upload
 
 def loadProfile(profile,all_users,current_user):
   global edit_mode_on
   edit_mode_on = False
-  print('loading profile')
-  if(profile.canvas_user == None):
-    print("default profile")
-    profile.canvas_user = CANVAS.get_user(1) # if no user_id is passed, we assign current user
+  #print('loading profile')
+  #profile.canvas_user = CANVAS.get_user(1) # if no user_id is passed, we assign current user
 
-  # temp use of global variable
-  #profile_pic = profile.canvas_user.get_avatars()[1] returns dotted pic for some reason
-  if(len(profile.posts) > 0):
-    profile.profile_pic = profile.posts[0].author['avatar_image_url']
-  else: 
-    profile_pic = profile.canvas_user.get_avatars()[1]  
+  # Canvas does not allow external files to change profile pictures
+  #avatar = profile.canvas_user.get_avatars()[1] returns dotted pic for some reason
+  #if(len(profile.posts) > 0):
+    #avatar = profile.posts[0].author['avatar_image_url']
+  #else: 
+
+  avatar = UserFiles.query.filter_by(userId=current_user.id,postId=current_user.canvasId).first()
+  if(avatar): 
+    #print('using avatar from db')
+    #print(avatar)
+    avatarImg = base64.b64encode(avatar.data).decode("utf-8")
+    profile.profile_pic = avatarImg
+  else: # no avatar set 
+    avatarFile = open('src/static/images/profile.png', 'rb').read()
+    avatarImg = base64.b64encode(avatarFile).decode('utf-8')
+    profile.profile_pic = avatarImg  
+
   profile.user = current_user
   print(current_user.username)
   return render_template('profile.html', profile = profile,  current_user = current_user, users = all_users)
@@ -39,8 +51,13 @@ def loadProgress(profile_id):
 def getProgress(request,user_id,assignment_id):
   #int_assignment_id = int(assignment_id)
   assignment = course.get_assignment(assignment_id)
-  submission = assignment.get_submission(user_id)
-  if(submission.attachments != None):
+  try:
+    submission = assignment.get_submission(user_id)
+  except:
+    return False
+
+  print(submission.attachments)
+  if(submission.attachments):
     #for i in range(len(submission.attachments)):
       #print("submission attachment ", submission.attachments[i])
       file_url = submission.attachments[0]['url']
@@ -52,7 +69,7 @@ def getProgress(request,user_id,assignment_id):
       print(submission.attachments[0])
       return submission.attachments[0]
   else:  
-    return abort(Response('Progress has not been uploaded')) 
+    return False 
 
 # admins should be only ones uploading progress
 def updateProgress(request,user_id,assignment_id):
@@ -84,18 +101,35 @@ def updateProgress(request,user_id,assignment_id):
 def updateProfile(req,current_user):
   print('form')
   print(req.form)
+  canvas_user = course.get_user(current_user.canvasId)
+
   name_ = req.form['name']
   school_ = req.form['school']
   email_ = req.form['email']
   phone_ = req.form['phone']
   location_ = req.form['location']
   bio_ = req.form['bio']
-  files = req.files
-  canvas_user = course.get_user(current_user.canvasId)
-  print("file: ",files)
+  avatarUpdate = req.files['avatar'] # check to see if there was profile file attached
+
+  if(avatarUpdate):
+    prevAvatar = UserFiles.query.filter_by(userId=current_user.id,postId=current_user.canvasId).first() # check if avatar already exists
+    print("model: ", prevAvatar)
+    if(prevAvatar):
+      print("updating avatar")
+      prevAvatar.data = avatarUpdate.read()
+      avatar = file_upload.update_files(prevAvatar, files={
+          "userFile": avatarUpdate
+      })
+    else:
+      userFileModel = UserFiles(userId=current_user.id,postId=current_user.canvasId,data=avatarUpdate.read())
+      avatar = file_upload.save_files(userFileModel, files={
+        "userFile": avatarUpdate,
+      })
+
+    
   # TO DO change the db user as well 
-  if(files != None):
-    canvas_user.edit(user = {"avatar":files})
+  if(avatarUpdate != None):
+    canvas_user.edit(user = {"avatar":avatarUpdate}) # not working
   if(name_ != ''):
     canvas_user.edit(user = {"name":name_})
   if(school_ != ''):

@@ -31,11 +31,9 @@ def bad_request(e):
     # note that we set the 404 status explicitly
     return render_template('400.html',error = e), 400
 
-# If a request from client has variable data in it, we handle it here and get the data out of the url before routing the user
-#
 @app.route('/post/<user_id>', methods=['GET', 'POST'])
-def posts(user_id): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
-  print("page loading: ",user_id)
+def posts(user_id): #url being routed is saved to 'user_id' which we can then use to render the name of the html file
+  print("user id: ",user_id)
   print(current_user)
   if(request.method == 'POST'):
     html, post_id = handlePost(user_id, request,current_user)
