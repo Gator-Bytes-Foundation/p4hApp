@@ -81,3 +81,20 @@ $(document).on("click", ".upload", function (e) {
     error: debugJSON
   });
 });
+function downloadMilestone(event) {
+  console.log('progrss');
+    let milestoneId = (event.currentTarget.id).replace('download-',''); // remove unique identifier from html id to extract canvas_assignment id
+    $.ajax({
+        url: 'progress/' + milestoneId,
+        type: 'GET',
+        success: function (data) {
+            alert("Successfully downloaded file")
+        },
+        error: function(err) {
+          alert("No Document Has Been Uploaded")
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+}

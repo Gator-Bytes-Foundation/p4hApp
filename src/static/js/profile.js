@@ -38,20 +38,6 @@ $(function(){
         $('#'+tabName).show();
         evt.currentTarget.className += " active";
     }
-
-    function downloadMilestone(event) {
-        let milestoneId = event.currentTarget.id;
-        $.ajax({
-            url: 'progress/' + milestoneId,
-            type: 'GET',
-            success: function (data) {
-                alert("Successfully downloaded file")
-            },
-            cache: false,
-            contentType: false,
-            processData: false
-        });
-    }
   
   
   /*
