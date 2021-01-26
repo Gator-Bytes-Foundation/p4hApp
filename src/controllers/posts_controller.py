@@ -113,7 +113,9 @@ def loadNewsFeed():
   # after looping through each post, return the array
   return recentPosts, array_of_comments, proper_date      
 
-
+'''
+  abstract: Takes in user info on who is posting and where they are posting and adds the post on Canvas
+'''
 def handlePost(user_id, req,current_user): 
   if(current_user.is_anonymous == True):
     abort(Response('Must be logged in to post')) 
