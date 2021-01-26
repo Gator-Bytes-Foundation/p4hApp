@@ -150,6 +150,7 @@
             <div id="timeline" class="profile-work tab-pane" role="tabpanel">
                 <!-- 1st tab -->
                 <h3>Prowfil Pos</h3>
+                {% if( (profile.canvas_user.id == current_user.canvasId) or (current_user.canvasId == 1)) %} <!-- 1 is admin -->
                 <div id="write_post"> <!-- ID being used for appending posts -->
                     <div style="text-align: center;" class="post_box">
                         <div class="profile_name">
@@ -169,9 +170,9 @@
                         <img id="display-upload-post" class="img-fluid post-pic" />
                     </div>
                 </div>
-                <!-- Post Loop -->
+                {% endif %}
+                <!-- Loading all posts from user's profile -->
                 {% for post in profile.posts %} {% include 'post.html' %} {% endfor %}
-
             </div>
             <table id="about" class="about-block tab-pane" style="display:none" role="tabpanel">
                 <tr class="">

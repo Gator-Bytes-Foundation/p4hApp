@@ -80,9 +80,8 @@ b {
 
 .profile-pic img{
   margin: 0 auto;
-  /*margin-left: -25%; centers the image */
-  width: 100%;
-  height: 100%;
+  max-width:70px; 
+  max-height:70px;
 }
 .profile-pic-post img {
   min-height:40px; 

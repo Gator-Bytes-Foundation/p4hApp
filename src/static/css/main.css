@@ -46,7 +46,9 @@
 .bottom {
     margin-bottom:10px;
 }
-
+.avatar-sm {
+    max-height:20px; 
+}
 
 
   

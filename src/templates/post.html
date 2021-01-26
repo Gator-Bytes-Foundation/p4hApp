@@ -5,7 +5,8 @@
             {% if(post.title == 'Admin' or post.title == 'Announcement' ) %}
             <figure class="thumbnail"><img alt="placeholder" class="img-fluid rounded-circle" src="{{ url_for('static', filename='images/p4h.png') }}" /></figure>
             {% else %}
-            <figure class="thumbnail"> <img alt="placeholder" class="img-fluid rounded-circle" src="{{post.author['avatar_image_url']}}" /> </figure>
+            <!--<figure class="thumbnail"> <img alt="placeholder" class="img-fluid rounded-circle" src="{{post.author['avatar_image_url']}}" /> </figure>-->
+            <figure class="thumbnail"> <img alt="placeholder" class="img-fluid avatar-sm"  src="data:;base64,{{ profile.profile_pic}}" /> </figure>
             {% endif %}
         </div>
         <div class="col-10">
@@ -37,7 +38,8 @@
             <!-- changes from on to off based off "view comments button -->
             <label class="comment_label" for="from"><b>Comments</b></label> {% for j in range(post.comments[(post.id | string)] | length) | reverse %}
             <div class="post_comment">
-                <figure class=" col-2"><img alt="profile picture" class="img-fluid " src="{{post.comments[post.id | string][j].user['avatar_image_url']}}" /></figure>
+                <!--<figure class=" col-2"><img alt="profile picture" class="img-fluid " src="{{post.comments[post.id | string][j].user['avatar_image_url']}}" /></figure>-->
+                <figure class=" col-2"><img alt="profile picture" class="img-fluid avatar-sm" src="data:;base64,{{ profile.profile_pic}}" /></figure>
                 <div class="word_bubble col-10">
                     <!-- posts contain comments organized by post id (which is casted to string) and itterates through all comments -->
                     <p class=""><b>{{post.comments[post.id | string][j].user["display_name"]}}:</b><br> {{post.comments[(post.id | string)][j].message}}</p>
