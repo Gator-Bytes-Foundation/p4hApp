@@ -9,6 +9,11 @@ from src.canvas import CANVAS, course # inject canvas, course objects into file
 from src.routes.profile_routes import profile
 ''' Import Needed Libraries ''' 
 import requests
+from requests import sessions
+from rocketchat_API.rocketchat import RocketChat
+from src.canvas import ROCKET_URL, ROCKET
+
+
 
 
 # LOGGING IN AND SIGNING REQUESTS #
@@ -34,7 +39,9 @@ def login():
     return redirect(url_for('profile'))
   
   form = LoginForm()
-  if form.validate_on_submit():   
+  if form.validate_on_submit():  
+
+    #rocket_res = ROCKET.login(form.username.data,form.password.data)
     user = User.query.filter_by(username=form.username.data).first() # query db
     if(not user): print("User not found")
     print('current user: ', user)
@@ -44,7 +51,7 @@ def login():
       
     if(user and user.canvasId == None):
       user.canvasId = CANVAS.get_user(1) 
-
+    
     login_user(user, remember=form.remember_me.data)
     flash('Logged in successfully.')
     next = request.args.get('next')
