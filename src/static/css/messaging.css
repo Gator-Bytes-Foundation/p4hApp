@@ -7,7 +7,9 @@
     height: 100%;
     width: 100%;
 }
-
+.messaging-height {
+    height:800px;
+}
 .container {
     max-width: 1170px;
     margin: auto;

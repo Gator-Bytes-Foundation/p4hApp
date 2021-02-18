@@ -7,9 +7,12 @@ from sqlalchemy import exc
 from src import db
 from src.models.user_model import User
 from src.canvas import CANVAS, course # inject canvas, course objects into file
+from rocketchat_API.rocketchat import RocketChat
 import ftplib
 
+  
 
+  
 #from user_model import *
 
 #current_user = User(id = 0, sis_user_id = '', login_id = '', email = '', avatar_url = '', bio = '')  # globalize current user as it will need to stay consistent throughout application
@@ -56,17 +59,8 @@ class SignUpForm(FlaskForm):
           'email':email
       }
 
-      try:
-        canvas_user = account.create_user(pseudonym, user=user)
-        print("canvas user created")
-      except Exception as e: # work on python 3.x
-        error = str(e)
-        error = error.replace("{","").replace("}","").replace('"','')
-        return render_template('signup.html', title='signUp', form=form, error=error)
-
-      #add user in DB
-      #profilePicFile = open("../static/images/profile.png", "r")
-      newUser = User(username=form.username.data,email=form.email.data,canvasId=canvas_user.id) #,profilePic__file_name="profile.png")
+      # 1st add user in DB
+      newUser = User(username=username,email=email,canvasId=canvas_user.id) #,profilePic__file_name="profile.png")
       newUser.set_password(form.password.data)
 
       db.session.add(newUser)
@@ -77,6 +71,23 @@ class SignUpForm(FlaskForm):
         db.session.rollback()
         if('UNIQUE constraint' in e.message):
           print("Identical user")
+      # 2nd add user in canvas 
+      try:
+        canvas_user = account.create_user(pseudonym, user=user)
+        print("canvas user created")
+      except Exception as e: # work on python 3.x
+        error = str(e)
+        error = error.replace("{","").replace("}","").replace('"','')
+        return render_template('signup.html', title='signUp', form=form, error=error)
+
+      # 3rd add user in rocket chat (To do: if rocket chat fails, canvas and DB needs to delete new user)
+      try:
+        rocket_user = ROCKET.users_create(email,fname,password,username)
+        #ROCKET.login
+      except Exception as e:
+        error = str(e)
+        error = error.replace("{","").replace("}","").replace('"','')
+        return render_template('signup.html', title='signUp', form=form, error=error)
 
       login_user(newUser) 
       #flash('Congratulations, you are now a registered user!')
@@ -85,22 +96,11 @@ class SignUpForm(FlaskForm):
         'unique_id': username
       }      
       #login = account.create_user_login(user,login_info)
+
+      
       return redirect(url_for('login')) 
     else:
       return render_template('signup.html', title='signUp', form=form)
-
-    ''' temp disabled until rocket chat is reconfigured 
-    signupSuccess, current_user, rocket_user =  newUser(request)
-    if(signupSuccess):
-      #try:
-        user_profile = loadPosts(current_user.id,0,9)
-        return loadProfile(user_profile, all_users,current_user)
-      #except:
-        #return render_template('signup.html', error = "profile could not be loaded",  current_user =   current_user, users = None)
-    else:
-      return render_template('signup.html', error = current_user,  current_user = None, users = None)
-    rocket_user = rocket.users_create(email,fname,password,username)
-    '''
 
 class LoginForm(FlaskForm):
   username = StringField('Username', validators=[DataRequired()])
@@ -125,20 +125,11 @@ class LoginForm(FlaskForm):
     for user in all_users:
       if(result is not None):
         #print(user, " and ", result["username"])
-        if(user.login_id == result["username"]):
-          #print(user.sis_user_id, " and ", result["password"])
-          # found user with login id
-          if(user.sis_user_id == result["password"]): # temp storage of passwords TODO: OAUTH
-            # user password matches
-            current_user = user # current user object is set
-            globals()['current_user'] = current_user
-            return current_user # we login the user
-          else:
-            #incorrect password 
-            error = "Incorrect Password"
-            return False #return login page
-        else:
-          # no username exists
+        if(user.login_id == result["username"]): # found user with login id
+          current_user = user # current user object is set
+          globals()['current_user'] = current_user
+          return current_user # we login the user
+        else: # no username exists
           error = "There is no user with that username"
       # if loop ends, render with error message
     return False #return login page  

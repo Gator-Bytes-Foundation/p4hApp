@@ -6,6 +6,7 @@
 <html>
 
 <head>
+    <link  rel="stylesheet" href="{{ url_for('static', filename='css/messaging.css') }}" ></link>
     <style>
         body,
         html {
@@ -17,15 +18,14 @@
 </head>
 
 <body>
-    <div class="full_width_height">
+    <div class="">
         <h3 class="text-center">Messaging</h3>
-        <div class="full_width_height">
-            <iframe class="full_width_height" src="https://messaging.p4hteach.org/directory/channels"></iframe>
+        <div >
+            <iframe class="full_width_height messaging-height" src="https://messaging.p4hteach.org/directory/channels"></iframe>
         </div>
     </div>
 </body>
 
 </html>
-<script src="{{ url_for('static', filename='src/js/messaging.js') }}"></script>
 {% endblock %}
 <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
