@@ -37,7 +37,7 @@ def profile(*args):
   except:
     error = "Canvas server is currently down"
     return 400
-
+  print(rocket_res)
   if(len(args) > 0):
     user = User.query.filter_by(canvasId=args[0]).first()
   else: user = current_user
@@ -47,7 +47,7 @@ def profile(*args):
   print('current user: ')
   print(current_user.canvasId)
   # Brings user to their profile view
-  return loadProfile(user_profile, all_canvas_users,current_user)
+  return loadProfile(user_profile, all_canvas_users,current_user,rocket_res)
 
 
 @app.route('/profile', methods=['POST'])

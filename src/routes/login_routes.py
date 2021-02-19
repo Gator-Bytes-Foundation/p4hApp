@@ -41,7 +41,6 @@ def login():
   form = LoginForm()
   if form.validate_on_submit():  
 
-    #rocket_res = ROCKET.login(form.username.data,form.password.data)
     user = User.query.filter_by(username=form.username.data).first() # query db
     if(not user): print("User not found")
     print('current user: ', user)
@@ -53,6 +52,9 @@ def login():
       user.canvasId = CANVAS.get_user(1) 
     
     login_user(user, remember=form.remember_me.data)
+    global rocket_res
+    rocket_res = ROCKET.login(form.username.data,form.password.data)
+
     flash('Logged in successfully.')
     next = request.args.get('next')
     #if not is_safe_url(next,{"http://localhost:5000", "p4hteach.org", "www.p4hteach.org"}):
