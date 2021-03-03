@@ -7,12 +7,13 @@ from src.models.user_model import User
 from src.controllers.login_controller import LoginForm, loadHome, SignUpForm
 from src.canvas import CANVAS, course # inject canvas, course objects into file
 from src.routes.profile_routes import profile
+from src.controllers.posts_controller import loadPosts
 ''' Import Needed Libraries ''' 
 import requests
 from requests import sessions
 from rocketchat_API.rocketchat import RocketChat
 from src.canvas import ROCKET_URL, ROCKET
-
+from src.controllers.profile_controller import loadProfile
 
 
 
@@ -52,14 +53,21 @@ def login():
       user.canvasId = CANVAS.get_user(1) 
     
     login_user(user, remember=form.remember_me.data)
-    global rocket_res
     rocket_res = ROCKET.login(form.username.data,form.password.data)
-
+    print(rocket_res.json().get("data"))
+    rocket_user = rocket_res.json().get("data")
     flash('Logged in successfully.')
     next = request.args.get('next')
     #if not is_safe_url(next,{"http://localhost:5000", "p4hteach.org", "www.p4hteach.org"}):
         #return abort(400)    
-    return redirect(url_for('profile'))    
+    try:
+      all_canvas_users = list(course.get_users())
+    except:
+      error = "Canvas server is currently down"
+      return json.dumps({'success':False}), 400, {'ContentType':False}
+    profile = loadPosts(user)   
+    return loadProfile(profile, all_canvas_users,current_user,rocket_user)
+    #return redirect(url_for('profile'))    
     
   else : #if login form hasn't been sumbitted yet
     return render_template('./login/login.html', title='login',  form=form)

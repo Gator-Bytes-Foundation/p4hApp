@@ -8,11 +8,20 @@ PROFILE TABS
 
 */
 // Dictates which view is seen by clickng on the tabs
-$(function(){
+$(document).ready( function () {
     // DOM Ready - do your stuff 
     $("#timeline-tab").addClass("active");
     $("#timeline-tab").addClass("show");
-  
+    //let test = {{rocket_user}};
+    
+    //var test = JSON.parse(document.getElementById("rocket_user").dataset.rocket);
+    var token = document.getElementById("rocket_user_auth").dataset.rocket;
+    var userId = document.getElementById("rocket_user_userId").dataset.userid;
+    //console.log(test);
+    //let rocketLocalStorage = $("#rocket_user").name; 
+    console.log('userId: ' + userId + ' token ' + token);
+    localStorage.setItem('Meteor.loginToken', token);
+    localStorage.setItem('Meteor.userId', userId);
     /* Upload Profile File  */
   // when upload icon is clicked, trigger the file browser input (the input is hidden visually but can be "clicked" on)
     /*$(".upload_icon").on('click', function (e) {
@@ -21,25 +30,45 @@ $(function(){
     });
   
   */
-  });
-    //  When user clicks on tab, this code will be executed
-    function openTab(evt, tabName) {
-        console.log(tabName);
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tab-pane");
-        for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-        }
-        tablinks = document.getElementsByClassName("nav-link");
-        for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace("active", "");
-        }
-        //$('#'+tabName).css('display', 'block');
-        $('#'+tabName).show();
-        evt.currentTarget.className += " active";
+   /*
+  
+  WINDOW CLICKS
+  
+    */
+  window.onclick = function (event) {
+    const list_of_items = document.getElementsByClassName("list_of_items");
+    const edit_menu = document.getElementsByClassName("overlayBlock")[0];
+    if (!event.target.matches("list_of_items")) {
+      // cancels dropdown box if clicked somewhere outside of dropdown box
+      if (list_of_items[0].style.display == "block") {
+        cancelDropDown();
+      }
     }
-  
-  
+    // minimizes the edit profile menu when clicking out of it
+    if (
+      !edit_menu.contains(event.target) &&
+      !event.target.matches("#edit_profile")
+    ) {
+      cancelExitMenu();
+    }
+  };
+});
+  //  When user clicks on tab, this code will be executed
+  function openTab(evt, tabName) {
+      console.log(tabName);
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tab-pane");
+      for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("nav-link");
+      for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace("active", "");
+      }
+      //$('#'+tabName).css('display', 'block');
+      $('#'+tabName).show();
+      evt.currentTarget.className += " active";
+  }
   /*
   
   EDIT PROFILE MENU 
@@ -176,28 +205,6 @@ $(function(){
         processData: false
     });
   });
-  /*
-  
-  WINDOW CLICKS
-  
-  */
-  window.onclick = function (event) {
-    const list_of_items = document.getElementsByClassName("list_of_items");
-    const edit_menu = document.getElementsByClassName("overlayBlock")[0];
-    if (!event.target.matches("list_of_items")) {
-      // cancels dropdown box if clicked somewhere outside of dropdown box
-      if (list_of_items[0].style.display == "block") {
-        cancelDropDown();
-      }
-    }
-    // minimizes the edit profile menu when clicking out of it
-    if (
-      !edit_menu.contains(event.target) &&
-      !event.target.matches("#edit_profile")
-    ) {
-      cancelExitMenu();
-    }
-  };
-  
+
   
   

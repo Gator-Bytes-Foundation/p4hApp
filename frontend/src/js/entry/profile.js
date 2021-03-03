@@ -7,11 +7,19 @@
 PROFILE TABS
 
 */
+
+console.log('test2');
 // Dictates which view is seen by clickng on the tabs
-$(function(){
+$(document).ready( function () {
+  console.log('test');
   // DOM Ready - do your stuff 
   $("#timeline-tab").addClass("active");
   $("#timeline-tab").addClass("show");
+
+  let rocketLocalStorage = $("#rocket_user").name; 
+  console.log('profile: ' + rocketLocalStorage);
+  window.localStorage.setItem("rocket_login", rocketLocalStorage);
+});
 
   /* Upload Profile File  
 // when upload icon is clicked, trigger the file browser input (the input is hidden visually but can be "clicked" on)
@@ -38,7 +46,6 @@ $(function(){
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.className += " active";
   }
-});
 
 
 

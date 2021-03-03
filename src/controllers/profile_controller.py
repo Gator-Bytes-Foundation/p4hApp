@@ -6,7 +6,7 @@ import requests
 import base64
 from src import file_upload
 
-def loadProfile(profile,all_users,current_user):
+def loadProfile(profile,all_users,current_user,rocket_user):
   global edit_mode_on
   edit_mode_on = False
   #print('loading profile')
@@ -30,8 +30,8 @@ def loadProfile(profile,all_users,current_user):
     profile.profile_pic = avatarImg  
 
   profile.user = current_user
-  print(current_user.username)
-  return render_template('profile.html', profile = profile,  current_user = current_user, users = all_users)
+  print(rocket_user['userId'])
+  return render_template('profile.html', profile = profile,  current_user = current_user, users = all_users,rocket_user = rocket_user)
 
 def loadProgress(profile_id):
   # permission = checkUserPermission() to do 

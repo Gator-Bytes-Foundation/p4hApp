@@ -12,7 +12,7 @@ from requests import sessions
 global API_URL
 
 API_URL = "https://admin.p4hteach.org"
-ROCKET_URL = "https://open.rocket.chat"
+ROCKET_URL = "https://messaging.p4hteach.org"
 
 # Canvas API key
 API_KEY = "VZTgalVB2FygzDpduVL10t0KAqC5bY0spLWJFARMDKub7mEnEhydo4Rsh3GYwd7D" #secrets.get("canvas_api_key")
@@ -39,8 +39,8 @@ class Config(object):
 
 
 with sessions.Session() as session:
-    rocket = RocketChat(
-        "lcundiff@ufl.edu",
+    ROCKET = RocketChat(
+        "logancundiff2@gmail.com",
         #secrets.get("rocket_chat_email"),
         "NF!Deku2",
         #secrets.get("rocket_chat_password"),

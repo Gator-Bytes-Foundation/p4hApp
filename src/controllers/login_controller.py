@@ -6,7 +6,7 @@ from flask_login import login_user, logout_user, current_user
 from sqlalchemy import exc
 from src import db
 from src.models.user_model import User
-from src.canvas import CANVAS, course # inject canvas, course objects into file
+from src.canvas import CANVAS, course,ROCKET # inject canvas, course objects into file
 from rocketchat_API.rocketchat import RocketChat
 import ftplib
 
@@ -58,20 +58,7 @@ class SignUpForm(FlaskForm):
           'sortable_name': lname,
           'email':email
       }
-
-      # 1st add user in DB
-      newUser = User(username=username,email=email,canvasId=canvas_user.id) #,profilePic__file_name="profile.png")
-      newUser.set_password(form.password.data)
-
-      db.session.add(newUser)
-      try:
-        #newUser.save()
-        db.session.commit()
-      except exc.IntegrityError as e: 
-        db.session.rollback()
-        if('UNIQUE constraint' in e.message):
-          print("Identical user")
-      # 2nd add user in canvas 
+      # 1st add user in canvas 
       try:
         canvas_user = account.create_user(pseudonym, user=user)
         print("canvas user created")
@@ -80,7 +67,7 @@ class SignUpForm(FlaskForm):
         error = error.replace("{","").replace("}","").replace('"','')
         return render_template('signup.html', title='signUp', form=form, error=error)
 
-      # 3rd add user in rocket chat (To do: if rocket chat fails, canvas and DB needs to delete new user)
+      # 2nd add user in rocket chat (To do: if rocket chat fails, canvas and DB needs to delete new user)
       try:
         rocket_user = ROCKET.users_create(email,fname,password,username)
         #ROCKET.login
@@ -88,6 +75,20 @@ class SignUpForm(FlaskForm):
         error = str(e)
         error = error.replace("{","").replace("}","").replace('"','')
         return render_template('signup.html', title='signUp', form=form, error=error)
+
+      # 3rd add user in DB
+      newUser = User(username=username,email=email,canvasId=canvas_user.id) #,profilePic__file_name="profile.png")
+      newUser.set_password(form.password.data)
+
+      db.session.add(newUser)
+      try: 
+        db.session.commit() # newUser.save()
+      except exc.IntegrityError as e: 
+        db.session.rollback()
+        if('UNIQUE constraint' in e.message):
+          print("Identical user")
+
+
 
       login_user(newUser) 
       #flash('Congratulations, you are now a registered user!')

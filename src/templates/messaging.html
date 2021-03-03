@@ -21,11 +21,24 @@
     <div class="">
         <h3 class="text-center">Messaging</h3>
         <div >
-            <iframe class="full_width_height messaging-height" src="https://messaging.p4hteach.org/directory/channels"></iframe>
+            <iframe id="rocketchatiframe" class="full_width_height messaging-height" src="https://messaging.p4hteach.org/directory/channels/?layout=embedded"></iframe>
         </div>
     </div>
 </body>
-
+<script>
+    function authenticateIFrame() {
+        let rocket_token = localStorage.getItem("Meteor.loginToken");
+        console.log(rocket_token);
+        document.getElementById('rocketchatiframe').contentWindow.postMessage({
+            externalCommand: 'login-with-token',
+            token: rocket_token
+        }, '*'); // rocket.chat's URL
+        //Meteor.loginWithPassword('lcundiff', 'NF!Deku2');
+    }
+    window.onload = function () {
+        authenticateIFrame();
+    };
+</script>
 </html>
 {% endblock %}
 <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->

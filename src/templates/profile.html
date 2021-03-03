@@ -3,7 +3,7 @@
 {% block content %}
 <link  rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}" ></link>
 <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html) -->
-<div id="entire_profile" class="container emp-profile">
+<div id="entire_profile" class="container emp-profile" onload="window.localStorage.setItem('rocket_login', rocket_user['authToken']); console.log(rocket_user['authToken']);">
 
     <!-- MODAL OVERLAY FOR EDIT PROFILE -->
     <div id="edit_menu" style="display:none;" class="backgroundOverlay">
@@ -15,8 +15,8 @@
                         <h3>Edit Menu</h3>
                     </div>
                     <div class="row">
-                        <div class="col-4 col-sm-3">
-                            <p>Profile Name:</p>
+                        <div class="col-4 col-sm-3" >
+                            <p>Profile Name: }</p>
                         </div>
                         <div class="col-8">
                             <textarea class="text_box" name="name" id="profile_name" style="width: 100%;" placeholder="{{profile.canvas_user.name}}" size="5"></textarea>
@@ -180,7 +180,7 @@
                         <label>User Id: </label>
                     </td>
                     <td class="left">
-                        <div>{{profile.user.id}}</div>
+                        <div  >{{profile.user.id}}</div>
                     </td>
                 </tr>
                 <tr class="">
@@ -188,7 +188,7 @@
                         <label>Name: </label>
                     </td>
                     <td class="left">
-                        <div>{{profile.canvas_user.name}}</div>
+                        <div id="rocket_user_auth" data-rocket="{{rocket_user['authToken']}}">{{profile.canvas_user.name}}</div>
                     </td>
                 </tr>
                 <tr class="">
@@ -196,7 +196,7 @@
                         <label>Email: </label>
                     </td>
                     <td class="left">
-                        <div>{{profile.user.email}}</div>
+                        <div id="rocket_user_userId"  data-userid="{{rocket_user['userId']}}">{{profile.user.email}}</div>
                     </td>
                 </tr>
                 <tr class="">
