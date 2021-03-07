@@ -7,8 +7,6 @@ import base64
 from src import file_upload
 
 def loadProfile(profile,all_users,current_user,rocket_user):
-  global edit_mode_on
-  edit_mode_on = False
   #print('loading profile')
   #profile.canvas_user = CANVAS.get_user(1) # if no user_id is passed, we assign current user
 
@@ -30,7 +28,7 @@ def loadProfile(profile,all_users,current_user,rocket_user):
     profile.profile_pic = avatarImg  
 
   profile.user = current_user
-  print(rocket_user['userId'])
+  #print(rocket_user['userId'])
   return render_template('profile.html', profile = profile,  current_user = current_user, users = all_users,rocket_user = rocket_user)
 
 def loadProgress(profile_id):
@@ -66,7 +64,7 @@ def getProgress(request,user_id,assignment_id):
 
       #file_to_download.download(file_to_download.filename) # download each file associated with assignment submission 
       #return file_to_download
-      print(submission.attachments[0])
+      #print(submission.attachments[0])
       return submission.attachments[0]
   else:  
     return False 
@@ -99,8 +97,8 @@ def updateProgress(request,user_id,assignment_id):
     #return False
 
 def updateProfile(req,current_user):
-  print('form')
-  print(req.form)
+  #print('form')
+  #print(req.form)
   canvas_user = course.get_user(current_user.canvasId)
 
   name_ = req.form['name']
@@ -113,7 +111,7 @@ def updateProfile(req,current_user):
 
   if(avatarUpdate):
     prevAvatar = UserFiles.query.filter_by(userId=current_user.id,postId=current_user.canvasId).first() # check if avatar already exists
-    print("model: ", prevAvatar)
+    #print("model: ", prevAvatar)
     if(prevAvatar):
       print("updating avatar")
       prevAvatar.data = avatarUpdate.read()

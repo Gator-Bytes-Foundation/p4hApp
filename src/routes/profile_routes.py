@@ -41,20 +41,17 @@ def profile(*args):
     user = User.query.filter_by(canvasId=args[0]).first()
   else: user = current_user
   # args[0] holds user id to look up if it exists
-  
+  rocket_user = {}
   user_profile = loadPosts(user)     
-  print('current user: ')
-  print(current_user.canvasId)
-  rocket_res = {}
   # Brings user to their profile view
-  return loadProfile(user_profile, all_canvas_users,current_user,rocket_res)
+  return loadProfile(user_profile, all_canvas_users,current_user,rocket_user)
 
 
 @app.route('/profile', methods=['POST'])
 @login_required
 def saveProfile():
-  print('request: ')
-  print(request)
+  #print('request: ')
+  #print(request)
   updateProfile(request,current_user)
   return profile() # this isnt efficient since it reloads the entire page from scratch
 

@@ -14,7 +14,7 @@ function getPostData(id) {
   formData.append("text", value);
   console.log('{{profile.canvas_user.id}}');
   const input = document.getElementById("upload-" + id); // grabs the right file by ID
-  if (input != null) {
+  if (input && input.files) {
     files = input.files[0];
     formData.append("file", files);
   }
@@ -104,7 +104,7 @@ window.onclick = function (event) {
   const edit_menu = document.getElementsByClassName("overlayBlock")[0];
   if (!event.target.matches("list_of_items")) {
     // cancels dropdown box if clicked somewhere outside of dropdown box
-    if (list_of_items[0].style.display == "block") {
+    if (list_of_items && list_of_items[0].style.display == "block") {
       cancelDropDown();
     }
   }
@@ -128,14 +128,14 @@ $('input[type="file"]').on("change", function (e) {
 
   var id = e.currentTarget.id;
   input = document.getElementById(id); // grabs the right file by ID
-  file = input.files[0];
+  file = input.files? input.files[0] : {};
   console.log("file");
-  if (
+  if ( file && (
     file.name.includes(".jpg") ||
     file.name.includes(".png") ||
     file.name.includes(".pdf") ||
     file.name.includes(".webp")
-  ) {
+  )) {
     console.log("is an image");
     var reader = new FileReader();
     reader.onload = function (e) {

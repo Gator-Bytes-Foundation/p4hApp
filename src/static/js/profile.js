@@ -17,11 +17,12 @@ $(document).ready( function () {
     //var test = JSON.parse(document.getElementById("rocket_user").dataset.rocket);
     var token = document.getElementById("rocket_user_auth").dataset.rocket;
     var userId = document.getElementById("rocket_user_userId").dataset.userid;
-    //console.log(test);
-    //let rocketLocalStorage = $("#rocket_user").name; 
-    console.log('userId: ' + userId + ' token ' + token);
-    localStorage.setItem('Meteor.loginToken', token);
-    localStorage.setItem('Meteor.userId', userId);
+    if(userId && token) {
+      console.log('userId: ' + userId + ' token ' + token);
+      localStorage.setItem('Meteor.loginToken', token);
+      localStorage.setItem('Meteor.userId', userId);
+    }
+
     /* Upload Profile File  */
   // when upload icon is clicked, trigger the file browser input (the input is hidden visually but can be "clicked" on)
     /*$(".upload_icon").on('click', function (e) {

@@ -14,6 +14,12 @@ import $ from "jquery";*/
 
 window.$ = $;
 
+$(function(){
+
+    //localStorage.setItem("keyName", variable);
+});
+
+
 // handle posts
 $(".nav-item").mouseover(function(e) {
     $(this).addClass("pulse");
@@ -46,14 +52,14 @@ $('input[type="file"]').on("change", function(e) {
 
     let id = e.currentTarget.id;
     let input = document.getElementById(id); // grabs the right file by ID
-    let file = input.files[0];
+    let file = input.files? input.files[0] : undefined;
     console.log(id);
-    if (
+    if ( file && file.name && (
         file.name.includes(".jpg") ||
         file.name.includes(".png") ||
         file.name.includes(".pdf") ||
         file.name.includes(".webp")
-    ) {
+    )) {
         console.log("is an image" + id);
         var reader = new FileReader();
         reader.onload = function(e) {
@@ -70,7 +76,7 @@ function getPostData(id, userId) {
     formData.append("text", value);
     const input = document.getElementById("input-upload-" + id); // grabs the right file by ID
     if (input != null && input.files.length > 0) {
-        let files = input.files[0];
+        let files = input.files? input.files[0] : {};
         formData.append("file", files);
     }
     formData.append("userid", userId);

@@ -1,4 +1,4 @@
-/**
+    /**
  * This is the main JS file that will get loaded on every page
  
 
@@ -82,6 +82,7 @@ $("#post").on("click", function(e) {
         url: "/post/" + userId,
         data: formData,
         cache: false,
+        contentType: false,
         processData: false,
         dataType: "text",
         success: function(data) {
@@ -106,11 +107,10 @@ $("#post").on("click", function(e) {
                 }
             }
         },
-        error: function(data, err, exception) {
-            const response = eval(data);
-            const post = JSON.stringify(response);
-            console.log(data);
-            console.log(exception);
+        error: function(xhr, status, error) {
+            let err = "error " + xhr.responseText;
+            //console.log('error due to: ' + error);
+            console.log(error);
         }
     });
 });

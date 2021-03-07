@@ -6,10 +6,6 @@ from src import file_upload
 from src import db
 import base64
 
-#
-# Post class controls all methods regarding a profile post or announcemnt post
-# 
-
 
 
 
@@ -37,9 +33,9 @@ def loadPosts(user):
     
   # loop through all profile posts
   for i in range(end_index):
-    title = user.username + ' ' + str(canvas_id) #used to identify user in canvas
-    print(title + ' title: ' + posts[i].title)
-    if(posts[i].title == title and posts[i].message is not None): #only shows posts that the user has posted
+    currentUser = user.username + '-' + str(canvas_id) #used to identify user in canvas
+    print('current user: ' + currentUser + ' title: ' + posts[i].title)
+    if(posts[i].title == currentUser and posts[i].message is not None): #only shows posts that the user has posted
       
       posts[i].message = posts[i].message.replace('</p>', '').replace('<p>', '')
       # format date info 
@@ -54,8 +50,8 @@ def loadPosts(user):
       if(len(posts[i].files) > 0): 
         
         image_data = base64.b64encode(posts[i].files[0].data).decode("utf-8")
-        print('file data: ')
-        print(posts[i].files[0])
+        #print('file data: ')
+        #print(posts[i].files[0])
         posts[i].img = image_data
       
       #posts[i].avatar = posts[i].canvas_user.get_avatars()[1].url
@@ -67,8 +63,8 @@ def loadPosts(user):
   profile.posts = recentPosts
   profile.user = user
   profile.canvas_user = CANVAS.get_user(canvas_id)
-  #print('posts: ')
-  #print(profile.posts)
+  print('posts: ')
+  print(profile.posts)
   return profile
 #
 # Function will extract 'Admin' posts from discussion page on canvas and load them to Announcement page
@@ -117,27 +113,27 @@ def loadNewsFeed():
   abstract: Takes in user info on who is posting and where they are posting and adds the post on Canvas
 '''
 def handlePost(user_id, req,current_user): 
+  
   if(current_user.is_anonymous == True):
     abort(Response('Must be logged in to post')) 
   user = User.query.filter_by(id=user_id).first()
-  canvas_user = CANVAS.get_user(user.canvasId)
-  
-  new_post = str(req.form['text'])
-  userid = str(req.form['userid'])
-  #attachments_ = []
+  print(current_user.username + ' is posting on ' + user.username + ' profile')
+  canvas_user = CANVAS.get_user(current_user.canvasId)
+  print(req.form['text'])
+  new_post = req.form['text']
+  print('testomg')
   try:
     post_file = (req.files['file']) # check to see if there was files attached
-    print(post_file)
   except:
+    print('no file attached')
     post_file = None
 
-  print(post_file)
+  #print(post_file)
   # make post in canvas
-  if(False):
-    title = 'Announcement'
-  else:
-    title = current_user.username + ' ' + str(user.canvasId)
-
+  print(current_user.username)
+  print(str(current_user.canvasId))
+  title = current_user.username + ' ' + str(current_user.canvasId)
+  print(str(current_user.canvasId))
   post = course.create_discussion_topic(
       title = title,
       user_name = canvas_user.name,
@@ -147,6 +143,7 @@ def handlePost(user_id, req,current_user):
       published = True,
       #attachments = post_file,
   )
+  
   if(post_file is not None):
     userFileModel = UserFiles(userId=current_user.id,postId=post.id,data=post_file.read(),userFile__file_name=post_file.filename)
     #db.session.add(userFileModel)
@@ -155,8 +152,6 @@ def handlePost(user_id, req,current_user):
     userFile = file_upload.save_files(userFileModel, files={
       "userFile": post_file,
     })
-  
-  print(post.id)
   #print("current post ", vars(post))
   #post.attachments = post_file
   #post = post.update(discussion_topic = {'attachment' : post_file})
@@ -191,7 +186,7 @@ def loadPostComents(post):
 def handleComment(comment_id, req,current_user):
   #new_comment = req.get_json()["text"]
   comment_text = req.form['text']
-  print("reply:", comment_text)
+  #print("reply:", comment_text)
   # make post in canvas
   topic = course.get_discussion_topic(comment_id)
   comment = topic.post_entry(

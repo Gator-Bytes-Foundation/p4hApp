@@ -51,7 +51,7 @@ def login():
       
     if(user and user.canvasId == None):
       user.canvasId = CANVAS.get_user(1) 
-    
+    #print(form.remember_me.data)
     login_user(user, remember=form.remember_me.data)
     rocket_res = ROCKET.login(form.username.data,form.password.data)
     print(rocket_res.json().get("data"))
