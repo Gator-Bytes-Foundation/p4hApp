@@ -49,6 +49,10 @@
 .avatar-sm {
     max-height:20px; 
 }
+input[type='checkbox'] {
+    transform: scale(1.5);
+    margin:5px;
+}
 
 
   

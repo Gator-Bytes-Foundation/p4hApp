@@ -32,7 +32,7 @@ class SignUpForm(FlaskForm):
   username = StringField('Username', validators=[DataRequired()])
   email = StringField('Email', validators=[DataRequired()])
   password = PasswordField('Password', validators=[DataRequired()])
-  admin = BooleanField('Is Admin')
+  admin = BooleanField('Are you an Administrator?')
   submit = SubmitField('Sign Up')
 
   def makeUser(self):

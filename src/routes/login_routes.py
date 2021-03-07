@@ -45,7 +45,7 @@ def login():
     user = User.query.filter_by(username=form.username.data).first() # query db
     if(not user): print("User not found")
     print('current user: ', user)
-    if(user is None or not user.check_password(form.password.data)):
+    if not user or not user.check_password(user.password_hash,form.password.data):
       flash('Invalid username or password')
       return redirect(url_for('login'))
       

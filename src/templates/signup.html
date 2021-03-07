@@ -51,7 +51,10 @@
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-        <p type="radio" id="userType" class="fadeIn second" >{{ form.admin }}</p>
+        <p type="radio" id="userType" class="fadeIn second" >
+          {{form.admin.label}}
+          {{ form.admin }}
+        </p>
         <p class="fadeIn fourth" >{{ form.submit() }}</p>       
     </form>
 
