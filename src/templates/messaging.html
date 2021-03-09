@@ -21,22 +21,27 @@
     <div class="">
         <h3 class="text-center">Messaging</h3>
         <div >
-            <iframe id="rocketchatiframe" class="full_width_height messaging-height" src="https://messaging.p4hteach.org/directory/channels/?layout=embedded"></iframe>
+            <iframe id="rocketchatiframe" class="full_width_height messaging-height" src="https://messaging.p4hteach.org?layout=embedded"></iframe>
         </div>
     </div>
 </body>
 <script>
-    function authenticateIFrame() {
-        let rocket_token = localStorage.getItem("Meteor.loginToken");
-        console.log(rocket_token);
-        document.getElementById('rocketchatiframe').contentWindow.postMessage({
+    //function authenticateIFrame() {
+    let rocket_token = localStorage.getItem("rocket_token");
+    //console.log(document.getElementById('rocketchatiframe').contentWindow);
+    let iframe = document.getElementById('rocketchatiframe');
+    iframe.onload = function() {
+        
+        iframe.contentWindow.postMessage({
             externalCommand: 'login-with-token',
-            token: rocket_token
+            token: rocket_token,
         }, '*'); // rocket.chat's URL
-        //Meteor.loginWithPassword('lcundiff', 'NF!Deku2');
+        console.log(rocket_token);
+    //Meteor.loginWithPassword('lcundiff', 'NF!Deku2');
     }
+    //}
     window.onload = function () {
-        authenticateIFrame();
+        //authenticateIFrame();
     };
 </script>
 </html>

@@ -8,20 +8,21 @@ PROFILE TABS
 
 */
 // Dictates which view is seen by clickng on the tabs
-$(document).ready( function () {
-    // DOM Ready - do your stuff 
-    $("#timeline-tab").addClass("active");
-    $("#timeline-tab").addClass("show");
-    //let test = {{rocket_user}};
-    
-    //var test = JSON.parse(document.getElementById("rocket_user").dataset.rocket);
-    var token = document.getElementById("rocket_user_auth").dataset.rocket;
-    var userId = document.getElementById("rocket_user_userId").dataset.userid;
-    if(userId && token) {
-      console.log('userId: ' + userId + ' token ' + token);
-      localStorage.setItem('Meteor.loginToken', token);
-      localStorage.setItem('Meteor.userId', userId);
-    }
+(function() {
+  $("#timeline-tab").addClass("active");
+  $("#timeline-tab").addClass("show");
+  //let test = {{rocket_user}};
+  
+  //var test = JSON.parse(document.getElementById("rocket_user").dataset.rocket);
+  var token = document.getElementById("rocket_user_auth").dataset.rocket;
+  var userId = document.getElementById("rocket_user_userId").dataset.userid;
+  if(userId && token) {
+    console.log('userId: ' + userId + ' token ' + token);
+    localStorage.setItem('rocket_token', token);
+    localStorage.setItem('Meteor.userId', userId);
+  }
+})();    // DOM Ready - do your stuff 
+
 
     /* Upload Profile File  */
   // when upload icon is clicked, trigger the file browser input (the input is hidden visually but can be "clicked" on)
@@ -53,7 +54,6 @@ $(document).ready( function () {
       cancelExitMenu();
     }
   };
-});
   //  When user clicks on tab, this code will be executed
   function openTab(evt, tabName) {
       console.log(tabName);
