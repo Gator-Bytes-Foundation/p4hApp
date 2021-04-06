@@ -33,7 +33,7 @@ def loadPosts(user):
     
   # loop through all profile posts
   for i in range(end_index):
-    currentUser = user.username + '-' + str(canvas_id) #used to identify user in canvas
+    currentUser = user.username + ' ' + str(canvas_id) #used to identify user in canvas
     print('current user: ' + currentUser + ' title: ' + posts[i].title)
     if(posts[i].title == currentUser and posts[i].message is not None): #only shows posts that the user has posted
       
@@ -121,19 +121,14 @@ def handlePost(user_id, req,current_user):
   canvas_user = CANVAS.get_user(current_user.canvasId)
   print(req.form['text'])
   new_post = req.form['text']
-  print('testomg')
   try:
     post_file = (req.files['file']) # check to see if there was files attached
   except:
     print('no file attached')
     post_file = None
 
-  #print(post_file)
   # make post in canvas
-  print(current_user.username)
-  print(str(current_user.canvasId))
   title = current_user.username + ' ' + str(current_user.canvasId)
-  print(str(current_user.canvasId))
   post = course.create_discussion_topic(
       title = title,
       user_name = canvas_user.name,
@@ -145,6 +140,7 @@ def handlePost(user_id, req,current_user):
   )
   
   if(post_file is not None):
+    print(post_file)
     userFileModel = UserFiles(userId=current_user.id,postId=post.id,data=post_file.read(),userFile__file_name=post_file.filename)
     #db.session.add(userFileModel)
     #db.session.commit()

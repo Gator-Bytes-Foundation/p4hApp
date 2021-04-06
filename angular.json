@@ -20,10 +20,11 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/p4hApp",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "outputPath": "src/static",
+            "preserveSymlinks": true,
+            "index": "src/templates/index.html",
+            "main": "src/static/main.ts",
+            "polyfills": "src/static/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": [

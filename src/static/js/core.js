@@ -114,14 +114,17 @@ $("#post").on("click", function(e) {
         }
     });
 });
+
+function loading(){
+    $("#loading").show();
+}
 /*
 
 REPLY BUTTON 
 
-*/
+
 // anytime reply button is clicked, make a ajax call to server
 $(document).on("click", ".reply_button", function(e) {
-    /* old regular expression I was using to find all reply ids: a[id|='reply' */
     e.preventDefault();
     let reply_id = e.currentTarget.id;
     let post_id = e.currentTarget.name;
@@ -150,4 +153,4 @@ $(document).on("click", ".reply_button", function(e) {
             console.log("status " + exception);
         }
     });
-});
+});*/

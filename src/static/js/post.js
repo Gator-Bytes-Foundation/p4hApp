@@ -25,14 +25,14 @@ function getPostData(id) {
   $(document).on("click", ".reply_button", function (e) {
     /* old regular expression I was using to find all reply ids: a[id|='reply' */
     e.preventDefault();
-    var comment_id = e.currentTarget.id;
-    //console.log("comment_id " + comment_id);
-    let formData = getPostData(comment_id);
-    console.log('commenting');
+    let reply_id = e.currentTarget.id;
+    let post_id = e.currentTarget.name;
+    console.log("post_id " + post_id);
+    let formData = getPostData(post_id);
     //alert(value);
     $.ajax({
       type: "POST",
-      url: "/comment/" + comment_id,
+      url: "/comment/" + post_id,
       data: formData,
       cache: false,
       contentType: false,
@@ -42,7 +42,7 @@ function getPostData(id) {
       success: function (data) {
         var comment = data;
         console.log("ajax return comment ", comment);
-        $("#comments-" + comment_id).append(comment);
+        $("#comments-" + post_id).append(comment);
       },
       error: function (data,err,exception) {
         let response = eval(data);

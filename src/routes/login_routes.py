@@ -75,6 +75,5 @@ def login():
 
 @app.route('/')
 def home():
-  home = loadHome()
-  form = LoginForm()
-  return render_template(home, current_user = None, form=form)
+  #home = loadHome()
+  return render_template('index.html', current_user = None)
