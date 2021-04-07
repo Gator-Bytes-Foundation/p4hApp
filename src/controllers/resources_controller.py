@@ -21,10 +21,10 @@ def file_download(page_to_load):
     elif(readingFileId):
       file_id = file_id + page_to_load[i]
     elif(readingFolderId):
-      print(page_to_load[i])
+      #print(page_to_load[i])
       folder_id = folder_id + page_to_load[i]
 
-  print(file_id)
+  #print(file_id)
   page_to_load = page_to_load.replace('downloadfile_','') + '.html' # so the url will stay the same on reload
   int_file = int(file_id)
   file_to_download = course.get_file(int_file)

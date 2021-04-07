@@ -34,7 +34,7 @@ def loadPosts(user):
   # loop through all profile posts
   for i in range(end_index):
     currentUser = user.username + ' ' + str(canvas_id) #used to identify user in canvas
-    print('current user: ' + currentUser + ' title: ' + posts[i].title)
+    #print('current user: ' + currentUser + ' title: ' + posts[i].title)
     if(posts[i].title == currentUser and posts[i].message is not None): #only shows posts that the user has posted
       
       posts[i].message = posts[i].message.replace('</p>', '').replace('<p>', '')
@@ -63,8 +63,8 @@ def loadPosts(user):
   profile.posts = recentPosts
   profile.user = user
   profile.canvas_user = CANVAS.get_user(canvas_id)
-  print('posts: ')
-  print(profile.posts)
+  #print('posts: ')
+  #print(profile.posts)
   return profile
 #
 # Function will extract 'Admin' posts from discussion page on canvas and load them to Announcement page
@@ -80,7 +80,7 @@ def loadNewsFeed():
     topics = announcements._get_next_page() # this is the list of all topics (with embedded posts) in the course
     #print("topic: ", topics[1].author["display_name"])
   except CanvasException as e:
-    print("error", e)
+    print("error: ", e)
   #loop through each post  
   for i in range(len(topics)):
     if(topics[i].title == 'Announcement'): #only shows posts that the user has posted
@@ -104,7 +104,7 @@ def loadNewsFeed():
         array_of_comments[str(topics[i].id)] = temp_comments
         
       #except:
-      print("no comments for announcement")    
+      #print("no comments for announcement")    
         
   # after looping through each post, return the array
   return recentPosts, array_of_comments, proper_date      
@@ -117,9 +117,9 @@ def handlePost(user_id, req,current_user):
   if(current_user.is_anonymous == True):
     abort(Response('Must be logged in to post')) 
   user = User.query.filter_by(id=user_id).first()
-  print(current_user.username + ' is posting on ' + user.username + ' profile')
+  #print(current_user.username + ' is posting on ' + user.username + ' profile')
   canvas_user = CANVAS.get_user(current_user.canvasId)
-  print(req.form['text'])
+  #print(req.form['text'])
   new_post = req.form['text']
   try:
     post_file = (req.files['file']) # check to see if there was files attached
@@ -140,7 +140,7 @@ def handlePost(user_id, req,current_user):
   )
   
   if(post_file is not None):
-    print(post_file)
+    #print('file contains post')
     userFileModel = UserFiles(userId=current_user.id,postId=post.id,data=post_file.read(),userFile__file_name=post_file.filename)
     #db.session.add(userFileModel)
     #db.session.commit()
@@ -156,7 +156,7 @@ def handlePost(user_id, req,current_user):
   day = post.posted_at[5:7]
   month = post.posted_at[8:10]
   proper_date = ''.join([month,'/', day, '/', year])    
-  print("topic being posted: ", post.title, " author: ", post.author)
+  #print("topic being posted: ", post.title, " author: ", post.author)
   # send back html for post
   post_id = str(post.id)
   post_html = '<article id="' + post_id + '"class="post_box"> <div class="profile_name"> <div class="profile_pic"> <figure class="thumbnail "><img alt="placeholder" class="img-fluid rounded-circle" src="' + post.author['avatar_image_url'] + '"/></figure></div> <div class="col-10"><header class="text-left"><figcaption class="comment-user"><b>' + current_user.username + '</b></figcaption><time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> ' + proper_date + '</time></header></div></div> <div class="post"> <div class="">' + new_post + '</div><hr>   <div class="text-center"></div> <div id="comments-' + post_id + '" ><label class = "comment_label" for="from">Comments</label> <div id="reply_div-' + post_id + '"class="reply_div"> <div class="col-8"> <textarea class= "text_box" name="message" id="textbox-' + post_id + '"onkeyup="" size="5" placeholder="Comment"></textarea><span class="upload_icon oi oi-cloud-camera" aria-hidden="true"></span></div> <a href=""name="' + post_id + '" id="reply-' + post_id + '" class="reply_button col-4 btn-sm"><i class="fa fa-reply"></i> Reply</a></div></div></article>'  

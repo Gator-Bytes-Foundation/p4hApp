@@ -70,10 +70,5 @@ def login():
     #return redirect(url_for('profile'))    
     
   else : #if login form hasn't been sumbitted yet
-    return render_template('./login/login.html', title='login',  form=form)
-    
+    return render_template('login.html', title='login',  form=form)
 
-@app.route('/')
-def home():
-  #home = loadHome()
-  return render_template('index.html', current_user = None)

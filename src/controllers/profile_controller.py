@@ -54,7 +54,7 @@ def getProgress(request,user_id,assignment_id):
   except:
     return False
 
-  print(submission.attachments)
+  #print(submission.attachments)
   if(submission.attachments):
     #for i in range(len(submission.attachments)):
       #print("submission attachment ", submission.attachments[i])
@@ -113,7 +113,7 @@ def updateProfile(req,current_user):
     prevAvatar = UserFiles.query.filter_by(userId=current_user.id,postId=current_user.canvasId).first() # check if avatar already exists
     #print("model: ", prevAvatar)
     if(prevAvatar):
-      print("updating avatar")
+      #print("updating avatar")
       prevAvatar.data = avatarUpdate.read()
       avatar = file_upload.update_files(prevAvatar, files={
           "userFile": avatarUpdate

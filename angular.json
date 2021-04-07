@@ -20,9 +20,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "src/static",
+            "outputPath": "src/static/dist",
             "preserveSymlinks": true,
-            "index": "src/templates/index.html",
+            "index": "src/templates/login.html",
             "main": "src/static/main.ts",
             "polyfills": "src/static/polyfills.ts",
             "tsConfig": "tsconfig.app.json",

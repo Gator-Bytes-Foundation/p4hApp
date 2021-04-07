@@ -19,6 +19,7 @@ app.wsgi_app = WhiteNoise(app.wsgi_app,
         prefix='static/')
 
 
+
         
 #app.register_error_handler(404, page_not_found)
 #app.wsgi_app = WhiteNoise(app.wsgi_app, root='static/', prefix='static/')

@@ -28,9 +28,9 @@ def customProfileCalls(profile_id): #url being routed is saved to 'page_to_load'
   #print("page loading: ",page_to_load) 
   return profile(profile_id) # calls profile function on username from route str
 
-#@app.route('/')
+@app.route('/') # default page that loads IF logged in
 @app.route('/profile', methods=['GET'])
-@login_required #
+@login_required 
 def profile(*args): 
   try:
     all_canvas_users = list(course.get_users())

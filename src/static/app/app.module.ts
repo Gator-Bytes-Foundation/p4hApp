@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-//import { AppRoutingModule } from './app-routing.module';
+import { FormsModule } from '@angular/forms'; // <-- NgModel lives here
+import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatCardModule } from '@angular/material/card';
@@ -12,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 
 import { AppComponent } from './app.component';
+import { SpinnerComponent } from './spinner/spinner.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 
@@ -20,11 +23,15 @@ import { ProfileComponent } from './profile/profile.component';
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    SpinnerComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
-    //AppRoutingModule,
+    FormsModule,
+    RouterModule.forRoot([]),
+    HttpClientModule,
     BrowserAnimationsModule,
     MatCardModule,
     MatButtonModule,

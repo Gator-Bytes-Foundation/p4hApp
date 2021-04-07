@@ -315,3 +315,8 @@ b {
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
+.spinner-wrapper {
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+}

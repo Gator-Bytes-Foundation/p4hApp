@@ -37,7 +37,7 @@ class SignUpForm(FlaskForm):
 
   def makeUser(self):
     form = self
-    print(form)
+    #print(form)
     if form.validate_on_submit():
       # Create canvas user #
       email = form.email.data
@@ -114,7 +114,7 @@ class LoginForm(FlaskForm):
     global all_users # temp => this eventually will be taken out on proper login. But it speeds up app a bit for now
     global  current_user
     result = request.form # get form data from request object sent from html form
-    print("form login data: ",result) # log the data
+    #print("form login data: ",result) # log the data
     
     try:
       all_users = course.get_users() # get all users in p4h
