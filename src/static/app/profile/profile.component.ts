@@ -8,10 +8,13 @@ import { Component, OnInit, Input } from '@angular/core';
 export class ProfileComponent implements OnInit {
   @Input() loading: boolean; 
   constructor() { 
-    this.loading = true; 
+    this.loading = false; 
+    console.log('constructor for profile'); 
   }
 
   ngOnInit(): void {
-  }
+    //this.loading = false; 
+    console.log('init for profile'); 
 
+  }
 }

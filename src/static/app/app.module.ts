@@ -18,6 +18,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 
+import { AppRoutingModule } from './app-routing.module';
 
 
 @NgModule({
@@ -30,7 +31,7 @@ import { ProfileComponent } from './profile/profile.component';
   imports: [
     BrowserModule,
     FormsModule,
-    RouterModule.forRoot([]),
+    //RouterModule.forRoot([]),
     HttpClientModule,
     BrowserAnimationsModule,
     MatCardModule,
@@ -39,7 +40,8 @@ import { ProfileComponent } from './profile/profile.component';
     MatTabsModule,
     MatGridListModule,
     MatIconModule,
-    MatInputModule
+    MatInputModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
