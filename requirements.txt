@@ -59,6 +59,6 @@ PyJWT==1.7.1
 pyper==1.1.2
 PySocks==1.7.0
 pytz==2019.1
-urllib3==1.25.3
+urllib3==1.25.8
 
 
