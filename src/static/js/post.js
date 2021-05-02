@@ -22,7 +22,30 @@ function getPostData(id) {
     return formData; 
   }
   // anytime reply button is clicked, make a ajax call to server
-  $(document).on("click", ".reply_button", function (e) {
+  //$(document).on("click", ".reply_button", function (e) {
+
+  function deletePost(e) {
+    console.log('post being deleted');
+    e.preventDefault();
+    let post_id = e.currentTarget.id;
+    console.log("post_id " + post_id);
+    $.ajax({
+      type: "DELETE",
+      url: "/post/" + post_id,
+      contentType: false,
+      processData: false,
+      success: function (data) {
+        console.log("ajax return comment ", data);
+        $("#post_" + post_id).remove();
+      },
+      error: function (data,err,exception) {
+        console.log("error " + err);
+        console.log("status " + exception);
+      }
+    });
+  }
+  function commentPost(e) {
+    console.log('comment being generated');
     /* old regular expression I was using to find all reply ids: a[id|='reply' */
     e.preventDefault();
     let reply_id = e.currentTarget.id;
@@ -37,7 +60,6 @@ function getPostData(id) {
       cache: false,
       contentType: false,
       processData: false,
-      //contentType: "application/json; charset=utf-8",
       dataType: "text",
       success: function (data) {
         var comment = data;
@@ -46,13 +68,32 @@ function getPostData(id) {
       },
       error: function (data,err,exception) {
         let response = eval(data);
-        var comment = JSON.stringify(response);
         console.log("error " + err);
         console.log("status " + exception);
       }
     });
-  });
-  
+  }
+  function deleteComment(e) {
+    console.log('post being deleted');
+    let comment_id = e.currentTarget.id;
+    let post_id = e.currentTarget.name;
+    console.log("post id " + post_id);
+    console.log("comment being deleted id " + comment_id);
+    $.ajax({
+      type: "DELETE",
+      url: "/post/" + post_id + '/' + comment_id,
+      contentType: false,
+      processData: false,
+      success: function (data) {
+        console.log("ajax return comment ", data);
+        $("#comment-" + comment_id).remove();
+      },
+      error: function (data,err,exception) {
+        console.log("error " + err);
+        console.log("status " + exception);
+      }
+    });
+  }
   // handle textbox as user types  
     //  changes mouse cursor when highlighting loawer right of box
   $("textarea")

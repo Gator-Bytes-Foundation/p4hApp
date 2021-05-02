@@ -1,2 +1,4 @@
 <!--<app-login></app-login>-->
-<app-profile  [loading]="loading"></app-profile>
+<div class="spinner-wrapper"  *ngIf="loading">
+    <app-spinner></app-spinner> 
+</div>  

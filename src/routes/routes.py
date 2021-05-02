@@ -6,7 +6,7 @@ from src.models.user_model import User
 from src.canvas import CANVAS, course # inject canvas, course objects into file
 from src.models.profile_model import Profile
 from src.models.user_model import User
-from src.controllers.posts_controller import loadPosts, loadNewsFeed, handlePost, handlePost, handleComment
+from src.controllers.posts_controller import *
 ''' Import Needed Libraries ''' 
 import json
 import requests
@@ -36,7 +36,7 @@ def posts(user_id): #url being routed is saved to 'user_id' which we can then us
   print("user id: ",user_id)
   print(current_user)
   if(request.method == 'POST'):
-    html, post_id = handlePost(user_id, request,current_user)
+    html, post_id = handlePost(user_id,request,current_user)
     return json.dumps({
       'html':html,
       'post_id': post_id
@@ -44,16 +44,23 @@ def posts(user_id): #url being routed is saved to 'user_id' which we can then us
   
   return jsonify(request)
 
-@app.route('/comment/<comment_id>', methods=['GET', 'POST'])
-def comments(comment_id): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
-  #print("page loading: ",post)
-  #print(current_user)
-  if(request.method == 'POST'):
-      #print("Request data -> " + str(request.get_json()))
-      return handleComment(comment_id, request,current_user)
+@app.route('/post/<post_id>', methods=['DELETE'])
+def post(post_id): #url being routed is saved to 'user_id' which we can then use to render the name of the html file
+  print("post id: ",post_id)
+  res = deletePost(request,current_user,post_id)
+  return json.dumps({
+    'res': res
+  }), 200, {'ContentType':'application/json'}
   
-  return render_template(post)
-
+@app.route('/comment/<post_id>', methods=['POST'])
+def comments(post_id): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
+  print("post id for commenting: ",post_id)
+  return handleComment(request,current_user,post_id)
+  
+@app.route('/comment/<post_id>/<comment_id>', methods=['DELETE'])
+def comment(post_id,comment_id): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
+  print("post id for commenting: ",post_id)
+  return deleteComment(request,current_user,post_id,comment_id)
 
 # DISCUSSION REQUESTS #
 @app.route('/announcements', methods=['GET', 'POST'])

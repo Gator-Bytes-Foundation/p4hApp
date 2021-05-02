@@ -77,7 +77,7 @@ class SignUpForm(FlaskForm):
         return render_template('signup.html', title='signUp', form=form, error=error)
 
       # 3rd add user in DB
-      newUser = User(username=username,email=email,canvasId=canvas_user.id) #,profilePic__file_name="profile.png")
+      newUser = User(name=user.name, username=username,email=email,canvasId=canvas_user.id) #,profilePic__file_name="profile.png")
       newUser.set_password(form.password.data)
 
       db.session.add(newUser)

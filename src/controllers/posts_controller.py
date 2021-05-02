@@ -78,7 +78,7 @@ def loadNewsFeed():
     #announcements = canvas.get_announcements(context_codes='course_1') # canvas announcements lack documentation, so gonna just use regular discussion posts
     announcements = course.get_discussion_topics()
     topics = announcements._get_next_page() # this is the list of all topics (with embedded posts) in the course
-    #print("topic: ", topics[1].author["display_name"])
+    print("announcement[0]: ", announcements[0])
   except CanvasException as e:
     print("error: ", e)
   #loop through each post  
@@ -131,8 +131,8 @@ def handlePost(user_id, req,current_user):
   title = current_user.username + ' ' + str(current_user.canvasId)
   post = course.create_discussion_topic(
       title = title,
-      user_name = canvas_user.name,
-      author = canvas_user, 
+      user_name = current_user.username,
+      author = current_user.name, 
       message = new_post,
       user_can_see_posts = True,
       published = True,
@@ -179,20 +179,33 @@ def loadPostComents(post):
   allCommentsMap[str(post.id)] = postComments
   return allCommentsMap
 
-def handleComment(comment_id, req,current_user):
+def handleComment(req,current_user,post_id):
   #new_comment = req.get_json()["text"]
   comment_text = req.form['text']
   #print("reply:", comment_text)
   # make post in canvas
   topic = course.get_discussion_topic(comment_id)
   comment = topic.post_entry(
-      message = comment_text
+      message = comment_text,
+      user_name = current_user.name
   )
   # send back html for post
-  comment_html = '<div class="post_comment"><figure class="thumbnail col-2"><img alt="placeholder" class="img-fluid rounded-circle" src="'+ comment.user['avatar_image_url']+'"/></figure><div class="word_bubble col-10"><p><b>' + current_user.username + ':</b><br>' + comment_text + '</p></div></div>'
+  comment_html = '<div class="post_comment profile-pic-post"><figure class="thumbnail"><img alt="placeholder" class="img-fluid rounded-circle" src="'+ comment.user['avatar_image_url']+'"/></figure><div class="word_bubble col-10"><p><b>' + current_user.username + ':</b><br>' + comment_text + '</p></div></div>'
   return comment_html  
 
+def deletePost(req,current_user,post_id): 
+  post = course.get_discussion_topic(post_id); 
+  print(post)
+  res = post.delete(); 
+  print("post deleted: ", res)
+  return res; 
 
+def deleteComment(comment_id, post_id): 
+  post = course.get_full_discussion_topic(post_id); 
+  comment = post.get_entries([comment_id])
+  res = comment.delete(); 
+  print("comment deleted: ", res)
+  return res; 
 
 class Post():
   def __init__(self,post,user_object, post_message, post_media):

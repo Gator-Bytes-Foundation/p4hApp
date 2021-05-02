@@ -118,39 +118,3 @@ $("#post").on("click", function(e) {
 function loading(){
     $("#loading").show();
 }
-/*
-
-REPLY BUTTON 
-
-
-// anytime reply button is clicked, make a ajax call to server
-$(document).on("click", ".reply_button", function(e) {
-    e.preventDefault();
-    let reply_id = e.currentTarget.id;
-    let post_id = e.currentTarget.name;
-    //console.log("post_id " + post_id);
-    let formData = getPostData(post_id);
-    console.log('commenting');
-    //alert(value);
-    $.ajax({
-        type: "POST",
-        url: "/comment/" + post_id,
-        data: formData,
-        cache: false,
-        contentType: false,
-        processData: false,
-        //contentType: "application/json; charset=utf-8",
-        dataType: "text",
-        success: function(data) {
-            var comment = data;
-            console.log("ajax return comment ", comment);
-            $("#comments-" + post_id).append(comment);
-        },
-        error: function(data, err, exception) {
-            let response = eval(data);
-            var comment = JSON.stringify(response);
-            console.log("error " + err);
-            console.log("status " + exception);
-        }
-    });
-});*/
