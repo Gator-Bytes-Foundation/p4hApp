@@ -54,8 +54,9 @@ class SignUpForm(FlaskForm):
       }
       user = {
           'name': fname + ' ' + lname,
-          'short_name': username,
-          'sortable_name': lname,
+          'login_id': username,
+          'short_name': fname,
+          'sortable_name': lname + ', ' + fname,
           'email':email
       }
       # 1st add user in canvas 

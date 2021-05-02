@@ -191,11 +191,11 @@ PROFILE TABS
   
   $("form#edit-profile").on('submit', function(e) {
     e.preventDefault();
-    console.log("FORM SUBMITTED" + window.location.pathname);
+    //console.log("FORM SUBMITTED" + window.location.pathname);
     var formData = new FormData(this);
   
     $.ajax({
-        url: window.location.pathname,
+        url: '/profile',
         type: 'POST',
         data: formData,
         success: function (data) {
