@@ -46,11 +46,10 @@ def profile(*args):
   # Brings user to their profile view
   return loadProfile(user_profile, all_canvas_users,current_user,rocket_user)
 
-
-@app.route('/profile', methods=['POST'])
 @login_required
+@app.route('/profile', methods=['POST'])
 def saveProfile():
-  #print('request: ')
+  #print('save profile: ')
   #print(request)
   updateProfile(request,current_user)
   return profile() # this isnt efficient since it reloads the entire page from scratch

@@ -99,7 +99,7 @@ def updateProgress(request,user_id,assignment_id):
 def updateProfile(req,current_user):
   #print('form')
   #print(req.form)
-  canvas_user = course.get_user(current_user.canvasId)
+  canvas_user = CANVAS.get_user(current_user.canvasId)
 
   name_ = req.form['name']
   school_ = req.form['school']
