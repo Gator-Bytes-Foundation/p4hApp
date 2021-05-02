@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms'; // <-- NgModel lives here
 import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatCardModule } from '@angular/material/card';
@@ -19,6 +19,7 @@ import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 
 import { AppRoutingModule } from './app-routing.module';
+import { LoadInterceptor } from './load-interceptor';
 
 
 @NgModule({
@@ -43,7 +44,9 @@ import { AppRoutingModule } from './app-routing.module';
     MatInputModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: LoadInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
   //entryComponents: [AppComponent]
 })

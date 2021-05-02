@@ -96,6 +96,14 @@
                     </div>
                     <div class="row">
                         <div class="col-4 col-sm-3">
+                            <p>Pozisyon:</p>
+                        </div>
+                        <div class="col-8">
+                            <textarea class="text_box" name="position" id="loc" style="width: 100%;" placeholder="{{profile.user.position}}" size="5"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 col-sm-3">
                             <p>Biography:</p>
                         </div>
                         <div class="row col-12 col-sm-8">
@@ -140,8 +148,8 @@
         <div class="col-8 col-sm-8 ">
             <h4>{{profile.canvas_user.name}}</h4>
             <small class=""> <b>Pozisyon:</b> Elementary Teacher </small> <br>
-            <small> <b>De Mwen :</b> Mwen anseye lekòl elemantè</small> </div>
-    </div>
+            <small> <b>De Mwen :</b> {{profile.user.bio}} </small> </div>
+        </div>
     <!--<div class="input-group"> 
             <div class="input-group-prepend"> <span class="input-group-text" id="inputGroupFileAddon01">Upload</span> </div>
               <div class="custom-file">
@@ -216,7 +224,7 @@
                         <label>Name: </label>
                     </td>
                     <td class="left">
-                        <div id="rocket_user_auth" data-rocket="{{rocket_user['authToken']}}">{{profile.canvas_user.name}}</div>
+                        <div id="rocket_user_auth" data-rocket="{{rocket_user['authToken']}}">{{profile.user.name}}</div>
                     </td>
                 </tr>
                 <tr class="">
@@ -232,7 +240,7 @@
                         <label>Phone: </label>
                     </td>
                     <td class="left">
-                        <div>{{profile.canvas_user.short_name}}</div>
+                        <div>{{profile.user.phone}}</div>
                     </td>
                 </tr>
                 <tr class="">
@@ -240,7 +248,7 @@
                         <label>Location: </label>
                     </td>
                     <td class="left">
-                        <div>{{profile.canvas_user.title}}</div>
+                        <div>{{profile.user.location}}</div>
                     </td>
                 </tr>
                 <tr class="">
@@ -248,7 +256,7 @@
                         <label>School: </label>
                     </td>
                     <td class="left">
-                        <div>{{profile.canvas_user.sortable_name}}</div>
+                        <div>{{profile.user.school}}</div>
                     </td>
                 </tr>
             </table>
@@ -256,7 +264,9 @@
     </div>
 </div>
 <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
-<script src="static/dist/runtime.js" defer=""></script><script src="static/dist/polyfills.js" defer=""></script>
-<script src="static/dist/vendor.js" defer=""></script><script src="static/dist/main.js" defer=""></script>
+<script src="static/dist/runtime.js" defer=""></script>
+<script src="static/dist/polyfills.js" defer=""></script>
+<script src="static/dist/vendor.js" defer="">
+</script><script src="static/dist/main.js" defer=""></script>
 {% endblock %}
 <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->

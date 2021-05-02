@@ -18,6 +18,12 @@ class User(UserMixin,db.Model):
   email = db.Column(db.String(120), index=True, unique=True)
   password_hash = db.Column(db.String(128))
   name = db.Column(db.String(64))
+  school = db.Column(db.String(120))
+  phone = db.Column(db.String(64))
+  location = db.Column(db.Text)
+  position = db.Column(db.Text)
+  bio = db.Column(db.Text)
+
   userFiles = db.relationship("UserFiles", backref="UserFiles")
   #profile = db.relationship('Profile', backref='author', lazy='dynamic')
   

@@ -47,7 +47,8 @@
     margin-bottom:10px;
 }
 .avatar-sm {
-    max-height:20px; 
+    min-width:60px;
+    max-height:60px; 
 }
 input[type='checkbox'] {
     transform: scale(1.5);

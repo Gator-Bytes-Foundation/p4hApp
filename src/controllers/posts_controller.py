@@ -33,9 +33,9 @@ def loadPosts(user):
     
   # loop through all profile posts
   for i in range(end_index):
-    currentUser = user.username + ' ' + str(canvas_id) #used to identify user in canvas
+    usernameId = user.username + ' ' + str(canvas_id) #used to identify user in canvas
     #print('current user: ' + currentUser + ' title: ' + posts[i].title)
-    if(posts[i].title == currentUser and posts[i].message is not None): #only shows posts that the user has posted
+    if(posts[i].title == usernameId and posts[i].message is not None): #only shows posts that the user has posted
       
       posts[i].message = posts[i].message.replace('</p>', '').replace('<p>', '')
       # format date info 
@@ -44,7 +44,7 @@ def loadPosts(user):
       month = posts[i].posted_at[8:10]
       proper_date = ''.join([month,'/', day, '/', year])
       posts[i].posted_at = proper_date # replace old ugly format
-      
+      posts[i].name = user.name
       posts[i].comments = loadPostComents(posts[i])
       posts[i].files = UserFiles.query.filter_by(userId=user.id,postId=posts[i].id).all()
       if(len(posts[i].files) > 0): 
@@ -127,12 +127,13 @@ def handlePost(user_id, req,current_user):
     print('no file attached')
     post_file = None
 
+  # 
   # make post in canvas
-  title = current_user.name #+ ' ' + str(current_user.canvasId)
+  title = current_user.username + ' ' + str(current_user.canvasId)
   post = course.create_discussion_topic(
       title = title,
-      user_name = current_user.email,
-      author = current_user.name, 
+      #user_id = user_id,
+      #user_name = current_user.email,
       message = new_post,
       user_can_see_posts = True,
       published = True,
@@ -159,21 +160,22 @@ def handlePost(user_id, req,current_user):
   #print("topic being posted: ", post.title, " author: ", post.author)
   # send back html for post
   post_id = str(post.id)
+  # NOTE: post.author['avatar_image_url'] does work in getting canvas avatar, but canvas avatars have been impossible to update
   post_html = '<article id="' + post_id + '"class="post_box"> <div class="profile_name"> <div class="profile_pic"> <figure class="thumbnail "><img alt="placeholder" class="img-fluid rounded-circle" src="' + post.author['avatar_image_url'] + '"/></figure></div> <div class="col-10"><header class="text-left"><figcaption class="comment-user"><b>' + current_user.name + '</b></figcaption><time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> ' + proper_date + '</time></header></div></div> <div class="post"> <div class="">' + new_post + '</div><hr>   <div class="text-center"></div> <div id="comments-' + post_id + '" ><label class = "comment_label" for="from">Comments</label> <div id="reply_div-' + post_id + '"class="reply_div"> <div class="col-8"> <textarea class= "text_box" name="message" id="textbox-' + post_id + '"onkeyup="" size="5" placeholder="Comment"></textarea><span class="upload_icon oi oi-cloud-camera" aria-hidden="true"></span></div> <a href=""name="' + post_id + '" id="reply-' + post_id + '" class="reply_button col-4 btn-sm"><i class="fa fa-reply"></i> Reply</a></div></div></article>'  
   return post_html, post_id
 
 def loadPostComents(post):
   if(not hasattr(post,'list_topic_entries')): return
-  comments = post.list_topic_entries()._get_next_page()
+  comments = post.list_topic_entries()
   allCommentsMap = {}
   postComments = []
 
-  for j in range(len(comments)):
-    if(comments[j].message is not None):
-      comments[j].message = comments[j].message.replace('</p>', '')
-      comments[j].message = comments[j].message.replace('<p>', '') # get rid of the html
+  for comment in comments:
+    if(comment.message is not None):
+      comment.message = comment.message.replace('</p>', '')
+      comment.message = comment.message.replace('<p>', '') # get rid of the html
     # store the comment in an array
-    postComments.append(comments[j])
+    postComments.append(comment)
 
   # store all comments of this post in object/map to map to one another on client side
   allCommentsMap[str(post.id)] = postComments
@@ -184,7 +186,7 @@ def handleComment(req,current_user,post_id):
   comment_text = req.form['text']
   #print("reply:", comment_text)
   # make post in canvas
-  topic = course.get_discussion_topic(comment_id)
+  topic = course.get_discussion_topic(post_id)
   comment = topic.post_entry(
       message = comment_text,
       user_name = current_user.name

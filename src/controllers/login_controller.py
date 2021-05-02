@@ -6,7 +6,7 @@ from flask_login import login_user, logout_user, current_user
 from sqlalchemy import exc
 from src import db
 from src.models.user_model import User
-from src.canvas import CANVAS, course,ROCKET # inject canvas, course objects into file
+from src.canvas import CANVAS, course, ROCKET # inject canvas, course objects into file
 from rocketchat_API.rocketchat import RocketChat
 import ftplib
 
@@ -63,6 +63,12 @@ class SignUpForm(FlaskForm):
       try:
         canvas_user = account.create_user(pseudonym, user=user)
         print("canvas user created")
+        topic = course.create_discussion_topic(
+          title = login_id + ' ' + canvas_user.id,
+          message = 'all posts for ' + name,
+          user_can_see_posts = True,
+          published = True,
+      )
       except Exception as e: # work on python 3.x
         error = str(e)
         error = error.replace("{","").replace("}","").replace('"','')
