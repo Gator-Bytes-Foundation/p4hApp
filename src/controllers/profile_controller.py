@@ -2,6 +2,7 @@ from src.canvas import * # inject canvas, course objects into file
 from src.models.profile_model import Profile
 from flask import url_for, flash, redirect, request, render_template, send_file
 from src.models.user_model import User, UserFiles
+from src import db
 import requests 
 import base64
 from src import file_upload
@@ -123,23 +124,26 @@ def updateProfile(req,current_user):
       avatar = file_upload.save_files(userFileModel, files={
         "userFile": avatarUpdate,
       })
-
-    
-  # TO DO change the db user as well 
-  if(avatarUpdate != None):
+    #edit canvas avatar as well
     canvas_user.edit(user = {"avatar":avatarUpdate}) # not working
+
   if(name_ != ''):
+    current_user.name = name_
     canvas_user.edit(user = {"name":name_})
   if(school_ != ''):
-    canvas_user.edit(user = {"sortable_name":school_}) #Since we are using Canvas User objects, we store phone as sortable_name
+    current_user.school = school_
   if(email_ != ''):
+    current_user.email = email_
     canvas_user.edit(user = {"email":email_})
   if(phone_ != ''):
-    canvas_user.edit(user = {"short_name":phone_}) #Since we are using Canvas User objects, we store phone as short_name
+    current_user.phone = phone_
   if(location_ != ''):
-    canvas_user.edit(user = {"title":location_})
+    current_user.location = location_
   if(bio_ != ''):
+    current_user.bio = bio_
     canvas_user.edit(user = {"bio":bio_})
-  return #todo
+  
+  db.session.commit() # 
+  return current_user
    
 
