@@ -118,3 +118,7 @@ $("#post").on("click", function(e) {
 function loading(){
     $("#loading").show();
 }
+
+function errorResponse(err) {
+    console.log("error " + err);
+}

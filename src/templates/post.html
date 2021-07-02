@@ -47,7 +47,7 @@
                 <img alt="profile picture" class="img-fluid avatar-sm" src="data:;base64,{{ profile.profile_pic}}" />
                 <div class="word_bubble">
                     <div class="delete">
-                        <span id="{{post.comments[(post.id | string)][j].id}}" name="{{post.id | string}}" onclick="deleteComment(event)" class="iconify" data-icon="oi-x"></span>
+                        <span id="{{post.comments[(post.id | string)][j].id}}" name="{{post.id}}" onclick="deleteComment(event)" class="iconify" data-icon="oi-x"></span>
                     </div>
                     <!-- posts contain comments organized by post id (which is casted to string) and itterates through all comments -->
                     <p class=""><b>{{post.comments[post.id | string][j].user["name"]}}:</b><br> {{post.comments[(post.id | string)][j].message}}</p>
