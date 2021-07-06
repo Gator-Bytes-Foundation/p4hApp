@@ -44,12 +44,12 @@
               </p>
               <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
               <p class="fadeIn fourth" >{{ form.submit() }}</p>
-      
+              
           </form>
           {% if error %}
             <p class=error><strong>Error:</strong> {{ error }}
           {% endif %}
-      
+          <a type="button" class="" href="/signup">Sign up</a>
           <app-root>
             <div class="container">
               <div class="row">
@@ -71,7 +71,5 @@
       </div>
     </section>
   </html>
-  <script src="static/dist/runtime.js" defer=""></script><script src="static/dist/polyfills.js" defer=""></script>
-  <script src="static/dist/vendor.js" defer=""></script><script src="static/dist/main.js" defer=""></script>
   <script src="{{ url_for('static', filename='js/login.js') }}"></script>
   {% endblock %}
