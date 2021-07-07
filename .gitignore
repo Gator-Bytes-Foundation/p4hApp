@@ -25,7 +25,7 @@ bin/prod/server.crt
 ## ANGULAR GITIGNORE ##
 
 # compiled output
-src/static/dist
+src/static/dist/*
 /tmp
 /out-tsc
 # Only exists if Bazel was run
