@@ -73,6 +73,7 @@ function getPostData(id) {
       }
     });
   }
+  //
   function deleteComment(e) {
     console.log('post being deleted');
     let comment_id = e.currentTarget.id;

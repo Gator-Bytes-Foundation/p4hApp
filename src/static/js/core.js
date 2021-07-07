@@ -114,7 +114,7 @@ $("#post").on("click", function(e) {
         }
     });
 });
-
+//
 function loading(){
     $("#loading").show();
 }

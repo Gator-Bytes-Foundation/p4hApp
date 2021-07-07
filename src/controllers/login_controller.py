@@ -6,9 +6,11 @@ from flask_login import login_user, logout_user, current_user
 from sqlalchemy import exc
 from src import db
 from src.models.user_model import User
-from src.canvas import CANVAS, course, ROCKET # inject canvas, course objects into file
+from src.canvas import CANVAS, course, ROCKET, account # inject canvas, course objects into file
 from rocketchat_API.rocketchat import RocketChat
 import ftplib
+from src.controllers.posts_controller import loadPosts
+from src.controllers.profile_controller import loadProfile
 
   
 
@@ -105,8 +107,7 @@ class SignUpForm(FlaskForm):
       }      
       #login = account.create_user_login(user,login_info)
 
-      
-      return redirect(url_for('login')) 
+      return LoginForm().loginUser(form)
     else:
       return render_template('signup.html', title='signUp', form=form)
 
@@ -116,7 +117,37 @@ class LoginForm(FlaskForm):
   remember_me = BooleanField('Remember Me')
   submit = SubmitField('Sign In')
 
-  def loginUser(self,request):
+  def loginUser(self,login_cred):
+    
+    user = User.query.filter_by(username=login_cred.username.data).first() # query db
+    if(not user): 
+      flash("Username not found")
+      return redirect(url_for('login'))
+
+    if not user.check_password(user.password_hash,login_cred.password.data):
+      flash('Invalid username or password')
+      return redirect(url_for('login'))
+      
+    if(user and user.canvasId == None):
+      user.canvasId = CANVAS.get_user(1) 
+    #print(login_cred.remember_me.data)
+    login_user(user, remember = login_cred.remember_me.data if hasattr(login_cred, 'remember_me') else False)
+    rocket_res = ROCKET.login(login_cred.username.data,login_cred.password.data)
+    print(rocket_res.json().get("data"))
+    rocket_user = rocket_res.json().get("data")
+    flash('Logged in successfully.')
+    next = request.args.get('next')
+    #if not is_safe_url(next,{"http://localhost:5000", "p4hteach.org", "www.p4hteach.org"}):
+        #return abort(400)    
+    try:
+      all_canvas_users = list(account.get_users())
+    except:
+      error = "Canvas server is currently down"
+      return json.dumps({'success':False}), 404, {'ContentType':False}
+    profile = loadPosts(user)   
+    return loadProfile(profile, all_canvas_users,current_user,rocket_user)
+
+    ''' old manual login code 
     global user_id # set the current user to be global to limit API calls
     global all_users # temp => this eventually will be taken out on proper login. But it speeds up app a bit for now
     global  current_user
@@ -141,7 +172,11 @@ class LoginForm(FlaskForm):
           error = "There is no user with that username"
       # if loop ends, render with error message
     return False #return login page  
+    '''
     
+
+
+
     
   
 

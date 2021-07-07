@@ -5,7 +5,7 @@ from is_safe_url import is_safe_url
 ''' Import Needed Modules ''' 
 from src.models.user_model import User
 from src.controllers.login_controller import LoginForm, loadHome, SignUpForm
-from src.canvas import CANVAS, course # inject canvas, course objects into file
+from src.canvas import CANVAS, account # inject canvas, course objects into file
 from src.routes.profile_routes import profile
 from src.controllers.posts_controller import loadPosts
 ''' Import Needed Libraries ''' 
@@ -61,10 +61,10 @@ def login():
     #if not is_safe_url(next,{"http://localhost:5000", "p4hteach.org", "www.p4hteach.org"}):
         #return abort(400)    
     try:
-      all_canvas_users = list(course.get_users())
+      all_canvas_users = list(account.get_users())
     except:
       error = "Canvas server is currently down"
-      return json.dumps({'success':False}), 400, {'ContentType':False}
+      return json.dumps({'success':False}), 404, {'ContentType':False}
     profile = loadPosts(user)   
     return loadProfile(profile, all_canvas_users,current_user,rocket_user)
     #return redirect(url_for('profile'))    

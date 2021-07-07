@@ -80,7 +80,7 @@
 
 /* FORM TYPOGRAPHY*/
 
-.login input[type=button], .login input[type=submit], .login input[type=reset], .login button, .login a{
+.login input[type=button], .login input[type=submit], .login input[type=reset], .login button{
   background-color: #1632AA;
   border: none;
   color: white;
@@ -103,7 +103,7 @@
   transition: all 0.3s ease-in-out;
 }
 
-.login input[type=button]:hover, .login input[type=submit]:hover, .login input[type=reset]:hover, .login button, .login a {
+.login input[type=button]:hover, .login input[type=submit]:hover, .login input[type=reset]:hover, .login button {
   background-color: #2340BD;
   border-style:solid;
   border-color: aliceblue;
@@ -118,7 +118,7 @@
   transform: scale(0.95);
 }
 
-.login input[type=text], .login input[type=password]  {
+.login input[type=text], .login input[type=password] {
   background-color: #f6f6f6;
   border: none;
   color: #0d0d0d;

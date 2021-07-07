@@ -6,7 +6,7 @@ from werkzeug.urls import url_parse
 from src import app  # from /app import flask app TODO: import db
 ''' Import Needed Modules ''' 
 from src.models.user_model import User
-from src.canvas import CANVAS, course # inject canvas, course objects into file
+from src.canvas import CANVAS, course, account # inject canvas, course objects into file
 from src.models.profile_model import Profile
 from src.controllers.profile_controller import loadProfile, updateProfile, getProgress, updateProgress, loadProgress
 from src.controllers.posts_controller import loadPosts, loadNewsFeed, handlePost, handleComment
@@ -33,10 +33,10 @@ def customProfileCalls(profile_id): #url being routed is saved to 'page_to_load'
 @login_required 
 def profile(*args): 
   try:
-    all_canvas_users = list(course.get_users())
+    all_canvas_users = list(account.get_users())
   except:
     error = "Canvas server is currently down"
-    return 400
+    return json.dumps({'success':False}), 500, {'ContentType':False}
   if(len(args) > 0):
     user = User.query.filter_by(canvasId=args[0]).first()
   else: user = current_user
@@ -44,6 +44,7 @@ def profile(*args):
   rocket_user = {}
   user_profile = loadPosts(user)     
   # Brings user to their profile view
+  print(all_canvas_users)
   return loadProfile(user_profile, all_canvas_users,current_user,rocket_user)
 
 @login_required

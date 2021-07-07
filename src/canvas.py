@@ -23,6 +23,7 @@ CANVAS = Canvas(API_URL, API_KEY)
 # Both course and canvas objects are used for majority of API calls
 #try:
 course = CANVAS.get_course(1)  # only 1 course being used on canvas so initialize it globally to avoid repeated API calls
+account = CANVAS.get_account(1)
 #except:
     #print("canvas is down")
     #course = None
