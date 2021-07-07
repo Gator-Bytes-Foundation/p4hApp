@@ -15,7 +15,7 @@
         <div class="">
             <header class="text-left">
                 <figcaption class="comment-user"><b>{{post.title}}</b></figcaption>
-                <time class="comment-date" datetime="{{post.proper_date}}"><i class="fa fa-clock-o"></i> {{post.proper_date}}</time>
+                <time class="comment-date" datetime="{{post.posted_at}}"><i class="fa fa-clock-o"></i> {{post.posted_at}}</time>
             </header>
         </div>
     </div>
@@ -25,7 +25,7 @@
         </div>
         {% if( (post.files | length) > 0 ) %}
             {% if( post.img ) %} <!-- file is an image -->
-            <img alt="attachment" class="img-fluid" src="data:;base64,{{ post.img }}" />
+            <img alt="attachment" class="img-fluid post-pic" src="data:;base64,{{ post.img }}" />
             {% else %}
             <span class="iconify" data-icon="oi-file"></span>
             {%endif%}

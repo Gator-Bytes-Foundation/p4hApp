@@ -163,9 +163,9 @@ def handlePost(user_id, req,current_user):
   # NOTE: post.author['avatar_image_url'] does work in getting canvas avatar, but canvas avatars have been impossible to update
   post_html = '<article id="' + post_id + '''"class="post_box"> 
   <div class="profile_name"> 
-  <div class="profile_pic"> 
+  <div class="profile-pic"> 
   <figure class="thumbnail ">
-  <img id="profile-post-''' + post_id + '" alt="placeholder" class="img-fluid post-pic rounded-circle" src="' + post.author['avatar_image_url'] + '"/>' + ''' + 
+  <img id="profile-post-''' + post_id + '" alt="placeholder" class="img-fluid avatar-sm" src="' + post.author['avatar_image_url'] + '"/>' + '''
   </figure>
   </div> 
   <div class="col-10"><header class="text-left">
@@ -176,7 +176,7 @@ def handlePost(user_id, req,current_user):
   ''' + new_post + '''
   </div><hr>'''
   if(post_file is not None):
-    post_html += '<img id="display-upload-' + post_id + '" alt="attachment" class="img-fluid" />'
+    post_html += '<img id="display-upload-' + post_id + '" alt="attachment" class="img-fluid post-pic" />'
     
   post_html += '''<div class="text-center"></div> <div id="comments-
   ''' + post_id + '''" ><label class = "comment_label" for="from">Comments</label> <div id="reply_div-' 
