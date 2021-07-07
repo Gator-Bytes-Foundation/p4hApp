@@ -44,7 +44,6 @@ def profile(*args):
   rocket_user = {}
   user_profile = loadPosts(user)     
   # Brings user to their profile view
-  print(all_canvas_users)
   return loadProfile(user_profile, all_canvas_users,current_user,rocket_user)
 
 @login_required

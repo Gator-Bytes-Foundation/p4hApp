@@ -8,7 +8,7 @@ app.yaml
 # cache dir created by pytest
 .cache
 node_modules
-
+frontend/assets
 src/static/dist
 
 # this will contain secret keys and tokens

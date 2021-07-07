@@ -161,7 +161,29 @@ def handlePost(user_id, req,current_user):
   # send back html for post
   post_id = str(post.id)
   # NOTE: post.author['avatar_image_url'] does work in getting canvas avatar, but canvas avatars have been impossible to update
-  post_html = '<article id="' + post_id + '"class="post_box"> <div class="profile_name"> <div class="profile_pic"> <figure class="thumbnail "><img alt="placeholder" class="img-fluid rounded-circle" src="' + post.author['avatar_image_url'] + '"/></figure></div> <div class="col-10"><header class="text-left"><figcaption class="comment-user"><b>' + current_user.name + '</b></figcaption><time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> ' + proper_date + '</time></header></div></div> <div class="post"> <div class="">' + new_post + '</div><hr>   <div class="text-center"></div> <div id="comments-' + post_id + '" ><label class = "comment_label" for="from">Comments</label> <div id="reply_div-' + post_id + '"class="reply_div"> <div class="col-8"> <textarea class= "text_box" name="message" id="textbox-' + post_id + '"onkeyup="" size="5" placeholder="Comment"></textarea><span class="upload_icon oi oi-cloud-camera" aria-hidden="true"></span></div> <a href=""name="' + post_id + '" id="reply-' + post_id + '" class="reply_button col-4 btn-sm"><i class="fa fa-reply"></i> Reply</a></div></div></article>'  
+  post_html = '<article id="' + post_id + '''"class="post_box"> 
+  <div class="profile_name"> 
+  <div class="profile_pic"> 
+  <figure class="thumbnail ">
+  <img id="profile-post-''' + post_id + '" alt="placeholder" class="img-fluid post-pic rounded-circle" src="' + post.author['avatar_image_url'] + '"/>' + ''' + 
+  </figure>
+  </div> 
+  <div class="col-10"><header class="text-left">
+  <figcaption class="comment-user"><b>''' + current_user.name + '''</b></figcaption>
+  ''' + '<time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i>' + proper_date + '''</time></header></div></div> 
+  <div class="post"> 
+  <div class="">
+  ''' + new_post + '''
+  </div><hr>'''
+  if(post_file is not None):
+    post_html += '<img id="display-upload-' + post_id + '" alt="attachment" class="img-fluid" />'
+    
+  post_html += '''<div class="text-center"></div> <div id="comments-
+  ''' + post_id + '''" ><label class = "comment_label" for="from">Comments</label> <div id="reply_div-' 
+  ''' + post_id + '''"class="reply_div"> <div class="col-8"> <textarea class= "text_box" name="message" id="textbox-' 
+  ''' + post_id + '''"onkeyup="" size="5" placeholder="Comment"></textarea><span class="upload_icon oi oi-cloud-camera" aria-hidden="true"></span></div> <a href=""name="' 
+  ''' + post_id + '" id="reply-' + post_id + '" class="reply_button col-4 btn-sm"><i class="fa fa-reply"></i> Reply</a></div></div></article>'  
+  
   return post_html, post_id
 
 def loadPostComents(post):

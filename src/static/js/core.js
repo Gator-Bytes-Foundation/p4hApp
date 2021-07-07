@@ -86,11 +86,11 @@ $("#post").on("click", function(e) {
         processData: false,
         dataType: "text",
         success: function(data) {
-            const post = JSON.parse(data).html;
+            const post = JSON.parse(data); 
             //console.log("post being created " + data);
-            const new_post_id = data.post_id;
+            const new_post_id = post.post_id;
 
-            $("#write_post").append(post).css("overflow", "hidden");
+            $("#write_post").append(post.html).css("overflow", "hidden");
             if (typeof file !== "undefined") {
                 console.log("file");
                 if (
@@ -101,6 +101,7 @@ $("#post").on("click", function(e) {
                 ) {
                     var reader = new FileReader();
                     reader.onload = function(e) {
+                        console.log(e.target);
                         $("#display-upload-" + new_post_id).attr("src", e.target.result);
                     };
                     reader.readAsDataURL(file);
