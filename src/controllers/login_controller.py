@@ -46,14 +46,14 @@ class SignUpForm(FlaskForm):
       username = form.username.data
       password = form.password.data
       #global rocket_user
-      
+      fullName = fname + ' ' + lname
       account = CANVAS.get_account(1) # account id
       pseudonym = {
           'unique_id': email,
           'password': password
       }
       user = {
-          'name': fname + ' ' + lname,
+          'name': fullName,
           'login_id': username,
           'short_name': fname,
           'sortable_name': lname + ', ' + fname,
@@ -64,8 +64,8 @@ class SignUpForm(FlaskForm):
         canvas_user = account.create_user(pseudonym, user=user)
         print("canvas user created")
         topic = course.create_discussion_topic(
-          title = login_id + ' ' + canvas_user.id,
-          message = 'all posts for ' + name,
+          title = username + ' ' + str(canvas_user.id),
+          message = 'all posts for ' + fname,
           user_can_see_posts = True,
           published = True,
       )
@@ -84,7 +84,7 @@ class SignUpForm(FlaskForm):
         return render_template('signup.html', title='signUp', form=form, error=error)
 
       # 3rd add user in DB
-      newUser = User(name=user.name, username=username,email=email,canvasId=canvas_user.id) #,profilePic__file_name="profile.png")
+      newUser = User(name=fullName, username=username,email=email,canvasId=canvas_user.id) #,profilePic__file_name="profile.png")
       newUser.set_password(form.password.data)
 
       db.session.add(newUser)

@@ -15,4 +15,9 @@ def utility_processor():
         basename = template_name.split(".")[0]
         return "js/" + basename + ".js"
 
-    return dict(resolve_entry_script=resolve_entry_script)
+    def resolve_css(template):
+        template_name = template._TemplateReference__context.name
+        basename = template_name.split(".")[0]
+        return "css/" + basename + ".css"
+
+    return dict(resolve_entry_script=resolve_entry_script,resolve_css = resolve_css)
