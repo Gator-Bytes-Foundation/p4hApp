@@ -9,15 +9,14 @@ app.yaml
 .cache
 node_modules
 
-
-src/static/dist/*
+src/static/dist
 
 # this will contain secret keys and tokens
 secrets.yml
 src/canvas.py
 bin/prod/server.key
 bin/prod/server.crt
-*.db
+#src/*.db
 
 ## ANGULAR GITIGNORE ##
 
