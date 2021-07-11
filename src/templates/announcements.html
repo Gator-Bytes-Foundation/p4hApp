@@ -6,23 +6,30 @@
 <header> 
   <!--{{ super() }}--> 
 </header>
+<base href="/">
 <div class="container emp-profile">
     <div class="">
-      <div class="col-12">
         <h1>Anons</h1>
         {% if(current_user.name == 'Admin') %}
-        <div id="write_post"> 
-        <div style="text-align: center;" class="post_box row">
-          <figure class="thumbnail col-2"><img alt="placeholder"class="img-fluid rounded-circle" src="{{ url_for('static', filename='images/p4h.png') }}"/></figure>
-          <div class="col-9" id="textbox_p">
-            <textarea class="text_box" name="message" id="textbox-0" style="width: 100%;" placeholder="Write Announcement" onclick="this.value=''"></textarea><span class="oi oi-cloud-download upload_icon" aria-hidden="true"></span>
-          </div>
-          <a href="#" name="action" id="post" value="Post" style="width:100%;" class="profile_button btn-sm">Post</a>
+        <div id="write_post"> <!-- ID being used for appending posts -->
+          <div style="text-align: center;" class="post_box">
+              <div class="profile_name">
+                  <figure class="profile-pic-post post"><img alt="No Profile Picture" class="img-fluid rounded-circle" src="{{ url_for('static', filename='images/p4h.png') }}" /></figure>
+                  <div class="col-10" id="">
+                      <textarea id="textbox-post" class="text_box" name="message" style="width: 100%;" placeholder="Write Post Here" size="5"></textarea>
+                      <span id="upload-post" onclick="document.getElementById('input-upload-post').click();" class="iconify upload_icon" data-icon="ant-design:cloud-upload-outlined" data-inline="false"></span>
+                      <input type="file" name="userFile" id="input-upload-post" class="invisble" data-multiple-caption="{count} files selected" onclick="this.value = null" multiple/>
+                      <label class="invisble" id="label-upload-post" style="display: none;" for="input-upload-post"><strong>Choose a file</strong></label>
+                      <div class="row ">
+                          <a  id="post" name="1" value="Post" style="width:100%;" class="blue_button">Post</a>
+                      </div>
+                  </div>
+              </div>
+              <img id="display-upload-post" class="img-fluid post-pic" />
           </div>
         </div>
-      {% endif %}
+        {% endif %}
       </div>
-    </div>
     <div class="row">
     <div class="col-12 ">
       {% if(posts|length == 0)%}
@@ -34,5 +41,5 @@
   </div>
 </div>
 </div>
-<script src="{{ url_for('static', filename='js/announcements.js') }}"></script>
+<!--<script src="{{ url_for('static', filename='js/announcements.js') }}"></script>-->
 {% endblock %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html --> 

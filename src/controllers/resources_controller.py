@@ -32,7 +32,7 @@ def file_download(page_to_load):
   #file_to_download.url = file_to_download.url.replace('https://admin.p4hteach.org','https://35.184.234.66') # this url needs to be added to environment variables
   #file_to_download.download(file_to_download)
   r = requests.get(file_to_download.url,verify=False)
-  open('tmp/downloadfile', 'wb').write(r.content)
+  open('src/tmp/downloadfile', 'wb').write(r.content)
 
   return folder_id, file_to_download
 

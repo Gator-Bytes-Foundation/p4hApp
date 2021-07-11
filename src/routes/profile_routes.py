@@ -25,7 +25,7 @@ import logging
 #
 @app.route('/profile/<profile_id>', methods=['GET','POST'])
 def customProfileCalls(profile_id): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
-  #print("page loading: ",page_to_load) 
+  print("page loading: ",profile_id) 
   return profile(profile_id) # calls profile function on username from route str
 
 @app.route('/') # default page that loads IF logged in
@@ -60,8 +60,8 @@ def saveProfile():
 @login_required
 @app.route('/profile/<user_id>/progress')
 def progress(user_id):    
-  milestones = loadProgress(user_id)
-  return render_template('progress.html', milestones = milestones, current_user = current_user, user_id = user_id) # get user from profiel to do 
+  milestones, profile_user = loadProgress(user_id)
+  return render_template('progress.html', milestones = milestones, current_user = current_user, profile = profile_user) # get user from profiel to do 
 
 
 
@@ -70,16 +70,16 @@ def progress(user_id):
 def progressGet(user_id,milestone_id):    
   file_to_download = getProgress(request,user_id,milestone_id)
   if(file_to_download):
-    return send_file('../tmp/downloadMilestone', as_attachment=True,attachment_filename=file_to_download["display_name"])
+    return send_file('tmp/downloadMilestone', as_attachment=True,attachment_filename=file_to_download["display_name"])
   else:
     return json.dumps({'success':False}), 400, {'ContentType':False}
 
 ## Upload milestone - UPDATE
-@app.route('/profile/<user_id>/progress/<milestone_id>', methods=['POST'])
+@app.route('/profile/<user_id>/progress/<milestone_id>', methods=['POST', 'PUT'])
 def progressPut(user_id,milestone_id):    
   #if(request.method == 'PUT'):
   file_uploaded = updateProgress(request,user_id,milestone_id)
-  #print(file_uploaded)
+  print(file_uploaded)
   return json.dumps({'success':True}), 200, {'ContentType':False}
 
 ## Delete milestone - DELETE - to do

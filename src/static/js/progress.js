@@ -40,6 +40,7 @@ let debugJSON = function(data,err,exception) {
 $(document).on("click", ".upload", function (e) {
   e.preventDefault();
   let milestoneId = e.currentTarget.name;
+  let user_id = $('#header-progress').attr('name'); 
   console.log("clicked " + milestoneId);
   if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
     alert("The File APIs are not fully supported in this browser.");
@@ -48,12 +49,15 @@ $(document).on("click", ".upload", function (e) {
   let input = document.getElementById("file-" + milestoneId); // grabs the right file by ID
   if (!input) {
     alert("Um, couldn't find the fileinput element.");
+    return; 
   } else if (!input.files) {
     alert(
       "This browser doesn't seem to support the `files` property of file inputs."
     );
+    return;
   } else if (!input.files[0]) {
     alert("Please select a file before clicking 'Load'");
+    return; 
   }
   let file = input.files[0];
   console.log(file.name);
@@ -68,7 +72,7 @@ $(document).on("click", ".upload", function (e) {
   formData.append(filename, file);
   $.ajax({
     type: "POST",
-    url: "/profile/" + userId + "/progress/" + milestoneId,
+    url: "/profile/" + user_id + "/progress/" + milestoneId,
     data: formData,
     cache: false,
     contentType: false,
@@ -81,20 +85,15 @@ $(document).on("click", ".upload", function (e) {
     error: debugJSON
   });
 });
+// file is passed to success function instead of downloading to browser so temp not using this function
 function downloadMilestone(event) {
-  console.log('progrss');
-    let milestoneId = (event.currentTarget.id).replace('download-',''); // remove unique identifier from html id to extract canvas_assignment id
-    $.ajax({
-        url: 'progress/' + milestoneId,
-        type: 'GET',
-        success: function (data) {
-            alert("Successfully downloaded file")
-        },
-        error: function(err) {
-          alert("No Document Has Been Uploaded")
-        },
-        cache: false,
-        contentType: false,
-        processData: false
-    });
+  console.log('file being downloaded');
+  let milestoneId = (event.currentTarget.id).replace('download-',''); // remove unique identifier from html id to extract canvas_assignment id
+  $.ajax({
+      url: 'progress/' + milestoneId,
+      type: 'GET',
+      error: function(err) {
+        alert("No Document Has Been Uploaded")
+      }
+  });
 }
