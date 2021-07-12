@@ -1,2 +1,2 @@
-web: npm install
+builder: npm install
 web: gunicorn run:app
