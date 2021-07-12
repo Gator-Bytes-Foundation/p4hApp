@@ -13,7 +13,7 @@ src/static/dist
 
 # this will contain secret keys and tokens
 secrets.yml
-src/canvas.py
+#src/canvas.py
 bin/prod/server.key
 bin/prod/server.crt
 #src/*.db
