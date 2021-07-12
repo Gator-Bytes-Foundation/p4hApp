@@ -28,8 +28,8 @@
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "src/static/images/favicon.ico",
+              "src/static"
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
@@ -41,8 +41,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "replace": "src/static/environments/environment.ts",
+                  "with": "src/static/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
