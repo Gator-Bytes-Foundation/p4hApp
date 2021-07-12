@@ -13,7 +13,7 @@
     <link  rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}" ></link>
   </head>
 <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html) -->
-<app-root class="spinner-wrapper">
+<!--<app-root class="spinner-wrapper">
     <div class="container">
         <div class="row">
           <div id="loader">
@@ -29,7 +29,7 @@
           </div>
         </div>
       </div>
-</app-root>
+</app-root>-->
 
 <div id="entire_profile" class="container emp-profile" onload="window.localStorage.setItem('rocket_login', rocket_user['authToken']); console.log(rocket_user['authToken']);">
 
