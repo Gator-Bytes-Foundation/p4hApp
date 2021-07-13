@@ -5,16 +5,15 @@
     </div>
     <div class="profile_name">
         <div class="profile-pic">
-            {% if(post.title == 'Admin' or post.title == 'Announcement' ) %}
+            {% if(post.user_name == 'Admin' or post.title == 'Announcement' ) %}
             <figure class="thumbnail"><img alt="placeholder" class="img-fluid avatar-sm" src="{{ url_for('static', filename='images/p4h.png') }}" /></figure>
             {% else %}
-            <!--<figure class="thumbnail"> <img alt="placeholder" class="img-fluid rounded-circle" src="{{post.author['avatar_image_url']}}" /> </figure>-->
             <figure class="thumbnail"> <img alt="placeholder" class="img-fluid avatar-sm"  src="data:;base64,{{ profile.profile_pic}}" /> </figure>
             {% endif %}
         </div>
         <div class="">
             <header class="text-left">
-                <figcaption class="comment-user"><b>{{post.title}}</b></figcaption>
+                <figcaption class="comment-user"><b>{{post.user_name}}</b></figcaption>
                 <time class="comment-date" datetime="{{post.posted_at}}"><i class="fa fa-clock-o"></i> {{post.posted_at}}</time>
             </header>
         </div>
@@ -44,13 +43,17 @@
             {% for j in range(post.comments[(post.id | string)] | length) | reverse %}
             <div class="post_comment profile-pic-post">
                 <!--<figure class=" col-2"><img alt="profile picture" class="img-fluid " src="{{post.comments[post.id | string][j].user['avatar_image_url']}}" /></figure>-->
+                {% if(post.comments[post.id | string][j].user_name == 'Admin') %}
+                <img alt="placeholder" class="img-fluid avatar-sm" src="{{ url_for('static', filename='images/p4h.png') }}" />
+                {% else %}
                 <img alt="profile picture" class="img-fluid avatar-sm" src="data:;base64,{{ profile.profile_pic}}" />
+                {% endif %}
                 <div class="word_bubble">
                     <div class="delete">
                         <span id="{{post.comments[(post.id | string)][j].id}}" name="{{post.id}}" onclick="deleteComment(event)" class="iconify" data-icon="oi-x"></span>
                     </div>
                     <!-- posts contain comments organized by post id (which is casted to string) and itterates through all comments -->
-                    <p class=""><b>{{post.comments[post.id | string][j].user["name"]}}:</b><br> {{post.comments[(post.id | string)][j].message}}</p>
+                    <p class=""><b>{{post.comments[post.id | string][j].user_name}}:</b><br> {{post.comments[(post.id | string)][j].message}}</p>
                 </div>
             </div>
             {% endfor %}

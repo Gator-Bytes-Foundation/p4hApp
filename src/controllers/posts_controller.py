@@ -7,7 +7,12 @@ from src import db
 import base64
 
 
-
+def convertDate(inproperDate):
+  year = inproperDate[2:4]
+  day = inproperDate[5:7]
+  month = inproperDate[8:10]
+  properDate = ''.join([month,'/', day, '/', year])
+  return properDate
 
 #  
 # loads all canvas discussion posts that the profile user has posted and their associated comments
@@ -36,19 +41,14 @@ def loadPosts(user):
     usernameId = user.username + ' ' + str(canvas_id) #used to identify user in canvas
     #print('current user: ' + currentUser + ' title: ' + posts[i].title)
     if(posts[i].title == usernameId and posts[i].message is not None): #only shows posts that the user has posted
-      
       posts[i].message = posts[i].message.replace('</p>', '').replace('<p>', '')
-      # format date info 
-      year = posts[i].posted_at[2:4]
-      day = posts[i].posted_at[5:7]
-      month = posts[i].posted_at[8:10]
-      proper_date = ''.join([month,'/', day, '/', year])
-      posts[i].posted_at = proper_date # replace old ugly format
+      posts[i].posted_at = convertDate(posts[i].posted_at)
       posts[i].name = user.name
+      posts[i].user = user
       posts[i].comments = loadPostComents(posts[i])
       posts[i].files = UserFiles.query.filter_by(userId=user.id,postId=posts[i].id).all()
+      
       if(len(posts[i].files) > 0): 
-        
         image_data = base64.b64encode(posts[i].files[0].data).decode("utf-8")
         #print('file data: ')
         #print(posts[i].files[0])
@@ -69,44 +69,27 @@ def loadPosts(user):
 #
 # Function will extract 'Admin' posts from discussion page on canvas and load them to Announcement page
 #
-def loadNewsFeed():  
+def loadAnnouncements():  
   # initialize variables
   recentPosts = []
-  array_of_comments = {}
-  proper_date = ''
+  #announcements = canvas.get_announcements(context_codes='course_1') # canvas announcements lack documentation, so gonna just use regular discussion posts
+
   try:
-    #announcements = canvas.get_announcements(context_codes='course_1') # canvas announcements lack documentation, so gonna just use regular discussion posts
-    announcements = course.get_discussion_topics()
-    topics = announcements._get_next_page() # this is the list of all topics (with embedded posts) in the course
+    announcements = list(course.get_discussion_topics())
   except CanvasException as e:
     print("error: ", e)
   #loop through each post  
-  for i in range(len(topics)):
-    if(topics[i].title == 'Announcement'): #only shows posts that the user has posted
-      if(topics[i].message is not None):
-        topics[i].message = topics[i].message.replace('</p>', '')
-        topics[i].message = topics[i].message.replace('<p>', '') # get rid of the html
-        year = topics[i].posted_at[2:4]
-        month = topics[i].posted_at[5:7]
-        day = topics[i].posted_at[8:10]
-        proper_date = proper_date.join([month,'/', day, '/', year])
-        recentPosts.append(topics[i])
-        #try:
-        comments = topics[i].list_topic_entries()._get_next_page()
-        temp_comments = []
-        # only loop through comments of posts we are showing
-        for j in range(len(comments)):
-          if(comments[j].message is not None):
-            comments[j].message = comments[j].message.replace('</p>', '')
-            comments[j].message = comments[j].message.replace('<p>', '') # get rid of the html
-          temp_comments.append(comments[j])
-        array_of_comments[str(topics[i].id)] = temp_comments
-        
-      #except:
-      #print("no comments for announcement")    
+  for i in range(len(announcements)):
+    #print(announcements[i].user_name)
+    if(announcements[i].title == 'lcundiff 1' and announcements[i].message is not None): #only shows posts that the user has posted
+      announcements[i].message = announcements[i].message.replace('</p>', '')
+      announcements[i].message = announcements[i].message.replace('<p>', '') # get rid of the html
+      announcements[i].posted_at = convertDate(announcements[i].posted_at)
+      announcements[i].comments = loadPostComents(announcements[i])
+      recentPosts.append(announcements[i])
         
   # after looping through each post, return the array
-  return recentPosts, array_of_comments, proper_date      
+  return recentPosts      
 
 '''
   abstract: Takes in user info on who is posting and where they are posting and adds the post on Canvas
@@ -132,7 +115,7 @@ def handlePost(user_id, req,current_user):
   post = course.create_discussion_topic(
       title = title,
       #user_id = user_id,
-      #user_name = current_user.email,
+      user_name = current_user.name,
       message = new_post,
       user_can_see_posts = True,
       published = True,
@@ -213,7 +196,7 @@ def handleComment(req,current_user,post_id):
       user_name = current_user.name
   )
   # send back html for post
-  comment_html = '<div class="post_comment profile-pic-post"><figure class="thumbnail"><img alt="placeholder" class="img-fluid rounded-circle" src="'+ comment.author['avatar_image_url']+'"/></figure><div class="word_bubble col-10"><p><b>' + current_user.username + ':</b><br>' + comment_text + '</p></div></div>'
+  comment_html = '<div class="post_comment profile-pic-post"><figure class="thumbnail"><img alt="placeholder" class="img-fluid rounded-circle" src="data:;base64,{{ profile.profile_pic}}"/></figure><div class="word_bubble col-10"><p><b>' + current_user.username + '</b><br>' + comment_text + '</p></div></div>'
   return comment_html  
 
 def deletePost(req,current_user,post_id): 

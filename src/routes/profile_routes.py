@@ -9,7 +9,7 @@ from src.models.user_model import User
 from src.canvas import CANVAS, course, account # inject canvas, course objects into file
 from src.models.profile_model import Profile
 from src.controllers.profile_controller import loadProfile, updateProfile, getProgress, updateProgress, loadProgress
-from src.controllers.posts_controller import loadPosts, loadNewsFeed, handlePost, handleComment
+from src.controllers.posts_controller import loadPosts, loadAnnouncements, handlePost, handleComment
 ''' Import Needed Libraries ''' 
 import json
 import requests

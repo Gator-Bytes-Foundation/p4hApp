@@ -66,9 +66,8 @@ def comment(post_id,comment_id): #url being routed is saved to 'page_to_load' wh
 @app.route('/announcements', methods=['GET', 'POST'])
 @login_required
 def announcements():    
-  newsfeed_posts, newsfeed_comments, date = loadNewsFeed()
-  #print ("comment object: ", profile_comments)
-  return render_template('announcements.html',  posts=newsfeed_posts, comments=newsfeed_comments, date=date, current_user= current_user)
+  newsfeed_posts = loadAnnouncements()
+  return render_template('announcements.html',  posts=newsfeed_posts, current_user= current_user)
 '''
 @app.route('/js/<path:path>')
 def send_js(path):

@@ -79,7 +79,6 @@ def updateProgress(request,user_id,assignment_id):
     print('canvas GET assignment failed')
     return False
   print(user_id)
-  print(request.files.getlist("file"))
   # user_id = getUserIdFromProfile(profile_id)
   # oorrr canvas_id getUser(user_id).canvasId
   #canvas_user = CANVAS.get_user(int(user_id)) # temp
@@ -95,7 +94,7 @@ def updateProgress(request,user_id,assignment_id):
   
   assignment.submit(
       submission={"submission_type": "online_upload"},
-      file=request.files["milestone.pdf"],
+      file=request.files["progressFile"],
       as_user_id=str(user_id) # sending user id works
   )
   return True

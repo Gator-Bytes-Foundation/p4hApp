@@ -34,6 +34,7 @@ let debugJSON = function(data,err,exception) {
   let response = JSON.stringify(eval(data));
   console.log(response);
   console.log(exception);
+  alert('Apologies! An error occured!');
 }
 
 // is triggered when upload is clicked
@@ -69,7 +70,7 @@ $(document).on("click", ".upload", function (e) {
   //fr.readAsText(file);
   //fr.readAsDataURL(file);
   var formData = new FormData();
-  formData.append(filename, file);
+  formData.append('progressFile', file);
   $.ajax({
     type: "POST",
     url: "/profile/" + user_id + "/progress/" + milestoneId,
@@ -80,6 +81,7 @@ $(document).on("click", ".upload", function (e) {
     dataType: "json",
     success: function (data) {
       console.log("the file submission returned ", data);
+      alert('File uploaded successfully!');
       $("#label-" + milestoneId).empty();
     },
     error: debugJSON

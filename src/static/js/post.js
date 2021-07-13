@@ -146,7 +146,7 @@ function getPostData(id) {
     const edit_menu = document.getElementsByClassName("overlayBlock")[0];
     if (!event.target.matches("list_of_items")) {
       // cancels dropdown box if clicked somewhere outside of dropdown box
-      if (list_of_items[0].style.display == "block") {
+      if (list_of_items && list_of_items[0] && list_of_items[0].style.display == "block") {
         cancelDropDown();
       }
     }
