@@ -31,11 +31,12 @@
         {%endif%}
 
         <hr> 
+        <!--
         {% if( (post.comments[post.id | string] | length) > 0 ) %}
         <div class="text-center">
             <p class=""><a id="view_more-{{post.id}}" onclick="$('#comments-' + '{{post.id}}').show();" class="profile_button view_more">View Comments</a></p>
         </div>
-        {%endif%}
+        {%endif%} -->
         <div id="comments-{{post.id}}">
             <!-- changes from on to off based off "view comments button -->
             <label class="comment_label" for="from"><b>Comments</b></label> 
