@@ -89,9 +89,9 @@ $("#post").on("click", function(e) {
             const post = JSON.parse(data); 
             //console.log("post being created " + data);
             const new_post_id = post.post_id;
-
             $("#write_post").append(post.html).css("overflow", "hidden");
             let profile_pic_src = $('#profile_pic_img').attr('src');
+            if(userId == '1') profile_pic_src = '../images/p4h.png'; 
             $("#profile-post-" + new_post_id).attr("src", profile_pic_src);
             if (typeof file !== "undefined") {
                 console.log("file");

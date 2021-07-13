@@ -1,4 +1,5 @@
 from src.canvas import * # inject canvas, course objects into file
+from flask_login import current_user
 from src.models.profile_model import Profile
 from flask import url_for, flash, redirect, request, render_template, send_file
 from src.models.user_model import User, UserFiles
@@ -8,9 +9,6 @@ import base64
 from src import file_upload
 
 def loadProfile(profile,all_users,current_user,rocket_user):
-  #print('loading profile')
-  #profile.canvas_user = CANVAS.get_user(1) # if no user_id is passed, we assign current user
-
   # Canvas does not allow external files to change profile pictures
   #avatar = profile.canvas_user.get_avatars()[1] returns dotted pic for some reason
   #if(len(profile.posts) > 0):
@@ -28,7 +26,6 @@ def loadProfile(profile,all_users,current_user,rocket_user):
     avatarImg = base64.b64encode(avatarFile).decode('utf-8')
     profile.profile_pic = avatarImg  
 
-  profile.user = current_user
   #print(rocket_user['userId'])
   return render_template('profile.html', profile = profile,  current_user = current_user, users = all_users,rocket_user = rocket_user)
 
@@ -38,13 +35,14 @@ def loadProgress(profile_id):
   #int_assignment_id = int(assignment_id)
   # else: 
   # abort(Response('You do not have permission to view this teacher's progress'))
-  user = CANVAS.get_user(1) #temp until canvas users are synced with user db
-  user_assignments = list(user.get_assignments(user.id))
+  user = CANVAS.get_user(profile_id) #temp until canvas users are synced with user db
+  p4hCourseId = 1
+  user_assignments = list(user.get_assignments(p4hCourseId))
   #print(user_assignments)
   for i in range(len(user_assignments)):
     user_assignments[i].description = user_assignments[i].description.replace('<p>','').replace('</p>','') #get rid of stupid html tags. like why is this even being returned
 
-  return user_assignments 
+  return user_assignments, user 
 
 
 def getProgress(request,user_id,assignment_id):
@@ -61,11 +59,11 @@ def getProgress(request,user_id,assignment_id):
       #print("submission attachment ", submission.attachments[i])
       file_url = submission.attachments[0]['url']
       r = requests.get(file_url,verify=False)
-      open('tmp/downloadMilestone', 'wb').write(r.content)
+      open('src/tmp/downloadMilestone', 'wb').write(r.content)
 
       #file_to_download.download(file_to_download.filename) # download each file associated with assignment submission 
       #return file_to_download
-      #print(submission.attachments[0])
+      print(submission.attachments[0]['display_name'])
       return submission.attachments[0]
   else:  
     return False 
@@ -73,11 +71,18 @@ def getProgress(request,user_id,assignment_id):
 # admins should be only ones uploading progress
 def updateProgress(request,user_id,assignment_id):
   print("uploading asssignment")
-  #int_assignment_id = int(assignment_id)
-  assignment = course.get_assignment(assignment_id)
+  int_assignment_id = int(assignment_id)
+  print(str(int_assignment_id))
+  try: 
+    assignment = course.get_assignment(int_assignment_id)
+  except(err): 
+    print('canvas GET assignment failed')
+    return False
+  print(user_id)
+  print(request.files.getlist("file"))
   # user_id = getUserIdFromProfile(profile_id)
   # oorrr canvas_id getUser(user_id).canvasId
-  canvas_user = CANVAS.get_user(user_id) # temp
+  #canvas_user = CANVAS.get_user(int(user_id)) # temp
   #submission_dict = {}
   #submission_dict['submission_type'] = 'online_upload'
   #submission_dict['assignment_id'] = assignment_id
@@ -87,10 +92,11 @@ def updateProgress(request,user_id,assignment_id):
   #try:
     #assignment.submit(submission_dict,request.files['file'])
     #assignment.submit(submission_dict)
+  
   assignment.submit(
       submission={"submission_type": "online_upload"},
-      file=request.files["milestone.png"],
-      as_user_id=user_id # canvas people said this will only work with admin id
+      file=request.files["milestone.pdf"],
+      as_user_id=str(user_id) # sending user id works
   )
   return True
   #except():

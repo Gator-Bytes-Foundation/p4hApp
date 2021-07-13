@@ -37,7 +37,7 @@ def files_page(page_to_load):
     print(filename)
     #APP_ROOT = os.path.dirname(os.path.abspath(__file__))
     #UPLOAD_FOLDER = os.path.join(APP_ROOT, 'tmp')
-    return send_file('../tmp/downloadfile', as_attachment=True,attachment_filename=filename)
+    return send_file('tmp/downloadfile', as_attachment=True,attachment_filename=filename)
   # else, user clicked folder => load next layer
   folder_id = page_to_load.replace('files_','').replace('.html','')
   int_id = int(folder_id)

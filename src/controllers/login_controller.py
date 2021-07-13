@@ -75,7 +75,8 @@ class SignUpForm(FlaskForm):
         error = str(e)
         error = error.replace("{","").replace("}","").replace('"','')
         return render_template('signup.html', title='signUp', form=form, error=error)
-
+      course.enroll_user(canvas_user.id, 'StudentEnrollment')
+     
       # 2nd add user in rocket chat (To do: if rocket chat fails, canvas and DB needs to delete new user)
       try:
         rocket_user = ROCKET.users_create(email,fname,password,username)

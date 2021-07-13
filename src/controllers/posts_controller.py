@@ -78,7 +78,6 @@ def loadNewsFeed():
     #announcements = canvas.get_announcements(context_codes='course_1') # canvas announcements lack documentation, so gonna just use regular discussion posts
     announcements = course.get_discussion_topics()
     topics = announcements._get_next_page() # this is the list of all topics (with embedded posts) in the course
-    print("announcement[0]: ", announcements[0])
   except CanvasException as e:
     print("error: ", e)
   #loop through each post  
