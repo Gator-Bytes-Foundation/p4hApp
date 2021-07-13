@@ -64,4 +64,3 @@ testem.log
 .DS_Store
 Thumbs.db
 src/app.db
-src/canvas.py
