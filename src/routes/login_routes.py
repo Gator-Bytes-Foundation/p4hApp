@@ -36,6 +36,11 @@ def logout():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
   print(current_user)
+  if(ROCKET == None):
+    flash('Messaging server is down')
+  if(account == None):
+    flash('Canvas server is down')
+
   if current_user.is_authenticated:
     return redirect(url_for('profile'))
   
@@ -53,8 +58,8 @@ def login():
       user.canvasId = CANVAS.get_user(1) 
     #print(form.remember_me.data)
     login_user(user, remember=form.remember_me.data)
-    rocket_res = ROCKET.login(form.username.data,form.password.data)
-    print(rocket_res.json().get("data"))
+    if(ROCKET != None): rocket_res = ROCKET.login(form.username.data,form.password.data)
+    #print(rocket_res.json().get("data"))
     rocket_user = rocket_res.json().get("data")
     flash('Logged in successfully.')
     next = request.args.get('next')
@@ -64,11 +69,13 @@ def login():
       all_canvas_users = list(account.get_users())
     except:
       error = "Canvas server is currently down"
-      return json.dumps({'success':False}), 404, {'ContentType':False}
+      flash(error)
+      return render_template('login.html', title='login', form=form, error=error)
+      #return json.dumps({'success':False}), 404, {'ContentType':False}
     profile = loadPosts(user)   
     return loadProfile(profile, all_canvas_users,current_user,rocket_user)
     #return redirect(url_for('profile'))    
     
   else : #if login form hasn't been sumbitted yet
-    return render_template('login.html', title='login',  form=form)
+    return render_template('login.html', title='login', form=form)
 

@@ -21,12 +21,13 @@ proxy_dict = {"http": "https://p4hteach.rocket.chat"}
 # Initialize a new Canvas object
 CANVAS = Canvas(API_URL, API_KEY)
 # Both course and canvas objects are used for majority of API calls
-#try:
-course = CANVAS.get_course(1)  # only 1 course being used on canvas so initialize it globally to avoid repeated API calls
-account = CANVAS.get_account(1)
-#except:
-    #print("canvas is down")
-    #course = None
+try:
+    course = CANVAS.get_course(1)  # only 1 course being used on canvas so initialize it globally to avoid repeated API calls
+    account = CANVAS.get_account(1)
+except:
+    print("canvas is down")
+    course = None
+    account = None
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -38,17 +39,19 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     UPLOAD_FOLDER = os.path.join(basedir,"../frontend/assets/uploads")
 
-
-with sessions.Session() as session:
-    ROCKET = RocketChat(
-        "logancundiff2@gmail.com",
-        #secrets.get("rocket_chat_email"),
-        "NF!Deku2",
-        #secrets.get("rocket_chat_password"),
-        server_url=ROCKET_URL,
-        session=session,
-    )
-
+try: 
+    with sessions.Session() as session:
+        ROCKET = RocketChat(
+            "logancundiff2@gmail.com",
+            #secrets.get("rocket_chat_email"),
+            "NF!Deku2",
+            #secrets.get("rocket_chat_password"),
+            server_url=ROCKET_URL,
+            session=session,
+        )
+except: 
+    print('rocket chat server down')
+    ROCKET = None
 
 def authenticate(scopes, call):
     canvas_url = API_URL + "login/oauth2/auth?"
