@@ -42,16 +42,16 @@
             <label class="comment_label" for="from"><b>Comments</b></label> 
             
             {% for j in range(post.comments[(post.id | string)] | length) | reverse %}
-            <div class="post_comment profile-pic-post">
+            <div class="post_comment profile-pic-post" id="comment-{{post.comments[(post.id | string)][j].id}}">
                 <!--<figure class=" col-2"><img alt="profile picture" class="img-fluid " src="{{post.comments[post.id | string][j].user['avatar_image_url']}}" /></figure>-->
                 {% if(post.comments[post.id | string][j].user_name == 'Admin') %}
                 <img alt="placeholder" class="img-fluid avatar-sm" src="{{ url_for('static', filename='images/p4h.png') }}" />
                 {% else %}
                 <img alt="profile picture" class="img-fluid avatar-sm" src="data:;base64,{{ profile.profile_pic}}" />
                 {% endif %}
-                <div class="word_bubble">
+                <div class="word_bubble"  >
                     <div class="delete">
-                        <span id="{{post.comments[(post.id | string)][j].id}}" name="{{post.id}}" onclick="deleteComment(event)" class="iconify" data-icon="oi-x"></span>
+                        <span id="{{post.comments[(post.id | string)][j].id}}" name="{{(post.id | string)}}" onclick="deleteComment(event,'{{post.id}}')" class="iconify" data-icon="oi-x"></span>
                     </div>
                     <!-- posts contain comments organized by post id (which is casted to string) and itterates through all comments -->
                     <p class=""><b>{{post.comments[post.id | string][j].user_name}}:</b><br> {{post.comments[(post.id | string)][j].message}}</p>

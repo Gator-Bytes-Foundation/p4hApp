@@ -3,10 +3,10 @@ from flask_login import login_user, logout_user, current_user, login_required
 #from flask_api import status
 
 from werkzeug.urls import url_parse
-from src import app  # from /app import flask app TODO: import db
+from src import app 
 ''' Import Needed Modules ''' 
 from src.models.user_model import User
-from src.canvas import CANVAS, course, account # inject canvas, course objects into file
+from src.canvas import CANVAS, account
 from src.models.profile_model import Profile
 from src.controllers.profile_controller import loadProfile, updateProfile, getProgress, updateProgress, loadProgress
 from src.controllers.posts_controller import loadPosts, loadAnnouncements, handlePost, handleComment
@@ -32,11 +32,6 @@ def customProfileCalls(profile_id): #url being routed is saved to 'page_to_load'
 @app.route('/profile', methods=['GET'])
 @login_required 
 def profile(*args): 
-  try:
-    all_canvas_users = list(account.get_users())
-  except:
-    error = "Canvas server is currently down"
-    return json.dumps({'success':False}), 500, {'ContentType':False}
   if(len(args) > 0):
     user = User.query.filter_by(canvasId=args[0]).first()
   else: user = current_user
@@ -44,14 +39,12 @@ def profile(*args):
   rocket_user = {}
   user_profile = loadPosts(user)     
   # Brings user to their profile view
-  return loadProfile(user_profile, all_canvas_users,current_user,rocket_user)
+  return loadProfile(user_profile,rocket_user)
 
 @login_required
 @app.route('/profile', methods=['POST'])
 def saveProfile():
-  #print('save profile: ')
-  #print(request)
-  updateProfile(request,current_user)
+  updateProfile(request)
   return profile() # this isnt efficient since it reloads the entire page from scratch
 
 
@@ -77,7 +70,6 @@ def progressGet(user_id,milestone_id):
 ## Upload milestone - UPDATE
 @app.route('/profile/<user_id>/progress/<milestone_id>', methods=['POST', 'PUT'])
 def progressPut(user_id,milestone_id):    
-  #if(request.method == 'PUT'):
   file_uploaded = updateProgress(request,user_id,milestone_id)
   print(file_uploaded)
   return json.dumps({'success':True}), 200, {'ContentType':False}

@@ -64,16 +64,9 @@ def login():
     flash('Logged in successfully.')
     next = request.args.get('next')
     #if not is_safe_url(next,{"http://localhost:5000", "p4hteach.org", "www.p4hteach.org"}):
-        #return abort(400)    
-    try:
-      all_canvas_users = list(account.get_users())
-    except:
-      error = "Canvas server is currently down"
-      flash(error)
-      return render_template('login.html', title='login', form=form, error=error)
       #return json.dumps({'success':False}), 404, {'ContentType':False}
     profile = loadPosts(user)   
-    return loadProfile(profile, all_canvas_users,current_user,rocket_user)
+    return loadProfile(profile,rocket_user)
     #return redirect(url_for('profile'))    
     
   else : #if login form hasn't been sumbitted yet

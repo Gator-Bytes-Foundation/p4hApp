@@ -36,10 +36,11 @@ def posts(user_id): #url being routed is saved to 'user_id' which we can then us
   print("user id: ",user_id)
   print(current_user)
   if(request.method == 'POST'):
-    html, post_id = handlePost(user_id,request,current_user)
+    html, post_id, profilePic = handlePost(user_id,request)
     return json.dumps({
       'html':html,
-      'post_id': post_id
+      'post_id': post_id,
+      'profilePic': profilePic
     }), 200, {'ContentType':'application/json'}
   
   return jsonify(request)
@@ -47,7 +48,7 @@ def posts(user_id): #url being routed is saved to 'user_id' which we can then us
 @app.route('/post/<post_id>', methods=['DELETE'])
 def post(post_id): #url being routed is saved to 'user_id' which we can then use to render the name of the html file
   print("post id: ",post_id)
-  res = deletePost(request,current_user,post_id)
+  res = deletePost(request,post_id)
   return json.dumps({
     'res': res
   }), 200, {'ContentType':'application/json'}
@@ -55,12 +56,12 @@ def post(post_id): #url being routed is saved to 'user_id' which we can then use
 @app.route('/comment/<post_id>', methods=['POST'])
 def comments(post_id): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
   print("post id for commenting: ",post_id)
-  return handleComment(request,current_user,post_id)
+  return handleComment(request,post_id)
   
-@app.route('/comment/<post_id>/<comment_id>', methods=['DELETE'])
+@app.route('/post/<post_id>/comment/<comment_id>', methods=['DELETE'])
 def comment(post_id,comment_id): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
   print("post id for commenting: ",post_id)
-  return deleteComment(request,current_user,post_id,comment_id)
+  return deleteComment(request,post_id,comment_id)
 
 # DISCUSSION REQUESTS #
 @app.route('/announcements', methods=['GET', 'POST'])

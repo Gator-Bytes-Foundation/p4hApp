@@ -74,15 +74,15 @@ function getPostData(id) {
     });
   }
   //
-  function deleteComment(e) {
+  function deleteComment(e,postId) {
     console.log('post being deleted');
     let comment_id = e.currentTarget.id;
-    let post_id = e.currentTarget.name;
+    let post_id = postId;
     console.log("post id " + post_id);
     console.log("comment being deleted id " + comment_id);
     $.ajax({
       type: "DELETE",
-      url: "/post/" + post_id + '/' + comment_id,
+      url: "/post/" + post_id + '/comment/' + comment_id,
       contentType: false,
       processData: false,
       success: function (data) {

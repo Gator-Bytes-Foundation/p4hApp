@@ -8,14 +8,15 @@ import requests
 import base64
 from src import file_upload
 
-def loadProfile(profile,all_users,current_user,rocket_user):
+def loadProfile(profile,rocket_user):
+
   # Canvas does not allow external files to change profile pictures
   #avatar = profile.canvas_user.get_avatars()[1] returns dotted pic for some reason
   #if(len(profile.posts) > 0):
     #avatar = profile.posts[0].author['avatar_image_url']
   #else: 
 
-  avatar = UserFiles.query.filter_by(userId=current_user.id,postId=current_user.canvasId).first()
+  avatar = UserFiles.query.filter_by(userId=profile.user.id,postId=profile.user.canvasId).first() # post id as canvas id is profile pic?
   if(avatar): 
     #print('using avatar from db')
     #print(avatar)
@@ -27,7 +28,8 @@ def loadProfile(profile,all_users,current_user,rocket_user):
     profile.profile_pic = avatarImg  
 
   #print(rocket_user['userId'])
-  return render_template('profile.html', profile = profile,  current_user = current_user, users = all_users,rocket_user = rocket_user)
+  allUsers = User.query.all()
+  return render_template('profile.html', profile = profile,  current_user = current_user, users=allUsers, rocket_user = rocket_user)
 
 def loadProgress(profile_id):
   # permission = checkUserPermission() to do 
@@ -103,7 +105,7 @@ def updateProgress(request,user_id,assignment_id):
     #print("submission error")
     #return False
 
-def updateProfile(req,current_user):
+def updateProfile(req):
   #print('form')
   #print(req.form)
   canvas_user = CANVAS.get_user(current_user.canvasId)

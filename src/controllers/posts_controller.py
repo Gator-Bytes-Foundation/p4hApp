@@ -1,10 +1,12 @@
 from src.canvas import CANVAS,course, CanvasException # inject canvas, course objects into file
 from src.models.profile_model import Profile
 from flask import Flask, abort, Response, request
+from flask_login import current_user
 from src.models.user_model import User, UserFiles
 from src import file_upload
 from src import db
 import base64
+import json
 
 
 def convertDate(inproperDate):
@@ -13,6 +15,19 @@ def convertDate(inproperDate):
   month = inproperDate[8:10]
   properDate = ''.join([month,'/', day, '/', year])
   return properDate
+
+def getProfilePic(user): 
+  avatar = UserFiles.query.filter_by(userId=user.id,postId=user.canvasId).first() # post id as canvas id is profile pic?
+  if(avatar): 
+    #print('using avatar from db')
+    #print(avatar)
+    avatarImg = base64.b64encode(avatar.data).decode("utf-8")
+    return avatarImg
+  else: # no avatar set 
+    avatarFile = open('src/static/images/profile.png', 'rb').read()
+    avatarImg = base64.b64encode(avatarFile).decode('utf-8')
+    return avatarImg
+  
 
 #  
 # loads all canvas discussion posts that the profile user has posted and their associated comments
@@ -91,16 +106,17 @@ def loadAnnouncements():
   # after looping through each post, return the array
   return recentPosts      
 
+
+
 '''
   abstract: Takes in user info on who is posting and where they are posting and adds the post on Canvas
 '''
-def handlePost(user_id, req,current_user): 
+def handlePost(user_id, req): 
   
   if(current_user.is_anonymous == True):
     abort(Response('Must be logged in to post')) 
   user = User.query.filter_by(id=user_id).first()
   #print(current_user.username + ' is posting on ' + user.username + ' profile')
-  canvas_user = CANVAS.get_user(current_user.canvasId)
   #print(req.form['text'])
   new_post = req.form['text']
   try:
@@ -111,11 +127,10 @@ def handlePost(user_id, req,current_user):
 
   # 
   # make post in canvas
-  title = current_user.username + ' ' + str(current_user.canvasId)
+  title = user.username + ' ' + str(user.canvasId) # title = user's profile name
   post = course.create_discussion_topic(
       title = title,
-      #user_id = user_id,
-      user_name = current_user.name,
+      user_name = current_user.name, # person posting it
       message = new_post,
       user_can_see_posts = True,
       published = True,
@@ -166,11 +181,12 @@ def handlePost(user_id, req,current_user):
   ''' + post_id + '''"onkeyup="" size="5" placeholder="Comment"></textarea><span class="upload_icon oi oi-cloud-camera" aria-hidden="true"></span></div> <a href=""name="' 
   ''' + post_id + '" id="reply-' + post_id + '" class="reply_button col-4 btn-sm"><i class="fa fa-reply"></i> Reply</a></div></div></article>'  
   
-  return post_html, post_id
+  profilePic = getProfilePic(current_user)
+  return post_html, post_id, profilePic
 
 def loadPostComents(post):
-  if(not hasattr(post,'list_topic_entries')): return
-  comments = post.list_topic_entries()
+  if(not hasattr(post,'get_topic_entries')): return
+  comments = list(post.get_topic_entries())
   allCommentsMap = {}
   postComments = []
 
@@ -185,7 +201,7 @@ def loadPostComents(post):
   allCommentsMap[str(post.id)] = postComments
   return allCommentsMap
 
-def handleComment(req,current_user,post_id):
+def handleComment(req,post_id):
   #new_comment = req.get_json()["text"]
   comment_text = req.form['text']
   #print("reply:", comment_text)
@@ -195,23 +211,33 @@ def handleComment(req,current_user,post_id):
       message = comment_text,
       user_name = current_user.name
   )
+  profilePic = getProfilePic(current_user)
   # send back html for post
-  comment_html = '<div class="post_comment profile-pic-post"><figure class="thumbnail"><img alt="placeholder" class="img-fluid rounded-circle" src="data:;base64,{{ profile.profile_pic}}"/></figure><div class="word_bubble col-10"><p><b>' + current_user.username + '</b><br>' + comment_text + '</p></div></div>'
-  return comment_html  
+  comment_html = '<div class="post_comment profile-pic-post"><figure class="thumbnail"><img alt="placeholder" class="img-fluid rounded-circle" src="data:;base64,' + profilePic + '"/></figure><div class="word_bubble col-10"><p><b>' + current_user.username + '</b><br>' + comment_text + '</p></div></div>'
+  return comment_html 
 
-def deletePost(req,current_user,post_id): 
-  post = course.get_discussion_topic(post_id); 
+def deletePost(req,post_id): 
+  post = course.get_discussion_topic(post_id) 
   print(post)
-  res = post.delete(); 
-  print("post deleted: ", res)
+  try:
+    res = post.delete()
+    print("post deleted: ", res)
+  except:
+    print('post not deleted')
+    return json.dumps({'success':False}), 400, {'ContentType':False}
+
   return res; 
 
-def deleteComment(comment_id, post_id): 
-  post = course.get_full_discussion_topic(post_id); 
-  comment = post.get_entries([comment_id])
-  res = comment.delete(); 
-  print("comment deleted: ", res)
-  return res; 
+def deleteComment(req,post_id,comment_id): 
+  post = course.get_discussion_topic(post_id) 
+  comment = post.get_entries([comment_id])[0]
+  try:
+    res = comment.delete()
+    print("comment deleted: ", res)
+    return res
+  except:
+    print('comment not deleted')
+    return json.dumps({'success':True}), 200, {'ContentType':False} # error gets triggered even though comment was deleted
 
 class Post():
   def __init__(self,post,user_object, post_message, post_media):

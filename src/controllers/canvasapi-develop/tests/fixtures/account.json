@@ -195,6 +195,16 @@
 			"default_time_zone": "America/New_York"
 		}
 	},
+	"get_brand_variables": {
+		"method": "GET",
+		"endpoint": "brand_variables",
+		"data": {
+			"ic-brand-primary-darkened-5": "#343637",
+			"ic-brand-primary-darkened-10": "#313334",
+			"ic-brand-primary-darkened-15": "#2E3031",
+			"ic-brand-primary-lightened-5": "#404142"
+		}
+	},
 	"get_courses": {
 		"method": "GET",
 		"endpoint": "accounts/1/courses",
@@ -303,6 +313,15 @@
 				"updated_at": "2016-06-17T14:20:00Z"
 			}
 		],
+		"status_code": 200
+	},
+	"get_enrollment_term": {
+		"method": "GET",
+		"endpoint": "accounts/1/terms/1",
+		"data": {
+			"id": 1,
+			"name": "Enrollment Term 1"
+		},
 		"status_code": 200
 	},
 	"get_enrollment_terms": {
@@ -568,10 +587,12 @@
 		"endpoint": "accounts/1/reports",
 		"data": [
 			{
-				"id": 1
+				"id": 1,
+				"report": "sis_export_csv"
 			},
 			{
-				"id": 2
+				"id": 2,
+				"report": "grade_export_csv"
 			}
 		],
 		"headers": {
@@ -1330,7 +1351,7 @@
         	"path": "/api/v1/users/self/course_nicknames/:course_id",
         	"scope": "url:GET|/api/v1/users/self/course_nicknames/:course_id",
         	"resource": "users",
-        	"resource_name": "Users"	
+        	"resource_name": "Users"
 		}
 	],
 	"status_code": 200
@@ -1731,6 +1752,23 @@
 			"feature": "epub_export",
 			"state": "on"
 		},
+		"status_code": 200
+	},
+	"get_authentication_events": {
+		"method": "GET",
+		"endpoint": "audit/authentication/accounts/1?per_page=100",
+		"data": [
+			{
+				"created_at": "2012-07-19T15:00:00-06:00",
+				"event_type": "login",
+				"pseudonym_id": 9478
+			},
+			{
+				"created_at": "2012-07-20T15:00:00-06:00",
+				"event_type": "logout",
+				"pseudonym_id": 9478
+			}
+		],
 		"status_code": 200
 	}
 }
