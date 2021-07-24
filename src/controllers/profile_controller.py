@@ -4,32 +4,20 @@ from src.models.profile_model import Profile
 from flask import url_for, flash, redirect, request, render_template, send_file
 from src.models.user_model import User, UserFiles
 from src import db
+from src.controllers.posts_controller import getProfilePic
 import requests 
 import base64
 from src import file_upload
 
 def loadProfile(profile,rocket_user):
 
-  # Canvas does not allow external files to change profile pictures
-  #avatar = profile.canvas_user.get_avatars()[1] returns dotted pic for some reason
-  #if(len(profile.posts) > 0):
-    #avatar = profile.posts[0].author['avatar_image_url']
-  #else: 
-
-  avatar = UserFiles.query.filter_by(userId=profile.user.id,postId=profile.user.canvasId).first() # post id as canvas id is profile pic?
-  if(avatar): 
-    #print('using avatar from db')
-    #print(avatar)
-    avatarImg = base64.b64encode(avatar.data).decode("utf-8")
-    profile.profile_pic = avatarImg
-  else: # no avatar set 
-    avatarFile = open('src/static/images/profile.png', 'rb').read()
-    avatarImg = base64.b64encode(avatarFile).decode('utf-8')
-    profile.profile_pic = avatarImg  
-
-  #print(rocket_user['userId'])
   allUsers = User.query.all()
-  return render_template('profile.html', profile = profile,  current_user = current_user, users=allUsers, rocket_user = rocket_user)
+  profile.profile_pic = getProfilePic(profile.user)
+  if(current_user.id != profile.user.id):
+    currentUserProfilePic = getProfilePic(current_user)
+  else: currentUserProfilePic = profile.profile_pic
+
+  return render_template('profile.html', profile = profile,  current_user = current_user, users=allUsers, rocket_user = rocket_user, currentUserProfilePic = currentUserProfilePic)
 
 def loadProgress(profile_id):
   # permission = checkUserPermission() to do 
@@ -37,15 +25,15 @@ def loadProgress(profile_id):
   #int_assignment_id = int(assignment_id)
   # else: 
   # abort(Response('You do not have permission to view this teacher's progress'))
-  user = CANVAS.get_user(profile_id) #temp until canvas users are synced with user db
+  canvas_user = CANVAS.get_user(profile_id) #temp until canvas users are synced with user db
   p4hCourseId = 1
   # NOTE: assignent has has_submitted_submissions as a field to check if user has submitted
-  user_assignments = list(user.get_assignments(p4hCourseId))
+  user_assignments = list(canvas_user.get_assignments(p4hCourseId))
   #print(vars(user_assignments[0])) # uncomment this to see what attributes the canvas assignment object has 
   for i in range(len(user_assignments)):
     user_assignments[i].description = user_assignments[i].description.replace('<p>','').replace('</p>','') #get rid of stupid html tags. like why is this even being returned
 
-  return user_assignments, user 
+  return user_assignments, canvas_user 
 
 
 def getProgress(request,user_id,assignment_id):

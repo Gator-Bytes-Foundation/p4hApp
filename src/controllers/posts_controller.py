@@ -17,6 +17,11 @@ def convertDate(inproperDate):
   return properDate
 
 def getProfilePic(user): 
+  # Canvas does not allow external files to change profile pictures
+  #avatar = profile.canvas_user.get_avatars()[1] returns dotted pic for some reason
+  #if(len(profile.posts) > 0):
+    #avatar = profile.posts[0].author['avatar_image_url']
+  
   avatar = UserFiles.query.filter_by(userId=user.id,postId=user.canvasId).first() # post id as canvas id is profile pic?
   if(avatar): 
     #print('using avatar from db')
