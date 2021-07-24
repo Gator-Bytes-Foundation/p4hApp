@@ -37,8 +37,9 @@ def loadProgress(profile_id):
   # abort(Response('You do not have permission to view this teacher's progress'))
   user = CANVAS.get_user(profile_id) #temp until canvas users are synced with user db
   p4hCourseId = 1
+  # NOTE: assignent has has_submitted_submissions as a field to check if user has submitted
   user_assignments = list(user.get_assignments(p4hCourseId))
-  #print(user_assignments)
+  #print(vars(user_assignments[0])) # uncomment this to see what attributes the canvas assignment object has 
   for i in range(len(user_assignments)):
     user_assignments[i].description = user_assignments[i].description.replace('<p>','').replace('</p>','') #get rid of stupid html tags. like why is this even being returned
 
@@ -78,7 +79,7 @@ def updateProgress(request,user_id,assignment_id):
   except(err): 
     print('canvas GET assignment failed')
     return False
-  print(user_id)
+  print(request.files["progressFile"])
   # user_id = getUserIdFromProfile(profile_id)
   # oorrr canvas_id getUser(user_id).canvasId
   #canvas_user = CANVAS.get_user(int(user_id)) # temp

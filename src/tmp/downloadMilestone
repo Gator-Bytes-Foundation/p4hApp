@@ -1,0 +1,578 @@
+/**
+ * Scanner for the class project in COP5556 Programming Language Principles 
+ * at the University of Florida, Fall 2020.
+ * 
+ * This software is solely for the educational benefit of students 
+ * enrolled in the course during the Fall 2020 semester.  
+ * 
+ * This software, and any software derived from it,  may not be shared with others or posted to public web sites,
+ * either during the course or afterwards.
+ * 
+ *  @Beverly A. Sanders, 2020
+ *
+ */
+
+package cop5556fa20;
+
+import java.util.ArrayList;
+
+import java.util.HashMap;
+
+public class Scanner {
+	
+	@SuppressWarnings("preview")
+	public record Token(
+		Kind kind,
+		int pos, //position in char array.  Starts at zero
+		int length, //number of chars in token
+		int line, //line number of token in source.  Starts at 1
+		int posInLine //position in line of source.  Starts at 1
+		) 
+	{ }
+	
+	@SuppressWarnings("serial")
+	public static class LexicalException extends Exception {
+		int pos;
+		public LexicalException(String message, int pos) {
+			super(message);
+			this.pos = pos;
+		}
+		public int pos() { return pos; }
+	}
+	
+	// declare scanner object
+	public Scanner(String inputString) {
+		/* IMPLEMENT THIS *********************************/
+		this.inputString = inputString;  
+
+	}
+	
+	/**
+	 * 
+	 * The list of tokens created by the scan method.
+	 */
+	private final ArrayList<Token> tokens = new ArrayList<Token>();
+	/** 
+	 * Kind object 
+	 */
+	public static enum Kind {
+		/* TOKENS */ 
+		IDENT, INTLIT, STRINGLIT, 
+		/* CONSTANTS */ 
+		CONST,
+		/* RESERVED WORDS */ 
+		KW_X/* X */,  KW_Y/* Y */, KW_WIDTH/* width */,KW_HEIGHT/* height */, 
+		KW_SCREEN/* screen */, KW_SCREEN_WIDTH /* screen_width */, KW_SCREEN_HEIGHT /*screen_height */,
+		KW_image/* image */, KW_int/* int */, KW_string /* string */,
+		KW_RED /* red */,  KW_GREEN /* green */, KW_BLUE /* blue */,
+		/* SYMBOLS */ 
+		ASSIGN/* = */, GT/* > */, LT/* < */, 
+		EXCL/* ! */, Q/* ? */, COLON/* : */, EQ/* == */, NEQ/* != */, GE/* >= */, LE/* <= */, 
+		AND/* & */, OR/* | */, PLUS/* + */, MINUS/* - */, STAR/* * */, DIV/* / */, MOD/* % */, 
+	    AT/* @ */, HASH /* # */, RARROW/* -> */, LARROW/* <- */, LPAREN/* ( */, RPAREN/* ) */, 
+		LSQUARE/* [ */, RSQUARE/* ] */, LPIXEL /* << */, RPIXEL /* >> */,  SEMI/* ; */, COMMA/* , */,  
+		/* EOF */ 
+		EOF
+	}
+	
+		
+
+	/**
+	 * Returns the text of the token.  If the token represents a String literal, then
+	 * the returned text omits the delimiting double quotes and replaces escape sequences with
+	 * the represented character.
+	 * 
+	 * @param token
+	 * @return
+	 */
+	public String getText(Token token) {
+		/* IMPLEMENT THIS *********************************************************/
+		
+		// utilize hashmap to correlate token text
+		// if(isStringLiteral) return the text after filtering out quotes and escape sequences
+		
+		return null;
+	}
+	
+	
+	/**
+	 * Returns true if the internal interator has more Tokens
+	 * 
+	 * @return
+	 */
+	public boolean hasTokens() {
+		return nextTokenPos < tokens.size();
+	}
+	
+	/**
+	 * Returns the next Token and updates the internal iterator so that
+	 * the next call to nextToken will return the next token in the list.
+	 * 
+	 * Precondition:  hasTokens()
+	 * @return
+	 */
+	public Token nextToken() {
+		return tokens.get(nextTokenPos++);
+	}
+	
+
+
+	
+
+	/**
+	 * position of the next token to be returned by a call to //nextToken
+	 */
+	private int nextTokenPos = 0;
+
+
+
+
+	// function that returns scanner
+	public Scanner scan() throws LexicalException {
+		/* IMPLEMENT THIS */
+		int tokenIndex = 0;
+		int line = 1;
+		int lineIndex = 1;
+		String inputString = this.inputString; 
+		
+		/********* SUB METHODS FOR scan() *******/ 
+		public void scanToken(String tokenType) {
+			int tempIndex = lineIndex; 
+			Kind kind; 
+			//boolean parsingToken = true; 
+			while ( true ) {
+				char chr = inputString.charAt(lineIndex); 
+				switch(tokenType) {
+					"identifier": 
+						if( !identifierPart() ) {
+							kind = Kind.OPERATOR;
+							break; 
+						} 
+					"reserved": 
+						if( (!rw() ) {
+							kind = Kind.OPERATOR;
+							break; 
+						} 
+					"intLit":
+						if( (!digit() ) {
+							kind = Kind.OPERATOR;
+							break; 
+						} 
+					"stringLit": 
+						if( (!stringChar() ) {
+							kind = Kind.OPERATOR;
+							break; 
+						} 						
+					"seperator":
+						if( !symbols() ) {
+							kind = Kind.SEPERATOR;
+							break; 
+						}
+					"operator":
+						if( !symbols() ) {
+							kind = Kind.OPERATOR; 
+							break; 
+						} 
+				}
+				lineIndex++; // only go to next char when token is being parsed
+			}
+			int stringLength = lineIndex - tokenIndex; 
+			tokens.add(new Token(kind, tokenIndex, stringLength, line, lineIndex));
+			tokenIndex++; 
+		} 
+		/**
+		 * Adds new line token and pushes token index
+		 */
+		private void newLine(int lineIndex) {
+			tokens.add(new Token(Kind.Q, tokenIndex, 0, line, lineIndex));
+			tokenIndex++; 
+		}
+		/**
+		 * Returns the next Token and updates the internal iterator so that
+		 * the next call to nextToken will return the next token in the list.
+		 */
+		private void exclamationPoint(int lineIndex) {
+			if(this.inputString[lineIndex + 1] == '=') {
+				lineIndex++; 
+				tokens.add(new Token(Kind.NEQ, tokenIndex, 2, line, lineIndex));
+				tokenIndex++;
+			}
+			else {
+				tokens.add(new Token(Kind.EXCL, tokenIndex, 1, line, lineIndex));
+				tokenIndex++: 
+			}
+		}
+		private void questionMark(int lineIndex) {
+			tokens.add(new Token(Kind.Q, tokenIndex, 1, line, lineIndex));
+			tokenIndex++; 
+		}
+		private void leftParentheses(int lineIndex) {
+			tokens.add(new Token(Kind.LPAREN, tokenIndex, 1, line, lineIndex));
+			tokenIndex++; 
+		}		
+		private void rightParantheses(int lineIndex) {
+			tokens.add(new Token(Kind.RPAREN, tokenIndex, 1, line, lineIndex));
+			tokenIndex++; 
+		}				
+		private void equals(int lineIndex) {
+			tokens.add(new Token(Kind.ASSIGN, tokenIndex, 1, line, lineIndex));
+			tokenIndex++; 
+		}			
+		private void greaterThan(int lineIndex) {
+			tokens.add(new Token(Kind.GT, tokenIndex, 1, line, lineIndex));
+			tokenIndex++; 
+		}			
+		/**
+		 *  InputCharacter ::=  RawInputCharacter, but not CR or LF
+		 * 
+		 */
+		void inputChar() {
+			char chr = inputString.charAt(lineIndex);
+			switch(chr) {
+				// LF 
+				'LF': 
+					tokens.add(new Token(Kind.LF, index, 0, line, lineIndex));
+					line++; // inputString.newLine
+					tokenIndex++; 
+					return true; 	
+				// CR | CR LF
+				'CR': 
+					if( inputString[lineIndex+1] == 'LF' ) { 
+						// inputString.newLine
+						tokens.add(new Token(Kind.CRLF, index, 0, line, lineIndex));
+					}
+					else tokens.add(new Token(Kind.CRLF, index, 0, line, lineIndex));
+					line++; 
+					return true; 
+				default:
+					return false; 
+			} 
+		} 
+		/** 
+		 * Input ::= (WhiteSpace | Comment | Token)*
+		 */
+		void input() {
+			while( true ) {
+				if(ws()) return true; 
+				if(comment() ) return true; 
+				if( token() ) return true;
+				return false; 
+			}
+		} 
+		
+		/**
+		 * Token ::= Identifier | ReservedWord | Literal | Separator | Operator
+		 */
+		boolean token() {
+			/********** SUB METHODS FOR CHECK TOKEN ************/ 
+			
+			if( identifier() ) return true;
+			if( reservedWord() ) return true;
+			if( literal() ) return true;
+			if( seperator() ) return true;
+			if( operator() ) return true;
+			return false; // ends token loop
+		}
+		/**
+		 * WhiteSpace ::=  SP  | HT | FF | LineTerminator
+		 */
+		boolean ws() {
+			char chr = inputString[lineIndex]; 
+			switch(chr) {
+			// WhiteSpace ::=  SP  | HT | FF 
+				'SP' : 
+					lineIndex++;  
+					break; 		
+				'HT' : 
+					lineIndex++;  
+					break; 
+				'FF' : 
+					lineIndex++;  
+					break; 
+				default: 
+					break; 
+			}
+		} 	
+			
+		boolean comment() {
+			char chr = inputString[lineIndex]; 
+			chrNext = inputString[lineIndex + 1]; 
+			if( chr == '/' && chrNext == '/') {
+				lineIndex = lineIndex + 2; // skip //
+				inputChar(); 
+				return true; 
+			}
+			else return false; 
+		}
+		/**
+		 * IdentifierStart ::= A..Z | a..z | _ | $
+		 */
+		boolean identifierStart() {
+			char identifierChar = inputString.charAt(lineIndex); 
+			if( Character.isLetter(identifierChar) || identifierChar == '_' || identifierChar == '$' ) {
+				return true; 
+			} 
+			else return false; 
+		}
+		/**
+		 * IdentifierPart ::= IdentifierStart |  Digit
+		 * @return Boolean
+		 */
+		boolean identifierPart() {
+			char chr = inputString.charAt(lineIndex); 
+			boolean goodStart = identifierStart();
+			if(goodStart) return true;
+			boolean isDigit = digit();
+			if( isDigit ) return true; 
+			else return false; 
+		}
+		/**
+		 * Checks for good identifier given string (multiple chars)
+		 */
+		void identifierChars() {
+			
+			boolean goodStart = identifierStart(); // check first char of string
+			scanToken("identifier"); 
+		}
+		
+		void identifier() {
+			boolean notReserved = rw(); 
+			if(notReserved) identifierChars();
+		}
+		
+		boolean lit() {
+			boolean isIntLit = intLit();
+			boolean isStringLit = StringLit();
+			if(isIdentifier || isStringLit) return true; 
+			else return false; 
+		}
+		boolean intLit() {
+			if(chr == '0') {
+				lineIndex++; 
+				return 0; 
+			}
+			else {
+				boolean isZero = nz();
+				if(!isZero) {
+					scanToken("intLit");					
+					return true; 
+				}
+			}
+		}
+		/**
+		 * NonZeroDigit ::= 1 .. 9
+		 */
+		boolean nz() { 
+			char chr = inputString[lineIndex]; 
+			return Character.isDigit(chr);
+			//digits = ['1', '2', '3','4','5','6'];
+			//for(int i = 0; digits.length(); i++) {
+			//	if( chr == digits[i]) return true; 
+			//}
+			//return false; 
+		}
+		/**
+		 * Digit ::= NonZeroDigit | 0
+		 */
+		boolean digit() {
+			boolean isNonZero = nz();
+			if(isNonZero) return true; 
+			else {
+				if(chr == '0') {
+					return true; 
+				}
+				else {
+					return false; // not a digit 
+				}
+			}
+		}
+		/**
+		 * StringLit ::= “ StringCharacter* “
+		 */
+		String stringLit() {
+			char chr = inputString[lineIndex]; 
+			if(chr == '"') {
+				scanToken("stringLit");
+				chr = inputString[lineIndex];
+				int stringLength = lineIndex - stringIndex; 
+				tokens.add(new Token(Kind.STRINGLIT, tokenIndex, stringLength, line, lineIndex));
+				tokenIndex++; 
+			}
+		}
+		/**
+		 * StringCharacter::=  InputCharacter but not “ or \ 	|   EscapeSequence
+		 */
+		boolean stringChar() {
+			if(chr == '"') || chr == '/') {
+				lineIndex++; 
+				return false; 
+			}
+			if( inputChar() ) return true; // stringChar = inputChar
+			if( esc() ) return true; // stringChar = escape sequence
+			return false; // not stringChar
+		}
+		/**
+		 * 	EscapeSequence ::= \ b  |  \ t  |   \ n   |   \ f	| \r  | \” |  \’   |   \ \
+		 */
+		boolean esc() {
+			if(chr == '\') {
+				int escIndex = lineIndex; 
+				lineIndex++; // check to see if this is an esc sequence
+				char chr = inputString[lineIndex]; 
+				char escSequences = ['b', 't', 'n','f','r','"',"'",'\'];
+				for(int i = 0; escSequences.length(); i++) {
+					if( chr == escSequences[i]) {
+						tokens.add(new Token(Kind.STRINGLIT, tokenIndex, 2, line, lineIndex));
+						return true;
+					}
+				}
+				return false; 
+			}
+			else return false; 
+		}
+		/**
+		 * Symbols ::=  ( | ) | [ | ] | ; | , |  ≪ | ≫ |	=  |  >  | <  |  !  |  ?  |   :   |  ==  |  !=  |   <=  | >= |
+	     *              +  |  -  |  * |  /  |  %  |   ->  | <-  | @ | #
+		*/
+		boolean symbols() {
+			if(symbols.containsValue(chr) ) {
+				symbols.get(chr).run(); 
+				return true; 
+			}
+			else return false; 
+		}
+		/**
+		 * Reserved Word ::= X | Y | width | height  | screen  |  screen_width | screen_height | image | int |
+		 */
+		boolean rw(String word) {
+			// check if current string is part of reserved word
+			if(reserved.containsValue(word) ) {
+				reserved.get(word).run(); 
+				return true; 
+			}
+			else return false; 
+		}
+		
+
+		// RawInputCharacter ::=  any ASCII character
+		while(true) {
+			if(lineIndex >= inputString.length()) {
+				tokens.add(new Token(Kind.EOF, index, 0, line, lineIndex));
+				return this; 
+			}
+			char chr = inputString[lineIndex]; 
+			boolean endLine = inputChar();
+			if(endLine) continue; // get next chr
+			input();
+			/*
+			token():
+			ws();
+			comment(); 
+			identifier();
+			identifierChars(); 
+			identifierStart(); 
+			identifierPart();
+			lit(); 
+			inLit(); 
+			nonzero(); 
+			digit(); 
+			stringLit(); 
+			stringChar(); 
+			esc(); */
+			symbols(); 
+			//rw();  
+		}
+		
+	}
+	
+
+	/**
+	 * precondition:  This Token is an INTLIT or CONST
+	 * @throws LexicalException 
+	 * 
+	 * @returns the integer value represented by the token
+	 */
+	public int intVal(Token t) throws LexicalException {
+		/* IMPLEMENT THIS */
+		return 0;
+	}
+	/**
+	 * Hashmap containing the values of the predefined symbols.
+	 * Included for your convenience.  
+	 * 
+	 */
+	private static HashMap<String, Integer> symbols;
+	static {
+		symbols = new HashMap<Char, Runnable>();	
+		symbols.put('!', (index) -> exclamationPoint(index) );
+		symbols.put('?', (index) -> questionMark(index));
+		symbols.put('.', () -> period());
+		symbols.put(',', () -> comma());
+		symbols.put(":", () -> colon());
+		symbols.put("@", () -> atSymbol());
+		symbols.put("#", () -> pound());
+		symbols.put("=", () -> equals());
+		symbols.put(">", () -> greaterThan());
+		symbols.put("<", lessThan());
+		symbols.put("+", plus());
+		symbols.put("-", minus());
+		symbols.put("%", percent());
+		symbols.put("\", escapeSequences());
+	}	
+	
+	private static HashMap<String, Integer> reserved;
+	static {
+		symbols = new HashMap<Char, Runnable>();	
+		symbols.put('WHITE', (index) -> exclamationPoint(index) );
+		symbols.put('SILVER', (index) -> questionMark(index));
+		symbols.put('GRAY', () -> period());
+		symbols.put('BLACK', () -> comma());
+		symbols.put("RED", () -> colon());
+		symbols.put("MAROON", () -> atSymbol());
+		symbols.put("#", () -> pound());
+		symbols.put("=", () -> equal());
+		symbols.put(">", () -> greaterThan());
+		symbols.put("<", lessThan());
+		symbols.put("+", plus());
+		symbols.put("-", minus());
+		symbols.put("%", percent());
+		symbols.put("\", escapeSequences());
+	}	
+	/**
+	 * Hashmap containing the values of the predefined colors.
+	 * Included for your convenience.  
+	 * 
+	 */
+	private static HashMap<String, Integer> constants;
+	
+	static {
+		constants = new HashMap<String, Integer>();	
+		constants.put("Z", 255);
+		constants.put("WHITE", 0xffffffff);
+		constants.put("SILVER", 0xffc0c0c0);
+		constants.put("GRAY", 0xff808080);
+		constants.put("BLACK", 0xff000000);
+		constants.put("RED", 0xffff0000);
+		constants.put("MAROON", 0xff800000);
+		constants.put("YELLOW", 0xffffff00);
+		constants.put("OLIVE", 0xff808000);
+		constants.put("LIME", 0xff00ff00);
+		constants.put("GREEN", 0xff008000);
+		constants.put("AQUA", 0xff00ffff);
+		constants.put("TEAL", 0xff008080);
+		constants.put("BLUE", 0xff0000ff);
+		constants.put("NAVY", 0xff000080);
+		constants.put("FUCHSIA", 0xffff00ff);
+		constants.put("PURPLE", 0xff800080);
+	}
+	
+
+	/**
+	 * Returns a String representation of the list of Tokens.
+	 * You may modify this as desired. 
+	 */
+	public String toString() {
+		return tokens.toString();
+	}
+}
+

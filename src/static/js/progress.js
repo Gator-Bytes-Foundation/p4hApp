@@ -88,14 +88,21 @@ $(document).on("click", ".upload", function (e) {
   });
 });
 // file is passed to success function instead of downloading to browser so temp not using this function
+/**
+ * 
+ * @param {click event} event 
+ * @abstract Function is currently not being used due to Flask "send_file" function not working with Ajax callback function. May use in future. 
+ */
 function downloadMilestone(event) {
-  console.log('file being downloaded');
+  let user_id = $('#header-progress').attr('name'); 
   let milestoneId = (event.currentTarget.id).replace('download-',''); // remove unique identifier from html id to extract canvas_assignment id
+  console.log('file being downloaded');
   $.ajax({
-      url: 'progress/' + milestoneId,
+      url: "progress/" + milestoneId,
       type: 'GET',
       error: function(err) {
         alert("No Document Has Been Uploaded")
       }
   });
+  event.preventDefault();
 }
