@@ -16,7 +16,6 @@ secrets.yml
 src/canvas.py
 bin/prod/server.key
 bin/prod/server.crt
-src/*.db
 
 ## ANGULAR GITIGNORE ##
 

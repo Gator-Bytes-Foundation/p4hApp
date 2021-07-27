@@ -64,18 +64,17 @@ class SignUpForm(FlaskForm):
       # 1st add user in canvas 
       try:
         canvas_user = account.create_user(pseudonym, user=user)
-        print("canvas user created")
-        topic = course.create_discussion_topic(
-          title = username + ' ' + str(canvas_user.id),
-          message = 'all posts for ' + fname,
-          user_can_see_posts = True,
-          published = True,
-      )
+        course.enroll_user(canvas_user.id, enrollment={"type": "StudentEnrollment", "enrollment_state": "active"})
+        #topic = course.create_discussion_topic(
+        #  title = username + ' ' + str(canvas_user.id),
+        #  message = 'all posts for ' + fname,
+        #  user_can_see_posts = True,
+        #  published = True,
+      #)
       except Exception as e: # work on python 3.x
         error = str(e)
         error = error.replace("{","").replace("}","").replace('"','')
         return render_template('signup.html', title='signUp', form=form, error=error)
-      course.enroll_user(canvas_user.id, 'StudentEnrollment')
      
       # 2nd add user in rocket chat (To do: if rocket chat fails, canvas and DB needs to delete new user)
       try:
