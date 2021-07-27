@@ -33,7 +33,7 @@
                   <button class="p4h p4h-btn p4h-pad col-6 upload" name="{{milestones[i].id}}"  id="upload-{{milestones[i].id}}">Upload</button> 
               </div>
               {% endif %}
-              {% if( milestones[i].has_submitted_submissions ) %}
+              {% if( milestones[i].has_submission ) %}
               <div class="input-group-prepend col-8 col-md-6"> 
                   <a href="progress/{{milestones[i].id}}" class="input-group-text profile_button download" name="{{milestones[i].id}}"  id="download-{{milestones[i].id}}">Download</a> 
               </div>

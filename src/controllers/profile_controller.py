@@ -19,21 +19,38 @@ def loadProfile(profile,rocket_user):
 
   return render_template('profile.html', profile = profile,  current_user = current_user, users=allUsers, rocket_user = rocket_user, currentUserProfilePic = currentUserProfilePic)
 
-def loadProgress(profile_id):
+def loadProgress(user_id):
   # permission = checkUserPermission() to do 
   # if(permission or profile_id == current_user.id):
   #int_assignment_id = int(assignment_id)
   # else: 
   # abort(Response('You do not have permission to view this teacher's progress'))
-  canvas_user = CANVAS.get_user(profile_id) #temp until canvas users are synced with user db
+  canvas_user = CANVAS.get_user(user_id) #temp until canvas users are synced with user db
   p4hCourseId = 1
   # NOTE: assignent has has_submitted_submissions as a field to check if user has submitted
   user_assignments = list(canvas_user.get_assignments(p4hCourseId))
   #print(vars(user_assignments[0])) # uncomment this to see what attributes the canvas assignment object has 
-  for i in range(len(user_assignments)):
-    user_assignments[i].description = user_assignments[i].description.replace('<p>','').replace('</p>','') #get rid of stupid html tags. like why is this even being returned
 
-  return user_assignments, canvas_user 
+  milestones = []
+  for assign in user_assignments:
+    print(assign.name)
+    milestone = {}
+    milestone['id'] = assign.id
+    milestone['name'] = assign.name
+    milestone['description'] = assign.description.replace('<p>','').replace('</p>','') #get rid of stupid html tags. like why is this even being returned
+    submissions = assign.get_submissions()
+    milestone['has_submission'] = False
+
+    for sub in submissions:
+      #print(sub.user_id)
+      if(canvas_user.id == sub.user_id):
+        if(hasattr(sub, 'attachments')):
+          milestone['has_submission'] = True
+          #print('match?')
+
+    milestones.append(milestone)
+
+  return milestones, canvas_user 
 
 
 def getProgress(request,user_id,assignment_id):
