@@ -171,7 +171,7 @@
             <button type="submit" id="edit_profile" class="profile_button button-bg" name="edit">Edit Pwofil</button>
         </div>
         {% endif %}
-        {% if( (profile.canvas_user.id == current_user.canvasId) or (current_user.canvasId == 1)) %} <!-- 1 is admin -->
+        {% if( (profile.canvas_user.id == current_user.canvasId or current_user.canvasId == 1) and (profile.user.canvasId != 1) ) %} <!-- admin has no progress, but can see everyone elses  -->
         <div class="col-6 col-sm-5">
             <form action="/profile/{{profile.canvas_user.id}}/progress">
                 <button type="submit" class="profile_button button-bg">Pwogre Mwen</button>

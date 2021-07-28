@@ -4,7 +4,7 @@
 <link  rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}" ></link>
 <div class="container">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-12">
       <div class="page-header">
         <h1 id="header-progress" name="{{profile.id}}">{{profile.name}} Progress</h1>
         <hr>
@@ -12,25 +12,24 @@
       <ul class="timeline" id="timeline-{{profile.id}}">
         {% for i in range(milestones | length)%}
         <li class="timeline-item">
-                      <div class="timeline-body col-12">
+            <div class="timeline-body">
               <p>{{milestones[i].description}}</p>
             </div>
-          <div class="timeline-badge"><i class="glyphicon glyphicon-off"></i></div>
+          <div class="timeline-badge"><i class="fa fa-clock-o"></i></div>
           <div class="timeline-panel">
-            <div class="timeline-heading col-12 col-sm-4">
+            <div class="timeline-heading col-sm-4">
               <h4 class="timeline-title">{{milestones[i].name}}</h4>
               <!--<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> Due: {{milestones[i].due_at}}</small></p>-->
             </div>
-            <div class="file_upload col-12 col-sm-8">
+            <div class="file_upload">
               {% if( (current_user.id == profile.id) or (current_user.canvasId == 1) ) %} <!-- 1 is admin -->
-              <div class="col-12">
+              <div class="center">
                 <input type="file" name="{{milestones[i].id}}" id="file-{{milestones[i].id}}" class="inputfile" data-multiple-caption="{count} files selected" multiple/>
-                <label class="p4h progress-choose" name="{{milestones[i].id}}" id="label-{{milestones[i].id}}" for="file-{{milestones[i].id}}"><strong>Choose a file</strong></label>
+                <label id="label-{{milestones[i].id}}" class="p4h progress-choose" name="{{milestones[i].id}}"  for="file-{{milestones[i].id}}"><strong>Choose a file</strong></label>
                 <!--<label id="label-1" class="custom-file-label" for="file-1"></label>--> 
               </div>
-              <div class="input-group" style="justify-content: center;">
-                <div class="input-group-prepend col-8 col-md-6"> 
-                  <button class="p4h p4h-btn p4h-pad col-6 upload" name="{{milestones[i].id}}"  id="upload-{{milestones[i].id}}">Upload</button> 
+              <div class="center">
+                  <button class="p4h p4h-btn p4h-pad upload" name="{{milestones[i].id}}"  id="upload-{{milestones[i].id}}">Upload</button> 
               </div>
               {% endif %}
               {% if( milestones[i].has_submission ) %}

@@ -107,9 +107,11 @@
 .timeline .timeline-item .timeline-panel {
   position: relative;
   display: flex;
-  flex-flow: wrap;
+  justify-content: space-between;
   flex-direction: row;
   width: 100%;
+  padding-top:5px; 
+  padding-bottom:5px; 
 
 }
 /*.timeline .timeline-item .timeline-panel:before { /* timeline pointer object */ /*
@@ -125,12 +127,13 @@
   content: " ";
 }*/ 
 .timeline .timeline-item .file_upload{
-  position:relative;
+  display:flex;
+  justify-content: center;
   align-items: center;
-  width:46%;
-  padding:10px;
+  position:relative;
+  width:66.6666%;
+  padding-left:10px;
   /*left:16px;*/ 
-  float:right;
 }
 /*
 .timeline .timeline-item:nth-child(even) .file_upload {
