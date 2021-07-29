@@ -218,7 +218,7 @@ def handleComment(req,post_id):
   )
   profilePic = getProfilePic(current_user)
   # send back html for post
-  comment_html = '<div class="post_comment profile-pic-post"><figure class="thumbnail"><img alt="placeholder" class="img-fluid rounded-circle" src="data:;base64,' + profilePic + '"/></figure><div class="word_bubble col-10"><p><b>' + current_user.username + '</b><br>' + comment_text + '</p></div></div>'
+  comment_html = '<div class="post_comment profile-pic-post"><img alt="placeholder" class="img-fluid rounded-circle avatar-sm" src="data:;base64,' + profilePic + '"/><div class="word_bubble"><p><b>' + current_user.username + '</b><br>' + comment_text + '</p></div></div>'
   return comment_html 
 
 def deletePost(req,post_id): 
