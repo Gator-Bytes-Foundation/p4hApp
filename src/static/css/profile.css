@@ -200,6 +200,10 @@ b {
   background-color: transparent; /* same color as #1632AA with low opacity */
   box-shadow: 1px 4px 7px 0px rgba(22,50,170, 0.10);/* same color as #1632AA with low opacity */
 }
+.about-inner td{
+  padding:3px;
+  padding-left:10px; 
+}
 .left {
   float: left;
 }

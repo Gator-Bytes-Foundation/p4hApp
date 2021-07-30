@@ -140,7 +140,7 @@
             {% if profile.canvas_user.id == 1 %}
             <img class="image-cropper img-fluid slim" alt="placeholder" src="{{ url_for('static', filename='images/p4h.png') }}"> 
             {% else %}
-            <img id="profile_pic_img" class="img-fluid slim" alt="placeholder" src="data:;base64,{{ profile.profile_pic}}" /></img>
+            <img id="profile_pic_img" class="img-fluid slim rounded-circle" alt="placeholder" src="data:;base64,{{ profile.profile_pic}}" /></img>
             {% endif %}
         </div>
         <div class="col-8 col-sm-8 ">
@@ -188,7 +188,7 @@
                 <div id="write_post"> <!-- ID being used for appending posts -->
                     <div style="text-align: center;" class="post_box">
                         <div class="profile_name">
-                            <figure class="profile-pic-post post"><img alt="No Profile Picture" class="img-fluid" src="data:;base64,{{ currentUserProfilePic }}" /></figure>
+                            <figure class="profile-pic-post post"><img alt="No Profile Picture" class="img-fluid rounded-circle" src="data:;base64,{{ currentUserProfilePic }}" /></figure>
                             <div class="col-10" id="">
                                 <textarea class="text_box" name="message" id="textbox-post" style="width: 100%;" placeholder="Write Post Here" size="5"></textarea>
                                 <span id="upload-post" onclick="document.getElementById('input-upload-post').click();" class="iconify upload_icon" data-icon="ant-design:cloud-upload-outlined" data-inline="false"></span>
@@ -207,54 +207,56 @@
                 {% for post in profile.posts %} {% include 'post.html' %} {% endfor %}
             </div>
             <table id="about" class="about-block tab-pane" style="display:none" role="tabpanel">
-                <tr class="">
-                    <td class="">
-                        <label>User Id: </label>
-                    </td>
-                    <td class="left">
-                        <div  >{{profile.user.id}}</div>
-                    </td>
-                </tr>
-                <tr class="">
-                    <td class="">
-                        <label>Name: </label>
-                    </td>
-                    <td class="left">
-                        <div id="rocket_user_auth" data-rocket="{{rocket_user['authToken']}}">{{profile.user.name}}</div>
-                    </td>
-                </tr>
-                <tr class="">
-                    <td class="">
-                        <label>Email: </label>
-                    </td>
-                    <td class="left">
-                        <div id="rocket_user_userId"  data-userid="{{rocket_user['userId']}}">{{profile.user.email}}</div>
-                    </td>
-                </tr>
-                <tr class="">
-                    <td class="">
-                        <label>Phone: </label>
-                    </td>
-                    <td class="left">
-                        <div>{{profile.user.phone}}</div>
-                    </td>
-                </tr>
-                <tr class="">
-                    <td class="">
-                        <label>Location: </label>
-                    </td>
-                    <td class="left">
-                        <div>{{profile.user.location}}</div>
-                    </td>
-                </tr>
-                <tr class="">
-                    <td class="">
-                        <label>School: </label>
-                    </td>
-                    <td class="left">
-                        <div>{{profile.user.school}}</div>
-                    </td>
-                </tr>
+                <tbody class="about-inner">
+                    <tr class="">
+                        <td class="">
+                            <label>User Id: </label>
+                        </td>
+                        <td class="left">
+                            <div  >{{profile.user.id}}</div>
+                        </td>
+                    </tr>
+                    <tr class="">
+                        <td class="">
+                            <label>Name: </label>
+                        </td>
+                        <td class="left">
+                            <div id="rocket_user_auth" data-rocket="{{rocket_user['authToken']}}">{{profile.user.name}}</div>
+                        </td>
+                    </tr>
+                    <tr class="">
+                        <td class="">
+                            <label>Email: </label>
+                        </td>
+                        <td class="left">
+                            <div id="rocket_user_userId"  data-userid="{{rocket_user['userId']}}">{{profile.user.email}}</div>
+                        </td>
+                    </tr>
+                    <tr class="">
+                        <td class="">
+                            <label>Phone: </label>
+                        </td>
+                        <td class="left">
+                            <div>{{profile.user.phone}}</div>
+                        </td>
+                    </tr>
+                    <tr class="">
+                        <td class="">
+                            <label>Location: </label>
+                        </td>
+                        <td class="left">
+                            <div>{{profile.user.location}}</div>
+                        </td>
+                    </tr>
+                    <tr class="">
+                        <td class="">
+                            <label>School: </label>
+                        </td>
+                        <td class="left">
+                            <div>{{profile.user.school}}</div>
+                        </td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </div>

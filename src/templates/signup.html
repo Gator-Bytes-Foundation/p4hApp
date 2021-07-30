@@ -30,7 +30,7 @@
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-        <p class="fadeIn second">
+        <p class="fadeIn second"></p>
             {{ form.username.label }}<br>
             {{ form.username(size=32) }}<br>
             {% for error in form.username.errors %}
@@ -50,10 +50,6 @@
             {% for error in form.password.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
-        </p>
-        <p type="radio" id="userType" class="fadeIn second" >
-          {{form.admin.label}}
-          {{ form.admin }}
         </p>
         <p class="fadeIn fourth" >{{ form.submit() }}</p>       
     </form>
