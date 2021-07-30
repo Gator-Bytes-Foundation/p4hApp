@@ -172,6 +172,19 @@ div#loading {
   color:#1B3FD7;
   text-decoration: none !important;
 }
+.form-text-box input {
+  border-radius: 20px 20px 20px 20px;  
+  width: 300px;
+  height: 35px;
+  line-height:120%;
+  padding:8px;
+  position: relative;
+  box-shadow: 0px 4px 7px 0px rgba(22,50,170, 0.10);/* same color as #1632AA with low opacity */
+  border:thin;
+  border-style: solid;
+  border-color: rgba(22,80,200,0.20); 
+}
+
 .text_box {
   resize:none;
   border-radius: 20px 20px 20px 20px;  
@@ -219,9 +232,29 @@ div#loading {
     box-shadow: 0px 4px 7px 0px rgba(22,50,170, 0.10);/* same color as #1632AA with low opacity */
 }
 .blue_button:hover {
-    background-color: rgba(22,50,170,0.07); /* same color as #1632AA with low opacity */
-    color:#1B3FD7;
-    text-decoration: none !important;
+  background-color: rgba(22,50,170,0.07); /* same color as #1632AA with low opacity */
+  color:#1B3FD7;
+  text-decoration: none !important;
 }
+
+.blue-button-form input{
+  cursor:pointer;
+  width:100%;
+  margin-top: 10px;
+  max-width:250px;
+  text-align: center;
+  padding:6px; 
+  border: 1px solid rgba(22,80,200,0.20); 
+  color:#1632AA;
+  background-color: transparent; /* same color as #1632AA with low opacity */
+  box-shadow: 0px 4px 7px 0px #1632aa1a;/* same color as #1632AA with low opacity */
+}
+.blue-button-form input:hover {
+  background-color: rgba(22,50,170,0.07); /* same color as #1632AA with low opacity */
+  color:#1B3FD7;
+  text-decoration: none !important;
+}
+
+
 
   

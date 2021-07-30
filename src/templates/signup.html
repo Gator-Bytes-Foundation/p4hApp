@@ -16,42 +16,42 @@
     <!-- Signup Form -->
     <form method="POST" action="" novalidate>
       {{ form.hidden_tag() }}
-        <p class="fadeIn second">
+        <p class="fadeIn second form-text-box">
             {{ form.fname.label }}<br>
             {{ form.fname(size=32) }}<br>
             {% for error in form.fname.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-        <p class="fadeIn second">
+        <p class="fadeIn second form-text-box">
             {{ form.lname.label }}<br>
             {{ form.lname(size=32) }}<br>
             {% for error in form.lname.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-        <p class="fadeIn second"></p>
+        <p class="fadeIn second form-text-box">
             {{ form.username.label }}<br>
             {{ form.username(size=32) }}<br>
             {% for error in form.username.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-        <p class="fadeIn second">
+        <p class="fadeIn second form-text-box">
           {{ form.email.label }}<br>
           {{ form.email(size=32) }}<br>
           {% for error in form.email.errors %}
           <span style="color: red;">[{{ error }}]</span>
           {% endfor %}
         </p>
-        <p class="fadeIn third">
+        <p class="fadeIn third form-text-box">
             {{ form.password.label }}<br>
             {{ form.password(size=32) }}<br>
             {% for error in form.password.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-        <p class="fadeIn fourth" >{{ form.submit() }}</p>       
+        <p class="fadeIn fourth blue-button-form" >{{ form.submit() }}</p>       
     </form>
 
     {% if error %}
