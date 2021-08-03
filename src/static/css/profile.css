@@ -43,6 +43,7 @@ b {
   width:85%;
   height:76%;
   border-radius: 10px;
+  overflow: scroll;
 }
 /*
   .overlayBlock .upload_icon {
