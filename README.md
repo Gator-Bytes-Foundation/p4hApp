@@ -3,16 +3,16 @@ A Canvas Wrapper to help Haitian teachers communicate and facilitate teacher con
 
 Folder Overview
 
-src: contains the actual app and its related code
-bin: holds any scripts using to setup, run the app, or any utlities outside of the actual app
-e2e: Angular installed this folder
-frontend: webpack used to serve its files here (currently moving to Angular's webpack)
-migrations: for sql database
-node_modules: any library we have downloaded goes here using "npm" 
-tmp: temporary files can be stored here for any reason
-.git: info about git
-assets: webpack will utilize this folder to compile sass into css (not using yet)
-static: the default location for any files that the flask server will need to serve - like images, and for now CSS/JS code until webpack is working again. 
+- src: contains the actual app and its related code
+- bin: holds any scripts using to setup, run the app, or any utlities outside of the actual app
+- e2e: Angular installed this folder
+- frontend: webpack used to serve its files here (currently moving to Angular's webpack)
+- migrations: for sql database
+- node_modules: any library we have downloaded goes here using "npm" 
+- tmp: temporary files can be stored here for any reason
+- .git: info about git
+- assets: webpack will utilize this folder to compile sass into css (not using yet)
+- static: the default location for any files that the flask server will need to serve - like images, and for now CSS/JS code until webpack is working again. 
 
 
 
