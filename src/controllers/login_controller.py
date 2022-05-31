@@ -64,7 +64,7 @@ class SignUpForm(FlaskForm):
       # 1st add user in canvas 
       try:
         canvas_user = account.create_user(pseudonym, user=user)
-        course.enroll_user(canvas_user.id, enrollment={"type": "StudentEnrollment", "enrollment_state": "active"})
+        course.enroll_user(canvas_user.id, enrollment={"type": "StudentEnrollment", "enrollment_state": "active"}, enrollment_type="StudentEnrollment") #enrollment type will be deprecated, but for now triggers error if removed.
         #topic = course.create_discussion_topic(
         #  title = username + ' ' + str(canvas_user.id),
         #  message = 'all posts for ' + fname,

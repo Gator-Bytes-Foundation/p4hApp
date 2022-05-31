@@ -36,17 +36,15 @@ def getProfilePic(user):
 
 #  
 # loads all canvas discussion posts that the profile user has posted and their associated comments
+# user lookup could be a new profile being searched OR loading the user's own profile
 #
 def loadPosts(user):
   # initialize variables
   profile = Profile()
   canvas_id = user.canvasId
   recentPosts = []
-  commentsMap = {}
   user = User.query.filter_by(canvasId=canvas_id).first()
-   # user_look_up could be a new profile being searched OR loading the user's own profile
-  proper_date = ''
-  
+   
   try:
     posts = list(course.get_discussion_topics()) # load profile posts    
     #print("topic in load profile: ", vars(posts[0]))
