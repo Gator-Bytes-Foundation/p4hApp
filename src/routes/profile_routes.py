@@ -36,10 +36,9 @@ def profile(*args):
     user = User.query.filter_by(canvasId=args[0]).first()
   else: user = current_user
   # args[0] holds user id to look up if it exists
-  rocket_user = {}
   user_profile = loadPosts(user)     
   # Brings user to their profile view
-  return loadProfile(user_profile,rocket_user)
+  return loadProfile(user_profile)
 
 @login_required
 @app.route('/profile', methods=['POST'])

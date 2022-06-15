@@ -8,7 +8,7 @@
             {% if(post.user_name == 'Admin' or post.title == 'Announcement' ) %}
             <figure class="thumbnail"><img alt="placeholder" class="img-fluid avatar-sm" src="{{ url_for('static', filename='images/p4h.png') }}" /></figure>
             {% else %}
-            <figure class="thumbnail"> <img alt="placeholder" class="img-fluid avatar-sm"  src="data:;base64,{{ profile.profile_pic}}" /> </figure>
+            <figure class="thumbnail"> <img alt="placeholder" class="img-fluid avatar-sm"  src="data:;base64,{{ currentUserProfilePic }}" /> </figure>
             {% endif %}
         </div>
         <div class="">
@@ -47,7 +47,7 @@
                 {% if(post.comments[post.id | string][j].user_name == 'Admin') %}
                 <img alt="placeholder" class="img-fluid avatar-sm" src="{{ url_for('static', filename='images/p4h.png') }}" />
                 {% else %}
-                <img alt="profile picture" class="img-fluid avatar-sm" src="data:;base64,{{ profile.profile_pic}}" />
+                <img alt="profile picture" class="img-fluid avatar-sm" src="data:;base64,{{ currentUserProfilePic }}" />
                 {% endif %}
                 <div class="word_bubble"  >
                     <div class="delete">

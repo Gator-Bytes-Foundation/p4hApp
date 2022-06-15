@@ -9,7 +9,7 @@ import requests
 import base64
 from src import file_upload
 
-def loadProfile(profile,rocket_user):
+def loadProfile(profile,rocket_user = {}):
 
   allUsers = User.query.all()
   profile.profile_pic = getProfilePic(profile.user)

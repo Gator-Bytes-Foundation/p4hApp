@@ -96,10 +96,9 @@ function getPostData(id) {
     });
   }
   // handle textbox as user types  
-    //  changes mouse cursor when highlighting loawer right of box
+    //  changes mouse cursor when highlighting lower right of box
   $("textarea")
   .mousemove(function (e) {
-      console.log("post.js");
       var myPos = $(this).offset();
       myPos.bottom = $(this).offset().top + $(this).outerHeight();
       myPos.right = $(this).offset().left + $(this).outerWidth();

@@ -14,6 +14,7 @@ from flask import make_response
 import random
 import logging
 from flask.json import jsonify
+from src.controllers.posts_controller import getProfilePic
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -33,8 +34,6 @@ def bad_request(e):
 
 @app.route('/post/<user_id>', methods=['GET', 'POST'])
 def posts(user_id): #url being routed is saved to 'user_id' which we can then use to render the name of the html file
-  print("user id: ",user_id)
-  print(current_user)
   if(request.method == 'POST'):
     html, post_id, profilePic = handlePost(user_id,request)
     return json.dumps({
@@ -68,7 +67,8 @@ def comment(post_id,comment_id): #url being routed is saved to 'page_to_load' wh
 @login_required
 def announcements():    
   newsfeed_posts = loadAnnouncements()
-  return render_template('announcements.html',  posts=newsfeed_posts, current_user= current_user)
+  currentUserProfilePic = getProfilePic(current_user)
+  return render_template('announcements.html',  posts=newsfeed_posts, current_user=current_user,currentUserProfilePic=currentUserProfilePic)
 '''
 @app.route('/js/<path:path>')
 def send_js(path):

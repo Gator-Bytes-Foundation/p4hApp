@@ -38,18 +38,13 @@ def getProfilePic(user):
 # loads all canvas discussion posts that the profile user has posted and their associated comments
 #
 def loadPosts(user):
-  # initialize variables
   profile = Profile()
   canvas_id = user.canvasId
   recentPosts = []
-  commentsMap = {}
   user = User.query.filter_by(canvasId=canvas_id).first()
    # user_look_up could be a new profile being searched OR loading the user's own profile
-  proper_date = ''
-  
   try:
     posts = list(course.get_discussion_topics()) # load profile posts    
-    #print("topic in load profile: ", vars(posts[0]))
   except CanvasException as e:
     abort(Response('course not found')) 
 
@@ -74,42 +69,25 @@ def loadPosts(user):
         #print(posts[i].files[0])
         posts[i].img = image_data
       
-      #posts[i].avatar = posts[i].canvas_user.get_avatars()[1].url
       # Push profile post into recent posts array
       recentPosts.append(posts[i])
-    # end of if statement
 
   # now adding posts to profile
   profile.posts = recentPosts
   profile.user = user
   profile.canvas_user = CANVAS.get_user(canvas_id)
-  #print('posts: ')
-  #print(profile.posts)
   return profile
 #
 # Function will extract 'Admin' posts from discussion page on canvas and load them to Announcement page
 #
 def loadAnnouncements():  
-  # initialize variables
-  recentPosts = []
+  adminId = 1
+  adminUser = User.query.filter_by(canvasId=adminId).first()
+  # for now load posts as if it were admin profile TODO: figure out what is wrong with get_announcements canvas API
+  profile = loadPosts(adminUser)
   #announcements = canvas.get_announcements(context_codes='course_1') # canvas announcements lack documentation, so gonna just use regular discussion posts
-
-  try:
-    announcements = list(course.get_discussion_topics())
-  except CanvasException as e:
-    print("error: ", e)
-  #loop through each post  
-  for i in range(len(announcements)):
-    #print(announcements[i].user_name)
-    if(announcements[i].title == 'lcundiff 1' and announcements[i].message is not None): #only shows posts that the user has posted
-      announcements[i].message = announcements[i].message.replace('</p>', '')
-      announcements[i].message = announcements[i].message.replace('<p>', '') # get rid of the html
-      announcements[i].posted_at = convertDate(announcements[i].posted_at)
-      announcements[i].comments = loadPostComents(announcements[i])
-      recentPosts.append(announcements[i])
-        
-  # after looping through each post, return the array
-  return recentPosts      
+  return profile.posts
+              
 
 
 
