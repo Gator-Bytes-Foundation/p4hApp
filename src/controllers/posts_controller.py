@@ -36,13 +36,14 @@ def getProfilePic(user):
 
 #  
 # loads all canvas discussion posts that the profile user has posted and their associated comments
+# user lookup could be a new profile being searched OR loading the user's own profile
 #
 def loadPosts(user):
   profile = Profile()
   canvas_id = user.canvasId
   recentPosts = []
   user = User.query.filter_by(canvasId=canvas_id).first()
-   # user_look_up could be a new profile being searched OR loading the user's own profile
+   
   try:
     posts = list(course.get_discussion_topics()) # load profile posts    
   except CanvasException as e:
