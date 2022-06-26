@@ -3,12 +3,25 @@
 
 var inputs = document.querySelectorAll(".inputfile"); // looks if a file is set for upload
 
+/**
+ * @abstract change the name next to icon on file upload
+ */
+$('input[type="file"]').on("change", function(e) {
+  let val = $(this).val();
+  if (val.length > 8) {
+      val = val.substring(0, 8);
+      val = " " + val + "...";
+  }
+  $(this).siblings("span").text(val);
+});
+
+
 Array.prototype.forEach.call(inputs, function (input) {
   var label = input.nextElementSibling, // gets the inner html of the label attribute that is visually seen (the file input is invisible)
     labelVal = label.innerHTML;
 
   input.addEventListener("change", function (e) { // upon a file input being selected, we want to update the label to show what file was selected
-    let id = e.currentTarget.name; 
+    let id = e.currentTarget.name;
     let fileName = "";
     if (this.files && this.files.length > 1)
       fileName = (this.getAttribute("data-multiple-caption") || "").replace(
@@ -21,7 +34,7 @@ Array.prototype.forEach.call(inputs, function (input) {
     console.log(id);
     if (fileName) {
       input.nextElementSibling.querySelector( 'strong' ).innerHTML = fileName;
-    } 
+    }
     else {
       label.innerHTML = labelVal;
       $("#label-"+id).empty();
@@ -37,11 +50,13 @@ let debugJSON = function(data,err,exception) {
   alert('Apologies! An error occured!');
 }
 
-// is triggered when upload is clicked
+/**
+ * @abstract Uploads a document as an assignment to the user
+ */
 $(document).on("click", ".upload", function (e) {
   e.preventDefault();
   let milestoneId = e.currentTarget.name;
-  let user_id = $('#header-progress').attr('name'); 
+  let user_id = $('#header-progress').attr('name');
   console.log("clicked " + milestoneId);
   if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
     alert("The File APIs are not fully supported in this browser.");
@@ -50,7 +65,7 @@ $(document).on("click", ".upload", function (e) {
   let input = document.getElementById("file-" + milestoneId); // grabs the right file by ID
   if (!input) {
     alert("Um, couldn't find the fileinput element.");
-    return; 
+    return;
   } else if (!input.files) {
     alert(
       "This browser doesn't seem to support the `files` property of file inputs."
@@ -58,17 +73,13 @@ $(document).on("click", ".upload", function (e) {
     return;
   } else if (!input.files[0]) {
     alert("Please select a file before clicking 'Load'");
-    return; 
+    return;
   }
   let file = input.files[0];
   console.log(file.name);
   let fileType = file.name.split('.').pop();
-  let filename = "milestone." + fileType; 
-  //var milestoneId = e.currentTarget.id.replace('file-','');
-  //fr = new FileReader();
-  //fr.onload = receivedText;
-  //fr.readAsText(file);
-  //fr.readAsDataURL(file);
+  // todo: check for correct file type
+  let filename = "milestone." + fileType;
   var formData = new FormData();
   formData.append('progressFile', file);
   $.ajax({
@@ -89,12 +100,12 @@ $(document).on("click", ".upload", function (e) {
 });
 // file is passed to success function instead of downloading to browser so temp not using this function
 /**
- * 
- * @param {click event} event 
- * @abstract Function is currently not being used due to Flask "send_file" function not working with Ajax callback function. May use in future. 
+ *
+ * @param {click event} event
+ * @abstract Function is currently not being used due to Flask "send_file" function not working with Ajax callback function. May use in future.
  */
 function downloadMilestone(event) {
-  let user_id = $('#header-progress').attr('name'); 
+  let user_id = $('#header-progress').attr('name');
   let milestoneId = (event.currentTarget.id).replace('download-',''); // remove unique identifier from html id to extract canvas_assignment id
   console.log('file being downloaded');
   $.ajax({

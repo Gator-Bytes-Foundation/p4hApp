@@ -16,25 +16,25 @@ def convertDate(inproperDate):
   properDate = ''.join([month,'/', day, '/', year])
   return properDate
 
-def getProfilePic(user): 
+def getProfilePic(user):
   # Canvas does not allow external files to change profile pictures
   #avatar = profile.canvas_user.get_avatars()[1] returns dotted pic for some reason
   #if(len(profile.posts) > 0):
     #avatar = profile.posts[0].author['avatar_image_url']
-  
+
   avatar = UserFiles.query.filter_by(userId=user.id,postId=user.canvasId).first() # post id as canvas id is profile pic?
-  if(avatar): 
+  if(avatar):
     #print('using avatar from db')
     #print(avatar)
     avatarImg = base64.b64encode(avatar.data).decode("utf-8")
     return avatarImg
-  else: # no avatar set 
+  else: # no avatar set
     avatarFile = open('src/static/images/profile.png', 'rb').read()
     avatarImg = base64.b64encode(avatarFile).decode('utf-8')
     return avatarImg
-  
 
-#  
+
+#
 # loads all canvas discussion posts that the profile user has posted and their associated comments
 # user lookup could be a new profile being searched OR loading the user's own profile
 #
@@ -43,15 +43,15 @@ def loadPosts(user):
   canvas_id = user.canvasId
   recentPosts = []
   user = User.query.filter_by(canvasId=canvas_id).first()
-   
+
   try:
-    posts = list(course.get_discussion_topics()) # load profile posts    
+    posts = list(course.get_discussion_topics()) # load profile posts
   except CanvasException as e:
-    abort(Response('course not found')) 
+    abort(Response('course not found'))
 
   # temporarily checking only up to 9 profile posts. Will eventually remove cap when "see earlier posts" button added
   end_index = len(posts)
-    
+
   # loop through all profile posts
   for i in range(end_index):
     usernameId = user.username + ' ' + str(canvas_id) #used to identify user in canvas
@@ -63,13 +63,13 @@ def loadPosts(user):
       posts[i].user = user
       posts[i].comments = loadPostComents(posts[i])
       posts[i].files = UserFiles.query.filter_by(userId=user.id,postId=posts[i].id).all()
-      
-      if(len(posts[i].files) > 0): 
+
+      if(len(posts[i].files) > 0):
         image_data = base64.b64encode(posts[i].files[0].data).decode("utf-8")
         #print('file data: ')
         #print(posts[i].files[0])
         posts[i].img = image_data
-      
+
       # Push profile post into recent posts array
       recentPosts.append(posts[i])
 
@@ -81,27 +81,23 @@ def loadPosts(user):
 #
 # Function will extract 'Admin' posts from discussion page on canvas and load them to Announcement page
 #
-def loadAnnouncements():  
+def loadAnnouncements():
   adminId = 1
   adminUser = User.query.filter_by(canvasId=adminId).first()
   # for now load posts as if it were admin profile TODO: figure out what is wrong with get_announcements canvas API
   profile = loadPosts(adminUser)
   #announcements = canvas.get_announcements(context_codes='course_1') # canvas announcements lack documentation, so gonna just use regular discussion posts
   return profile.posts
-              
-
 
 
 '''
   abstract: Takes in user info on who is posting and where they are posting and adds the post on Canvas
 '''
-def handlePost(user_id, req): 
-  
+def handlePost(user_id, req):
+
   if(current_user.is_anonymous == True):
-    abort(Response('Must be logged in to post')) 
+    abort(Response('Must be logged in to post'))
   user = User.query.filter_by(id=user_id).first()
-  #print(current_user.username + ' is posting on ' + user.username + ' profile')
-  #print(req.form['text'])
   new_post = req.form['text']
   try:
     post_file = (req.files['file']) # check to see if there was files attached
@@ -109,7 +105,6 @@ def handlePost(user_id, req):
     print('no file attached')
     post_file = None
 
-  # 
   # make post in canvas
   title = user.username + ' ' + str(user.canvasId) # title = user's profile name
   post = course.create_discussion_topic(
@@ -120,9 +115,8 @@ def handlePost(user_id, req):
       published = True,
       #attachments = post_file,
   )
-  
+
   if(post_file is not None):
-    #print('file contains post')
     userFileModel = UserFiles(userId=current_user.id,postId=post.id,data=post_file.read(),userFile__file_name=post_file.filename)
     #db.session.add(userFileModel)
     #db.session.commit()
@@ -130,41 +124,40 @@ def handlePost(user_id, req):
     userFile = file_upload.save_files(userFileModel, files={
       "userFile": post_file,
     })
-  #print("current post ", vars(post))
   #post.attachments = post_file
   #post = post.update(discussion_topic = {'attachment' : post_file})
 
   year = post.posted_at[2:4]
   day = post.posted_at[5:7]
   month = post.posted_at[8:10]
-  proper_date = ''.join([month,'/', day, '/', year])    
+  proper_date = ''.join([month,'/', day, '/', year])
   #print("topic being posted: ", post.title, " author: ", post.author)
   # send back html for post
   post_id = str(post.id)
   # NOTE: post.author['avatar_image_url'] does work in getting canvas avatar, but canvas avatars have been impossible to update
-  post_html = '<article id="' + post_id + '''"class="post_box"> 
-  <div class="profile_name"> 
-  <div class="profile-pic"> 
+  post_html = '<article id="' + post_id + '''"class="post_box">
+  <div class="profile_name">
+  <div class="profile-pic">
   <figure class="thumbnail ">
   <img id="profile-post-''' + post_id + '" alt="placeholder" class="img-fluid avatar-sm" src="' + post.author['avatar_image_url'] + '"/>' + '''
   </figure>
-  </div> 
+  </div>
   <div class="col-10"><header class="text-left">
   <figcaption class="comment-user"><b>''' + current_user.name + '''</b></figcaption>
-  ''' + '<time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i>' + proper_date + '''</time></header></div></div> 
-  <div class="post"> 
+  ''' + '<time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i>' + proper_date + '''</time></header></div></div>
+  <div class="post">
   <div class="">
   ''' + new_post + '''
   </div><hr>'''
   if(post_file is not None):
     post_html += '<img id="display-upload-' + post_id + '" alt="attachment" class="img-fluid post-pic" />'
-    
+
   post_html += '''<div class="text-center"></div> <div id="comments-
-  ''' + post_id + '''" ><label class = "comment_label" for="from">Comments</label> <div id="reply_div-' 
-  ''' + post_id + '''"class="reply_div"> <div class="col-8"> <textarea class= "text_box" name="message" id="textbox-' 
-  ''' + post_id + '''"onkeyup="" size="5" placeholder="Comment"></textarea><span class="upload_icon oi oi-cloud-camera" aria-hidden="true"></span></div> <a href=""name="' 
-  ''' + post_id + '" id="reply-' + post_id + '" class="reply_button col-4 btn-sm"><i class="fa fa-reply"></i> Reply</a></div></div></article>'  
-  
+  ''' + post_id + '''" ><label class = "comment_label" for="from">Comments</label> <div id="reply_div-'
+  ''' + post_id + '''"class="reply_div"> <div class="col-8"> <textarea class= "text_box" name="message" id="textbox-'
+  ''' + post_id + '''"onkeyup="" size="5" placeholder="Comment"></textarea><span class="upload_icon oi oi-cloud-camera" aria-hidden="true"></span></div> <a href=""name="'
+  ''' + post_id + '" id="reply-' + post_id + '" class="reply_button col-4 btn-sm"><i class="fa fa-reply"></i> Reply</a></div></div></article>'
+
   profilePic = getProfilePic(current_user)
   return post_html, post_id, profilePic
 
@@ -178,7 +171,6 @@ def loadPostComents(post):
     if(comment.message is not None):
       comment.message = comment.message.replace('</p>', '')
       comment.message = comment.message.replace('<p>', '') # get rid of the html
-    # store the comment in an array
     postComments.append(comment)
 
   # store all comments of this post in object/map to map to one another on client side
@@ -198,10 +190,10 @@ def handleComment(req,post_id):
   profilePic = getProfilePic(current_user)
   # send back html for post
   comment_html = '<div class="post_comment profile-pic-post"><img alt="placeholder" class="img-fluid rounded-circle avatar-sm" src="data:;base64,' + profilePic + '"/><div class="word_bubble"><p><b>' + current_user.username + '</b><br>' + comment_text + '</p></div></div>'
-  return comment_html 
+  return comment_html
 
-def deletePost(req,post_id): 
-  post = course.get_discussion_topic(post_id) 
+def deletePost(req,post_id):
+  post = course.get_discussion_topic(post_id)
   print(post)
   try:
     res = post.delete()
@@ -210,10 +202,10 @@ def deletePost(req,post_id):
     print('post not deleted')
     return json.dumps({'success':False}), 400, {'ContentType':False}
 
-  return res; 
+  return res
 
-def deleteComment(req,post_id,comment_id): 
-  post = course.get_discussion_topic(post_id) 
+def deleteComment(req,post_id,comment_id):
+  post = course.get_discussion_topic(post_id)
   comment = post.get_entries([comment_id])[0]
   try:
     res = comment.delete()
@@ -227,13 +219,13 @@ class Post():
   def __init__(self,post,user_object, post_message, post_media):
     post.user = user_object
     post.message = post_message
-    post.media = post_media 
-    
-
-  
+    post.media = post_media
 
 
-  
 
-    
-  
+
+
+
+
+
+

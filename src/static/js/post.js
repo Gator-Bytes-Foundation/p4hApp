@@ -1,29 +1,26 @@
-//import "../../css/profile.css";
-/*
-#######################################    Functions to handle all actions in post.html    ##########################################
-*/
+// #######################################    Functions to handle all actions in post.html    ##########################################
 
-/*
-
-REPLY BUTTON
-
-*/
+/**
+ * @abstract collects data in DOM that will be needed for post
+ * @param {string} id
+ * @returns FormDate object with optional file and userid fields
+ */
 function getPostData(id) {
     let formData = new FormData();
     let value = $("#textbox-" + id).val();
     formData.append("text", value);
-    console.log('{{profile.canvas_user.id}}');
     const input = document.getElementById("upload-" + id); // grabs the right file by ID
     if (input != null) {
-      files = input.files[0];
+      files = input.files[0]; // only supports one file currently
       formData.append("file", files);
     }
-    formData.append("userid", '{{profile.canvas_user.id}}'); 
-    return formData; 
+    formData.append("userid", '{{profile.canvas_user.id}}');
+    return formData;
   }
-  // anytime reply button is clicked, make a ajax call to server
-  //$(document).on("click", ".reply_button", function (e) {
-
+  /**
+   * @abstract Removes the user's post
+   * @param {JS Event} e
+   */
   function deletePost(e) {
     console.log('post being deleted');
     e.preventDefault();
@@ -44,6 +41,10 @@ function getPostData(id) {
       }
     });
   }
+  /**
+   * @abstract Creates comment object on specified post
+   * @param {JS Event} e
+   */
   function commentPost(e) {
     console.log('comment being generated');
     /* old regular expression I was using to find all reply ids: a[id|='reply' */
@@ -52,7 +53,6 @@ function getPostData(id) {
     let post_id = e.currentTarget.name;
     console.log("post_id " + post_id);
     let formData = getPostData(post_id);
-    //alert(value);
     $.ajax({
       type: "POST",
       url: "/comment/" + post_id,
@@ -67,19 +67,19 @@ function getPostData(id) {
         $("#comments-" + post_id).append(comment);
       },
       error: function (data,err,exception) {
-        let response = eval(data);
         console.log("error " + err);
         console.log("status " + exception);
       }
     });
   }
-  //
+  /**
+   * @abstract Removes user comment object from user's post
+   * @param {JS Event} e
+   * @param {string} postId
+   */
   function deleteComment(e,postId) {
-    console.log('post being deleted');
     let comment_id = e.currentTarget.id;
     let post_id = postId;
-    console.log("post id " + post_id);
-    console.log("comment being deleted id " + comment_id);
     $.ajax({
       type: "DELETE",
       url: "/post/" + post_id + '/comment/' + comment_id,
@@ -95,14 +95,14 @@ function getPostData(id) {
       }
     });
   }
-  // handle textbox as user types  
-    //  changes mouse cursor when highlighting lower right of box
-  $("textarea")
-  .mousemove(function (e) {
+  /**
+   * @abstract handle textbox as user types and changes mouse cursor when highlighting lower right of box
+   */
+  $("textarea").mousemove(function (e) {
       var myPos = $(this).offset();
       myPos.bottom = $(this).offset().top + $(this).outerHeight();
       myPos.right = $(this).offset().left + $(this).outerWidth();
-  
+
       if (
         myPos.bottom > e.pageY &&
         e.pageY > myPos.bottom - 16 &&
@@ -136,9 +136,9 @@ function getPostData(id) {
       }
     });
   /*
-  
+
   WINDOW CLICKS
-  
+
   */
   window.onclick = function (event) {
     const list_of_items = document.getElementsByClassName("list_of_items");
@@ -157,33 +157,3 @@ function getPostData(id) {
       cancelExitMenu();
     }
   };
-  
-  // change the name next to icon on file upload
-  $('input[type="file"]').on("change", function (e) {
-    var val = $(this).val();
-    if (val.length > 8) {
-      val = val.substring(0, 8);
-      val = " " + val + "...";
-    }
-    $(this).siblings("span").text(val);
-  
-    var id = e.currentTarget.id;
-    input = document.getElementById(id); // grabs the right file by ID
-    file = input.files[0];
-    console.log("file");
-    if (
-      file.name.includes(".jpg") ||
-      file.name.includes(".png") ||
-      file.name.includes(".pdf") ||
-      file.name.includes(".webp")
-    ) {
-      console.log("is an image");
-      var reader = new FileReader();
-      reader.onload = function (e) {
-        var img_id = String(id).replace("_input", "_img");
-        $("#" + img_id).attr("src", e.target.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  });
-  

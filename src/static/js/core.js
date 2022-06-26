@@ -1,52 +1,21 @@
-    /**
- * This is the main JS file that will get loaded on every page
- 
-
-import "bootstrap/dist/css/bootstrap.min.css";
-import "jquery/dist/jquery.min.js";
-//import "font-awesome/css/font-awesome.min.css";
-import "animate.css/animate.min.css";
-//import "open-iconic/font/css/open-iconic-bootstrap.css";
-import "../css/main.css";
-import "../css/navbar.css";
-
-import $ from "jquery";*/
+// This is the main JS file that will get loaded on every page
 
 window.$ = $;
 
-// handle posts
-$(".nav-item").mouseover(function(e) {
-    $(this).addClass("pulse");
-});
-$(".nav-item").mouseout(function(e) {
-    $(this).removeClass("pulse");
-});
-
-/*
-
-POST BUTTON 
-
-*/
-// change the name next to icon on file upload
+/**
+ * @abstract when file is uploaded, checks for image placeholder and adds image preview into placeholder
+ * @todo Move this out of global js and into Angular service component
+ */
 $('input[type="file"]').on("change", function(e) {
-    let val = $(this).val();
-    if (val.length > 8) {
-        val = val.substring(0, 8);
-        val = " " + val + "...";
-    }
-    $(this).siblings("span").text(val);
-
     let id = e.currentTarget.id;
     let input = document.getElementById(id); // grabs the right file by ID
     let file = input.files[0];
-    console.log(id);
     if (
         file.name.includes(".jpg") ||
         file.name.includes(".png") ||
         file.name.includes(".pdf") ||
         file.name.includes(".webp")
     ) {
-        console.log("is an image" + id);
         var reader = new FileReader();
         reader.onload = function(e) {
             var img_id = String(id).replace("input", "display");
@@ -58,8 +27,8 @@ $('input[type="file"]').on("change", function(e) {
 
 function getPostData(id, userId) {
     let formData = new FormData();
-    let value = $("#textbox-" + id).val();
-    formData.append("text", value);
+    let postText = $("#textbox-" + id).val();
+    formData.append("text", postText);
     const input = document.getElementById("input-upload-" + id); // grabs the right file by ID
     if (input != null && input.files.length > 0) {
         let files = input.files[0];
@@ -68,13 +37,15 @@ function getPostData(id, userId) {
     formData.append("userid", userId);
     return formData;
 }
-
+/**
+ * @abstract Creates user post (in sync with Canvas discussion post)
+ * @param e JS event
+ */
 $("#post").on("click", function(e) {
     e.preventDefault();
     let userId = e.currentTarget.name;
     let post_id = e.currentTarget.id;
-    //console.log("post id " + id_number);
-    let formData = getPostData(post_id, userId); // 0 is first textbox on page 
+    let formData = getPostData(post_id, userId); // 0 is first textbox on page
     console.log(post_id);
 
     $.ajax({
@@ -86,10 +57,10 @@ $("#post").on("click", function(e) {
         processData: false,
         dataType: "text",
         success: function(data) {
-            const post = JSON.parse(data); 
+            const post = JSON.parse(data);
             //console.log("post being created " + data);
             const new_post_id = post.post_id;
-            const profilePic = post.profilePic; 
+            const profilePic = post.profilePic;
             $("#write_post").append(post.html).css("overflow", "hidden");
             $("#profile-post-" + new_post_id).attr("src", "data:;base64," + profilePic);
             if (typeof file !== "undefined") {
@@ -116,8 +87,8 @@ $("#post").on("click", function(e) {
         }
     });
 });
-//
-function loading(){
+
+function loading() {
     $("#loading").show();
 }
 

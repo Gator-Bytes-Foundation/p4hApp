@@ -59,7 +59,7 @@
                             <input type="file" name="avatar" id="input-profile-pic" class="inputfile" style="display: none;" data-multiple-caption="{count} files selected" multiple/>
                         </div>
                         <div class="center">
-                            <img id="display-profile-pic" class="image-cropper img-fluid rounded-circle" alt="Profile Picture" src="data:;base64,{{ profile.profile_pic}}" /> 
+                            <img id="display-profile-pic" class="image-cropper img-fluid rounded-circle" alt="Profile Picture" src="data:;base64,{{ profile.profile_pic}}" />
                         </div>
                     </div>
                     <div class="row">
@@ -138,7 +138,7 @@
     <div class="slim-row bottom">
         <div class="bottom col-2 slim">
             {% if profile.canvas_user.id == 1 %}
-            <img class="image-cropper img-fluid slim" alt="placeholder" src="{{ url_for('static', filename='images/p4h.png') }}"> 
+            <img class="image-cropper img-fluid slim" alt="placeholder" src="{{ url_for('static', filename='images/p4h.png') }}">
             {% else %}
             <img id="profile_pic_img" class="img-fluid slim rounded-circle" alt="placeholder" src="data:;base64,{{ profile.profile_pic}}" /></img>
             {% endif %}
@@ -148,7 +148,7 @@
             <small class=""> <b>Pozisyon:</b> Elementary Teacher </small> <br>
             <small> <b>De Mwen :</b> {{profile.user.bio}} </small> </div>
         </div>
-    <!--<div class="input-group"> 
+    <!--<div class="input-group">
             <div class="input-group-prepend"> <span class="input-group-text" id="inputGroupFileAddon01">Upload</span> </div>
               <div class="custom-file">
                 <input type="file" class="custom-file-input" id="inputGroupFile01"
@@ -204,7 +204,9 @@
                 </div>
                 {% endif %}
                 <!-- Loading all posts from user's profile -->
-                {% for post in profile.posts %} {% include 'post.html' %} {% endfor %}
+                {% for post in profile.posts %}
+                    {% include 'post.html' %}
+                {% endfor %}
             </div>
             <table id="about" class="about-block tab-pane" style="display:none" role="tabpanel">
                 <tbody class="about-inner">
@@ -221,7 +223,7 @@
                             <label>Name: </label>
                         </td>
                         <td class="left">
-                            <div id="rocket_user_auth" data-rocket="{{rocket_user['authToken']}}">{{profile.user.name}}</div>
+                            <div id="rocket-user-auth" data-rocket="{{rocket_user['authToken']}}">{{profile.user.name}}</div>
                         </td>
                     </tr>
                     <tr class="">
@@ -229,7 +231,7 @@
                             <label>Email: </label>
                         </td>
                         <td class="left">
-                            <div id="rocket_user_userId"  data-userid="{{rocket_user['userId']}}">{{profile.user.email}}</div>
+                            <div id="rocket-user-userId"  data-userid="{{rocket_user['userId']}}">{{profile.user.email}}</div>
                         </td>
                     </tr>
                     <tr class="">

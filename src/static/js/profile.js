@@ -1,41 +1,25 @@
-//import "../css/profile.css";
 /*
 #######################################    Functions to handle all actions in profile.html    ##########################################
 */
-/*
 
-PROFILE TABS
-
-*/
-// Dictates which view is seen by clickng on the tabs
+/**
+ * @abstract Dictates which view is seen by clickng on the tabs
+ */
 (function() {
   $("#timeline-tab").addClass("active");
   $("#timeline-tab").addClass("show");
-  //let test = {{rocket_user}};
-  
-  //var test = JSON.parse(document.getElementById("rocket_user").dataset.rocket);
-  var token = document.getElementById("rocket_user_auth").dataset.rocket;
-  var userId = document.getElementById("rocket_user_userId").dataset.userid;
+  var token = document.getElementById("rocket-user-auth").dataset.rocket;
+  var userId = document.getElementById("rocket-user-userId").dataset.userid;
   if(userId && token) {
     console.log('userId: ' + userId + ' token ' + token);
     localStorage.setItem('rocket_token', token);
     localStorage.setItem('Meteor.userId', userId);
   }
-})();    // DOM Ready - do your stuff 
+})();
 
-
-    /* Upload Profile File  */
-  // when upload icon is clicked, trigger the file browser input (the input is hidden visually but can be "clicked" on)
-    /*$(".upload_icon").on('click', function (e) {
-      let id = e.currentTarget.id;
-      $("#label-"+id).trigger("click"); 
-    });
-  
-  */
-   /*
-  
-  WINDOW CLICKS
-  
+   /**
+    * @abstract will hide dropdown box if user clicks outside of it
+    * @param {JS Event} event
     */
   window.onclick = function (event) {
     const list_of_items = document.getElementsByClassName("list_of_items");
@@ -66,24 +50,22 @@ PROFILE TABS
       for (i = 0; i < tablinks.length; i++) {
       tablinks[i].className = tablinks[i].className.replace("active", "");
       }
-      //$('#'+tabName).css('display', 'block');
       $('#'+tabName).show();
       evt.currentTarget.className += " active";
   }
-  /*
-  
-  EDIT PROFILE MENU 
-  
-  */
+  /**
+   * @abstract exit the edit profile menu
+   */
   function cancelExitMenu() {
     document.getElementsByClassName("backgroundOverlay")[0].style.display =
       "none";
     $("#entire_profile").css({ pointerEvents: "visible" });
   }
-  
+  /**
+   * @abstract Shows edit profile menu ad sets listener to cancel menu
+   */
   $("#edit_profile").on("click", function (e) {
     let edit_menu = document.getElementsByClassName("backgroundOverlay");
-    //console.log(edit_menu[0]);
     edit_menu[0].style.display = "flex";
     $("#entire_profile").css({ pointerEvents: "none" });
     $("#edit_profile_menu").css({ pointerEvents: "visible" });
@@ -91,10 +73,10 @@ PROFILE TABS
   $("#exit_edit").on("click", function (e) {
     cancelExitMenu();
   });
-  
+
   // handle textbox as user types
   $(function () {
-    //  changes mouse cursor when highlighting loawer right of box
+    //  changes mouse cursor when highlighting lower right of box
     $("#newsfeed").on({
       mousemove: function (e) {
         //stuff to do on mouse enter
@@ -102,7 +84,7 @@ PROFILE TABS
         var myPos = $(this).offset();
         myPos.bottom = $(this).offset().top + $(this).outerHeight();
         myPos.right = $(this).offset().left + $(this).outerWidth();
-  
+
         if (
           myPos.bottom > e.pageY &&
           e.pageY > myPos.bottom - 16 &&
@@ -136,18 +118,14 @@ PROFILE TABS
     }, "textarea");
       //  the following simple make the textbox "Auto-Expand" as it is typed in
   });
-  
-  /* 
-  
-  SEARCH BAR 
-  
-  */
-  /* filters the search bar of all users */
-  
+
+  /**
+   * @abstract when user types, filters out potential users
+   */
   $('#profileSearchInput').on('keyup', function(ev){
-    filterFunction(); 
+    filterFunction();
   });
-  
+
   function filterFunction() {
     let input, filter, dropdown, profileLinks;
     input = document.getElementById("profileSearchInput");
@@ -169,15 +147,17 @@ PROFILE TABS
     const list_of_items = document.getElementsByClassName("list_of_items");
     list_of_items[0].style.display = "none";
   }
-  
-  
-  /* Profile Picture Change */ 
-  function changeProfilePic(input,id) {
-  
+
+
+  /**
+   * @abstract Profile Picture Change
+   */
+   function changeProfilePic(input,id) {
+
     file = input.files[0];
     console.log("file");
     if (file.name.includes(".jpg") || file.name.includes(".png") ||
-        file.name.includes(".pdf") || file.name.includes(".webp")) 
+        file.name.includes(".pdf") || file.name.includes(".webp"))
     {
       console.log("is an image");
       let reader = new FileReader();
@@ -188,12 +168,11 @@ PROFILE TABS
       reader.readAsDataURL(file);
     }
   }
-  
+
   $("form#edit-profile").on('submit', function(e) {
     e.preventDefault();
-    //console.log("FORM SUBMITTED" + window.location.pathname);
     var formData = new FormData(this);
-  
+
     $.ajax({
         url: '/profile',
         type: 'POST',
@@ -207,5 +186,4 @@ PROFILE TABS
     });
   });
 
-  
-  
+
