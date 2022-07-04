@@ -8,13 +8,6 @@
 (function() {
   $("#timeline-tab").addClass("active");
   $("#timeline-tab").addClass("show");
-  var token = document.getElementById("rocket-user-auth").dataset.rocket;
-  var userId = document.getElementById("rocket-user-userId").dataset.userid;
-  if(userId && token) {
-    console.log('userId: ' + userId + ' token ' + token);
-    localStorage.setItem('rocket_token', token);
-    localStorage.setItem('Meteor.userId', userId);
-  }
 })();
 
    /**
@@ -38,7 +31,9 @@
       cancelExitMenu();
     }
   };
-  //  When user clicks on tab, this code will be executed
+  /**
+   * @abstract When user clicks on tab, this code will be executed
+   */
   function openTab(evt, tabName) {
       console.log(tabName);
       var i, tabcontent, tablinks;
@@ -74,7 +69,9 @@
     cancelExitMenu();
   });
 
-  // handle textbox as user types
+  /**
+   * @abstract handle textbox as user types
+   */
   $(function () {
     //  changes mouse cursor when highlighting lower right of box
     $("#newsfeed").on({
@@ -116,7 +113,7 @@
         }
       }
     }, "textarea");
-      //  the following simple make the textbox "Auto-Expand" as it is typed in
+      //  the following makes the textbox "Auto-Expand" as it is typed in
   });
 
   /**
@@ -125,7 +122,9 @@
   $('#profileSearchInput').on('keyup', function(ev){
     filterFunction();
   });
-
+  /**
+   * @abstract filters user look up drowdown on top of profile page
+   */
   function filterFunction() {
     let input, filter, dropdown, profileLinks;
     input = document.getElementById("profileSearchInput");
@@ -168,7 +167,9 @@
       reader.readAsDataURL(file);
     }
   }
-
+  /**
+   * @abstract update user profile
+   */
   $("form#edit-profile").on('submit', function(e) {
     e.preventDefault();
     var formData = new FormData(this);
@@ -185,5 +186,6 @@
         processData: false
     });
   });
+
 
 

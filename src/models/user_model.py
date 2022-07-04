@@ -9,7 +9,7 @@ from src.canvas import CANVAS, course # inject canvas, course objects into file
 
 
 '''parameter: UserMixin,db.Model'''
-class User(UserMixin,db.Model): 
+class User(UserMixin,db.Model):
   ''' when db is finished setting up '''
   __tablename__ = 'User'
   id = db.Column(db.Integer, primary_key=True)
@@ -26,7 +26,7 @@ class User(UserMixin,db.Model):
 
   userFiles = db.relationship("UserFiles", backref="UserFiles")
   #profile = db.relationship('Profile', backref='author', lazy='dynamic')
-  
+
   def __init__(self, *args,**kwargs):
     #allowed_keys = {'id', 'sis_user_id', 'login_id', 'email','avatar_url','bio','role'}
     self.__dict__.update(kwargs)
@@ -45,12 +45,12 @@ class User(UserMixin,db.Model):
       return self.id
 
   def __repr__(self):
-    return '<User {}>'.format(self.username)   
-  def update(self, *args, **kwargs): 
+    return '<User {}>'.format(self.username)
+  def update(self, *args, **kwargs):
     #print(args)
     allowed_keys = {'id', 'sis_user_id', 'login_id', 'email','avatar_url','bio','role'}
-    self.__dict__.update((k, v) for k, v in kwargs.items() if k in allowed_keys)    
-  
+    self.__dict__.update((k, v) for k, v in kwargs.items() if k in allowed_keys)
+
   def set_password(self, password):
     self.password_hash = generate_password_hash(password)
 
@@ -75,8 +75,7 @@ def unauthorized_handler():
         return render_template('login.html'), 401
     #
   '''
-  #return CANVAS.get_user(1) # for now lets just automatically load admin (id of 1)
-  
+
 @file_upload.Model
 class UserFiles(db.Model):
   __tablename__ = "UserFiles"

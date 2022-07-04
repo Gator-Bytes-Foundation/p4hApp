@@ -2,9 +2,6 @@
 <!-- all html files should extend from the header, (the header contains all static references as well) -->
 {% block content %}
 <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
-
-<html>
-
 <head>
     <link  rel="stylesheet" href="{{ url_for('static', filename='css/messaging.css') }}" ></link>
     <style>
@@ -26,24 +23,11 @@
     </div>
 </body>
 <script>
-    //function authenticateIFrame() {
-    let rocket_token = localStorage.getItem("rocket_token");
-    //console.log(document.getElementById('rocketchatiframe').contentWindow);
-    let iframe = document.getElementById('rocketchatiframe');
-    iframe.onload = function() {
-        
-        iframe.contentWindow.postMessage({
-            externalCommand: 'login-with-token',
-            token: rocket_token,
-        }, '*'); // rocket.chat's URL
-        console.log(rocket_token);
-    //Meteor.loginWithPassword('lcundiff', 'NF!Deku2');
-    }
-    //}
+
     window.onload = function () {
         //authenticateIFrame();
     };
 </script>
-</html>
+<script src="{{ url_for('static', filename='js/messaging.js') }}"></script>
 {% endblock %}
 <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->

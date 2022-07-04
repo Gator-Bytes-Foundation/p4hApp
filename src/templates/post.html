@@ -3,12 +3,12 @@
     <div class="delete">
         <span id="{{post.id}}" onclick="deletePost(event)" class="iconify" data-icon="oi-x"></span>
     </div>
-    <div class="profile_name">
+    <div class="profile-name mb-3">
         <div class="profile-pic">
             {% if(post.user_name == 'Admin' or post.title == 'Announcement' ) %}
-            <figure class="thumbnail"><img alt="placeholder" class="img-fluid avatar-sm" src="{{ url_for('static', filename='images/p4h.png') }}" /></figure>
+            <img alt="placeholder" class="img-fluid avatar-sm pr-2" src="{{ url_for('static', filename='images/p4h.png') }}" />
             {% else %}
-            <figure class="thumbnail"> <img alt="placeholder" class="img-fluid avatar-sm"  src="data:;base64,{{ currentUserProfilePic }}" /> </figure>
+            <img alt="placeholder" class="img-fluid avatar-sm pr-2"  src="data:;base64,{{ currentUserProfilePic }}" />
             {% endif %}
         </div>
         <div class="">
@@ -66,7 +66,7 @@
             <button onclick="commentPost(event)" id="reply-{{post.id}}" name="{{post.id}}" class="col-4 reply_button btn-sm"><i class="fa fa-reply"></i> Reply</button>
         </div>
         <!-- to temp display image/file after post -->
-        <img id="display-file-{{post.id}}" class="img-fluid post-pic" />
+        <img id="display-file-{{post.id}}" class="img-fluid post-pic pr-2" />
     </div>
 </article>
 <script src="{{ url_for('static', filename='js/post.js') }}"></script>

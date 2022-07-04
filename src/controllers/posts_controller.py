@@ -55,7 +55,6 @@ def loadPosts(user):
   # loop through all profile posts
   for i in range(end_index):
     usernameId = user.username + ' ' + str(canvas_id) #used to identify user in canvas
-    #print('current user: ' + currentUser + ' title: ' + posts[i].title)
     if(posts[i].title == usernameId and posts[i].message is not None): #only shows posts that the user has posted
       posts[i].message = posts[i].message.replace('</p>', '').replace('<p>', '')
       posts[i].posted_at = convertDate(posts[i].posted_at)
@@ -66,8 +65,6 @@ def loadPosts(user):
 
       if(len(posts[i].files) > 0):
         image_data = base64.b64encode(posts[i].files[0].data).decode("utf-8")
-        #print('file data: ')
-        #print(posts[i].files[0])
         posts[i].img = image_data
 
       # Push profile post into recent posts array
@@ -118,8 +115,6 @@ def handlePost(user_id, req):
 
   if(post_file is not None):
     userFileModel = UserFiles(userId=current_user.id,postId=post.id,data=post_file.read(),userFile__file_name=post_file.filename)
-    #db.session.add(userFileModel)
-    #db.session.commit()
     #post_file.save(os.path.join(app.config['UPLOAD_PATH'], post_file.filename))
     userFile = file_upload.save_files(userFileModel, files={
       "userFile": post_file,
@@ -136,7 +131,7 @@ def handlePost(user_id, req):
   post_id = str(post.id)
   # NOTE: post.author['avatar_image_url'] does work in getting canvas avatar, but canvas avatars have been impossible to update
   post_html = '<article id="' + post_id + '''"class="post_box">
-  <div class="profile_name">
+  <div class="profile-name">
   <div class="profile-pic">
   <figure class="thumbnail ">
   <img id="profile-post-''' + post_id + '" alt="placeholder" class="img-fluid avatar-sm" src="' + post.author['avatar_image_url'] + '"/>' + '''
