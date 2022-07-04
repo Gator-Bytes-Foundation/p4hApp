@@ -117,6 +117,7 @@ class LoginForm(FlaskForm):
   submit = SubmitField('Sign In')
 
   def loginRocketChat(self):
+    rocket_user = None
     if(ROCKET != None):
       try:
         print(self.password.data)
@@ -144,7 +145,7 @@ class LoginForm(FlaskForm):
     #print(self.remember_me.data)
     login_user(user, remember = self.remember_me.data if hasattr(self, 'remember_me') else False)
     rocket_user = self.loginRocketChat()
-    if(rocket_user['authToken']):
+    if(rocket_user != None and rocket_user['authToken']):
       flash('Logged in successfully.')
     else:
       return redirect(url_for('login'))

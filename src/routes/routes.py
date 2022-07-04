@@ -1,13 +1,13 @@
 from flask import url_for, flash, redirect, request, render_template, send_file, send_from_directory
-from flask_login import login_user, logout_user, current_user, login_required
+from flask_login import current_user, login_required
 from src import app  # from /app import flask app TODO: import db
-''' Import Needed Modules ''' 
+''' Import Needed Modules '''
 from src.models.user_model import User
 from src.canvas import CANVAS, course # inject canvas, course objects into file
 from src.models.profile_model import Profile
 from src.models.user_model import User
 from src.controllers.posts_controller import *
-''' Import Needed Libraries ''' 
+''' Import Needed Libraries '''
 import json
 import requests
 from flask import make_response
@@ -41,7 +41,7 @@ def posts(user_id): #url being routed is saved to 'user_id' which we can then us
       'post_id': post_id,
       'profilePic': profilePic
     }), 200, {'ContentType':'application/json'}
-  
+
   return jsonify(request)
 
 @app.route('/post/<post_id>', methods=['DELETE'])
@@ -51,12 +51,12 @@ def post(post_id): #url being routed is saved to 'user_id' which we can then use
   return json.dumps({
     'res': res
   }), 200, {'ContentType':'application/json'}
-  
+
 @app.route('/comment/<post_id>', methods=['POST'])
 def comments(post_id): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
   print("post id for commenting: ",post_id)
   return handleComment(request,post_id)
-  
+
 @app.route('/post/<post_id>/comment/<comment_id>', methods=['DELETE'])
 def comment(post_id,comment_id): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
   print("post id for commenting: ",post_id)
@@ -65,7 +65,7 @@ def comment(post_id,comment_id): #url being routed is saved to 'page_to_load' wh
 # DISCUSSION REQUESTS #
 @app.route('/announcements', methods=['GET', 'POST'])
 @login_required
-def announcements():    
+def announcements():
   newsfeed_posts = loadAnnouncements()
   currentUserProfilePic = getProfilePic(current_user)
   return render_template('announcements.html',  posts=newsfeed_posts, current_user=current_user,currentUserProfilePic=currentUserProfilePic)

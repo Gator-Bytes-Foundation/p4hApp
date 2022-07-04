@@ -1,5 +1,5 @@
 from flask import url_for, flash, redirect, request, render_template, send_file, Response,make_response
-from flask_login import login_user, logout_user, current_user, login_required
+from flask_login import current_user, login_required
 #from flask_api import status
 
 from werkzeug.urls import url_parse
@@ -25,7 +25,7 @@ import logging
 #
 @app.route('/profile/<profile_id>', methods=['GET','POST'])
 def customProfileCalls(profile_id): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
-  print("page loading: ",profile_id)
+  print("page loading: ", profile_id)
   return profile(profile_id) # calls profile function on username from route str
 
 @app.route('/') # default page that loads IF logged in
