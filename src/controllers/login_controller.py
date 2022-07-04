@@ -116,12 +116,12 @@ class LoginForm(FlaskForm):
   remember_me = BooleanField('Remember Me')
   submit = SubmitField('Sign In')
 
-  def loginRocketChat(self):
+  def loginRocketChat(self,user):
     rocket_user = None
     if(ROCKET != None):
       try:
         print(self.password.data)
-        rocket_res = ROCKET.login(self.username.data,self.password.data)
+        rocket_res = ROCKET.login(self.username.data,user.password_hash)
         rocket_user = rocket_res.json().get("data")
       except Exception as e:
         flash("Messaging credentials not valid")
@@ -144,7 +144,7 @@ class LoginForm(FlaskForm):
       user.canvasId = CANVAS.get_user(1)
     #print(self.remember_me.data)
     login_user(user, remember = self.remember_me.data if hasattr(self, 'remember_me') else False)
-    rocket_user = self.loginRocketChat()
+    rocket_user = self.loginRocketChat(user)
     if(rocket_user != None and rocket_user['authToken']):
       flash('Logged in successfully.')
     else:
