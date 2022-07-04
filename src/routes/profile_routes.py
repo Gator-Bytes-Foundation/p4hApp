@@ -56,7 +56,6 @@ def progress(user_id):
   return render_template('progress.html', milestones = milestones, current_user = current_user, profile = profile_user) # get user from profiel to do
 
 
-
 ## Download milestone - READ
 @app.route('/profile/<user_id>/progress/<milestone_id>', methods=['GET'])
 def progressGet(user_id,milestone_id):

@@ -56,12 +56,14 @@ def loadProgress(user_id):
 def getProgress(user_id,assignment_id):
   #int_assignment_id = int(assignment_id)
   assignment = course.get_assignment(assignment_id)
+  print(assignment)
   try:
+    print(user_id)
     submission = assignment.get_submission(user_id)
   except:
     return False
 
-  #print(submission.attachments)
+  print(submission.attachments)
   if(submission.attachments):
     #for i in range(len(submission.attachments)):
       #print("submission attachment ", submission.attachments[i])
