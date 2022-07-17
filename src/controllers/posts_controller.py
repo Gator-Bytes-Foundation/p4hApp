@@ -17,15 +17,12 @@ def convertDate(inproperDate):
   return properDate
 
 def getProfilePic(user):
-  # Canvas does not allow external files to change profile pictures
-  #avatar = profile.canvas_user.get_avatars()[1] returns dotted pic for some reason
-  #if(len(profile.posts) > 0):
-    #avatar = profile.posts[0].author['avatar_image_url']
+  # Canvas doesnt seem to allow external files to change profile pictures
+  # todo research way to update canvas profile pictures through app
+  #avatar = profile.canvas_user.get_avatars()[1] # returns dotted pic for some reason
 
   avatar = UserFiles.query.filter_by(userId=user.id,postId=user.canvasId).first() # post id as canvas id is profile pic?
   if(avatar):
-    #print('using avatar from db')
-    #print(avatar)
     avatarImg = base64.b64encode(avatar.data).decode("utf-8")
     return avatarImg
   else: # no avatar set
@@ -83,7 +80,10 @@ def loadAnnouncements():
   adminUser = User.query.filter_by(canvasId=adminId).first()
   # for now load posts as if it were admin profile TODO: figure out what is wrong with get_announcements canvas API
   profile = loadPosts(adminUser)
-  #announcements = canvas.get_announcements(context_codes='course_1') # canvas announcements lack documentation, so gonna just use regular discussion posts
+
+  # todo switch to canvas announcements api
+  # canvas announcements lack documentation, so using regular discussion posts
+  # announcements = canvas.get_announcements(context_codes='course_1')
   return profile.posts
 
 
@@ -97,64 +97,37 @@ def handlePost(user_id, req):
   user = User.query.filter_by(id=user_id).first()
   new_post = req.form['text']
   try:
-    post_file = (req.files['file']) # check to see if there was files attached
+    postFile = (req.files['file']) # check to see if there were files attached
   except:
     print('no file attached')
-    post_file = None
+    postFile = None
 
   # make post in canvas
-  title = user.username + ' ' + str(user.canvasId) # title = user's profile name
+  title = user.username + ' ' + str(user.canvasId) # title is user's profile name
   post = course.create_discussion_topic(
       title = title,
       user_name = current_user.name, # person posting it
       message = new_post,
       user_can_see_posts = True,
       published = True,
-      #attachments = post_file,
+      #attachments = postFile, # todo: if canvas api fixes attachments, then use this instead of DB
   )
 
-  if(post_file is not None):
-    userFileModel = UserFiles(userId=current_user.id,postId=post.id,data=post_file.read(),userFile__file_name=post_file.filename)
-    #post_file.save(os.path.join(app.config['UPLOAD_PATH'], post_file.filename))
+  if(postFile is not None):
+    userFileModel = UserFiles(userId=current_user.id,postId=post.id,data=postFile.read(),userFile__file_name=postFile.filename)
+    #postFile.save(os.path.join(app.config['UPLOAD_PATH'], postFile.filename))
     userFile = file_upload.save_files(userFileModel, files={
-      "userFile": post_file,
+      "userFile": postFile,
     })
-  #post.attachments = post_file
-  #post = post.update(discussion_topic = {'attachment' : post_file})
 
   year = post.posted_at[2:4]
   day = post.posted_at[5:7]
   month = post.posted_at[8:10]
   proper_date = ''.join([month,'/', day, '/', year])
-  #print("topic being posted: ", post.title, " author: ", post.author)
-  # send back html for post
-  post_id = str(post.id)
   # NOTE: post.author['avatar_image_url'] does work in getting canvas avatar, but canvas avatars have been impossible to update
-  post_html = '<article id="' + post_id + '''"class="post_box">
-  <div class="profile-name">
-  <div class="profile-pic">
-  <figure class="thumbnail ">
-  <img id="profile-post-''' + post_id + '" alt="placeholder" class="img-fluid avatar-sm" src="' + post.author['avatar_image_url'] + '"/>' + '''
-  </figure>
-  </div>
-  <div class="col-10"><header class="text-left">
-  <figcaption class="comment-user"><b>''' + current_user.name + '''</b></figcaption>
-  ''' + '<time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i>' + proper_date + '''</time></header></div></div>
-  <div class="post">
-  <div class="">
-  ''' + new_post + '''
-  </div><hr>'''
-  if(post_file is not None):
-    post_html += '<img id="display-upload-' + post_id + '" alt="attachment" class="img-fluid post-pic" />'
-
-  post_html += '''<div class="text-center"></div> <div id="comments-
-  ''' + post_id + '''" ><label class = "comment_label" for="from">Comments</label> <div id="reply_div-'
-  ''' + post_id + '''"class="reply_div"> <div class="col-8"> <textarea class= "text_box" name="message" id="textbox-'
-  ''' + post_id + '''"onkeyup="" size="5" placeholder="Comment"></textarea><span class="upload_icon oi oi-cloud-camera" aria-hidden="true"></span></div> <a href=""name="'
-  ''' + post_id + '" id="reply-' + post_id + '" class="reply_button col-4 btn-sm"><i class="fa fa-reply"></i> Reply</a></div></div></article>'
-
   profilePic = getProfilePic(current_user)
-  return post_html, post_id, profilePic
+  return post, profilePic
+
 
 def loadPostComents(post):
   if(not hasattr(post,'get_topic_entries')): return
@@ -173,11 +146,8 @@ def loadPostComents(post):
   return allCommentsMap
 
 def handleComment(req,post_id):
-  #new_comment = req.get_json()["text"]
   comment_text = req.form['text']
-  #print("reply:", comment_text)
-  # make post in canvas
-  topic = course.get_discussion_topic(post_id)
+  topic = course.get_discussion_topic(post_id) # get post in canvas
   comment = topic.post_entry(
       message = comment_text,
       user_name = current_user.name

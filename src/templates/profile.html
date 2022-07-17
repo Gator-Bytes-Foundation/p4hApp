@@ -119,7 +119,6 @@
     </div>
     <!------------------------ search bar -------------------------->
     <div class="dropdown">
-        <!--<button onclick="showSearchBar()" class="profile_button col-4">Search Profiles</button>-->
         <div class="dropdown-content">
             <span class="oi oi-magnifying-glass" aria-hidden="true"></span>
             <!-- input element calls filter function anytime user types -->
@@ -146,13 +145,6 @@
             <small class=""> <b>Pozisyon:</b> Elementary Teacher </small> <br>
             <small> <b>De Mwen :</b> {{profile.user.bio}} </small> </div>
         </div>
-    <!--<div class="input-group">
-            <div class="input-group-prepend"> <span class="input-group-text" id="inputGroupFileAddon01">Upload</span> </div>
-              <div class="custom-file">
-                <input type="file" class="custom-file-input" id="inputGroupFile01"
-        aria-describedby="inputGroupFileAddon01">
-                <label class="custom-file-label" for="inputGroupFile01">Choose file</label> -->
-
     <div class="col-md-10 col-12">
         <div id="mytabs" class="class=fakeclasshere2">
             <ul class="nav nav-tabs" role="tablist">
@@ -188,7 +180,7 @@
                         <div class="profile-name">
                             <figure class="profile-pic-post post"><img alt="No Profile Picture" class="img-fluid rounded-circle" src="data:;base64,{{ currentUserProfilePic }}" /></figure>
                             <div class="col-10" id="">
-                                <textarea class="text_box" name="message" id="textbox-post" style="width: 100%;" placeholder="Write Post Here" size="5"></textarea>
+                                <textarea class="text_box" name="{{profile.canvas_user.name}}" id="textbox-post" style="width: 100%;" placeholder="Write Post Here" size="5"></textarea>
                                 <span id="upload-post" onclick="document.getElementById('input-upload-post').click();" class="iconify upload_icon" data-icon="ant-design:cloud-upload-outlined" data-inline="false"></span>
                                 <input type="file" name="userFile" id="input-upload-post" class="invisble" data-multiple-caption="{count} files selected" onclick="this.value = null" multiple/>
                                 <label class="invisble" id="label-upload-post" style="display: none;" for="input-upload-post"><strong>Choose a file</strong></label>

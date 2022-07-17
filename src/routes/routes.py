@@ -35,10 +35,9 @@ def bad_request(e):
 @app.route('/post/<user_id>', methods=['GET', 'POST'])
 def posts(user_id): #url being routed is saved to 'user_id' which we can then use to render the name of the html file
   if(request.method == 'POST'):
-    html, post_id, profilePic = handlePost(user_id,request)
+    post, profilePic = handlePost(user_id,request)
     return json.dumps({
-      'html':html,
-      'post_id': post_id,
+      'new_post_id': post.id,
       'profilePic': profilePic
     }), 200, {'ContentType':'application/json'}
 

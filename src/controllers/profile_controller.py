@@ -29,7 +29,6 @@ def loadProgress(user_id):
   p4hCourseId = 1
   # NOTE: assignent has has_submitted_submissions as a field to check if user has submitted
   user_assignments = list(canvas_user.get_assignments(p4hCourseId))
-  #print(vars(user_assignments[0])) # uncomment this to see what attributes the canvas assignment object has
 
   milestones = []
   for assign in user_assignments:
@@ -42,11 +41,9 @@ def loadProgress(user_id):
     milestone['has_submission'] = False
 
     for sub in submissions:
-      #print(sub.user_id)
       if(canvas_user.id == sub.user_id):
         if(hasattr(sub, 'attachments')):
           milestone['has_submission'] = True
-          #print('match?')
 
     milestones.append(milestone)
 
@@ -63,9 +60,8 @@ def getProgress(user_id,assignment_id):
   except:
     return False
 
-  print(submission.attachments)
   if(submission.attachments):
-    #for i in range(len(submission.attachments)):
+    #for i in range(len(submission.attachments)): # todo support multiple attachments
       #print("submission attachment ", submission.attachments[i])
       file_url = submission.attachments[0]['url']
       r = requests.get(file_url,verify=False)
@@ -73,7 +69,6 @@ def getProgress(user_id,assignment_id):
 
       #file_to_download.download(file_to_download.filename) # download each file associated with assignment submission
       #return file_to_download
-      print(submission.attachments[0]['display_name'])
       return submission.attachments[0]
   else:
     return False
@@ -113,8 +108,6 @@ def updateProgress(request,user_id,assignment_id):
     #return False
 
 def updateProfile(req):
-  #print('form')
-  #print(req.form)
   canvas_user = CANVAS.get_user(current_user.canvasId)
 
   name_ = req.form['name']
@@ -127,9 +120,7 @@ def updateProfile(req):
 
   if(avatarUpdate):
     prevAvatar = UserFiles.query.filter_by(userId=current_user.id,postId=current_user.canvasId).first() # check if avatar already exists
-    #print("model: ", prevAvatar)
     if(prevAvatar):
-      #print("updating avatar")
       prevAvatar.data = avatarUpdate.read()
       avatar = file_upload.update_files(prevAvatar, files={
           "userFile": avatarUpdate
@@ -140,7 +131,7 @@ def updateProfile(req):
         "userFile": avatarUpdate,
       })
     #edit canvas avatar as well
-    canvas_user.edit(user = {"avatar":avatarUpdate}) # not working
+    canvas_user.edit(user = {"avatar":avatarUpdate}) # todo look into why this does not update canvas avatar
 
   if(name_ != ''):
     current_user.name = name_

@@ -22,17 +22,15 @@ function getPostData(id) {
    * @param {JS Event} e
    */
   function deletePost(e) {
-    console.log('post being deleted');
     e.preventDefault();
-    let post_id = e.currentTarget.id;
-    console.log("post_id " + post_id);
+    const post_id = e.currentTarget.id;
     $.ajax({
       type: "DELETE",
       url: "/post/" + post_id,
       contentType: false,
       processData: false,
       success: function (data) {
-        console.log("ajax return comment ", data);
+        console.log("delete return comment ", data);
         $("#post_" + post_id).remove();
       },
       error: function (data,err,exception) {
