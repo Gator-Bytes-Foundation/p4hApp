@@ -7,6 +7,7 @@ from src import file_upload
 from src import db
 import base64
 import json
+from flask.json import jsonify
 
 
 def convertDate(inproperDate):
@@ -115,7 +116,6 @@ def handlePost(user_id, req):
 
   if(postFile is not None):
     userFileModel = UserFiles(userId=current_user.id,postId=post.id,data=postFile.read(),userFile__file_name=postFile.filename)
-    #postFile.save(os.path.join(app.config['UPLOAD_PATH'], postFile.filename))
     userFile = file_upload.save_files(userFileModel, files={
       "userFile": postFile,
     })
@@ -153,9 +153,11 @@ def handleComment(req,post_id):
       user_name = current_user.name
   )
   profilePic = getProfilePic(current_user)
-  # send back html for post
-  comment_html = '<div class="post_comment profile-pic-post"><img alt="placeholder" class="img-fluid rounded-circle avatar-sm" src="data:;base64,' + profilePic + '"/><div class="word_bubble"><p><b>' + current_user.username + '</b><br>' + comment_text + '</p></div></div>'
-  return comment_html
+  res = ({
+    'success':True,
+    'data': {'profilePic':profilePic}
+  })
+  return res
 
 def deletePost(req,post_id):
   post = course.get_discussion_topic(post_id)

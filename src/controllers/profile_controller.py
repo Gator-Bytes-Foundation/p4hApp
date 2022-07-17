@@ -75,7 +75,6 @@ def getProgress(user_id,assignment_id):
 
 # admins should be only ones uploading progress
 def updateProgress(request,user_id,assignment_id):
-  print("uploading asssignment")
   int_assignment_id = int(assignment_id)
   print(str(int_assignment_id))
   try:
