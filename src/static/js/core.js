@@ -37,29 +37,70 @@ function getPostData(id, userId) {
     formData.append("userid", userId);
     return formData;
 }
+
+function appendPost(post_id,postText,profilePic,postFile) {
+  const now = new Date().toLocaleDateString("en-US")
+  const nameOfUser = $('#profile-nav')[0].name;
+  let postHtml = $(`<article id="${post_id}" class="post_box">
+    <div class="profile-name">
+      <div class="profile-pic">
+        <figure class="thumbnail">
+          <img id="profile-post-${post_id}" alt="placeholder" class="img-fluid avatar-sm" src="data:;base64,${profilePic}"/>'
+        </figure>
+      </div>
+      <div class="col-10">
+        <header class="text-left">
+          <figcaption class="comment-user">
+            <b>${nameOfUser}</b>
+          </figcaption>
+          <time class="comment-date" datetime="${now}"><i class="fa fa-clock-o pr-1"></i>${now}</time>
+        </header>
+      </div>
+    </div>
+    <div class="post">
+      <div class="">
+        ${postText}
+      </div>
+      <img id="display-upload-${post_id}" alt="attachment" class="img-fluid post-pic ${!postFile && 'd-none'}"/>
+      <hr/>
+      <div id="comments-${post_id}"><label class="comment_label" for="from">Comments</label>
+        <div id="reply_div-${post_id}" class="reply_div">
+          <div class="col-8">
+            <textarea class= "text_box" name="message" id="textbox-${post_id}" onkeyup="" size="5" placeholder="Comment"></textarea>
+            <span class="upload_icon oi oi-cloud-camera" aria-hidden="true"></span>
+          </div>
+          <a href="" onclick={commentPost} name="${post_id}" id="reply-${post_id}" class="reply_button col-4 btn-sm"><i class="fa fa-reply"></i> Reply</a>
+        </div>
+      </div>
+    </div>
+  </article>`)
+
+  $("#write_post").append(postHtml).css("overflow", "hidden");
+  $("#profile-post-" + post_id).attr("src", "data:;base64," + profilePic);
+}
+
 /**
  * @abstract Creates user post (in sync with Canvas discussion post)
  * @param e JS event
  */
 $("#post").on("click", function(e) {
     e.preventDefault();
-    let userId = e.currentTarget.name;
-    let post_id = e.currentTarget.id;
-    let formData = getPostData(post_id, userId); // 0 is first textbox on page
+    const userId = e.currentTarget.name;
+    const textboxId = e.currentTarget.id;
+    const formData = getPostData(textboxId, userId);
     $.ajax({
         type: "POST",
-        url: "/post/" + userId,
+        url: `/post/${userId}`,
         data: formData,
         cache: false,
         contentType: false,
         processData: false,
         dataType: "text",
         success: function(data) {
-          const post = JSON.parse(data);
-          const new_post_id = post.post_id;
-          const profilePic = post.profilePic;
-          $("#write_post").append(post.html).css("overflow", "hidden");
-          $("#profile-post-" + new_post_id).attr("src", "data:;base64," + profilePic);
+          const { new_post_id, profilePic } = JSON.parse(data);
+          const postText = $(`#textbox-${textboxId}`).val();
+          appendPost(new_post_id,postText,profilePic,post.post_file);
+
           if (typeof file !== "undefined") {
               console.log("file");
               if (
@@ -78,8 +119,7 @@ $("#post").on("click", function(e) {
           }
         },
         error: function(xhr, status, error) {
-            let err = "error " + xhr.responseText;
-            //console.log('error due to: ' + error);
+            //const err = "error " + xhr.responseText;
             console.log(error);
         }
     });
