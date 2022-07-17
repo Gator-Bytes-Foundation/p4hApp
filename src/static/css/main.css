@@ -106,7 +106,8 @@ div#loading {
   color: rgba(22,50,170, 0.9);
   border-style: none;
   border-radius: 10px;
-  width:30px;
+  width:50px;
+  float: right;
 }
 /* CSS for profile posts */
 .profile-name {

@@ -24,6 +24,7 @@ function getPostData(id) {
   function deletePost(e) {
     e.preventDefault();
     const post_id = e.currentTarget.id;
+    $("#loader").show()
     $.ajax({
       type: "DELETE",
       url: "/post/" + post_id,
@@ -32,10 +33,12 @@ function getPostData(id) {
       success: function (data) {
         console.log("delete return comment ", data);
         $("#post_" + post_id).remove();
+        $("#loader").hide()
       },
       error: function (data,err,exception) {
         console.log("error " + err);
         console.log("status " + exception);
+        $("#loader").hide()
       }
     });
   }
@@ -58,12 +61,11 @@ function getPostData(id) {
    * @param {JS Event} e
    */
   function commentPost(e) {
-    console.log('comment being generated');
     e.preventDefault();
     const post_id = e.currentTarget.name;
-    console.log("post_id " + post_id);
     const commentText = $("#textbox-" + post_id).val();
     const formData = getPostData(post_id);
+    $("#loader").show()
     $.ajax({
       type: "POST",
       url: "/comment/" + post_id,
@@ -73,14 +75,14 @@ function getPostData(id) {
       processData: false,
       dataType: "text",
       success: function (res) {
-        console.log(res)
         const { profilePic } = JSON.parse(res).data;
-        console.log("ajax return comment ", profilePic);
         appendComment(commentText,profilePic,post_id);
+        $("#loader").hide()
       },
       error: function (data,err,exception) {
         console.log("error " + err);
         console.log("status " + exception);
+        $("#loader").hide()
       }
     });
   }
@@ -92,6 +94,7 @@ function getPostData(id) {
   function deleteComment(e,postId) {
     let comment_id = e.currentTarget.id;
     let post_id = postId;
+    $("#loader").show()
     $.ajax({
       type: "DELETE",
       url: "/post/" + post_id + '/comment/' + comment_id,
@@ -100,10 +103,12 @@ function getPostData(id) {
       success: function (data) {
         console.log("ajax return comment ", data);
         $("#comment-" + comment_id).remove();
+        $("#loader").hide();
       },
       error: function (data,err,exception) {
         console.log("error " + err);
         console.log("status " + exception);
+        $("#loader").hide();
       }
     });
   }

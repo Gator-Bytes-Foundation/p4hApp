@@ -27,17 +27,23 @@ $('input[type="file"]').on("change", function(e) {
 
 function getPostData(id, userId) {
     let formData = new FormData();
-    let postText = $("#textbox-" + id).val();
+    const postText = $("#textbox-" + id).val();
     formData.append("text", postText);
     const input = document.getElementById("input-upload-" + id); // grabs the right file by ID
     if (input != null && input.files.length > 0) {
-        let files = input.files[0];
+        const files = input.files[0];
         formData.append("file", files);
     }
     formData.append("userid", userId);
     return formData;
 }
-
+/**
+ *
+ * @param {string} post_id Canvas Discussion Post Id
+ * @param {string} postText
+ * @param {Base64} profilePic
+ * @param {Base64} postFile
+ */
 function appendPost(post_id,postText,profilePic,postFile) {
   const now = new Date().toLocaleDateString("en-US")
   const nameOfUser = $('#profile-nav')[0].name;
@@ -88,6 +94,7 @@ $("#post").on("click", function(e) {
     const userId = e.currentTarget.name;
     const textboxId = e.currentTarget.id;
     const formData = getPostData(textboxId, userId);
+    $("#loader").show();
     $.ajax({
         type: "POST",
         url: `/post/${userId}`,
@@ -117,6 +124,7 @@ $("#post").on("click", function(e) {
                   reader.readAsDataURL(file);
               }
           }
+          $("#loader").hide()
         },
         error: function(xhr, status, error) {
             //const err = "error " + xhr.responseText;
@@ -124,10 +132,6 @@ $("#post").on("click", function(e) {
         }
     });
 });
-
-function loading() {
-    $("#loading").show();
-}
 
 function errorResponse(err) {
     console.log("error " + err);
