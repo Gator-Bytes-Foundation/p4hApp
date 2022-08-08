@@ -50,15 +50,3 @@ from src.helpers import context_processors, static_asset_resolve
 #handler.setFormatter(formatter)
 #logger.addHandler(handler)
 #logger.setLevel(logging.DEBUG)
-
-''' for when db is finished setting up
-from app import User, Profile
-
-@app.shell_context_processor
-def make_shell_context():
-    return {'db': db, 'User': User, 'Profile': Profile}
-  
-if __name__ == "__main__":
-  #
-  app.run(debug=True)
-  '''
