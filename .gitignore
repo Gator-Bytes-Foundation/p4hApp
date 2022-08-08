@@ -64,3 +64,4 @@ testem.log
 Thumbs.db
 src/app.db
 src/app.db
+config/local.py
