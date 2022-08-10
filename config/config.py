@@ -16,7 +16,11 @@ class Config(object):
 class Production(Config):
     DEBUG=False
     DATABASE_URI = 'mysql://user@localhost/foo'
+    CANVAS_URL="https://admin.p4hteach.org"
+    ROCKET_URL="https://messaging.p4hteach.org"
 
 class Development(Config):
     DEBUG=True
+    CANVAS_URL="https://admin.p4hteach.org"
+    ROCKET_URL="https://messaging.p4hteach.org"
     DATABASE_URI = "sqlite:////tmp/foo.db"
