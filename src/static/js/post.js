@@ -46,7 +46,6 @@ function getPostData(id) {
   }
   function commentPost(e) {
     console.log('comment being generated');
-    /* old regular expression I was using to find all reply ids: a[id|='reply' */
     e.preventDefault();
     let reply_id = e.currentTarget.id;
     let post_id = e.currentTarget.name;
@@ -73,7 +72,7 @@ function getPostData(id) {
       }
     });
   }
-  //
+  // removes discussion entry (comment) from discussion post
   function deleteComment(e,postId) {
     console.log('post being deleted');
     let comment_id = e.currentTarget.id;
