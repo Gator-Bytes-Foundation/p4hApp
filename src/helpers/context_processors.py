@@ -1,4 +1,4 @@
-from src import app, environment
+from src import app, ENV
 
 ##
 # This will make some utility functions available so that they can be called in the HTML templates
