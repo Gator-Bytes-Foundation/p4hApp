@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 
-{% extends "header.html" %} <!-- all html files should extend from the header, (the header contains all static references as well) --> 
+{% extends "header.html" %} <!-- all html files should extend from the header, (the header contains all static references as well) -->
 {% block content %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
 
-<header> 
-  <!--{{ super() }}--> 
+<header>
+  <!--{{ super() }}-->
 </header>
 <base href="/">
 <div class="container emp-profile">
@@ -13,7 +13,7 @@
         {% if(current_user.name == 'Admin') %}
         <div id="write_post"> <!-- ID being used for appending posts -->
           <div style="text-align: center;" class="post_box">
-              <div class="profile_name">
+              <div class="profile-name">
                   <figure class="profile-pic-post post"><img alt="No Profile Picture" class="img-fluid rounded-circle" src="{{ url_for('static', filename='images/p4h.png') }}" /></figure>
                   <div class="col-10" id="">
                       <textarea id="textbox-post" class="text_box" name="message" style="width: 100%;" placeholder="Write Post Here" size="5"></textarea>
@@ -42,4 +42,4 @@
 </div>
 </div>
 <!--<script src="{{ url_for('static', filename='js/announcements.js') }}"></script>-->
-{% endblock %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html --> 
+{% endblock %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
