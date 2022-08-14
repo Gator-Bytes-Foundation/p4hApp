@@ -1,5 +1,5 @@
 *.pyc
-
+/venv
 wsgi.py
 settings.py
 
