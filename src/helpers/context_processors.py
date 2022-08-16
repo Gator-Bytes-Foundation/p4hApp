@@ -1,5 +1,5 @@
 from src import app
-from config.local import ENV
+#from config.local import ENV
 
 ##
 # This will make some utility functions available so that they can be called in the HTML templates
