@@ -98,15 +98,16 @@ class SignUpForm(FlaskForm):
 
 
 
-      login_user(newUser)
-      #flash('Congratulations, you are now a registered user!')
-      login_info = {
-        'id' :  current_user.id,
-        'unique_id': username
-      }
+      flash('Congratulations, you are now a registered user!')
+      # todo: research canvas login sessions
+      #login_user(newUser)
+      #login_info = {
+      #  'id' :  current_user.id,
+      #   'unique_id': username
+      #}
       #login = account.create_user_login(user,login_info)
-
-      return LoginForm().loginUser(form)
+      form = LoginForm()
+      return  form.loginUser()
     else:
       return render_template('signup.html', title='signUp', form=form)
 
@@ -124,7 +125,7 @@ class LoginForm(FlaskForm):
         rocket_res = ROCKET.login(self.username.data,user.password_hash)
         rocket_user = rocket_res.json().get("data")
       except Exception as e:
-        flash("Messaging credentials not valid")
+        flash(f"Messaging credentials not valid {e=}")
     else:
       flash("Messaging not configured properly, please contact administrator")
     return rocket_user
