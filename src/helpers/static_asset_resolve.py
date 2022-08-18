@@ -1,6 +1,7 @@
 from urllib.parse import urljoin
 from flask import redirect
-from src import app, environment
+from src import app
+#from config.local import ENV
 
 ##
 # In development, this will properly redirect any calls to `/static/*` (i.e. for a static asset) to the webpack dev server

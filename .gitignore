@@ -1,5 +1,5 @@
 *.pyc
-
+/venv
 wsgi.py
 settings.py
 
@@ -13,7 +13,6 @@ src/static/dist
 
 # this will contain secret keys and tokens
 secrets.yml
-src/canvas.py
 bin/prod/server.key
 bin/prod/server.crt
 
@@ -64,3 +63,4 @@ testem.log
 Thumbs.db
 src/app.db
 src/app.db
+config/local.py
