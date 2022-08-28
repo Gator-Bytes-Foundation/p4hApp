@@ -9,7 +9,7 @@ from src.models.user_model import User
 from src.canvas import CANVAS, account
 from src.models.profile_model import Profile
 from src.controllers.profile_controller import loadProfile, updateProfile, getProgress, updateProgress, loadProgress
-from src.controllers.posts_controller import loadPosts, loadAnnouncements, handlePost, handleComment
+from src.controllers.posts_controller import loadPosts
 ''' Import Needed Libraries '''
 import json
 import requests

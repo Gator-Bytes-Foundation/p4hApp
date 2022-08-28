@@ -1,14 +1,11 @@
-from src.canvas import CANVAS,course, CanvasException # inject canvas, course objects into file
-from src.models.profile_model import Profile
-from flask import Flask, abort, Response, request
-from flask_login import current_user
-from src.models.user_model import User, UserFiles
-from src import file_upload
-from src import db
 import base64
 import json
-from flask.json import jsonify
-
+from flask import abort, Response, request, render_template
+from flask_login import current_user
+from src.canvas import CANVAS,course, CanvasException # inject canvas, course objects into file
+from src.models.profile_model import Profile
+from src.models.user_model import User, UserFiles
+from src import file_upload
 
 def convertDate(inproperDate):
   year = inproperDate[2:4]
@@ -78,14 +75,18 @@ def loadPosts(user):
 #
 def loadAnnouncements():
   adminId = 1
-  adminUser = User.query.filter_by(canvasId=adminId).first()
+  adminUser = User.query.filter_by(canvasId=adminId).first() # announcements are all posts from the admins (until announcements canvas api is being used)
+  if(adminUser is None):
+    return json.dumps({'success':False, 'message':"No admin user in database"}), 400, {'ContentType':False}
   # for now load posts as if it were admin profile TODO: figure out what is wrong with get_announcements canvas API
   profile = loadPosts(adminUser)
 
   # todo switch to canvas announcements api
   # canvas announcements lack documentation, so using regular discussion posts
   # announcements = canvas.get_announcements(context_codes='course_1')
-  return profile.posts
+
+  currentUserProfilePic = getProfilePic(current_user)
+  return render_template('announcements.html',  posts=profile.posts, current_user=current_user,currentUserProfilePic=currentUserProfilePic)
 
 
 '''

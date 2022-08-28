@@ -2,7 +2,6 @@
 /venv
 wsgi.py
 settings.py
-/config
 app.yaml
 /config/app.db
 
@@ -66,3 +65,4 @@ src/app.db
 src/app.db
 config/local.py
 secrets_dev.yml
+config/app.db-journal
