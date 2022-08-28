@@ -7,7 +7,6 @@ from flask_login import LoginManager
 from flask_file_upload import FileUpload
 from config.local import Config
 from whitenoise import WhiteNoise
-from werkzeug.utils import import_string
 import logging
 
 app = Flask(__name__)

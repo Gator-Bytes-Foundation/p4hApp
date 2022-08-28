@@ -2,8 +2,9 @@
 /venv
 wsgi.py
 settings.py
-
+/config
 app.yaml
+/config/app.db
 
 # cache dir created by pytest
 .cache
@@ -64,3 +65,4 @@ Thumbs.db
 src/app.db
 src/app.db
 config/local.py
+secrets_dev.yml
