@@ -3,9 +3,9 @@
 {% block content %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
 <div class="list-group">
   {% for i in range(folders | length)%}
-  <a href="resources/files_{{folders[i].id}}.html" class="list-group-item d-flex list-group-item-action flex-row  align-items-center ">
+  <a href="resources/files_{{folders[i].id}}.html" class="list-group-item d-flex list-group-item-action align-items-center ">
     <span style="font-size:40px; max-width:60px; width:30%;" class="oi {{icons[i]}}"></span>
-    <div  class="align-items-start active col-10 ">
+    <div class="align-items-start active col-10 ">
       <div class="d-flex w-100 justify-content-between">
         <h5 class="mb-1"> {{folders[i].name}} </h5>
         <small class="">{{folders[i].updated_at}}</small>
