@@ -1,21 +1,15 @@
 from flask import url_for, flash, redirect, request, render_template, send_file, Response,make_response
 from flask_login import current_user, login_required
-#from flask_api import status
-
-from werkzeug.urls import url_parse
 from src import app
 ''' Import Needed Modules '''
 from src.models.user_model import User
-from src.canvas import CANVAS, account
 from src.models.profile_model import Profile
 from src.controllers.profile_controller import loadProfile, updateProfile, getProgress, updateProgress, loadProgress
 from src.controllers.posts_controller import getProfilePic, loadPosts
 ''' Import Needed Libraries '''
 import json
-import requests
 from pyper import *
 import pickle as p
-import logging
 from flask.json import jsonify
 
 # PROFILE MODULE #
@@ -76,8 +70,7 @@ def progressPut(user_id,milestone_id):
 
 @app.route('/api/posts', methods=['GET'])
 @login_required
-def profileAPI(*args):
-  print("called")
+def postsAPI(*args):
   if(len(args) > 0):
     user = User.query.filter_by(canvasId=args[0]).first()
   else: user = current_user

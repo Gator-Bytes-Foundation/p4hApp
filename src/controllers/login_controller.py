@@ -45,7 +45,6 @@ class SignUpForm(FlaskForm):
       lname = form.lname.data
       username = form.username.data
       password = form.password.data
-      #global rocket_user
       fullName = fname + ' ' + lname
       account = CANVAS.get_account(1) # account id
       # create user object

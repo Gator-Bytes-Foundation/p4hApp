@@ -73,10 +73,10 @@ def loadPosts(user):
   profile.user = user
   profile.canvas_user = CANVAS.get_user(canvas_id)
   return profile
-#
-# Function will extract 'Admin' posts from discussion page on canvas and load them to Announcement page
-#
 def loadAnnouncements():
+  ''' 
+    abstract: Function will extract 'Admin' posts from discussion page on canvas and load them to Announcement page
+  '''
   adminId = 1
   adminUser = User.query.filter_by(canvasId=adminId).first() # announcements are all posts from the admins (until announcements canvas api is being used)
   if(adminUser is None):
@@ -93,11 +93,10 @@ def loadAnnouncements():
   return render_template('announcements.html',  posts=profile.posts, current_user=current_user,currentUserProfilePic=currentUserProfilePic)
 
 
-'''
-  abstract: Takes in user info on who is posting and where they are posting and adds the post on Canvas
-'''
 def handlePost(user_id, req):
-
+  '''
+    abstrtact: Takes in user info on who is posting and where they are posting and adds the post on Canvas
+  '''
   if(current_user.is_anonymous == True):
     abort(Response('Must be logged in to post'))
   user = User.query.filter_by(id=user_id).first()
@@ -124,11 +123,6 @@ def handlePost(user_id, req):
     userFile = file_upload.save_files(userFileModel, files={
       "userFile": postFile,
     })
-
-  year = post.posted_at[2:4]
-  day = post.posted_at[5:7]
-  month = post.posted_at[8:10]
-  proper_date = ''.join([month,'/', day, '/', year])
   # NOTE: post.author['avatar_image_url'] does work in getting canvas avatar, but canvas avatars have been impossible to update
   profilePic = getProfilePic(current_user)
   return post, profilePic

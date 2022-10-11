@@ -24,12 +24,10 @@ class User(UserMixin,db.Model):
   bio = db.Column(db.Text)
 
   userFiles = db.relationship("UserFiles", backref="UserFiles")
-  #profile = db.relationship('Profile', backref='author', lazy='dynamic')
 
   def __init__(self, *args,**kwargs):
-    #allowed_keys = {'id', 'sis_user_id', 'login_id', 'email','avatar_url','bio','role'}
     self.__dict__.update(kwargs)
-    #self.__dict__.update((k, v) for k, v in kwargs.items() if k in allowed_keys)
+
   def serialize(self):
     return {
       'id': self.id,
@@ -57,7 +55,6 @@ class User(UserMixin,db.Model):
   def __repr__(self):
     return '<User {}>'.format(self.username)
   def update(self, *args, **kwargs):
-    #print(args)
     allowed_keys = {'id', 'sis_user_id', 'login_id', 'email','avatar_url','bio','role'}
     self.__dict__.update((k, v) for k, v in kwargs.items() if k in allowed_keys)
 
