@@ -13,7 +13,7 @@ def loadProfile(profile,rocket_user = {}):
 
   allUsers = User.query.all()
   profile.profile_pic = getProfilePic(profile.user)
-  if(current_user.id != profile.user.id):
+  if(current_user.id != profile.user.id): # if user is looking at different profile
     currentUserProfilePic = getProfilePic(current_user)
   else: currentUserProfilePic = profile.profile_pic
 

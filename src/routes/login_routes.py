@@ -4,7 +4,7 @@ from src import app  # from /app import flask app
 from is_safe_url import is_safe_url
 ''' Import Needed Modules '''
 from src.models.user_model import User
-from src.controllers.login_controller import LoginForm, loadHome, SignUpForm
+from src.controllers.login_controller import LoginForm, loginAPI, SignUpForm
 from src.canvas import CANVAS, account # inject canvas, course objects into file
 from src.routes.profile_routes import profile
 from src.controllers.posts_controller import loadPosts
@@ -13,6 +13,7 @@ import json
 from rocketchat_API.rocketchat import RocketChat
 from src.canvas import ROCKET
 from src.controllers.profile_controller import loadProfile
+from flask.json import jsonify
 
 # LOGGING IN AND SIGNING REQUESTS #
 @app.route('/signup', methods=['GET', 'POST'])
@@ -38,7 +39,6 @@ def loginRocket():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-  print(current_user)
   if(ROCKET == None):
     flash('Messaging server is down')
   if(account == None):
@@ -52,4 +52,11 @@ def login():
     return form.loginUser()
   else : #if login form hasn't been sumbitted yet
     return render_template('login.html', title='login', form=form)
+
+@app.route('/api/login', methods=['POST'])
+def loginAPIRoute():
+  username = request.form.get('username')
+  pwd = request.form.get('password')
+  print(username)
+  return loginAPI(username,pwd)
 

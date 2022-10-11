@@ -51,19 +51,22 @@ def loadPosts(user):
   for i in range(end_index):
     usernameId = user.username + ' ' + str(canvas_id) #used to identify user in canvas
     if(posts[i].title == usernameId and posts[i].message is not None): #only shows posts that the user has posted
-      posts[i].message = posts[i].message.replace('</p>', '').replace('<p>', '')
-      posts[i].posted_at = convertDate(posts[i].posted_at)
-      posts[i].name = user.name
-      posts[i].user = user
-      posts[i].comments = loadPostComents(posts[i])
-      posts[i].files = UserFiles.query.filter_by(userId=user.id,postId=posts[i].id).all()
-
-      if(len(posts[i].files) > 0):
-        image_data = base64.b64encode(posts[i].files[0].data).decode("utf-8")
-        posts[i].img = image_data
+      newPost = {
+        'id': posts[i].id,
+        'message': posts[i].message.replace('</p>', '').replace('<p>', ''),
+        'posted_at': convertDate(posts[i].posted_at),
+        'name': user.name,
+        'user': user.serialize(),
+        'title': posts[i].title,
+        'comments': loadPostComents(posts[i],user),
+        'files': UserFiles.query.filter_by(userId=user.id,postId=posts[i].id).all()
+      }
+      if(len(newPost['files']) > 0):
+        image_data = base64.b64encode(newPost.files[0].data).decode("utf-8")
+        newPost['img'] = image_data
 
       # Push profile post into recent posts array
-      recentPosts.append(posts[i])
+      recentPosts.append(newPost)
 
   # now adding posts to profile
   profile.posts = recentPosts
@@ -131,7 +134,7 @@ def handlePost(user_id, req):
   return post, profilePic
 
 
-def loadPostComents(post):
+def loadPostComents(post,user):
   if(not hasattr(post,'get_topic_entries')): return
   comments = list(post.get_topic_entries())
   allCommentsMap = {}
@@ -139,9 +142,14 @@ def loadPostComents(post):
 
   for comment in comments:
     if(comment.message is not None):
-      comment.message = comment.message.replace('</p>', '')
-      comment.message = comment.message.replace('<p>', '') # get rid of the html
-    postComments.append(comment)
+      newComment = {
+        'id': comment.id,
+        'message': comment.message.replace('</p>', '').replace('<p>', ''), # get rid of the html
+        #'posted_at': convertDate(comment.posted_at),
+        'name': user.name,
+        'user': user.serialize()
+      }
+    postComments.append(newComment)
 
   # store all comments of this post in object/map to map to one another on client side
   allCommentsMap[str(post.id)] = postComments

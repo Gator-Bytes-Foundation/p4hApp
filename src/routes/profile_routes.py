@@ -9,13 +9,14 @@ from src.models.user_model import User
 from src.canvas import CANVAS, account
 from src.models.profile_model import Profile
 from src.controllers.profile_controller import loadProfile, updateProfile, getProgress, updateProgress, loadProgress
-from src.controllers.posts_controller import loadPosts
+from src.controllers.posts_controller import getProfilePic, loadPosts
 ''' Import Needed Libraries '''
 import json
 import requests
 from pyper import *
 import pickle as p
 import logging
+from flask.json import jsonify
 
 # PROFILE MODULE #
 #
@@ -73,4 +74,13 @@ def progressPut(user_id,milestone_id):
 
 ## Delete milestone - DELETE - to do
 
-
+@app.route('/api/posts', methods=['GET'])
+@login_required
+def profileAPI(*args):
+  print("called")
+  if(len(args) > 0):
+    user = User.query.filter_by(canvasId=args[0]).first()
+  else: user = current_user
+  user_profile = loadPosts(user)
+  user_profile.profilePic = getProfilePic(user_profile.user)
+  return jsonify(user_profile.posts)

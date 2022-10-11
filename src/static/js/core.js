@@ -2,6 +2,23 @@
 
 window.$ = $;
 
+function tst() {
+  $.ajax({
+    type: "POST",
+    url: `/api/login`,
+    data: {username:'lcundiff',password: 'NF!Deku2'},
+    success: function(data) {
+      console.log("yay")
+      console.log(data);
+    },
+    error: function(xhr, status, error) {
+      console.log("no")
+        console.log(error);
+    }
+  });
+}
+tst();
+
 /**
  * @abstract when file is uploaded, checks for image placeholder and adds image preview into placeholder
  * @todo Move this out of global js and into Angular service component
