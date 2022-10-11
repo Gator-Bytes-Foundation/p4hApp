@@ -13,7 +13,6 @@ from src.controllers.posts_controller import loadPosts
 ''' Import Needed Libraries '''
 import json
 import requests
-import random
 from pyper import *
 import pickle as p
 import logging

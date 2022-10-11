@@ -78,9 +78,10 @@ def loadAnnouncements():
   adminUser = User.query.filter_by(canvasId=adminId).first() # announcements are all posts from the admins (until announcements canvas api is being used)
   if(adminUser is None):
     return json.dumps({'success':False, 'message':"No admin user in database"}), 400, {'ContentType':False}
+  roles = CANVAS.get_account(adminId).get_roles()
   # for now load posts as if it were admin profile TODO: figure out what is wrong with get_announcements canvas API
   profile = loadPosts(adminUser)
-
+  current_user.role = roles[0]
   # todo switch to canvas announcements api
   # canvas announcements lack documentation, so using regular discussion posts
   # announcements = canvas.get_announcements(context_codes='course_1')
@@ -162,7 +163,6 @@ def handleComment(req,post_id):
 
 def deletePost(req,post_id):
   post = course.get_discussion_topic(post_id)
-  print(post)
   try:
     res = post.delete()
     print("post deleted: ", res)

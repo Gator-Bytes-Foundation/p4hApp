@@ -10,7 +10,7 @@
 <div class="container emp-profile">
     <div class="">
         <h1>Anons</h1>
-        {% if(current_user.name == 'Admin') %}
+        {% if(current_user.role.id > 8) %} <!-- 9 & 10 are admin level ids -->
         <div id="write_post"> <!-- ID being used for appending posts -->
           <div style="text-align: center;" class="post_box">
               <div class="profile-name">
@@ -21,7 +21,7 @@
                       <input type="file" name="userFile" id="input-upload-post" class="invisble" data-multiple-caption="{count} files selected" onclick="this.value = null" multiple/>
                       <label class="invisble" id="label-upload-post" style="display: none;" for="input-upload-post"><strong>Choose a file</strong></label>
                       <div class="row ">
-                          <a  id="post" name="1" value="Post" style="width:100%;" class="blue_button">Post</a>
+                          <a  id="post" name="1" value="Post" class="w-100 blue_button">Post</a>
                       </div>
                   </div>
               </div>
