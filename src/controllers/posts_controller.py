@@ -51,29 +51,32 @@ def loadPosts(user):
   for i in range(end_index):
     usernameId = user.username + ' ' + str(canvas_id) #used to identify user in canvas
     if(posts[i].title == usernameId and posts[i].message is not None): #only shows posts that the user has posted
-      posts[i].message = posts[i].message.replace('</p>', '').replace('<p>', '')
-      posts[i].posted_at = convertDate(posts[i].posted_at)
-      posts[i].name = user.name
-      posts[i].user = user
-      posts[i].comments = loadPostComents(posts[i])
-      posts[i].files = UserFiles.query.filter_by(userId=user.id,postId=posts[i].id).all()
-
-      if(len(posts[i].files) > 0):
-        image_data = base64.b64encode(posts[i].files[0].data).decode("utf-8")
-        posts[i].img = image_data
+      newPost = {
+        'id': posts[i].id,
+        'message': posts[i].message.replace('</p>', '').replace('<p>', ''),
+        'posted_at': convertDate(posts[i].posted_at),
+        'name': user.name,
+        'user': user.serialize(),
+        'title': posts[i].title,
+        'comments': loadPostComents(posts[i],user),
+        'files': UserFiles.query.filter_by(userId=user.id,postId=posts[i].id).all()
+      }
+      if(len(newPost['files']) > 0):
+        image_data = base64.b64encode(newPost.files[0].data).decode("utf-8")
+        newPost['img'] = image_data
 
       # Push profile post into recent posts array
-      recentPosts.append(posts[i])
+      recentPosts.append(newPost)
 
   # now adding posts to profile
   profile.posts = recentPosts
   profile.user = user
   profile.canvas_user = CANVAS.get_user(canvas_id)
   return profile
-#
-# Function will extract 'Admin' posts from discussion page on canvas and load them to Announcement page
-#
 def loadAnnouncements():
+  ''' 
+    abstract: Function will extract 'Admin' posts from discussion page on canvas and load them to Announcement page
+  '''
   adminId = 1
   adminUser = User.query.filter_by(canvasId=adminId).first() # announcements are all posts from the admins (until announcements canvas api is being used)
   if(adminUser is None):
@@ -90,11 +93,10 @@ def loadAnnouncements():
   return render_template('announcements.html',  posts=profile.posts, current_user=current_user,currentUserProfilePic=currentUserProfilePic)
 
 
-'''
-  abstract: Takes in user info on who is posting and where they are posting and adds the post on Canvas
-'''
 def handlePost(user_id, req):
-
+  '''
+    abstrtact: Takes in user info on who is posting and where they are posting and adds the post on Canvas
+  '''
   if(current_user.is_anonymous == True):
     abort(Response('Must be logged in to post'))
   user = User.query.filter_by(id=user_id).first()
@@ -121,17 +123,12 @@ def handlePost(user_id, req):
     userFile = file_upload.save_files(userFileModel, files={
       "userFile": postFile,
     })
-
-  year = post.posted_at[2:4]
-  day = post.posted_at[5:7]
-  month = post.posted_at[8:10]
-  proper_date = ''.join([month,'/', day, '/', year])
   # NOTE: post.author['avatar_image_url'] does work in getting canvas avatar, but canvas avatars have been impossible to update
   profilePic = getProfilePic(current_user)
   return post, profilePic
 
 
-def loadPostComents(post):
+def loadPostComents(post,user):
   if(not hasattr(post,'get_topic_entries')): return
   comments = list(post.get_topic_entries())
   allCommentsMap = {}
@@ -139,9 +136,14 @@ def loadPostComents(post):
 
   for comment in comments:
     if(comment.message is not None):
-      comment.message = comment.message.replace('</p>', '')
-      comment.message = comment.message.replace('<p>', '') # get rid of the html
-    postComments.append(comment)
+      newComment = {
+        'id': comment.id,
+        'message': comment.message.replace('</p>', '').replace('<p>', ''), # get rid of the html
+        #'posted_at': convertDate(comment.posted_at),
+        'name': user.name,
+        'user': user.serialize()
+      }
+    postComments.append(newComment)
 
   # store all comments of this post in object/map to map to one another on client side
   allCommentsMap[str(post.id)] = postComments

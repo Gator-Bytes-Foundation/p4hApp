@@ -1,16 +1,15 @@
 from flask_wtf import FlaskForm
-from flask import url_for, flash, redirect, request, render_template, send_file, make_response
+from flask import url_for, flash, redirect, render_template, abort, Response
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import ValidationError, DataRequired
-from flask_login import login_user, logout_user, current_user
+from wtforms.validators import DataRequired
+from flask_login import login_user, current_user
 from sqlalchemy import exc
 from src import db
 from src.models.user_model import User
 from src.canvas import CANVAS, course, ROCKET # inject canvas, course objects into file
-import ftplib
 from src.controllers.posts_controller import loadPosts
 from src.controllers.profile_controller import loadProfile
-
+from flask.json import jsonify
 
 
 
@@ -46,7 +45,6 @@ class SignUpForm(FlaskForm):
       lname = form.lname.data
       username = form.username.data
       password = form.password.data
-      #global rocket_user
       fullName = fname + ' ' + lname
       account = CANVAS.get_account(1) # account id
       # create user object
@@ -111,6 +109,19 @@ class SignUpForm(FlaskForm):
     else:
       return render_template('signup.html', title='signUp', form=form)
 
+def loginAPI(username,pwd,remember=False):
+    user = User.query.filter_by(username=username).first() # query db
+    if current_user.is_authenticated:
+      return jsonify(user.serialize())
+    if(not user):
+      return abort(Response("Username not found"))
+
+    if not user.check_password(user.password_hash,pwd):
+      return abort(Response("password not correct"))
+
+    login_user(user, remember=remember)
+    return jsonify(user.serialize())
+
 class LoginForm(FlaskForm):
   username = StringField('Username', validators=[DataRequired()])
   password = PasswordField('Password', validators=[DataRequired()])
@@ -143,7 +154,7 @@ class LoginForm(FlaskForm):
 
     if(user and user.canvasId == None):
       user.canvasId = CANVAS.get_user(1)
-    #print(self.remember_me.data)
+
     login_user(user, remember = self.remember_me.data if hasattr(self, 'remember_me') else False)
     rocket_user = self.loginRocketChat(user)
     if(rocket_user != None and rocket_user['authToken']):

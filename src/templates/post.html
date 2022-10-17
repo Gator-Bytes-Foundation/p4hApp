@@ -5,7 +5,7 @@
     </div>
     <div class="profile-name mb-3">
         <div class="profile-pic">
-            {% if(post.user_name == 'Admin' or post.title == 'Announcement' ) %}
+            {% if(post.name == 'Admin' or post.title == 'Announcement' ) %}
             <img alt="placeholder" class="img-fluid avatar-sm pr-2" src="{{ url_for('static', filename='images/p4h.png') }}" />
             {% else %}
             <img alt="placeholder" class="img-fluid avatar-sm pr-2"  src="data:;base64,{{ currentUserProfilePic }}" />
@@ -13,7 +13,7 @@
         </div>
         <div class="">
             <header class="text-left">
-                <figcaption class="comment-user"><b>{{post.user_name}}</b></figcaption>
+                <figcaption class="comment-user"><b>{{post.name}}</b></figcaption>
                 <time class="comment-date" datetime="{{post.posted_at}}"><i class="fa fa-clock-o"></i> {{post.posted_at}}</time>
             </header>
         </div>
@@ -44,7 +44,7 @@
           {% for j in range(post.comments[(post.id | string)] | length) | reverse %}
           <div class="post_comment profile-pic-post" id="comment-{{post.comments[(post.id | string)][j].id}}">
               <!--<figure class=" col-2"><img alt="profile picture" class="img-fluid " src="{{post.comments[post.id | string][j].user['avatar_image_url']}}" /></figure>-->
-              {% if(post.comments[post.id | string][j].user_name == 'Admin') %}
+              {% if(post.comments[post.id | string][j].user.canvasId == 1) %}
               <img alt="placeholder" class="img-fluid avatar-sm" src="{{ url_for('static', filename='images/p4h.png') }}" />
               {% else %}
               <img alt="profile picture" class="img-fluid avatar-sm" src="data:;base64,{{ currentUserProfilePic }}" />
@@ -54,7 +54,7 @@
                       <span id="{{post.comments[(post.id | string)][j].id}}" name="{{(post.id | string)}}" onclick="deleteComment(event,'{{post.id}}')" class="iconify" data-icon="oi-x"></span>
                   </div>
                   <!-- posts contain comments organized by post id (which is casted to string) and itterates through all comments -->
-                  <p class=""><b>{{post.comments[post.id | string][j].user_name}}:</b><br> {{post.comments[(post.id | string)][j].message}}</p>
+                  <p class=""><b>{{post.comments[post.id | string][j].user.name}}:</b><br> {{post.comments[(post.id | string)][j].message}}</p>
               </div>
           </div>
           {% endfor %}

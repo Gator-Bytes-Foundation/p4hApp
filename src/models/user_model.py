@@ -10,7 +10,6 @@ from src.canvas import CANVAS, course # inject canvas, course objects into file
 
 '''parameter: UserMixin,db.Model'''
 class User(UserMixin,db.Model):
-  ''' when db is finished setting up '''
   __tablename__ = 'User'
   id = db.Column(db.Integer, primary_key=True)
   username = db.Column(db.String(64), index=True, unique=True)
@@ -25,13 +24,22 @@ class User(UserMixin,db.Model):
   bio = db.Column(db.Text)
 
   userFiles = db.relationship("UserFiles", backref="UserFiles")
-  #profile = db.relationship('Profile', backref='author', lazy='dynamic')
 
   def __init__(self, *args,**kwargs):
-    #allowed_keys = {'id', 'sis_user_id', 'login_id', 'email','avatar_url','bio','role'}
     self.__dict__.update(kwargs)
-    #self.__dict__.update((k, v) for k, v in kwargs.items() if k in allowed_keys)
 
+  def serialize(self):
+    return {
+      'id': self.id,
+      'name': self.name,
+      'username': self.username,
+      'canvasId': self.canvasId,
+      'email': self.email,
+      'school': self.school,
+      'phone': self.phone,
+      'location': self.location,
+      'bio': self.bio,
+    }
   def is_authenticated(self):
     return True
 
@@ -47,7 +55,6 @@ class User(UserMixin,db.Model):
   def __repr__(self):
     return '<User {}>'.format(self.username)
   def update(self, *args, **kwargs):
-    #print(args)
     allowed_keys = {'id', 'sis_user_id', 'login_id', 'email','avatar_url','bio','role'}
     self.__dict__.update((k, v) for k, v in kwargs.items() if k in allowed_keys)
 

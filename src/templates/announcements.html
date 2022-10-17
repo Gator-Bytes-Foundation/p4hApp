@@ -1,7 +1,5 @@
-<!DOCTYPE html>
-
 {% extends "header.html" %} <!-- all html files should extend from the header, (the header contains all static references as well) -->
-{% block content %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
+{% block content %}
 
 <header>
   <!--{{ super() }}-->
@@ -42,4 +40,4 @@
 </div>
 </div>
 <!--<script src="{{ url_for('static', filename='js/announcements.js') }}"></script>-->
-{% endblock %} <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
+{% endblock %}

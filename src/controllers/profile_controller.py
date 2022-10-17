@@ -1,38 +1,32 @@
 from src.canvas import * # inject canvas, course objects into file
 from flask_login import current_user
-from src.models.profile_model import Profile
-from flask import url_for, flash, redirect, request, render_template, send_file
+from flask import render_template, Response, abort
 from src.models.user_model import User, UserFiles
 from src import db
 from src.controllers.posts_controller import getProfilePic
 import requests
-import base64
 from src import file_upload
 
 def loadProfile(profile,rocket_user = {}):
 
   allUsers = User.query.all()
   profile.profile_pic = getProfilePic(profile.user)
-  if(current_user.id != profile.user.id):
+  if(current_user.id != profile.user.id): # if user is looking at different profile
     currentUserProfilePic = getProfilePic(current_user)
   else: currentUserProfilePic = profile.profile_pic
 
   return render_template('profile.html', profile = profile,  current_user = current_user, users=allUsers, rocket_user = rocket_user, currentUserProfilePic = currentUserProfilePic)
 
 def loadProgress(user_id):
-  # permission = checkUserPermission() to do
-  # if(permission or profile_id == current_user.id):
-  #int_assignment_id = int(assignment_id)
-  # else:
-  # abort(Response('You do not have permission to view this teacher's progress'))
   canvas_user = CANVAS.get_user(user_id) #temp until canvas users are synced with user db
+  if(canvas_user.id != current_user.canvas_id and current_user.canvas_id != 1):
+    abort(Response("You do not have permission to view this teacher's progress"))
   p4hCourseId = 1
   # NOTE: assignent has has_submitted_submissions as a field to check if user has submitted
   user_assignments = list(canvas_user.get_assignments(p4hCourseId))
 
   milestones = []
   for assign in user_assignments:
-    print(assign.name)
     milestone = {}
     milestone['id'] = assign.id
     milestone['name'] = assign.name
@@ -51,7 +45,6 @@ def loadProgress(user_id):
 
 
 def getProgress(user_id,assignment_id):
-  #int_assignment_id = int(assignment_id)
   assignment = course.get_assignment(assignment_id)
   print(assignment)
   try:
@@ -92,9 +85,8 @@ def updateProgress(request,user_id,assignment_id):
   #submission_dict['user_id'] = canvas_user.id
   #for file in request.files:
     #upload_file
-  #try:
-    #assignment.submit(submission_dict,request.files['file'])
-    #assignment.submit(submission_dict)
+  #assignment.submit(submission_dict,request.files['file'])
+  #assignment.submit(submission_dict)
 
   assignment.submit(
       submission={"submission_type": "online_upload"},
@@ -102,9 +94,6 @@ def updateProgress(request,user_id,assignment_id):
       as_user_id=str(user_id) # sending user id works
   )
   return True
-  #except():
-    #print("submission error")
-    #return False
 
 def updateProfile(req):
   canvas_user = CANVAS.get_user(current_user.canvasId)
