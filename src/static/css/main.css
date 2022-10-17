@@ -148,6 +148,10 @@ div#loading {
     top:10px;
     cursor: pointer;
 }
+.delete svg {
+  width: 11px;
+  color: rgba(130,67,68,0.40);
+}
 .reply_div {
   margin-bottom:8px;
   width:100%;
