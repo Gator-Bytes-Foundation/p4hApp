@@ -19,7 +19,7 @@ def loadProfile(profile,rocket_user = {}):
 
 def loadProgress(user_id):
   canvas_user = CANVAS.get_user(user_id) #temp until canvas users are synced with user db
-  if(canvas_user.id != current_user.canvas_id and current_user.canvas_id != 1):
+  if(canvas_user.id != current_user.canvasId and current_user.canvasId != 1):
     abort(Response("You do not have permission to view this teacher's progress"))
   p4hCourseId = 1
   # NOTE: assignent has has_submitted_submissions as a field to check if user has submitted

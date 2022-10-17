@@ -36,6 +36,8 @@
               <div class="center">
                   <a href="profile/{{profile.id}}/progress/{{milestones[i].id}}" class="p4h p4h-btn download px-3 py-2" name="{{milestones[i].id}}"  id="download-{{milestones[i].id}}">Download</a>
               </div>
+              {% else %} 
+                <span>Nothing to download yet</span>
               {% endif %}
             </div>
           </div>
