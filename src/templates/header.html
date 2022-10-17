@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <head>
   <meta
     name="viewport"
@@ -88,6 +87,17 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <div style="height: calc(100% - 153px);">
+    <div id="loader">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="loading"></div>
+    </div>
     {% block content %}
 
     {% endblock %} <!-- <router-outlet></router-outlet> angular could work here as well -->

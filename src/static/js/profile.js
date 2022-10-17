@@ -152,13 +152,10 @@
    * @abstract Profile Picture Change
    */
    function changeProfilePic(input,id) {
-
     file = input.files[0];
-    console.log("file");
     if (file.name.includes(".jpg") || file.name.includes(".png") ||
         file.name.includes(".pdf") || file.name.includes(".webp"))
     {
-      console.log("is an image");
       let reader = new FileReader();
       reader.onload = function (e) {
         let img_id = String(id).replace("_input", "_img"); // profile_pic_img
@@ -172,14 +169,15 @@
    */
   $("form#edit-profile").on('submit', function(e) {
     e.preventDefault();
-    var formData = new FormData(this);
-
+    const formData = new FormData(this);
+    $("#loader").show();
     $.ajax({
         url: '/profile',
         type: 'POST',
         data: formData,
         success: function (data) {
-            alert("Successfully updated profile")
+          $("#loader").hide();
+          alert("Successfully updated profile")
         },
         cache: false,
         contentType: false,

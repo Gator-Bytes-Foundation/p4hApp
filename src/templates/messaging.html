@@ -1,7 +1,7 @@
 <!DOCTYPE html> {% extends "header.html" %}
 <!-- all html files should extend from the header, (the header contains all static references as well) -->
 {% block content %}
-<!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
+<!-- needed for extending from header.html -->
 <head>
     <link  rel="stylesheet" href="{{ url_for('static', filename='css/messaging.css') }}" ></link>
     <style>
