@@ -170,13 +170,13 @@
   $("form#edit-profile").on('submit', function(e) {
     e.preventDefault();
     const formData = new FormData(this);
-    $("#loader").show();
+    $("#loading").show();
     $.ajax({
         url: '/profile',
         type: 'POST',
         data: formData,
         success: function (data) {
-          $("#loader").hide();
+          $("#loading").hide();
           alert("Successfully updated profile")
         },
         cache: false,

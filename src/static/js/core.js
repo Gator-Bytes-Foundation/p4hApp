@@ -94,7 +94,7 @@ $("#post").on("click", function(e) {
     const userId = e.currentTarget.name;
     const textboxId = e.currentTarget.id;
     const formData = getPostData(textboxId, userId);
-    $("#loader").show();
+    $("#loading").show();
     $.ajax({
         type: "POST",
         url: `/post/${userId}`,
@@ -124,7 +124,7 @@ $("#post").on("click", function(e) {
                   reader.readAsDataURL(file);
               }
           }
-          $("#loader").hide()
+          $("#loading").hide()
         },
         error: function(xhr, status, error) {
             //const err = "error " + xhr.responseText;

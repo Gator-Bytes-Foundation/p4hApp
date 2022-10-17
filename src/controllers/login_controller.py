@@ -11,10 +11,6 @@ from src.controllers.posts_controller import loadPosts
 from src.controllers.profile_controller import loadProfile
 from flask.json import jsonify
 
-
-
-#from user_model import *
-
 #current_user = User(id = 0, sis_user_id = '', login_id = '', email = '', avatar_url = '', bio = '')  # globalize current user as it will need to stay consistent throughout application
 
 def loadHome():

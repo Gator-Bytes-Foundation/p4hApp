@@ -24,7 +24,7 @@ function getPostData(id) {
   function deletePost(e) {
     e.preventDefault();
     const post_id = e.currentTarget.id;
-    $("#loader").show()
+    $("#loading").show()
     $.ajax({
       type: "DELETE",
       url: "/post/" + post_id,
@@ -33,12 +33,12 @@ function getPostData(id) {
       success: function (data) {
         console.log("delete return comment ", data);
         $("#post_" + post_id).remove();
-        $("#loader").hide()
+        $("#loading").hide()
       },
       error: function (data,err,exception) {
         console.log("error " + err);
         console.log("status " + exception);
-        $("#loader").hide()
+        $("#loading").hide()
       }
     });
   }
@@ -65,7 +65,7 @@ function getPostData(id) {
     const post_id = e.currentTarget.name;
     const commentText = $("#textbox-" + post_id).val();
     const formData = getPostData(post_id);
-    $("#loader").show()
+    $("#loading").show()
     $.ajax({
       type: "POST",
       url: "/comment/" + post_id,
@@ -77,12 +77,12 @@ function getPostData(id) {
       success: function (res) {
         const { profilePic } = JSON.parse(res).data;
         appendComment(commentText,profilePic,post_id);
-        $("#loader").hide()
+        $("#loading").hide()
       },
       error: function (data,err,exception) {
         console.log("error " + err);
         console.log("status " + exception);
-        $("#loader").hide()
+        $("#loading").hide()
       }
     });
   }
@@ -94,7 +94,7 @@ function getPostData(id) {
   function deleteComment(e,postId) {
     let comment_id = e.currentTarget.id;
     let post_id = postId;
-    $("#loader").show()
+    $("#loading").show()
     $.ajax({
       type: "DELETE",
       url: "/post/" + post_id + '/comment/' + comment_id,
@@ -103,12 +103,12 @@ function getPostData(id) {
       success: function (data) {
         console.log("ajax return comment ", data);
         $("#comment-" + comment_id).remove();
-        $("#loader").hide();
+        $("#loading").hide();
       },
       error: function (data,err,exception) {
         console.log("error " + err);
         console.log("status " + exception);
-        $("#loader").hide();
+        $("#loading").hide();
       }
     });
   }
