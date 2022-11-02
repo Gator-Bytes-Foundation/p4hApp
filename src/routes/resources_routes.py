@@ -30,9 +30,9 @@ def resources():
   return renderResourceFolders()
 
 # API Routes #
-@app.route('/api/resources/<folderPage>', methods=['GET'])
-def resourceFolderAPI(fileId):
-  files, folderId = filesPage(fileId)
+@app.route('/api/resources/<folderId>', methods=['GET'])
+def resourceFolderAPI(folderId):
+  files, folderId = filesPage(folderId)
   return jsonify(files)
 
 @app.route('/api/resources', methods=['GET'])
