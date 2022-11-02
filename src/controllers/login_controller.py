@@ -11,16 +11,11 @@ from src.controllers.posts_controller import loadPosts
 from src.controllers.profile_controller import loadProfile
 from flask.json import jsonify
 
-#current_user = User(id = 0, sis_user_id = '', login_id = '', email = '', avatar_url = '', bio = '')  # globalize current user as it will need to stay consistent throughout application
-
 def loadHome():
   if(True): #this is the home page currently
     return render_template('./login/login.html', title='login',  form=form)
   else:
     return render_template('./profile.html', title='login',  form=form)
-
-#def logout():
-
 
 class SignUpForm(FlaskForm):
   fname = StringField('First Name', validators=[DataRequired()])
@@ -33,7 +28,6 @@ class SignUpForm(FlaskForm):
 
   def makeUser(self):
     form = self
-    #print(form)
     if form.validate_on_submit():
       # Create canvas user #
       email = form.email.data
@@ -138,7 +132,6 @@ class LoginForm(FlaskForm):
     return rocket_user
 
   def loginUser(self):
-
     user = User.query.filter_by(username=self.username.data).first() # query db
     if(not user):
       flash("Username not found")
