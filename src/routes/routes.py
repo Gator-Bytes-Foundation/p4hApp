@@ -11,8 +11,6 @@ from src.controllers.posts_controller import *
 import json
 import requests
 from flask import make_response
-import random
-import logging
 from flask.json import jsonify
 from src.controllers.posts_controller import getProfilePic
 
@@ -32,6 +30,8 @@ def bad_request(e):
     # note that we set the 404 status explicitly
     return render_template('400.html',error = e), 400
 
+# API and web app
+@app.route('/api/post/<user_id>', methods=['GET', 'POST'])
 @app.route('/post/<user_id>', methods=['GET', 'POST'])
 def posts(user_id): #url being routed is saved to 'user_id' which we can then use to render the name of the html file
   if(request.method == 'POST'):
