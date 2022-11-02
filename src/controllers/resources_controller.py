@@ -1,12 +1,11 @@
 from flask import url_for, flash, redirect, request, render_template, send_file
-
+from flask_login import current_user
 from src.canvas import * # inject canvas, course objects into file
 from src.controllers.login_controller import *
 import os
 import requests
 
-
-def file_download(page_to_load):
+def fileDownload(page_to_load):
   # brute force loop to get file/folder ids from url. Url is currently dictating what view is loaded, and url is dynamic for files
   readingFileId = False
   readingFolderId = False
@@ -25,7 +24,7 @@ def file_download(page_to_load):
       folder_id = folder_id + page_to_load[i]
 
   #print(file_id)
-  page_to_load = page_to_load.replace('downloadfile_','') + '.html' # so the url will stay the same on reload
+  page_to_load = page_to_load.replace('file_','') + '.html' # so the url will stay the same on reload
   int_file = int(file_id)
   file_to_download = course.get_file(int_file)
   download_path = '/'.join( os.getcwd().split('/')[:3] ) + '/Downloads'
@@ -34,10 +33,9 @@ def file_download(page_to_load):
   r = requests.get(file_to_download.url,verify=False)
   open('src/tmp/downloadfile', 'wb').write(r.content)
 
-  return folder_id, file_to_download
+  return file_to_download
 
-
-def render_resources(current_user):    
+def getResourceFolders(): 
   folders_ = course.get_folders()._get_next_page()
   folders = [] 
   icons = []
@@ -49,6 +47,19 @@ def render_resources(current_user):
       icons.append("oi-image")
     else:
       icons.append("oi-book")
-    #print("folders_ ", folders_[i].name)
-  
-  return render_template('resources.html', folders = folders,icons = icons,  current_user =  current_user)
+  resources = {
+    "folders": folders,
+    "icons": icons
+  }
+  return resources
+
+def filesPage(page_to_load):
+  # user clicked folder => load next layer
+  folderId = page_to_load.replace('files_','').replace('.html','') #find template html file
+  files = course.get_folder(int(folderId)).get_files()._get_next_page()
+  return files, folderId
+
+def renderResourceFolders():    
+  resources = getResourceFolders()
+  #print("folders_ ", folders_[i].name)
+  return render_template('resources.html', folders = resources["folders"], icons = resources["icons"], current_user = current_user)

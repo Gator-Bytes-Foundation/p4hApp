@@ -1,34 +1,42 @@
 from flask import render_template, send_file
-from flask_login import login_user, logout_user, current_user, login_required
+from flask_login import login_required
 from werkzeug.urls import url_parse
 from src import app  # from /app import flask app TODO: import db
 ''' Import Needed Modules ''' 
 from src.canvas import course # inject canvas, course objects into file
 from src.models.user_model import User
-from src.controllers.resources_controller import file_download, render_resources
+from src.controllers.resources_controller import renderResourceFolders, filesPage, fileDownload, getResourceFolders
+from flask.json import jsonify
 
 #
 # If a request from client has variable data in it, we handle it here and get the data out of the url before routing the user
 #
-@app.route('/resources/<page_to_load>', methods=['GET', 'POST'])
-def customResourceCalls(page_to_load): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
-  if('file' in page_to_load):
-    return files_page(page_to_load)
+@login_required
+@app.route('/resources/<folderPage>', methods=['GET'])
+def resourceFolder(folderPage): #url being routed is saved to 'fileId' which we can then use to render the name of the html file
+  files, folderId = filesPage(folderPage)
+  return render_template('files.html', files=files, folder_id=folderId)    
 
-  return render_template(page_to_load)
+@app.route('/api/resources/download/<fileId>', methods=['GET'])
+@app.route('/resources/download/<fileId>', methods=['GET'])
+def downloadResource(fileId): #url being routed is saved to 'fileId' which we can then use to render the name of the html file
+  file = fileDownload(fileId)
+  return send_file('tmp/downloadfile', as_attachment=True,attachment_filename=file.filename)
 
 # RESOURCES REQUESTS #
-@app.route('/resources', methods=['GET', 'POST'])
-def resources():    
-  return render_resources(current_user)
+@login_required
+@app.route('/resources', methods=['GET'])
+def resources():
+  return renderResourceFolders()
 
-def files_page(page_to_load):
-  if('download' in page_to_load): # check if file, then download
-    folder_id, file_to_download = file_download(page_to_load)
-    filename = file_to_download.filename
-    return send_file('tmp/downloadfile', as_attachment=True,attachment_filename=filename)
-  # else, user clicked folder => load next layer
-  folder_id = page_to_load.replace('files_','').replace('.html','') #find template html file
-  files = course.get_folder(int(folder_id)).get_files()._get_next_page()
+# API Routes #
+@app.route('/api/resources/<folderPage>', methods=['GET'])
+def resourceFolderAPI(fileId):
+  files, folderId = filesPage(fileId)
+  return jsonify(files)
 
-  return render_template('files.html', files=files, folder_id=folder_id)        
+@app.route('/api/resources', methods=['GET'])
+def resourcesAPI():
+  resources = getResourceFolders()
+  return jsonify(resources)
+
