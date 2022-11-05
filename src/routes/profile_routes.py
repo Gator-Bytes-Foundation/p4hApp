@@ -1,15 +1,13 @@
-from flask import url_for, flash, redirect, request, render_template, send_file, Response,make_response
+from flask import request, render_template, send_file
 from flask_login import current_user, login_required
 from src import app
 ''' Import Needed Modules '''
 from src.models.user_model import User
-from src.models.profile_model import Profile
 from src.controllers.profile_controller import loadProfile, updateProfile, getProgress, updateProgress, loadProgress
 from src.controllers.posts_controller import getProfilePic, loadPosts
 ''' Import Needed Libraries '''
 import json
 from pyper import *
-import pickle as p
 from flask.json import jsonify
 
 # PROFILE MODULE #

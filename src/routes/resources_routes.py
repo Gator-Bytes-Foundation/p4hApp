@@ -1,9 +1,7 @@
 from flask import render_template, send_file
 from flask_login import login_required
-from werkzeug.urls import url_parse
 from src import app  # from /app import flask app TODO: import db
 ''' Import Needed Modules ''' 
-from src.canvas import course # inject canvas, course objects into file
 from src.models.user_model import User
 from src.controllers.resources_controller import renderResourceFolders, filesPage, fileDownload, getResourceFolders
 from flask.json import jsonify

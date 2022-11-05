@@ -1,16 +1,11 @@
-from flask import url_for, flash, redirect, request, render_template, send_file, send_from_directory
-from flask_login import current_user, login_required
+from flask import request, render_template, send_from_directory
+from flask_login import login_required
 from src import app  # from /app import flask app TODO: import db
 ''' Import Needed Modules '''
-from src.models.user_model import User
-from src.canvas import CANVAS, course # inject canvas, course objects into file
-from src.models.profile_model import Profile
 from src.models.user_model import User
 from src.controllers.posts_controller import *
 ''' Import Needed Libraries '''
 import json
-import requests
-from flask import make_response
 from flask.json import jsonify
 from src.controllers.posts_controller import getProfilePic
 

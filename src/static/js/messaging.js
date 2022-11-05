@@ -4,7 +4,9 @@ function loginRocket() {
     url: '/login/rocket',
     type: 'GET',
     success: function (data) {
-        localStorage.setItem('rocket_token', data.authToken);
+        localStorage.clear();
+        const authToken = data.authToken
+        localStorage.setItem('rocket_token', authToken);
     },
     cache: false,
     contentType: false,

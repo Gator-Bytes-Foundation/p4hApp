@@ -1,19 +1,15 @@
 from flask import url_for, flash, redirect, request, render_template, session, abort
-from flask_login import login_user, logout_user, current_user, login_required
+from flask_login import logout_user, current_user, login_required
 from src import app  # from /app import flask app
-from is_safe_url import is_safe_url
+from flask.json import jsonify
+#from is_safe_url import is_safe_url
 ''' Import Needed Modules '''
-from src.models.user_model import User
 from src.controllers.login_controller import LoginForm, loginAPI, SignUpForm
-from src.canvas import CANVAS, account # inject canvas, course objects into file
-from src.routes.profile_routes import profile
-from src.controllers.posts_controller import loadPosts
+from src.canvas import account # inject canvas, course objects into file
 ''' Import Needed Libraries '''
 import json
-from rocketchat_API.rocketchat import RocketChat
 from src.canvas import ROCKET
 from src.controllers.profile_controller import loadProfile
-from flask.json import jsonify
 
 # LOGGING IN AND SIGNING REQUESTS #
 @app.route('/signup', methods=['GET', 'POST'])
@@ -33,9 +29,9 @@ def logout():
 
 @app.route('/login/rocket', methods=['GET'])
 def loginRocket():
-  if(ROCKET != None): rocket_res = ROCKET.login(current_user.username,current_user.password_hash)
-  rocket_user = rocket_res.json().get("data")
-  return (json.dumps({'success':True,'data':rocket_user}), 200, {'ContentType':False})
+  if(ROCKET != None): rocket_res = ROCKET.login(current_user.username,current_user.password_hash).json()
+  rocket_user = rocket_res.get("data")
+  return (jsonify(rocket_user))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -57,6 +53,5 @@ def login():
 def loginAPIRoute():
   username = request.form.get('username')
   pwd = request.form.get('password')
-  print(username)
   return loginAPI(username,pwd)
 

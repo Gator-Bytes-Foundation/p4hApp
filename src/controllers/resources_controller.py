@@ -1,7 +1,6 @@
-from flask import url_for, flash, redirect, request, render_template, send_file
+from flask import render_template
 from flask_login import current_user
 from src.canvas import * # inject canvas, course objects into file
-from src.controllers.login_controller import *
 import os
 import requests
 

@@ -68,8 +68,9 @@ class SignUpForm(FlaskForm):
       newUser.set_password(form.password.data)
       # add user in rocket chat (To do: if rocket chat fails, canvas and DB needs to delete new user)
       try:
-        rocket_user = ROCKET.users_create(email,fname,newUser.password_hash,username)
-        #ROCKET.login
+        rocket_user = ROCKET.users_create(email,fname,newUser.password_hash,username).json()
+        if(rocket_user["success"] == False):
+          return render_template('signup.html', title='signUp', form=form, error=rocket_user["error"])
       except Exception as e:
         error = str(e)
         error = error.replace("{","").replace("}","").replace('"','')
