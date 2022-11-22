@@ -11,7 +11,7 @@ frontend/assets
 src/static/dist
 
 # this will contain secret keys and tokens
-secrets.yml
+
 bin/prod/server.key
 bin/prod/server.crt
 
