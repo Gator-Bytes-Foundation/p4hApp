@@ -61,6 +61,5 @@ testem.log
 .DS_Store
 Thumbs.db
 src/app.db
-config/local.py
 secrets_dev.yml
 config/app.db-journal
