@@ -13,11 +13,11 @@ $('input[type="file"]').on("change", function(e) {
 });
 
 Array.prototype.forEach.call(inputs, function (input) {
-  var label = input.nextElementSibling, // gets the inner html of the label attribute that is visually seen (the file input is invisible)
-    labelVal = label.innerHTML;
+  let label = input.nextElementSibling; // gets the inner html of the label attribute that is visually seen (the file input is invisible)
+  const labelVal = label.innerHTML;
 
   input.addEventListener("change", function (e) { // upon a file input being selected, we want to update the label to show what file was selected
-    let id = e.currentTarget.name;
+    const id = e.currentTarget.name;
     let fileName = "";
     if (this.files && this.files.length > 1)
       fileName = (this.getAttribute("data-multiple-caption") || "").replace(
@@ -28,7 +28,8 @@ Array.prototype.forEach.call(inputs, function (input) {
       fileName = e.target.value.split("\\").pop();
     }
     if (fileName) {
-      input.nextElementSibling.querySelector('strong').innerHTML = fileName;
+      input.nextElementSibling.innerHTML = fileName;
+      $("#upload-"+id).show();
     }
     else {
       label.innerHTML = labelVal;
@@ -72,9 +73,7 @@ $(document).on("click", ".upload", function (e) {
   }
   let file = input.files[0];
   let fileType = file.name.split('.').pop();
-  // todo: check for correct file type
-  let filename = "milestone." + fileType;
-  var formData = new FormData();
+  let formData = new FormData();
   formData.append('progressFile.pdf', file);
   $.ajax({
     type: "POST",
@@ -87,7 +86,8 @@ $(document).on("click", ".upload", function (e) {
     success: function (data) {
       $("#loading").hide();
       alert('File uploaded successfully!');
-      $("#label-" + milestoneId).empty();
+      $("#upload-"+milestoneId).hide();
+      $("#label-" + milestoneId).text("Choose File");
     },
     error: debugJSON
   });

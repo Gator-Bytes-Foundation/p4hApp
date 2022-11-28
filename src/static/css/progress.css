@@ -11,7 +11,9 @@
 .inputfile + label {
     display: inline-block;
 }
-
+.upload {
+  display: none;
+}
 .inputfile:focus + label,
 .inputfile + label:hover {
 
@@ -111,13 +113,10 @@
   align-items: center;
   flex-direction: row;
   width: 100%;
-  padding-top:5px; 
-  padding-bottom:5px; 
-
 }
 
 .timeline .timeline-item .timeline-panel:before { /* timeline pointer object */ 
-  
+  /*
   position: absolute;
   top: 0.8rem;
   left: -1.7rem;
@@ -127,6 +126,7 @@
   border-right: 0 solid #c0c0c0;
   border-bottom: 13px solid transparent;
   content: " ";
+  */
 }
 .timeline .timeline-item .file_upload{
   display:flex;

@@ -17,28 +17,31 @@
             </div>
           <div class="timeline-badge"><i class="fa fa-clock-o"></i></div>
           <div class="timeline-panel">
-            <div class="col-4 col-md-6 center">
+            <div class="col-4 col-md-5 center">
               <h4 class="timeline-title row">{{milestones[i].name}}</h4>
               <!--<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> Due: {{milestones[i].due_at}}</small></p>-->
             </div>
-            <div class="col-8 col-md-6 file_upload">
-              {% if( (current_user.id == profile.id) or (current_user.canvasId == 1) ) %} <!-- 1 is admin -->
-              <div class="center">
+            <div class="col-8 col-md-7 file_upload">
+              {% if( (current_user.canvasId == 1) ) %} <!-- 1 is admin -->
+              <div class="col center">
                 <input type="file" accept=".pdf" name="{{milestones[i].id}}" id="file-{{milestones[i].id}}" class="inputfile" data-multiple-caption="{count} files selected" multiple/>
-                <label id="label-{{milestones[i].id}}" class="p4h progress-choose" name="{{milestones[i].id}}"  for="file-{{milestones[i].id}}"><strong>Choose a file</strong></label>
+                <label id="label-{{milestones[i].id}}" class="p4h progress-choose font-weight-bold" name="{{milestones[i].id}}"  for="file-{{milestones[i].id}}">
+                  Choose a file
+                </label>
+                 <!--<span></span> file name will appear here -->
                 <!--<label id="label-1" class="custom-file-label" for="file-1"></label>-->
               </div>
-              <div class="center">
+              <div class="col center my-3">
                   <button class="p4h p4h-btn px-3 upload" name="{{milestones[i].id}}"  id="upload-{{milestones[i].id}}">Upload</button>
               </div>
               {% endif %}
-              {% if( milestones[i].has_submission ) %}
-              <div class="center">
-                  <a href="profile/{{profile.id}}/progress/{{milestones[i].id}}" class="p4h p4h-btn download px-3 py-2" name="{{milestones[i].id}}"  id="download-{{milestones[i].id}}">Download</a>
+              <div class="col center">
+                  {% if( milestones[i].has_submission and (current_user.id == profile.id) ) %}
+                    <a href="profile/{{profile.id}}/progress/{{milestones[i].id}}" class="p4h p4h-btn download px-3" name="{{milestones[i].id}}"  id="download-{{milestones[i].id}}">Download</a>
+                    {% else %} 
+                    <span>No Submission Yet</span>
+                  {% endif %}
               </div>
-              {% else %} 
-                <span>Nothing to download yet</span>
-              {% endif %}
             </div>
           </div>
         </li>

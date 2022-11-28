@@ -46,37 +46,37 @@ def loadProgress(user_id):
 
 def getProgress(user_id,assignment_id):
   assignment = course.get_assignment(assignment_id)
-  print(assignment)
   try:
-    print(user_id)
     submission = assignment.get_submission(user_id)
   except:
     return False
 
   if(submission.attachments):
     #for i in range(len(submission.attachments)): # todo support multiple attachments
-      #print("submission attachment ", submission.attachments[i])
+      #print("submission attachment ", submission.attachments[0])
       file_url = submission.attachments[0]['url']
       r = requests.get(file_url,verify=False)
-      open('src/tmp/downloadMilestone', 'wb').write(r.content)
+      filePath = f'tmp/{user_id}/{assignment_id}/'
+      srcFilePath = "src/"+filePath
+      if not os.path.exists(srcFilePath):
+        os.makedirs(srcFilePath)
+      
+      open(srcFilePath+"downloadMilestone.pdf", 'wb').write(r.content)
 
       #file_to_download.download(file_to_download.filename) # download each file associated with assignment submission
-      #return file_to_download
-      return submission.attachments[0]
+      return submission.attachments[0], filePath
   else:
     return False
 
 # admins should be only ones uploading progress
 def updateProgress(request,user_id,assignment_id):
   int_assignment_id = int(assignment_id)
-  print(str(int_assignment_id))
   try:
     assignment = course.get_assignment(int_assignment_id)
   except(err):
     print('canvas GET assignment failed')
     return False
-  print(request.files["progressFile"])
-  # user_id = getUserIdFromProfile(profile_id)
+  print(request.files["progressFile.pdf"])
   # oorrr canvas_id getUser(user_id).canvasId
   #canvas_user = CANVAS.get_user(int(user_id)) # temp
   #submission_dict = {}
@@ -90,7 +90,7 @@ def updateProgress(request,user_id,assignment_id):
 
   assignment.submit(
       submission={"submission_type": "online_upload"},
-      file=request.files["progressFile"],
+      file=request.files["progressFile.pdf"],
       as_user_id=str(user_id) # sending user id works
   )
   return True
