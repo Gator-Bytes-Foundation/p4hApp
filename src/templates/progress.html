@@ -24,7 +24,7 @@
             <div class="col-8 col-md-6 file_upload">
               {% if( (current_user.id == profile.id) or (current_user.canvasId == 1) ) %} <!-- 1 is admin -->
               <div class="center">
-                <input type="file" name="{{milestones[i].id}}" id="file-{{milestones[i].id}}" class="inputfile" data-multiple-caption="{count} files selected" multiple/>
+                <input type="file" accept=".pdf" name="{{milestones[i].id}}" id="file-{{milestones[i].id}}" class="inputfile" data-multiple-caption="{count} files selected" multiple/>
                 <label id="label-{{milestones[i].id}}" class="p4h progress-choose" name="{{milestones[i].id}}"  for="file-{{milestones[i].id}}"><strong>Choose a file</strong></label>
                 <!--<label id="label-1" class="custom-file-label" for="file-1"></label>-->
               </div>

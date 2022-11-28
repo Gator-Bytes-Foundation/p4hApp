@@ -41,6 +41,7 @@ Array.prototype.forEach.call(inputs, function (input) {
 let debugJSON = function(data,err,exception) {
   let response = JSON.stringify(eval(data));
   console.log(response);
+  $("#loading").hide();
   alert(`Apologies! An error occured: ${exception}`);
 }
 
@@ -49,6 +50,7 @@ let debugJSON = function(data,err,exception) {
  */
 $(document).on("click", ".upload", function (e) {
   e.preventDefault();
+  $("#loading").show();
   let milestoneId = e.currentTarget.name;
   let user_id = $('#header-progress').attr('name');
   if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
@@ -73,7 +75,7 @@ $(document).on("click", ".upload", function (e) {
   // todo: check for correct file type
   let filename = "milestone." + fileType;
   var formData = new FormData();
-  formData.append('progressFile', file);
+  formData.append('progressFile.pdf', file);
   $.ajax({
     type: "POST",
     url: "/profile/" + user_id + "/progress/" + milestoneId,
@@ -83,6 +85,7 @@ $(document).on("click", ".upload", function (e) {
     processData: false,
     dataType: "json",
     success: function (data) {
+      $("#loading").hide();
       alert('File uploaded successfully!');
       $("#label-" + milestoneId).empty();
     },
@@ -94,13 +97,18 @@ $(document).on("click", ".upload", function (e) {
  * @abstract Function is currently not being used due to Flask "send_file" function not working with Ajax callback function. May use in future.
  */
 function downloadMilestone(event) {
+  $("#loading").show();
   let user_id = $('#header-progress').attr('name');
   let milestoneId = (event.currentTarget.id).replace('download-',''); // remove unique identifier from html id to extract canvas_assignment id
   $.ajax({
       url: "progress/" + milestoneId,
       type: 'GET',
+      success: function (data) {
+        $("#loading").hide();
+      },
       error: function(err) {
-        alert("No Document Has Been Uploaded")
+        $("#loading").hide();
+        alert("No Document Has Been Uploaded");
       }
   });
   event.preventDefault();

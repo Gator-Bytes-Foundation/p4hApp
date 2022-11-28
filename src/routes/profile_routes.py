@@ -51,9 +51,9 @@ def progress(user_id):
 ## Download milestone - READ
 @app.route('/profile/<user_id>/progress/<milestone_id>', methods=['GET'])
 def progressGet(user_id,milestone_id):
-  file_to_download = getProgress(user_id,milestone_id)
+  file_to_download, filePath = getProgress(user_id,milestone_id)
   if(file_to_download):
-    return send_file('tmp/downloadMilestone', as_attachment=True,attachment_filename=file_to_download["display_name"])
+    return send_file(filePath+"downloadMilestone.pdf", as_attachment=True, attachment_filename=file_to_download["display_name"])
   else:
     return json.dumps({'success':False}), 400, {'ContentType':False}
 
