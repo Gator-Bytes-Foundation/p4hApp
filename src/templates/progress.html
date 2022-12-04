@@ -6,10 +6,10 @@
   <div class="row">
     <div class="col-12">
       <div class="page-header">
-        <h1 id="header-progress" name="{{profile.id}}">{{profile.name}} Progress</h1>
+        <h1 id="header-progress" name="{{profileUser.id}}">{{profileUser.name}} Progress</h1>
         <hr>
       </div>
-      <ul class="timeline" id="timeline-{{profile.id}}">
+      <ul class="timeline" id="timeline-{{profileUser.id}}">
         {% for i in range(milestones | length)%}
         <li class="timeline-item">
             <div class="timeline-body">
@@ -36,8 +36,8 @@
               </div>
               {% endif %}
               <div class="col center">
-                  {% if( milestones[i].has_submission and (current_user.id == profile.id) ) %}
-                    <a href="profile/{{profile.id}}/progress/{{milestones[i].id}}" class="p4h p4h-btn download px-3" name="{{milestones[i].id}}"  id="download-{{milestones[i].id}}">Download</a>
+                  {% if( milestones[i].has_submission and (current_user.id == profileUser.id) ) %}
+                    <a href="profile/{{profileUser.id}}/progress/{{milestones[i].id}}" class="p4h p4h-btn download px-3" name="{{milestones[i].id}}"  id="download-{{milestones[i].id}}">Download</a>
                     {% else %} 
                     <span>No Submission Yet</span>
                   {% endif %}
