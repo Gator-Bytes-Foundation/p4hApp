@@ -18,8 +18,9 @@ def loadProfile(profile,rocket_user = {}):
   return render_template('profile.html', profile = profile,  current_user = current_user, users=allUsers, rocket_user = rocket_user, currentUserProfilePic = currentUserProfilePic)
 
 def loadProgress(user_id):
+  profileUser = User.query.filter_by(canvasId=user_id).first()
   canvas_user = CANVAS.get_user(user_id) #temp until canvas users are synced with user db
-  if(canvas_user.id != current_user.canvasId and current_user.canvasId != 1):
+  if(profileUser.id != current_user.id and current_user.canvasId != 1):
     abort(Response("You do not have permission to view this teacher's progress"))
   p4hCourseId = 1
   # NOTE: assignent has has_submitted_submissions as a field to check if user has submitted
@@ -41,7 +42,7 @@ def loadProgress(user_id):
 
     milestones.append(milestone)
 
-  return milestones, canvas_user
+  return milestones, profileUser
 
 
 def getProgress(user_id,assignment_id):

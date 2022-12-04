@@ -44,8 +44,10 @@ def saveProfile():
 @login_required
 @app.route('/profile/<user_id>/progress')
 def progress(user_id):
+  print(current_user.id)
   milestones, profile_user = loadProgress(user_id)
-  return render_template('progress.html', milestones = milestones, current_user = current_user, profile = profile_user) # get user from profiel to do
+
+  return render_template('progress.html', milestones = milestones, current_user = current_user, profileUser = profile_user) # get user from profile to do
 
 
 ## Download milestone - READ
