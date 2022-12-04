@@ -53,7 +53,7 @@ $(document).on("click", ".upload", function (e) {
   e.preventDefault();
   $("#loading").show();
   let milestoneId = e.currentTarget.name;
-  let user_id = $('#header-progress').attr('name');
+  const user_id = $('#header-progress').attr('name');
   if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
     alert("The File APIs are not fully supported in this browser.");
     return;
@@ -98,7 +98,7 @@ $(document).on("click", ".upload", function (e) {
  */
 function downloadMilestone(event) {
   $("#loading").show();
-  let user_id = $('#header-progress').attr('name');
+  const user_id = $('#header-progress').attr('name');
   let milestoneId = (event.currentTarget.id).replace('download-',''); // remove unique identifier from html id to extract canvas_assignment id
   $.ajax({
       url: "progress/" + milestoneId,
