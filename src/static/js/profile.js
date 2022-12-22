@@ -15,11 +15,12 @@
     * @param {JS Event} event
     */
   window.onclick = function (event) {
-    const list_of_items = document.getElementsByClassName("list_of_items");
+    const listOfItems = document.getElementsByClassName("list_of_items");
     const edit_menu = document.getElementsByClassName("overlayBlock")[0];
-    if (!event.target.matches("list_of_items")) {
+    if (!event.target.matches("#profileSearchInput")) {
+      console.log(event.target)
       // cancels dropdown box if clicked somewhere outside of dropdown box
-      if (list_of_items[0].style.display == "block") {
+      if (listOfItems[0].style.display == "block") {
         cancelDropDown();
       }
     }
@@ -119,7 +120,8 @@
   /**
    * @abstract when user types, filters out potential users
    */
-  $('#profileSearchInput').on('keyup', function(ev){
+  $('#profileSearchInput').on('click keyup', function(e){
+    console.log("clicked 1")
     filterFunction();
   });
   /**
