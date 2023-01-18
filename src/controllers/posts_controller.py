@@ -71,8 +71,13 @@ def loadPosts(user):
   # now adding posts to profile
   profile.posts = recentPosts
   profile.user = user
-  profile.canvas_user = CANVAS.get_user(canvas_id)
+  try:
+    profile.canvas_user = CANVAS.get_user(canvas_id)
+  except CanvasException as e:
+    print(e)
+    abort(Response('User does not exist on canvas'))
   return profile
+
 def loadAnnouncements():
   ''' 
     abstract: Function will extract 'Admin' posts from discussion page on canvas and load them to Announcement page
@@ -151,6 +156,11 @@ def loadPostComents(post,user):
 
 def handleComment(req,post_id):
   comment_text = req.form['text']
+  if(course == None):
+    return {
+      "success": False,
+      "data": {"message": "Canvas server down"}
+    }
   topic = course.get_discussion_topic(post_id) # get post in canvas
   comment = topic.post_entry(
       message = comment_text,

@@ -4,7 +4,8 @@ from src import app  # from /app import flask app
 from flask.json import jsonify
 #from is_safe_url import is_safe_url
 ''' Import Needed Modules '''
-from src.controllers.login_controller import LoginForm, loginAPI, SignUpForm
+from src.controllers.login_controller import LoginForm, loginAPI
+from src.controllers.signup_controller import SignupForm
 from src.canvas import account # inject canvas, course objects into file
 ''' Import Needed Libraries '''
 import json
@@ -14,8 +15,8 @@ from src.controllers.profile_controller import loadProfile
 # LOGGING IN AND SIGNING REQUESTS #
 @app.route('/signup', methods=['GET', 'POST'])
 def signUp():
-  form = SignUpForm()
-  return form.makeUser()
+  form = SignupForm()
+  return form.signUp()
 
 @app.route('/logout')
 @login_required

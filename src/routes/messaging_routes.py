@@ -5,9 +5,9 @@ from src import app  # from /app import flask app TODO: import db
 from src.controllers.messaging_controller import load_messages
 ''' Import Needed Libraries ''' 
 from pyper import *
-import pickle as p
+from config.local import Config
 
 # MESSAGING REQUESTS #
 @app.route('/messaging')
-def messaging():    
-  return render_template('messaging.html',  current_user =  current_user)
+def messaging():
+  return render_template('messaging.html',  current_user=current_user, rocketHost=Config.ROCKET_URL)
