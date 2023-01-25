@@ -154,8 +154,7 @@ $("textarea").mousemove(function (e) {
   } else {
     $(this).css({ cursor: "" });
   }
-}).css("overflow", "hidden")
-  .keyup(function (e) {
+}).css("overflow", "hidden").keyup(function (e) {
     //  this if statement checks to see if backspace or delete was pressed, if so, it resets the height of the box so it can be resized properly
     if (e.which == 8 || e.which == 46) {
       $(this).height(
@@ -165,12 +164,11 @@ $("textarea").mousemove(function (e) {
       );
     }
     //  the following will help the text expand as typing takes place
-    while (
-      $(this).outerHeight() <
-      this.scrollHeight +
-        parseFloat($(this).css("borderTopWidth")) +
-        parseFloat($(this).css("borderBottomWidth"))
-    ) {
+    console.log($(this).outerHeight())
+    console.log(this.scrollHeight)
+    console.log(parseFloat($(this).css("borderTopWidth")))
+    totalBorderWidth = parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth"))
+    while ($(this).outerHeight() <= this.scrollHeight + totalBorderWidth) {
       $(this).height($(this).height() + 1);
     }
   });
