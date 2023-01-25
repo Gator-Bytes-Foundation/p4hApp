@@ -2,10 +2,10 @@
 function loginRocket() {
   localStorage.clear();
   $.ajax({
-    url: '/login/rocket',
+    url: '/rocket/token',
     type: 'GET',
     success: function (data) {
-        const authToken = data.authToken
+      const authToken = data.authToken
         const iframe = document.getElementById('rocketchatiframe');
         iframe.contentWindow.postMessage({
           externalCommand: 'login-with-token',

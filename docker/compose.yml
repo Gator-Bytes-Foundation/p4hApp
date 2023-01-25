@@ -23,6 +23,7 @@ services:
         -mongodb://mongodb:${MONGODB_INITIAL_PRIMARY_PORT_NUMBER:-27017}/\
         local?replicaSet=${MONGODB_REPLICA_SET_NAME:-rs0}}"
       ROOT_URL: ${ROOT_URL:-http://localhost:4000}
+      CREATE_TOKENS_FOR_USERS: "true"
       PORT: ${PORT:-3000}
       DEPLOY_METHOD: docker
     depends_on:

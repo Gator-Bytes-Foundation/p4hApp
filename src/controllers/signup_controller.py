@@ -32,21 +32,22 @@ class SignupForm(FlaskForm):
       existingUser, canvasAccount, rocketAccount = checkUserExists(userData) 
 
       # this shouldn't occur but will be used as a way of repairing a partially created account
-      if(existingUser and canvasAccount and not rocketAccount):
+      if(existingUser and canvasAccount and rocketAccount is None):
         # authenticate if partial user is one signing up
-        if not existingUser.check_password(existingUser.password_hash,self.password.data):
-          flash('User account was partially created. Please try signing up again with proper password.')
+        if not existingUser.check_password(existingUser.password_hash,userData["password"]):
+          flash('User account was partially created. Please try signing up again with previous password to fix account.')
           return redirect(url_for('login'))
-        createRocketAccount(userData,existingUser.password_hash)
+        createRocketAccount(userData)
         form = LoginForm()
         return form.loginUser()
       
       # if canvas data already exists without a user, connect current user
       # this should only happen for developers since users should never be deleted
-      if(canvasAccount and not existingUser and userData["email"] == canvasAccount.email):
+      if(canvasAccount and not existingUser and userData["email"] == canvasAccount.login_id):
         userData["canvasId"] = canvasAccount.id
+        print("Canvas exists without db user")
 
-      return createUser(userData,form)
+      return createUser(userData,form,canvasAccount,rocketAccount)
     else:
       return render_template('signup.html', title='signUp', form=form)
 

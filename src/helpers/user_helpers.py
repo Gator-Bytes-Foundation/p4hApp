@@ -14,24 +14,30 @@ def getCanvasUserByUsername(username):
       search_results[0]
     except IndexError:
       print("User not found - (%s)" % (username))
-      return False
-    print(search_results[0])
+      return None
     return search_results[0]
 
 def checkUserExists(userData): 
   user = User.query.filter_by(username=userData["username"]).first() # query db
   canvas_user = None
+  rocket_account = None
+
+  rocket_account_response = ROCKET.users_info(username=userData["username"]).json()
+  if("success" in rocket_account_response and "user" in rocket_account_response):
+    rocket_account = rocket_account_response["user"]
+    login = ROCKET.login(userData["username"],userData["password"])
+    if(login.get("status") != "success"):
+      rocket_account = None # if password doesn't match, dont associate account
+
   if(user):
     try:
       canvas_user = CANVAS.get_user(user.canvasId)
-      print(canvas_user)
     except BadRequest as e:
-      print(str(e))
       canvas_user = getCanvasUserByUsername(userData["username"])
+  else:
+    canvas_user = getCanvasUserByUsername(userData["username"])
 
-  rocketAccount = ROCKET.users_info(username=userData["username"]).json()
-  print(rocketAccount)
-  return user, canvas_user, rocketAccount
+  return user, canvas_user, rocket_account
 
 def createCanvasUser(userData):
   pseudonym = {
@@ -49,12 +55,6 @@ def createCanvasUser(userData):
   canvas_user = account.create_user(pseudonym, user=canvasUser)
   course.enroll_user(canvas_user.id, enrollment={"type": "StudentEnrollment", "enrollment_state": "active"}, enrollment_type="StudentEnrollment") #enrollment type will be deprecated, but for now triggers error if removed.
   # TODO: research canvas login sessions
-  #topic = course.create_discussion_topic(
-  #  title = username + ' ' + str(canvas_user.id),
-  #  message = 'all posts for ' + fname,
-  #  user_can_see_posts = True,
-  #  published = True,
-  #)
   #login_info = {
   #  'id' :  current_user.id,
   #   'unique_id': username
@@ -62,51 +62,47 @@ def createCanvasUser(userData):
   #login = account.create_user_login(user,login_info
   return canvas_user
 
-def createRocketAccount(userData,pswHash):
-  rocket_user = ROCKET.users_create(userData["email"],userData["fullName"],pswHash,userData["username"]).json()
+def createRocketAccount(userData):
+  rocket_user = ROCKET.users_create(userData["email"],userData["fullName"],userData["password"],userData["username"]).json()
   return rocket_user
 
 def deleteCanvasUser(canvas_user):
   account = CANVAS.get_account(1) # admin account id
-  print("DELETING")
+  print("DELETING canvas") # debugging on pro
   print(canvas_user)
-  delete = account.delete_user(canvas_user)
-  print(delete)
+  account.delete_user(canvas_user)
 
 def deleteRocketUser(rocket_user): 
   delete = ROCKET.users_delete(rocket_user.id)
+  print("DELETING rocket") # debugging on pro
   print(delete)
 
 
-def createUser(userData,form):
-  
-  try:
-    canvas_user = createCanvasUser(userData) # create canvas user object
-    userData["canvasId"] = canvas_user.id
-  except BadRequest as e:
-    # if user doesn't exist, then we will correlate canvas data with new user to resync
-    # if the canvas data doesn't belong to user signing up, 
-    if(userData["canvasId"] is None):
-      error = json.loads(e.message)
-      errorMessage = error['errors']['pseudonym']['unique_id'][0]['message'] #idk why canvas api hid the error within so many fields
+def createUser(userData,form,canvas_user=None,rocket_account=None):
+  # if user doesn't exist, then we will correlate canvas data with new user to resync
+  # if the canvas data doesn't belong to user signing up, 
+  if(canvas_user is None):
+    try:
+      canvas_user = createCanvasUser(userData) # create canvas user object
+      userData["canvasId"] = canvas_user.id
+    except BadRequest as e:
+        error = json.loads(e.message)
+        errorMessage = error['errors']['pseudonym']['unique_id'][0]['message'] #idk why canvas api hid the error within so many fields
+        return render_template('signup.html', title='signUp', form=form, error=errorMessage)
 
-      print("canvas errror!")
-      print(error['errors']['pseudonym']['unique_id'][0]['message'])
-      return render_template('signup.html', title='signUp', form=form, error=errorMessage)
-    
   try:
     newUser = User(name=userData["fullName"], username=userData["username"],email=userData["email"],canvasId=userData["canvasId"]) #,profilePic__file_name="profile.png")
     newUser.set_password(form.password.data)
     # add user in rocket chat (To do: if rocket chat fails, canvas and DB needs to delete new user)
-    rocket_user = ROCKET.users_create(userData["email"],userData["fullName"],newUser.password_hash,userData["username"]).json()
-    if(rocket_user["success"] == False):
-      print(rocket_user)
-      deleteCanvasUser(canvas_user)
-      return render_template('signup.html', title='signUp', form=form, error=rocket_user["error"])
+    if(rocket_account is None): 
+      rocket_res = createRocketAccount(userData)
+      if(rocket_res["success"] == False):
+        deleteCanvasUser(canvas_user)
+        return render_template('signup.html', title='signUp', form=form, error=rocket_res["error"])
+      else:
+        rocket_account = rocket_res["user"]
   except Exception as e:
     error = str(e)
-    print("rocket")
-    print(error)
     deleteCanvasUser(canvas_user)
     return render_template('signup.html', title='signUp', form=form, error=error)
 
@@ -116,9 +112,9 @@ def createUser(userData,form):
     db.session.commit() # newUser.save()
   except exc.IntegrityError as e:
     db.session.rollback()
-    if('UNIQUE constraint' in e.message):
+    if('UNIQUE constraint' in e.args):
       print("User already exists")
-      deleteRocketUser(rocket_user)
+      deleteRocketUser(rocket_account)
       deleteCanvasUser(canvas_user)
   flash('Congratulations, registration was successful!')
   form = LoginForm()
