@@ -167,8 +167,8 @@ $("textarea").mousemove(function (e) {
     console.log($(this).outerHeight())
     console.log(this.scrollHeight)
     console.log(parseFloat($(this).css("borderTopWidth")))
-    totalBorderWidth = parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth"))
-    while ($(this).outerHeight() <= this.scrollHeight + totalBorderWidth) {
+    // totalBorderWidth = parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth"))
+    while ($(this).outerHeight() <= this.scrollHeight) {
       $(this).height($(this).height() + 1);
     }
   });
