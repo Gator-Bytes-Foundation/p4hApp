@@ -71,11 +71,6 @@ function appendPost(post_id,postText,profilePic,postFile) {
       <hr/>
       <div id="comments-${post_id}"><label class="comment_label" for="from">Comments</label>
         <div id="reply_div-${post_id}" class="reply_div">
-          <div class="col-8">
-            <textarea class= "text_box" name="message" id="textbox-${post_id}" onkeyup="" size="5" placeholder="Comment"></textarea>
-            <span class="upload_icon oi oi-cloud-camera" aria-hidden="true"></span>
-          </div>
-          <a href="" onclick={commentPost} name="${post_id}" id="reply-${post_id}" class="reply_button col-4 btn-sm"><i class="fa fa-reply"></i> Reply</a>
         </div>
       </div>
     </div>

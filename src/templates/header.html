@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="canonical" href="https://getbootstrap.com/docs/4.1/examples/navbars/"/>
 </head>
-<body>
+<body style="overflow-y:auto;">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <div id="loading">
@@ -31,7 +31,7 @@
       <div class="loading"></div>
     </div>
   </div>
-  <div class="bs-example">
+  <div class="mb-4">
     <nav class="navbar navbar-expand-md navbar-dark" id="navbar-container">
       <a href="#" class="navbar-brand">
         <h1 id="nav-logo-p4h">
@@ -99,9 +99,9 @@
     {% endfor %}
   </ul>
   {% endif %} {% endwith %}
-  <div style="height: calc(100% - 153px);">
+  <div>
     {% block content %}
-
+    <!-- app content added here -->
     {% endblock %} <!-- <router-outlet></router-outlet> angular could work here as well -->
   </div>
 </body>

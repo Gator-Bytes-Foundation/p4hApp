@@ -1,6 +1,6 @@
 import base64
 import json
-from flask import abort, Response, request, render_template
+from flask import abort, Response, render_template
 from flask_login import current_user
 from src.canvas import CANVAS,course, CanvasException # inject canvas, course objects into file
 from src.models.profile_model import Profile
@@ -9,8 +9,8 @@ from src import file_upload
 
 def convertDate(inproperDate):
   year = inproperDate[2:4]
-  day = inproperDate[5:7]
-  month = inproperDate[8:10]
+  month = inproperDate[5:7]
+  day = inproperDate[8:10]
   properDate = ''.join([month,'/', day, '/', year])
   return properDate
 
@@ -35,9 +35,7 @@ def getProfilePic(user):
 #
 def loadPosts(user):
   profile = Profile()
-  canvas_id = user.canvasId
   recentPosts = []
-  user = User.query.filter_by(canvasId=canvas_id).first()
 
   try:
     posts = list(course.get_discussion_topics()) # load profile posts
@@ -49,7 +47,7 @@ def loadPosts(user):
 
   # loop through all profile posts
   for i in range(end_index):
-    usernameId = user.username + ' ' + str(canvas_id) #used to identify user in canvas
+    usernameId = user.username + ' ' + str(user.canvasId) #used to identify user in canvas
     if(posts[i].title == usernameId and posts[i].message is not None): #only shows posts that the user has posted
       newPost = {
         'id': posts[i].id,
@@ -62,7 +60,7 @@ def loadPosts(user):
         'files': UserFiles.query.filter_by(userId=user.id,postId=posts[i].id).all()
       }
       if(len(newPost['files']) > 0):
-        image_data = base64.b64encode(newPost.files[0].data).decode("utf-8")
+        image_data = base64.b64encode(newPost["files"][0].data).decode("utf-8")
         newPost['img'] = image_data
 
       # Push profile post into recent posts array
@@ -72,7 +70,7 @@ def loadPosts(user):
   profile.posts = recentPosts
   profile.user = user
   try:
-    profile.canvas_user = CANVAS.get_user(canvas_id)
+    profile.canvas_user = CANVAS.get_user(user.canvasId)
   except CanvasException as e:
     print(e)
     abort(Response('User does not exist on canvas'))
@@ -85,7 +83,7 @@ def loadAnnouncements():
   adminId = 1
   adminUser = User.query.filter_by(canvasId=adminId).first() # announcements are all posts from the admins (until announcements canvas api is being used)
   if(adminUser is None):
-    return json.dumps({'success':False, 'message':"No admin user in database"}), 400, {'ContentType':False}
+    return render_template('error.html',  error="No admin user in database"), 428
   roles = CANVAS.get_account(adminId).get_roles()
   # for now load posts as if it were admin profile TODO: figure out what is wrong with get_announcements canvas API
   profile = loadPosts(adminUser)

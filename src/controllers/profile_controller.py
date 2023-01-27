@@ -103,6 +103,7 @@ def updateProfile(req):
   school_ = req.form['school']
   email_ = req.form['email']
   phone_ = req.form['phone']
+  position = req.form['position']
   location_ = req.form['location']
   bio_ = req.form['bio']
   avatarUpdate = req.files['avatar'] # check to see if there was profile file attached
@@ -132,6 +133,8 @@ def updateProfile(req):
     canvas_user.edit(user = {"email":email_})
   if(phone_ != ''):
     current_user.phone = phone_
+  if(position != ''):
+    current_user.position = position
   if(location_ != ''):
     current_user.location = location_
   if(bio_ != ''):
