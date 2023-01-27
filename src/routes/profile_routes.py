@@ -25,12 +25,11 @@ def customProfileCalls(profile_id): #url being routed is saved to 'page_to_load'
 @login_required
 def profile(*args):
   if(len(args) > 0):
-    user = User.query.filter_by(canvasId=args[0]).first()
+    user = User.query.filter_by(canvasId=args[0]).first() # args[0] holds user id to look up if it exists
   else: user = current_user
-  # args[0] holds user id to look up if it exists
+  
   user_profile = loadPosts(user)
-  # Brings user to their profile view
-  return loadProfile(user_profile)
+  return loadProfile(user_profile)  # Brings user to their profile view
 
 @login_required
 @app.route('/profile', methods=['POST'])

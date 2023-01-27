@@ -4,34 +4,38 @@ from src import app  # from /app import flask app
 from flask.json import jsonify
 #from is_safe_url import is_safe_url
 ''' Import Needed Modules '''
-from src.controllers.login_controller import LoginForm, loginAPI, SignUpForm
+from src.controllers.login_controller import LoginForm, loginAPI
+from src.controllers.signup_controller import SignupForm
 from src.canvas import account # inject canvas, course objects into file
 ''' Import Needed Libraries '''
-import json
 from src.canvas import ROCKET
 from src.controllers.profile_controller import loadProfile
 
 # LOGGING IN AND SIGNING REQUESTS #
 @app.route('/signup', methods=['GET', 'POST'])
 def signUp():
-  form = SignUpForm()
-  return form.makeUser()
+  form = SignupForm()
+  return form.signUp()
 
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
+    ROCKET.logout()
     if session.get('was_once_logged_in'):
         # prevent flashing automatically logged out message
         del session['was_once_logged_in']
     flash('You have successfully logged yourself out.')
     return redirect('/login')
 
-@app.route('/login/rocket', methods=['GET'])
+@app.route('/rocket/token', methods=['GET'])
 def loginRocket():
-  if(ROCKET != None): rocket_res = ROCKET.login(current_user.username,current_user.password_hash).json()
-  rocket_user = rocket_res.get("data")
-  return (jsonify(rocket_user))
+  users_create_token = ""
+  if(ROCKET != None): 
+    users_create_token = ROCKET.users_create_token(
+        username=current_user.username
+    ).json()
+  return (jsonify(users_create_token.get("data")))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
