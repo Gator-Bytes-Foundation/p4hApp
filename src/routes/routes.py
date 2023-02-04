@@ -12,17 +12,22 @@ from src.controllers.posts_controller import getProfilePic
 @app.errorhandler(404)
 def page_not_found(e):
     # note that we set the 404 status explicitly
-    return render_template('404.html',error = e), 404
+    return render_template('error.html',error = e), 404
 
 @app.errorhandler(500)
 def internal_error(e):
     # note that we set the 404 status explicitly
-    return render_template('500.html',error = e), 500
+    return render_template('error.html',error = e), 500
 
 @app.errorhandler(400)
 def bad_request(e):
     # note that we set the 404 status explicitly
-    return render_template('400.html',error = e), 400
+    return render_template('error.html',error = e), 400
+
+@app.route('/api/test', methods=['GET', 'POST'])
+def apiTest():
+    # using error template for api testing for now
+    return render_template('testAPi.html', title = "test API"), 200
 
 # API and web app
 @app.route('/api/post/<user_id>', methods=['GET', 'POST'])
@@ -30,16 +35,19 @@ def bad_request(e):
 def posts(user_id): #url being routed is saved to 'user_id' which we can then use to render the name of the html file
   if(request.method == 'POST'):
     post, profilePic = handlePost(user_id,request)
-    return json.dumps({
+    return jsonify({
       'new_post_id': post.id,
       'profilePic': profilePic
     }), 200, {'ContentType':'application/json'}
+  else:
+    userProfile = loadPosts(current_user)
+    return jsonify(userProfile.posts)
 
-  return jsonify(request)
-
+# API and web app
+@app.route('/api/post/<post_id>', methods=['DELETE'])
 @app.route('/post/<post_id>', methods=['DELETE'])
+@login_required
 def post(post_id): #url being routed is saved to 'user_id' which we can then use to render the name of the html file
-  print("post id: ",post_id)
   res = deletePost(request,post_id)
   return json.dumps({
     'res': res
@@ -59,7 +67,13 @@ def comment(post_id,comment_id): #url being routed is saved to 'page_to_load' wh
 @app.route('/announcements', methods=['GET', 'POST'])
 @login_required
 def announcements():
-  return loadAnnouncements()
+  return renderAnnouncements()
+
+@app.route('/api/announcements', methods=['GET'])
+@login_required
+def announcementsAPI():
+  return jsonify(loadAnnouncements())
+
 '''
 @app.route('/js/<path:path>')
 def send_js(path):

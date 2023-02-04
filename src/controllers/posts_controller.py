@@ -91,9 +91,13 @@ def loadAnnouncements():
   # todo switch to canvas announcements api
   # canvas announcements lack documentation, so using regular discussion posts
   # announcements = canvas.get_announcements(context_codes='course_1')
+  return profile.posts
 
+def renderAnnouncements():
+  announcements = loadAnnouncements()
   currentUserProfilePic = getProfilePic(current_user)
-  return render_template('announcements.html',  posts=profile.posts, current_user=current_user,currentUserProfilePic=currentUserProfilePic)
+  return render_template('announcements.html',  posts=announcements, current_user=current_user,currentUserProfilePic=currentUserProfilePic)
+
 
 
 def handlePost(user_id, req):

@@ -4,6 +4,7 @@
 {% block content %}
 
 <html>
+<link  rel="stylesheet" href="{{ url_for('static', filename='css/error.css') }}" ></link>
 <section>
 <div class="wrapper fadeInDown">
   <div id="formContent">
@@ -20,5 +21,4 @@
 </div>
 </section>
 </html>
-<script src="{{ url_for('static', filename='js/login.js') }}"></script>
 {% endblock %}

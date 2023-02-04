@@ -36,5 +36,14 @@ def resourceFolderAPI(folderId):
 @app.route('/api/resources', methods=['GET'])
 def resourcesAPI():
   resources = getResourceFolders()
-  return jsonify(resources)
+  resourceResponse = []
+  for resource in resources["folders"]:
+    resourceFolder = {
+      "id": resource.id,
+      "name": resource.name,
+      "updated_at": resource.updated_at
+    }
+    resourceResponse.append(resourceFolder)
+
+  return jsonify(resourceResponse)
 
