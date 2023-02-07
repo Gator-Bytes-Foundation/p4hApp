@@ -56,7 +56,7 @@ def post(post_id): #url being routed is saved to 'user_id' which we can then use
 @app.route('/comment/<post_id>', methods=['POST'])
 def comments(post_id): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
   print("post id for commenting: ",post_id)
-  return handleComment(request,post_id)
+  return postComment(request,post_id)
 
 @app.route('/post/<post_id>/comment/<comment_id>', methods=['DELETE'])
 def comment(post_id,comment_id): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
@@ -73,6 +73,12 @@ def announcements():
 @login_required
 def announcementsAPI():
   return jsonify(loadAnnouncements())
+
+@app.route('/api/comment/<post_id>', methods=['POST'])
+@login_required
+def commentAPI(post_id):
+  comment = postComment(request,post_id)
+  return jsonify(comment)
 
 '''
 @app.route('/js/<path:path>')

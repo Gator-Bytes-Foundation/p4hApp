@@ -29,11 +29,20 @@ def resources():
 
 # API Routes #
 @app.route('/api/resources/<folderId>', methods=['GET'])
+@login_required
 def resourceFolderAPI(folderId):
   files, folderId = filesPage(folderId)
-  return jsonify(files)
+  files_ = []
+  for file in files:
+    file = {
+        "display_name": file.display_name,
+        "updated_at": file.updated_at
+    }
+    files_.append(file)
+  return jsonify(files_)
 
 @app.route('/api/resources', methods=['GET'])
+@login_required
 def resourcesAPI():
   resources = getResourceFolders()
   resourceResponse = []

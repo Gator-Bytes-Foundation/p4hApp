@@ -156,7 +156,7 @@ def loadPostComents(post,user):
   allCommentsMap[str(post.id)] = postComments
   return allCommentsMap
 
-def handleComment(req,post_id):
+def postComment(req,post_id):
   comment_text = req.form['text']
   if(course == None):
     return {
@@ -171,7 +171,7 @@ def handleComment(req,post_id):
   profilePic = getProfilePic(current_user)
   res = ({
     'success':True,
-    'data': {'profilePic':profilePic}
+    'data': {'profilePic':profilePic, "post_id": post_id}
   })
   return res
 
