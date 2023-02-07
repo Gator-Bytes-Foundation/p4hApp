@@ -2,10 +2,9 @@ from flask import url_for, flash, redirect, request, render_template, session, a
 from flask_login import logout_user, current_user, login_required
 from src import app  # from /app import flask app
 from flask.json import jsonify
-#from is_safe_url import is_safe_url
 ''' Import Needed Modules '''
 from src.controllers.login_controller import LoginForm, loginAPI
-from src.controllers.signup_controller import SignupForm
+from src.controllers.signup_controller import SignupForm, signupAPI
 from src.canvas import account # inject canvas, course objects into file
 ''' Import Needed Libraries '''
 from src.canvas import ROCKET
@@ -58,4 +57,8 @@ def loginAPIRoute():
   username = request.form.get('username')
   pwd = request.form.get('password')
   return loginAPI(username,pwd)
+
+@app.route('/api/signup', methods=['POST'])
+def signupAPIRoute():
+  return signupAPI(request.form)
 

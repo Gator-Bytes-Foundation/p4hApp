@@ -2,11 +2,29 @@ from flask_wtf import FlaskForm
 from flask import url_for, flash, redirect, render_template, abort, Response
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
-from src.controllers.login_controller import LoginForm
+from src.controllers.login_controller import LoginForm, loginAPI
 from src.models.user_model import User
 from src.canvas import CANVAS, ROCKET # inject canvas, course objects into file
 from flask.json import jsonify
 from src.helpers.user_helpers import createUser, checkUserExists, createRocketAccount
+
+def signupAPI(form): 
+  userData = {
+      "email": form.get('email'),
+      "fname": form.get('fname'),
+      "lname": form.get('lname'),
+      "username": form.get('username'),
+      "password": form.get('password'),
+      "fullName": form.get('fname') + form.get('lname')
+  }
+  existingUser, canvasAccount, rocketAccount = checkUserExists(userData)
+  if(existingUser): # todo try fixing in case account was partially created
+    abort(Response("User already exists in database"))
+  errorMessage = createUser(userData,canvasAccount,rocketAccount)
+  if(errorMessage == None):
+    return loginAPI(userData["username"],userData["password"])
+  else: 
+    return abort(Response(errorMessage))
 
 class SignupForm(FlaskForm):
   fname = StringField('First Name', validators=[DataRequired()])
@@ -47,7 +65,14 @@ class SignupForm(FlaskForm):
         userData["canvasId"] = canvasAccount.id
         print("Canvas exists without db user")
 
-      return createUser(userData,form,canvasAccount,rocketAccount)
+      errorMessage = createUser(userData,canvasAccount,rocketAccount)
+      if(errorMessage == None): 
+          flash('Congratulations, registration was successful!')
+          form = LoginForm()
+          return  form.loginUser()
+      else: 
+        return render_template('signup.html', title='signUp', form=form, error=errorMessage)
+
     else:
       return render_template('signup.html', title='signUp', form=form)
 

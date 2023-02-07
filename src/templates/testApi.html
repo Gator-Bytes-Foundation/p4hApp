@@ -1,0 +1,41 @@
+  <!DOCTYPE html>
+
+{% extends "header.html" %}<!-- all html files should extend from the header, (the header contains all static references as well) -->
+{% block content %}
+
+<html>
+<link  rel="stylesheet" href="{{ url_for('static', filename='css/error.css') }}" ></link>
+<section>
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    <div class="fadeIn first text-center">
+      <center><div class="image-cropper"><img class="profile-pic img-fluid" src="{{ url_for('static', filename='images/p4h.png') }}" id="icon" alt="User Icon" /></div></center>
+    </div>
+    <h1 class="h3 text-center mt-3"> {{ title }} </h1>
+    <h2 class="h4 text-center mt-3">Signup API</h2>
+    <p id="signupAPI" class="error text-center mt-3"> </p>
+    <h2 class="h4 text-center mt-3">Login</h2>
+    <p id="loginAPI" class="error text-center mt-3"> </p>
+    <h2 class="h4 text-center mt-3">Get Resources</h2>
+    <p id="getResourcesAPI" class="error text-center mt-3"> </p>
+    <h2 class="h4 text-center mt-3">Get Folder Resource</h2>
+    <p id="getResourceAPI" class="error text-center mt-3"> </p>
+    <h2 class="h4 text-center mt-3">Announcements</h2>
+    <p id="getAnnouncementsAPI" class="error text-center mt-3"> </p>
+    <h2 class="h4 text-center mt-3">Create User Post</h2>
+    <p id="postUserPostAPI" class="error text-center mt-3"> </p>
+    <h2 class="h4 text-center mt-3">Create Comment Post</h2>
+    <p id="commentUserPostAPI" class="error text-center mt-3"> </p>
+    <h2 class="h4 text-center mt-3">Get User Post</h2>
+    <p id="getUserPostAPI" class="error text-center mt-3"> </p>
+    <h2 class="h4 text-center mt-3">Delete User Post</h2>
+    <p id="deleteUserPostAPI" class="error text-center mt-3"> </p>
+  </div>
+</div>
+</section>
+</html>
+<script src="{{ url_for('static', filename='js/testApi.js') }}"></script>
+{% endblock %}

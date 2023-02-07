@@ -4,26 +4,21 @@
 {% block content %}
 
 <html>
-<section class="404Error">
+<link  rel="stylesheet" href="{{ url_for('static', filename='css/error.css') }}" ></link>
+<section>
 <div class="wrapper fadeInDown">
   <div id="formContent">
     <!-- Tabs Titles -->
 
     <!-- Icon -->
-    <div class="fadeIn first">
+    <div class="fadeIn first text-center">
       <center><div class="image-cropper"><img class="profile-pic img-fluid" src="{{ url_for('static', filename='images/p4h.png') }}" id="icon" alt="User Icon" /></div></center>
     </div>
     {% if error %}
-      <p class=error><strong>Error:</strong> {{ error }}
+      <p class="error text-center mt-3"><strong>Error:</strong> {{ error }}
     {% endif %}
-
-    <!-- Remind Passowrd -->
-    <div id="formFooter">
-      <p class="underlineHover" href="#">Something went wrong: {{error}}, reload the page (400 Error)</p>
-    </div>
   </div>
 </div>
 </section>
 </html>
-<script src="{{ url_for('static', filename='js/login.js') }}"></script>
 {% endblock %}

@@ -25,8 +25,8 @@ def checkUserExists(userData):
   rocket_account_response = ROCKET.users_info(username=userData["username"]).json()
   if("success" in rocket_account_response and "user" in rocket_account_response):
     rocket_account = rocket_account_response["user"]
-    login = ROCKET.login(userData["username"],userData["password"])
-    if(login.get("status") != "success"):
+    login_res = ROCKET.login(userData["username"],userData["password"])
+    if(login_res.json().get("status") != "success"):
       rocket_account = None # if password doesn't match, dont associate account
 
   if(user):
@@ -78,7 +78,11 @@ def deleteRocketUser(rocket_user):
   print(delete)
 
 
-def createUser(userData,form,canvas_user=None,rocket_account=None):
+def createUser(userData,canvas_user=None,rocket_account=None):
+  '''
+  abstract: creates user in canvas, rocketchat and then in db.
+  returns: An error message to send back to client or None to indicate user was created successfully
+  '''
   # if user doesn't exist, then we will correlate canvas data with new user to resync
   # if the canvas data doesn't belong to user signing up, 
   if(canvas_user is None):
@@ -88,23 +92,23 @@ def createUser(userData,form,canvas_user=None,rocket_account=None):
     except BadRequest as e:
         error = json.loads(e.message)
         errorMessage = error['errors']['pseudonym']['unique_id'][0]['message'] #idk why canvas api hid the error within so many fields
-        return render_template('signup.html', title='signUp', form=form, error=errorMessage)
+        return errorMessage
 
   try:
     newUser = User(name=userData["fullName"], username=userData["username"],email=userData["email"],canvasId=userData["canvasId"]) #,profilePic__file_name="profile.png")
-    newUser.set_password(form.password.data)
+    newUser.set_password(userData["password"])
     # add user in rocket chat (To do: if rocket chat fails, canvas and DB needs to delete new user)
     if(rocket_account is None): 
       rocket_res = createRocketAccount(userData)
       if(rocket_res["success"] == False):
         deleteCanvasUser(canvas_user)
-        return render_template('signup.html', title='signUp', form=form, error=rocket_res["error"])
+        return rocket_res["error"]
       else:
         rocket_account = rocket_res["user"]
   except Exception as e:
-    error = str(e)
+    errorMessage = str(e)
     deleteCanvasUser(canvas_user)
-    return render_template('signup.html', title='signUp', form=form, error=error)
+    return errorMessage
 
   # save user in DB
   db.session.add(newUser)
@@ -113,9 +117,9 @@ def createUser(userData,form,canvas_user=None,rocket_account=None):
   except exc.IntegrityError as e:
     db.session.rollback()
     if('UNIQUE constraint' in e.args):
-      print("User already exists")
       deleteRocketUser(rocket_account)
       deleteCanvasUser(canvas_user)
-  flash('Congratulations, registration was successful!')
-  form = LoginForm()
-  return  form.loginUser()
+      return "User already exists"
+    else: 
+      return "Unknown database error"
+  return None # indicates no error

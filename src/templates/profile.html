@@ -27,7 +27,7 @@
                           <p>Profile Name: </p>
                       </div>
                       <div class="col-12 col-sm-8">
-                          <textarea class="text_box" name="name" id="profile-name" style="width: 100%;" placeholder="{{profile.user.name}}" size="5"></textarea>
+                          <textarea class="text_box w-100" name="name" id="profile-name" placeholder="{{profile.user.name}}" size="5"></textarea>
                       </div>
                   </div>
                   <div class="row">
@@ -36,7 +36,7 @@
                       </div>
                       <div class="col-4 col-sm-3">
                           <span onclick="document.getElementById('input-profile-pic').click();"  id="profile-pic" class="profile_button oi oi-cloud-upload" aria-hidden="true">Upload Picture</span>
-                          <input type="file" name="avatar" id="input-profile-pic" class="inputfile" style="display: none;" data-multiple-caption="{count} files selected" multiple/>
+                          <input type="file" accept=".jpg, .png" name="avatar" id="input-profile-pic" class="inputfile" style="display: none;"/>
                       </div>
                       <div class="center">
                           <img id="display-profile-pic" class="image-cropper img-fluid rounded-circle" alt="Profile Picture" src="data:;base64,{{ profile.profile_pic}}" />
@@ -79,7 +79,7 @@
                           <p>Pozisyon:</p>
                       </div>
                       <div class="col-8">
-                          <textarea class="text_box" name="position" id="loc" style="width: 100%;" placeholder="{{profile.user.position}}" size="5"></textarea>
+                          <textarea class="text_box w-100" name="position" placeholder="{{profile.user.position}}" size="5"></textarea>
                       </div>
                   </div>
                   <div class="row">
@@ -123,7 +123,7 @@
         </div>
         <div class="col-8 col-sm-8 ">
             <h4>{{profile.canvas_user.name}}</h4>
-            <small class=""> <b>Pozisyon:</b> Elementary Teacher </small> <br>
+            <small class=""> <b>Pozisyon:</b> {{profile.user.position}} </small> <br>
             <small> <b>De Mwen :</b> {{profile.user.bio}} </small> </div>
         </div>
     <div class="col-md-10 col-12">
@@ -154,7 +154,7 @@
         <div class="profile-tab ">
             <div id="timeline" class="profile-work tab-pane" role="tabpanel">
                 <!-- 1st tab -->
-                <h3>Pwofil Pos</h3>
+                <h3 class="mt-2">Pwofil Pos</h3>
                 {% if( (profile.canvas_user.id == current_user.canvasId) or (current_user.canvasId == 1)) %} <!-- 1 is admin -->
                 <div id="write_post"> <!-- ID being used for appending posts -->
                     <div style="text-align: center;" class="post_box">

@@ -179,7 +179,7 @@
         data: formData,
         success: function (data) {
           $("#loading").hide();
-          alert("Successfully updated profile")
+          alert("Successfully updated profile. Please refresh to see changes.")
         },
         cache: false,
         contentType: false,
