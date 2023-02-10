@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from flask import url_for, flash, redirect, render_template, abort, Response
+from flask import url_for, flash, redirect, render_template, abort, Response, session
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
 from flask_login import login_user, current_user
@@ -8,12 +8,11 @@ from src.canvas import CANVAS, ROCKET # inject canvas, course objects into file
 from src.controllers.posts_controller import loadPosts
 from src.controllers.profile_controller import loadProfile
 from flask.json import jsonify
+from rocketchat_API.rocketchat import RocketChat
+from config.local import Config
 
 def loadHome():
-  if(True): #this is the home page currently
     return render_template('./login/login.html', title='login',  form=form)
-  else:
-    return render_template('./profile.html', title='login',  form=form)
 
 def loginAPI(username,pwd,remember=False):
   user = User.query.filter_by(username=username).first() # query db
@@ -38,8 +37,11 @@ class LoginForm(FlaskForm):
     rocket_user = None
     if(ROCKET != None):
       try:
-        rocket_res = ROCKET.login(self.username.data,self.password.data)
-        rocket_user = rocket_res.json().get("data")
+        rocket = RocketChat(self.username.data, self.password.data, server_url=Config.ROCKET_URL)
+        rocket_res = rocket.login(self.username.data,self.password.data).json()
+        rocket_user = rocket_res.get("data")
+        session["userId"] = rocket_user["userId"]
+        session["authToken"] = rocket_user["authToken"]
       except Exception as e:
         flash(f"Messaging credentials not valid {e=}")
     else:

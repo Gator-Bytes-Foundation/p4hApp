@@ -1,10 +1,8 @@
 from canvasapi.exceptions import CanvasException,BadRequest
-from flask import flash, render_template
 from sqlalchemy import exc
 from src import db
 from src.models.user_model import User
 from src.canvas import CANVAS, course, ROCKET # inject canvas, course objects into file
-from src.controllers.login_controller import LoginForm
 import json
 
 def getCanvasUserByUsername(username):
@@ -97,16 +95,27 @@ def createUser(userData,canvas_user=None,rocket_account=None):
   try:
     newUser = User(name=userData["fullName"], username=userData["username"],email=userData["email"],canvasId=userData["canvasId"]) #,profilePic__file_name="profile.png")
     newUser.set_password(userData["password"])
-    # add user in rocket chat (To do: if rocket chat fails, canvas and DB needs to delete new user)
+    # add user in rocket chat
     if(rocket_account is None): 
       rocket_res = createRocketAccount(userData)
-      if(rocket_res["success"] == False):
-        deleteCanvasUser(canvas_user)
-        return rocket_res["error"]
-      else:
+      if("success" in rocket_res and rocket_res["success"] == True):
         rocket_account = rocket_res["user"]
+      else:
+        print("rocket res")
+        print(rocket_res)
+        deleteCanvasUser(canvas_user)
+        print("Rocket status failed")
+        if("error" in rocket_res): # rocketchat API response is not consistent (sometimes returns error/message)
+          return rocket_res["error"]
+        elif("message" in rocket_res):
+          return rocket_res["message"]
+        else: 
+          return "Unknown Rocket Chat Error"
+          
   except Exception as e:
     errorMessage = str(e)
+    print(errorMessage)
+    print("failed rocket creation")
     deleteCanvasUser(canvas_user)
     return errorMessage
 
@@ -117,6 +126,7 @@ def createUser(userData,canvas_user=None,rocket_account=None):
   except exc.IntegrityError as e:
     db.session.rollback()
     if('UNIQUE constraint' in e.args):
+      print("USER EXISTS")
       deleteRocketUser(rocket_account)
       deleteCanvasUser(canvas_user)
       return "User already exists"

@@ -8,7 +8,8 @@ from src.controllers.signup_controller import SignupForm, signupAPI
 from src.canvas import account # inject canvas, course objects into file
 ''' Import Needed Libraries '''
 from src.canvas import ROCKET
-from src.controllers.profile_controller import loadProfile
+from rocketchat_API.rocketchat import RocketChat
+from config.local import Config
 
 # LOGGING IN AND SIGNING REQUESTS #
 @app.route('/signup', methods=['GET', 'POST'])
@@ -20,10 +21,10 @@ def signUp():
 @login_required
 def logout():
     logout_user()
-    ROCKET.logout()
+    logged_rocket = RocketChat(user_id=session.get("userId"), auth_token=session.get("authToken"), server_url=Config.ROCKET_URL)
+    logged_rocket.logout()
     if session.get('was_once_logged_in'):
-        # prevent flashing automatically logged out message
-        del session['was_once_logged_in']
+        del session['was_once_logged_in'] # prevent flashing automatically logged out message
     flash('You have successfully logged yourself out.')
     return redirect('/login')
 
