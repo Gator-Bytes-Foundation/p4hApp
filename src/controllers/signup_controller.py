@@ -4,8 +4,6 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
 from src.controllers.login_controller import LoginForm, loginAPI
 from src.models.user_model import User
-from src.canvas import CANVAS, ROCKET # inject canvas, course objects into file
-from flask.json import jsonify
 from src.helpers.user_helpers import createUser, checkUserExists, createRocketAccount
 
 def signupAPI(form): 

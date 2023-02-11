@@ -16,10 +16,12 @@ from flask.json import jsonify
 # will either get profile or update it and then return the new profile
 #
 @app.route('/profile/<profile_id>', methods=['GET','POST'])
+@login_required
 def customProfileCalls(profile_id): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
   print("page loading: ", profile_id)
   return profile(profile_id) # calls profile function on username from route str
 
+# load user's own profile (web)
 @app.route('/') # default page that loads IF logged in
 @app.route('/profile', methods=['GET'])
 @login_required
@@ -31,8 +33,9 @@ def profile(*args):
   user_profile = loadPosts(user)
   return loadProfile(user_profile)  # Brings user to their profile view
 
-@login_required
+# Edit profile
 @app.route('/profile', methods=['POST'])
+@login_required
 def saveProfile():
   updateProfile(request)
   return profile() # this isnt efficient since it reloads the entire page from scratch
@@ -40,17 +43,18 @@ def saveProfile():
 
 ## PROGRESS SUB MODULE ##
 ## Load progress page - routing
-@login_required
 @app.route('/profile/<user_id>/progress')
+@login_required
 def progress(user_id):
   print(current_user.id)
   milestones, profile_user = loadProgress(user_id)
-
-  return render_template('progress.html', milestones = milestones, current_user = current_user, profileUser = profile_user) # get user from profile to do
+  return render_template('progress.html', milestones = milestones, current_user=current_user, profileUser=profile_user) # get user from profile to do
 
 
 ## Download milestone - READ
+@app.route('/api/profile/<user_id>/progress/<milestone_id>', methods=['GET'])
 @app.route('/profile/<user_id>/progress/<milestone_id>', methods=['GET'])
+@login_required
 def progressGet(user_id,milestone_id):
   file_to_download, filePath = getProgress(user_id,milestone_id)
   if(file_to_download):
@@ -59,11 +63,13 @@ def progressGet(user_id,milestone_id):
     return json.dumps({'success':False}), 400, {'ContentType':False}
 
 ## Upload milestone - UPDATE
+@app.route('/api/profile/<user_id>/progress/<milestone_id>', methods=['POST', 'PUT'])
 @app.route('/profile/<user_id>/progress/<milestone_id>', methods=['POST', 'PUT'])
+@login_required
 def progressPut(user_id,milestone_id):
   file_uploaded = updateProgress(request,user_id,milestone_id)
   print(file_uploaded)
-  return json.dumps({'success':True}), 200, {'ContentType':False}
+  return json.dumps({'success':True}), 204, {'ContentType':False}
 
 ## Delete milestone - DELETE - to do
 
@@ -76,3 +82,11 @@ def postsAPI(*args):
   user_profile = loadPosts(user)
   user_profile.profilePic = getProfilePic(user_profile.user)
   return jsonify(user_profile.posts)
+
+
+@app.route('/api/profile/<user_id>/progress')
+@login_required
+def milestoneAPI(user_id):
+  print(user_id)
+  milestones, profile_user = loadProgress(user_id)
+  return jsonify(milestones)

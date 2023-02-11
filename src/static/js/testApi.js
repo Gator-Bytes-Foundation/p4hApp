@@ -37,13 +37,19 @@ function tstGetFolderResource(resourceData) {
   console.log(resourceData)
   tstAPI("GET","resources/"+ folderId,"getResourceAPI");
 }
+function tstGetMilestone(user) {
+  console.log(user)
+  tstAPI("POST","tstGetMilestones","profile/" + user.canvasId + "/progress");
+  //tstAPI("POST","profile/" + user.canvasId +"/progress/1","loginAPI", {username:'lcundiff',password: 'Password2'});
+}
 /**
  * Uncomment to test specific API in development only
  * This is only temporary until backend testing is setup
  */
 
 //tstAPI("POST","signup","signupAPI", {fname: "Test", lname: "User", username:'testUserAPI', email: "tst@test.com", password: 'Password2'});
-//tstAPI("POST","login","loginAPI", {username:'lcundiff',password: 'Password2'});
+tstAPI("POST","login","loginAPI", {username:'lcundiff',password: 'Password2'},tstGetMilestone);
+
 //tstAPI("GET","resources","getResourcesAPI",null,tstGetFolderResource);
 //tstAPI("GET","announcements", "getAnnouncementsAPI");
 //tstAPI("POST","post/"+ testUserID,"postUserPostAPI", {text:'Education Ends Poverty'},tstCommentPost);

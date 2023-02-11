@@ -35,17 +35,14 @@ class LoginForm(FlaskForm):
 
   def loginRocketChat(self,user):
     rocket_user = None
-    if(ROCKET != None):
-      try:
-        rocket = RocketChat(self.username.data, self.password.data, server_url=Config.ROCKET_URL)
-        rocket_res = rocket.login(self.username.data,self.password.data).json()
-        rocket_user = rocket_res.get("data")
-        session["userId"] = rocket_user["userId"]
-        session["authToken"] = rocket_user["authToken"]
-      except Exception as e:
-        flash(f"Messaging credentials not valid {e=}")
-    else:
-      flash("Messaging not configured properly, please contact administrator")
+    try:
+      rocket = RocketChat(self.username.data, self.password.data, server_url=Config.ROCKET_URL)
+      rocket_res = rocket.login(self.username.data,self.password.data).json()
+      rocket_user = rocket_res.get("data")
+      session["userId"] = rocket_user["userId"]
+      session["authToken"] = rocket_user["authToken"]
+    except Exception as e:
+      flash(f"Messaging credentials not valid {e=}")
     return rocket_user
 
   def loginUser(self):

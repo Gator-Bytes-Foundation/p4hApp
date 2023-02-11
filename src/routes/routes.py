@@ -29,7 +29,7 @@ def apiTest():
     # using error template for api testing for now
     return render_template('testAPi.html', title = "test API"), 200
 
-# API and web app
+# Create post (both API and web)
 @app.route('/api/post/<user_id>', methods=['GET', 'POST'])
 @app.route('/post/<user_id>', methods=['GET', 'POST'])
 def posts(user_id): #url being routed is saved to 'user_id' which we can then use to render the name of the html file
@@ -53,22 +53,25 @@ def post(post_id): #url being routed is saved to 'user_id' which we can then use
     'res': res
   }), 200, {'ContentType':'application/json'}
 
+# Create comment
 @app.route('/comment/<post_id>', methods=['POST'])
 def comments(post_id): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
   print("post id for commenting: ",post_id)
   return postComment(request,post_id)
 
+# Delete comment
 @app.route('/post/<post_id>/comment/<comment_id>', methods=['DELETE'])
 def comment(post_id,comment_id): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
   print("post id for commenting: ",post_id)
   return deleteComment(request,post_id,comment_id)
 
-# DISCUSSION REQUESTS #
+# Get announcements
 @app.route('/announcements', methods=['GET', 'POST'])
 @login_required
 def announcements():
   return renderAnnouncements()
 
+# Get announcements API
 @app.route('/api/announcements', methods=['GET'])
 @login_required
 def announcementsAPI():

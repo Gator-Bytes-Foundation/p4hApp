@@ -29,6 +29,7 @@ def logout():
     return redirect('/login')
 
 @app.route('/rocket/token', methods=['GET'])
+@app.route('/api/rocket/token', methods=['GET'])
 def loginRocket():
   users_create_token = ""
   if(ROCKET != None): 
