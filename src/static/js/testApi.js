@@ -17,7 +17,7 @@ function tstAPI(type,url,id,data=null,cb=null) {
       $("#" + id).append(JSON.stringify(response));
     },
     error: function(xhr, status, error) {
-      $("#" + id).append("failed");
+      $("#" + id).append("Failed: ");
       $("#" + id).append(error);
     }
   });
@@ -38,9 +38,7 @@ function tstGetFolderResource(resourceData) {
   tstAPI("GET","resources/"+ folderId,"getResourceAPI");
 }
 function tstGetMilestone(user) {
-  console.log(user)
-  tstAPI("POST","tstGetMilestones","profile/" + user.canvasId + "/progress");
-  //tstAPI("POST","profile/" + user.canvasId +"/progress/1","loginAPI", {username:'lcundiff',password: 'Password2'});
+  tstAPI("GET","profile/" + user.id + "/progress","tstGetMilestones");
 }
 /**
  * Uncomment to test specific API in development only
@@ -53,4 +51,4 @@ tstAPI("POST","login","loginAPI", {username:'lcundiff',password: 'Password2'},ts
 //tstAPI("GET","resources","getResourcesAPI",null,tstGetFolderResource);
 //tstAPI("GET","announcements", "getAnnouncementsAPI");
 //tstAPI("POST","post/"+ testUserID,"postUserPostAPI", {text:'Education Ends Poverty'},tstCommentPost);
-//tstAPI("GET","post/"+ testUserID,"getUserPostAPI");
+tstAPI("GET","post/"+ testUserID,"getUserPostAPI");

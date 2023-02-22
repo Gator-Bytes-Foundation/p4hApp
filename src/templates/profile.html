@@ -107,7 +107,7 @@
         </div>
         <div id="profileSearchDropdown" class="list_of_items">
             {% if(users != None) %} {% for i in range(users | length) %}
-            <form method="GET" action="/profile/{{users[i].canvasId}}"> <!-- pass the username into the route url -->
+            <form method="GET" action="/profile/{{users[i].id}}"> <!-- pass the user id into the route url -->
                 <a><button type="submit" class="erase"></button>{{users[i].name}}</a>
             </form>
             {% endfor %} {% endif %}
@@ -144,7 +144,7 @@
         {% endif %}
         {% if( (profile.canvas_user.id == current_user.canvasId or current_user.canvasId == 1) and (profile.user.canvasId != 1) ) %} <!-- admin has no progress, but can see everyone elses  -->
         <div class="col-6 col-sm-5">
-            <form action="/profile/{{profile.canvas_user.id}}/progress">
+            <form action="/profile/{{profile.user.id}}/progress">
                 <button type="submit" class="profile_button button-bg">Pwogre Mwen</button>
             </form>
         </div>

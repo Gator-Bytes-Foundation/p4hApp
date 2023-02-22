@@ -17,9 +17,9 @@ def loadProfile(profile,rocket_user = {}):
 
   return render_template('profile.html', profile = profile,  current_user = current_user, users=allUsers, rocket_user = rocket_user, currentUserProfilePic = currentUserProfilePic)
 
-def loadProgress(user_id):
-  profileUser = User.query.filter_by(canvasId=user_id).first()
-  canvas_user = CANVAS.get_user(user_id) #temp until canvas users are synced with user db
+def loadProgress(userId):
+  profileUser = User.query.filter_by(id=userId).first()
+  canvas_user = CANVAS.get_user(profileUser.canvasId) #temp until canvas users are synced with user db
   if(profileUser.id != current_user.id and current_user.canvasId != 1):
     abort(Response("You do not have permission to view this teacher's progress"))
   p4hCourseId = 1
@@ -45,10 +45,11 @@ def loadProgress(user_id):
   return milestones, profileUser
 
 
-def getProgress(user_id,assignment_id):
+def getProgress(userId,assignment_id):
+  user = User.query.filter_by(id=userId).first()
   assignment = course.get_assignment(assignment_id)
   try:
-    submission = assignment.get_submission(user_id)
+    submission = assignment.get_submission(user.canvasId)
   except:
     return False
 
@@ -70,7 +71,8 @@ def getProgress(user_id,assignment_id):
     return False
 
 # admins should be only ones uploading progress
-def updateProgress(request,user_id,assignment_id):
+def updateProgress(request,userId,assignment_id):
+  user = User.query.filter_by(id=userId).first()
   int_assignment_id = int(assignment_id)
   try:
     assignment = course.get_assignment(int_assignment_id)
@@ -92,7 +94,7 @@ def updateProgress(request,user_id,assignment_id):
   assignment.submit(
       submission={"submission_type": "online_upload"},
       file=request.files["progressFile.pdf"],
-      as_user_id=str(user_id) # sending user id works
+      as_user_id=str(user.canvasId) # sending user id works
   )
   return True
 

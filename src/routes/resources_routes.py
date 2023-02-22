@@ -22,8 +22,8 @@ def downloadResource(fileId): #url being routed is saved to 'fileId' which we ca
   return send_file('tmp/downloadfile', as_attachment=True,attachment_filename=file.filename)
 
 # RESOURCES REQUESTS #
-@login_required
 @app.route('/resources', methods=['GET'])
+@login_required
 def resources():
   return renderResourceFolders()
 

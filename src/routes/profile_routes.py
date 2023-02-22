@@ -10,22 +10,24 @@ import json
 from pyper import *
 from flask.json import jsonify
 
-# PROFILE MODULE #
-#
-# If a request from client has variable data in it, we handle it here and get the data out of the url before routing the user
-# will either get profile or update it and then return the new profile
-#
-@app.route('/profile/<profile_id>', methods=['GET','POST'])
+### PROFILE MODULE ###
+@app.route('/profile/<userId>', methods=['GET','POST'])
 @login_required
-def customProfileCalls(profile_id): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
-  print("page loading: ", profile_id)
-  return profile(profile_id) # calls profile function on username from route str
+def customProfileCalls(userId):
+  '''
+    If a request from client has variable data in it, we handle it here and get the data out of the url before routing the user
+    will either get profile or update it and then return the new profile
+  '''
+  print("page loading: ", userId)
+  return profile(userId) # calls profile function on username from route str
 
-# load user's own profile (web)
 @app.route('/') # default page that loads IF logged in
 @app.route('/profile', methods=['GET'])
 @login_required
 def profile(*args):
+  '''
+    Load user profile
+  '''
   if(len(args) > 0):
     user = User.query.filter_by(canvasId=args[0]).first() # args[0] holds user id to look up if it exists
   else: user = current_user
@@ -33,60 +35,76 @@ def profile(*args):
   user_profile = loadPosts(user)
   return loadProfile(user_profile)  # Brings user to their profile view
 
-# Edit profile
 @app.route('/profile', methods=['POST'])
 @login_required
 def saveProfile():
+  '''
+    Edits user profile
+  '''
   updateProfile(request)
   return profile() # this isnt efficient since it reloads the entire page from scratch
 
 
 ## PROGRESS SUB MODULE ##
-## Load progress page - routing
-@app.route('/profile/<user_id>/progress')
+@app.route('/profile/<userId>/progress')
 @login_required
-def progress(user_id):
+def progress(userId):
+  '''
+    Load progress page - routing
+  '''
   print(current_user.id)
-  milestones, profile_user = loadProgress(user_id)
+  milestones, profile_user = loadProgress(userId)
   return render_template('progress.html', milestones = milestones, current_user=current_user, profileUser=profile_user) # get user from profile to do
 
 
-## Download milestone - READ
-@app.route('/api/profile/<user_id>/progress/<milestone_id>', methods=['GET'])
-@app.route('/profile/<user_id>/progress/<milestone_id>', methods=['GET'])
+# GET milestone
+@app.route('/api/profile/<userId>/progress/<milestone_id>', methods=['GET'])
+@app.route('/profile/<userId>/progress/<milestone_id>', methods=['GET'])
 @login_required
-def progressGet(user_id,milestone_id):
-  file_to_download, filePath = getProgress(user_id,milestone_id)
+def progressGet(userId,milestone_id):
+  '''
+    Downloads progress milestone file from associated canvas assignment
+  '''
+  file_to_download, filePath = getProgress(userId,milestone_id)
   if(file_to_download):
     return send_file(filePath+"downloadMilestone.pdf", as_attachment=True, attachment_filename=file_to_download["display_name"])
   else:
     return json.dumps({'success':False}), 400, {'ContentType':False}
 
-## Upload milestone - UPDATE
-@app.route('/api/profile/<user_id>/progress/<milestone_id>', methods=['POST', 'PUT'])
-@app.route('/profile/<user_id>/progress/<milestone_id>', methods=['POST', 'PUT'])
+# POST milestone
+@app.route('/api/profile/<userId>/progress/<milestone_id>', methods=['POST'])
+@app.route('/profile/<userId>/progress/<milestone_id>', methods=['POST'])
 @login_required
-def progressPut(user_id,milestone_id):
-  file_uploaded = updateProgress(request,user_id,milestone_id)
+def progressPut(userId,milestone_id):
+  '''
+    Upload milestone file to canvas assignment where teacher progress is tracked
+  '''
+  file_uploaded = updateProgress(request,userId,milestone_id)
   print(file_uploaded)
   return json.dumps({'success':True}), 204, {'ContentType':False}
 
-## Delete milestone - DELETE - to do
+# DELETE milestone - to do
 
 @app.route('/api/posts', methods=['GET'])
+@app.route('/api/posts/<userId>', methods=['GET'])
 @login_required
 def postsAPI(*args):
+  '''
+    Gets all posts for a user
+  '''
   if(len(args) > 0):
-    user = User.query.filter_by(canvasId=args[0]).first()
+    user = User.query.filter_by(id=args[0]).first()
   else: user = current_user
   user_profile = loadPosts(user)
   user_profile.profilePic = getProfilePic(user_profile.user)
   return jsonify(user_profile.posts)
 
 
-@app.route('/api/profile/<user_id>/progress')
-@login_required
-def milestoneAPI(user_id):
-  print(user_id)
-  milestones, profile_user = loadProgress(user_id)
+@app.route('/api/profile/<userId>/progress')
+def milestoneAPI(userId):
+  '''
+    Gets all progress milestones for a user
+  '''
+  print(userId)
+  milestones, profile_user = loadProgress(userId)
   return jsonify(milestones)
