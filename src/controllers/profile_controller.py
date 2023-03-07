@@ -21,7 +21,7 @@ def loadProgress(userId):
   profileUser = User.query.filter_by(id=userId).first()
   canvas_user = CANVAS.get_user(profileUser.canvasId) #temp until canvas users are synced with user db
   if(profileUser.id != current_user.id and current_user.canvasId != 1):
-    abort(Response("You do not have permission to view this teacher's progress"))
+    return abort(Response("You do not have permission to view this teacher's progress"))
   p4hCourseId = 1
   # NOTE: assignent has has_submitted_submissions as a field to check if user has submitted
   user_assignments = list(canvas_user.get_assignments(p4hCourseId))
@@ -45,20 +45,23 @@ def loadProgress(userId):
   return milestones, profileUser
 
 
-def getProgress(userId,assignment_id):
+def getProgress(userId,milestone_id):
   user = User.query.filter_by(id=userId).first()
-  assignment = course.get_assignment(assignment_id)
+  print('tst')
+  print(user.canvasId)
+
+  assignment = course.get_assignment(milestone_id)
   try:
     submission = assignment.get_submission(user.canvasId)
   except:
-    return False
+    return abort(Response("Cannot get progress milestone"))
 
+  filePath = f'tmp/{userId}/{milestone_id}/'
   if(submission.attachments):
     #for i in range(len(submission.attachments)): # todo support multiple attachments
       #print("submission attachment ", submission.attachments[0])
       file_url = submission.attachments[0]['url']
       r = requests.get(file_url,verify=False)
-      filePath = f'tmp/{user_id}/{assignment_id}/'
       srcFilePath = "src/"+filePath
       if not os.path.exists(srcFilePath):
         os.makedirs(srcFilePath)
@@ -68,7 +71,7 @@ def getProgress(userId,assignment_id):
       #file_to_download.download(file_to_download.filename) # download each file associated with assignment submission
       return submission.attachments[0], filePath
   else:
-    return False
+    return submission, filePath
 
 # admins should be only ones uploading progress
 def updateProgress(request,userId,assignment_id):
@@ -100,7 +103,8 @@ def updateProgress(request,userId,assignment_id):
 
 def updateProfile(req):
   canvas_user = CANVAS.get_user(current_user.canvasId)
-
+  if(req == None): 
+    return abort(Response("Request not found"))
   name_ = req.form['name']
   school_ = req.form['school']
   email_ = req.form['email']
@@ -108,7 +112,10 @@ def updateProfile(req):
   position = req.form['position']
   location_ = req.form['location']
   bio_ = req.form['bio']
-  avatarUpdate = req.files['avatar'] # check to see if there was profile file attached
+  avatarUpdate = None
+  if(req.files):
+    avatarUpdate = req.files['avatar'] # check to see if there was profile file attached
+  print(req.form)
 
   if(avatarUpdate):
     prevAvatar = UserFiles.query.filter_by(userId=current_user.id,postId=current_user.canvasId).first() # check if avatar already exists
@@ -143,7 +150,7 @@ def updateProfile(req):
     current_user.bio = bio_
     canvas_user.edit(user = {"bio":bio_})
 
-  db.session.commit() #
+  db.session.commit() # saves current user
   return current_user
 
 
