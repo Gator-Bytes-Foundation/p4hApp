@@ -33,7 +33,7 @@ def getProfilePic(user):
 # loads all canvas discussion posts that the profile user has posted and their associated comments
 # user lookup could be a new profile being searched OR loading the user's own profile
 #
-def loadPosts(user):
+def loadPosts(profileUser):
   profile = Profile()
   recentPosts = []
 
@@ -47,17 +47,20 @@ def loadPosts(user):
 
   # loop through all profile posts
   for i in range(end_index):
-    usernameId = user.username + ' ' + str(user.canvasId) #used to identify user in canvas
-    if(posts[i].title == usernameId and posts[i].message is not None): #only shows posts that the user has posted
+    usernameId = profileUser.username + ' ' + str(profileUser.canvasId) #used to identify user in canvas
+    postProfileUsername = posts[i].title.split()[0]
+    postAuthUsername = posts[i].title.split()[1]
+    postAuthor = User.query.filter_by(username=postAuthUsername).first() # announcements are all posts from the admins (until announcements canvas api is being used)
+    if(postProfileUsername == profileUser.username and posts[i].message is not None and postAuthor is not None): #only shows posts belonging to user's profile
       newPost = {
         'id': posts[i].id,
         'message': posts[i].message.replace('</p>', '').replace('<p>', ''),
         'posted_at': convertDate(posts[i].posted_at),
-        'name': user.name,
-        'user': user.serialize(),
+        'name': postAuthor.name,
+        'user': profileUser.serialize(),
         'title': posts[i].title,
-        'comments': loadPostComents(posts[i],user),
-        'files': UserFiles.query.filter_by(userId=user.id,postId=posts[i].id).all()
+        'comments': loadPostComents(posts[i],profileUser),
+        'files': UserFiles.query.filter_by(userId=profileUser.id,postId=posts[i].id).all()
       }
       if(len(newPost['files']) > 0):
         image_data = base64.b64encode(newPost["files"][0].data).decode("utf-8")
@@ -68,9 +71,9 @@ def loadPosts(user):
 
   # now adding posts to profile
   profile.posts = recentPosts
-  profile.user = user
+  profile.user = profileUser
   try:
-    profile.canvas_user = CANVAS.get_user(user.canvasId)
+    profile.canvas_user = CANVAS.get_user(profileUser.canvasId)
   except CanvasException as e:
     print(e)
     abort(Response('User does not exist on canvas'))
@@ -100,7 +103,7 @@ def renderAnnouncements():
 
 
 
-def handlePost(user_id, req):
+def createPost(user_id, req):
   '''
     abstrtact: Takes in user info on who is posting and where they are posting and adds the post on Canvas
   '''
@@ -115,10 +118,10 @@ def handlePost(user_id, req):
     postFile = None
 
   # make post in canvas
-  title = user.username + ' ' + str(user.canvasId) # title is user's profile name
+  title = user.username + ' ' + current_user.username # title is profile user's username and poster username
   post = course.create_discussion_topic(
       title = title,
-      user_name = current_user.name, # person posting it
+      user_name = current_user.username, # person posting it
       message = new_post,
       user_can_see_posts = True,
       published = True,
@@ -134,29 +137,51 @@ def handlePost(user_id, req):
   profilePic = getProfilePic(current_user)
   return post, profilePic
 
+def getCommentData(comment):
+  '''
+    Gets and organizes data from canvas topic entry
+    NOTE: Due to canvas API being so limited and that we are not using canvas user specific calls
+    username has been temporarily stored in message field. 
+    It will eventually be deprecated for either our own DB posts/comments or decide to handle canvas logins
+    as opposed to a functionality wrapper and DB that we currently use it for. 
+  '''
+  commentSections = comment.message.split(":")
+  username = commentSections[0]
+  commentMessage = ""
+  for i in range(1,len(commentSections)):
+    commentMessage += commentSections[i]
+  return username, commentMessage
 
 def loadPostComents(post,user):
   if(not hasattr(post,'get_topic_entries')): return
   comments = list(post.get_topic_entries())
+
   allCommentsMap = {}
-  postComments = []
+  createComments = []
 
   for comment in comments:
-    if(comment.message is not None):
+    postAuthUsername = comment.message.split(":")[0]
+    postAuthor = User.query.filter_by(username=postAuthUsername).first() # announcements are all posts from the admins (until announcements canvas api is being used)
+    if(comment.message is not None and postAuthor is not None):
+      print("username")
+      print(comment)
+      commentUsername, commentMessage = getCommentData(comment)
+      commentAuthor = User.query.filter_by(username=commentUsername).first() # announcements are all posts from the admins (until announcements canvas api is being used)
+
       newComment = {
         'id': comment.id,
-        'message': comment.message.replace('</p>', '').replace('<p>', ''), # get rid of the html
-        #'posted_at': convertDate(comment.posted_at),
-        'name': user.name,
-        'user': user.serialize()
+        'message': commentMessage,
+        'posted_at': convertDate(comment.created_at),
+        'name': commentAuthor.name,
+        'author': commentAuthor.serialize()
       }
-    postComments.append(newComment)
+      createComments.append(newComment)
 
   # store all comments of this post in object/map to map to one another on client side
-  allCommentsMap[str(post.id)] = postComments
+  allCommentsMap[str(post.id)] = createComments
   return allCommentsMap
 
-def postComment(req,post_id):
+def createComment(req,post_id):
   comment_text = req.form['text']
   if(course == None):
     return {
@@ -165,8 +190,7 @@ def postComment(req,post_id):
     }
   topic = course.get_discussion_topic(post_id) # get post in canvas
   comment = topic.post_entry(
-      message = comment_text,
-      user_name = current_user.name
+      message = current_user.username + ": " + comment_text,
   )
   profilePic = getProfilePic(current_user)
   res = ({

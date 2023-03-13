@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from flask import url_for, flash, redirect, render_template, abort, Response, session
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
-from flask_login import login_user, current_user
+from flask_login import login_user, current_user, logout_user
 from src.models.user_model import User
 from src.canvas import CANVAS, ROCKET # inject canvas, course objects into file
 from src.controllers.posts_controller import loadPosts
@@ -13,6 +13,17 @@ from config.local import Config
 
 def loadHome():
     return render_template('./login/login.html', title='login',  form=form)
+
+def logout(): 
+    logout_user()
+    logged_rocket = RocketChat(user_id=session.get("userId"), auth_token=session.get("authToken"), server_url=Config.ROCKET_URL)
+    logged_rocket.logout()
+    if session.get('was_once_logged_in'):
+        del session['was_once_logged_in'] # prevent flashing automatically logged out message
+    res = ({
+      "message": "Logged out successful"
+    })
+    return res
 
 def loginAPI(username,pwd,remember=False):
   user = User.query.filter_by(username=username).first() # query db

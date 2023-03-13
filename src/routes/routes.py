@@ -49,7 +49,7 @@ def posts(user_id): #url being routed is saved to 'user_id' which we can then us
     Creates a user discussion post in canvas (displayed on user's profile)
   '''
   if(request.method == 'POST'):
-    post, profilePic = handlePost(user_id,request)
+    post, profilePic = createPost(user_id,request)
     return jsonify({
       'new_post_id': post.id,
       'profilePic': profilePic
@@ -78,7 +78,7 @@ def comments(post_id): #url being routed is saved to 'page_to_load' which we can
     Comments on a user's post in canvas (displayed on user's profile)
   '''
   print("post id for commenting: ",post_id)
-  return postComment(request,post_id)
+  return createComment(request,post_id)
 
 # Delete comment
 @app.route('/post/<post_id>/comment/<comment_id>', methods=['DELETE'])
@@ -114,7 +114,7 @@ def commentAPI(post_id):
     API to create a comment
     Returns JSON instead of jinja template
   '''
-  comment = postComment(request,post_id)
+  comment = createComment(request,post_id)
   return jsonify(comment)
 
 '''
