@@ -29,7 +29,7 @@ def profile(*args):
     Load user profile
   '''
   if(len(args) > 0):
-    user = User.query.filter_by(canvasId=args[0]).first() # args[0] holds user id to look up if it exists
+    user = User.query.filter_by(id=args[0]).first() # args[0] holds user id to look up if it exists
   else: user = current_user
   
   user_profile = loadPosts(user)
@@ -84,6 +84,17 @@ def progressPut(userId,milestone_id):
   return json.dumps({'success':True}), 204, {'ContentType':False}
 
 # DELETE milestone - to do
+
+@app.route('/api/profile', methods=['POST'])
+@login_required
+def saveProfileAPI():
+  '''
+    Edits user profile and sends back JSON (API)
+  '''
+  print("HERE")
+  updatedUser = updateProfile(request)
+  print("HERE 2")
+  return jsonify(updatedUser.serialize())
 
 @app.route('/api/posts', methods=['GET'])
 @app.route('/api/posts/<userId>', methods=['GET'])

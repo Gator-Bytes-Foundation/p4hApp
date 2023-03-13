@@ -1,36 +1,37 @@
-from flask import url_for, flash, redirect, request, render_template, session, abort
-from flask_login import logout_user, current_user, login_required
+from flask import url_for, flash, redirect, request, render_template
+from flask_login import current_user, login_required
 from src import app  # from /app import flask app
 from flask.json import jsonify
 ''' Import Needed Modules '''
-from src.controllers.login_controller import LoginForm, loginAPI
+from src.controllers.login_controller import LoginForm, loginAPI, logout
 from src.controllers.signup_controller import SignupForm, signupAPI
 from src.canvas import account # inject canvas, course objects into file
 ''' Import Needed Libraries '''
 from src.canvas import ROCKET
 from rocketchat_API.rocketchat import RocketChat
-from config.local import Config
 
 # LOGGING IN AND SIGNING REQUESTS #
 @app.route('/signup', methods=['GET', 'POST'])
-def signUp():
+def signUpRoute():
   form = SignupForm()
   return form.signUp()
 
 @app.route('/logout')
 @login_required
-def logout():
-    logout_user()
-    logged_rocket = RocketChat(user_id=session.get("userId"), auth_token=session.get("authToken"), server_url=Config.ROCKET_URL)
-    logged_rocket.logout()
-    if session.get('was_once_logged_in'):
-        del session['was_once_logged_in'] # prevent flashing automatically logged out message
-    flash('You have successfully logged yourself out.')
-    return redirect('/login')
+def logoutRoute():
+  res = logout()
+  flash('You have successfully logged yourself out.')
+  return redirect('/login')
+
+@app.route('/api/logout')
+@login_required
+def logoutAPIRoute():
+    res = logout()
+    return jsonify(res)
 
 @app.route('/rocket/token', methods=['GET'])
 @app.route('/api/rocket/token', methods=['GET'])
-def loginRocket():
+def loginRocketRoute():
   users_create_token = ""
   if(ROCKET != None): 
     users_create_token = ROCKET.users_create_token(

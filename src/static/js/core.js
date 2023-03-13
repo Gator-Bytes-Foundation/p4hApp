@@ -104,7 +104,6 @@ $("#post").on("click", function(e) {
           appendPost(new_post_id,postText,profilePic,post.post_file);
 
           if (typeof file !== "undefined") {
-              console.log("file");
               if (
                   file.name.includes(".jpg") ||
                   file.name.includes(".png") ||
@@ -113,7 +112,6 @@ $("#post").on("click", function(e) {
               ) {
                   var reader = new FileReader();
                   reader.onload = function(e) {
-                      console.log(e.target);
                       $("#display-upload-" + new_post_id).attr("src", e.target.result);
                   };
                   reader.readAsDataURL(file);
@@ -123,13 +121,13 @@ $("#post").on("click", function(e) {
         },
         error: function(xhr, status, error) {
             //const err = "error " + xhr.responseText;
-            console.log(error);
+            console.error(error);
         }
     });
 });
 
 function errorResponse(err) {
-    console.log("error " + err);
+    console.error("error " + err);
 }
 /**
  * @abstract handle textbox as user types and changes mouse cursor when highlighting lower right of box
@@ -159,9 +157,6 @@ $("textarea").mousemove(function (e) {
       );
     }
     //  the following will help the text expand as typing takes place
-    console.log($(this).outerHeight())
-    console.log(this.scrollHeight)
-    console.log(parseFloat($(this).css("borderTopWidth")))
     // totalBorderWidth = parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth"))
     while ($(this).outerHeight() <= this.scrollHeight) {
       $(this).height($(this).height() + 1);
