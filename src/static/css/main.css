@@ -56,7 +56,7 @@ input[type='checkbox'] {
   width: 100%;
   height: 100%;
   overflow: auto;
-  position: absolute;
+  position: fixed;
   background-color: #5552;
   pointer-events: none;
   z-index: 3;
