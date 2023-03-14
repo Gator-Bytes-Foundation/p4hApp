@@ -21,7 +21,7 @@
         </div>
     </div>
     <div class="post">
-      <div class="">
+      <div class="pl-2">
           {{post.message}}
       </div>
       {% if( (post.files | length) > 0 ) %}
@@ -40,7 +40,7 @@
       {%endif%} -->
       <div id="comments-{{post.id}}">
           <!-- changes from on to off based off "view comments button -->
-          <label class="comment_label" for="from"><b>Comments</b></label>
+          <label class="comment-label pl-2" for="from"><b>Comments</b></label>
 
           {% for j in range(post.comments[(post.id | string)] | length) | reverse %}
           <div class="post_comment profile-pic-post" id="comment-{{post.comments[(post.id | string)][j].id}}">
