@@ -9,14 +9,14 @@ from src.controllers.posts_controller import loadPosts
 from src.controllers.profile_controller import loadProfile
 from flask.json import jsonify
 from rocketchat_API.rocketchat import RocketChat
-from config.local import Config
+from config.config import env_config
 
 def loadHome():
     return render_template('./login/login.html', title='login',  form=form)
 
 def logout(): 
     logout_user()
-    logged_rocket = RocketChat(user_id=session.get("userId"), auth_token=session.get("authToken"), server_url=Config.ROCKET_URL)
+    logged_rocket = RocketChat(user_id=session.get("userId"), auth_token=session.get("authToken"), server_url=env_config.ROCKET_URL)
     logged_rocket.logout()
     if session.get('was_once_logged_in'):
         del session['was_once_logged_in'] # prevent flashing automatically logged out message

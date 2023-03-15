@@ -248,7 +248,7 @@ input[type='checkbox'] {
   text-decoration: none !important;
 }
 
-.blue-button-form input{
+.blue-button-form input {
   cursor:pointer;
   width:100%;
   margin-top: 10px;
@@ -264,6 +264,13 @@ input[type='checkbox'] {
   background-color: rgba(22,50,170,0.07); /* same color as #1632AA with low opacity */
   color:#1B3FD7;
   text-decoration: none !important;
+}
+.circle-cropper {
+  width: 115px;
+  height: 115px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
 }
 
 

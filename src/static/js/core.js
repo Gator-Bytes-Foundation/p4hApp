@@ -88,7 +88,7 @@ $("#post").on("click", function(e) {
     e.preventDefault();
     const profileId = e.currentTarget.name;
     const textboxId = e.currentTarget.id;
-    const formData = getPostData(textboxId, userId);
+    const formData = getPostData(textboxId, profileId);
     $("#loading").show();
     $.ajax({
         type: "POST",

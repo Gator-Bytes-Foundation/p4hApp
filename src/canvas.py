@@ -3,12 +3,12 @@ from canvasapi import Canvas
 from canvasapi.exceptions import CanvasException
 from rocketchat_API.rocketchat import RocketChat
 from requests import sessions
-from config.local import Config
+from config.config import env_config
 from src.helpers.load_secrets import secrets
 
 # canvas config
-API_URL = Config.CANVAS_URL
-ROCKET_URL = Config.ROCKET_URL
+API_URL = env_config.CANVAS_URL
+ROCKET_URL = env_config.ROCKET_URL
 API_KEY = secrets.get("canvas_api_key")
 
 CANVAS = None

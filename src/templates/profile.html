@@ -29,11 +29,11 @@
         </div>
     </div>
     <div class="slim-row bottom">
-        <div class="bottom col-2 slim">
-            {% if profile.canvas_user.id == 1 %}
-            <img class="image-cropper img-fluid slim" alt="placeholder" src="{{ url_for('static', filename='images/p4h.png') }}">
+        <div class="bottom circle-cropper">
+            {% if profile.user.permission | string == "PermissionType.admin" %}
+            <img class="img-fluid slim" alt="placeholder" src="{{ url_for('static', filename='images/p4h.png') }}">
             {% else %}
-            <img id="profile_pic_img" class="img-fluid slim rounded-circle" alt="placeholder" src="data:;base64,{{ profile.profile_pic}}" /></img>
+            <img id="profile_pic_img" class="img-fluid slim" alt="placeholder" src="data:;base64,{{ profile.profile_pic}}" /></img>
             {% endif %}
         </div>
         <div class="col-8 col-sm-8">
@@ -44,7 +44,7 @@
     <div class="col-md-10 col-12">
         <div id="mytabs" class="">
             <ul class="nav nav-tabs" role="tablist">
-                <li class="nav-item"> 
+                <li class="nav-item">
                     <a class="nav-link" onclick="openTab(event, 'about')" aria-controls="about" id="about-tab" rel="about" data-toggle="tab" role="tab" aria-selected="false">About</a> 
                 </li>
                 <li class="nav-item"> 
@@ -55,12 +55,12 @@
     </div>
     <div class="buttons_row">
         <!-- shows if the current user is looking at someone elses profile -->
-        {% if(profile.canvas_user.id == current_user.canvasId) %}
+        {% if(profile.user.id == current_user.id) %}
         <div class="col-6 col-sm-5">
             <button type="submit" id="edit_profile" class="profile_button button-bg" name="edit">Edit Pwofil</button>
         </div>
         {% endif %}
-        {% if( (profile.canvas_user.id == current_user.canvasId or current_user.canvasId == 1) and (profile.user.canvasId != 1) ) %} <!-- admin has no progress, but can see everyone elses  -->
+        {% if( (profile.user.id == current_user.id or current_user.permission == "PermissionType.admin") and (profile.user.permission != "PermissionType.admin") ) %} <!-- admin has no progress, but can see everyone elses  -->
         <div class="col-6 col-sm-5">
             <form action="/profile/{{profile.user.id}}/progress">
                 <button type="submit" class="profile_button button-bg">Pwogre Mwen</button>
@@ -78,7 +78,11 @@
                     <div style="text-align: center;" class="post_box">
                         <div class="profile-name">
                             <div class="profile-pic-post post">
-                                <img alt="No Profile Picture" class="img-fluid rounded-circle m-auto" src="data:;base64,{{ currentUserProfilePic }}" />
+                                {% if profile.user.permission | string == "PermissionType.admin" %}
+                                    <img class="img-fluid slim"  src="{{ url_for('static', filename='images/p4h.png') }}" alt="P4h"/>
+                                {% else %}
+                                    <img class="img-fluid rounded-circle m-auto" src="data:;base64,{{ profile.profile_pic }}" alt="No Profile Picture"/>
+                                {% endif %}
                             </div>
                             <div class="col-10">
                                 <textarea class="text_box w-100" id="textbox-post" placeholder="Write Post Here" size="5"></textarea>

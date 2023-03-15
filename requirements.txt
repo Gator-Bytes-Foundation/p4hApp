@@ -50,4 +50,4 @@ PySocks==1.7.0
 pytz==2019.1
 urllib3
 python-dotenv==0.20.0
-
+psycopg2==2.8.4

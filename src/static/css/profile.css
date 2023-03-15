@@ -10,15 +10,6 @@
 b {
   color: rgba(22,50,170, 0.90);
 }
-.image-cropper {
-  width: 70px;
-  position: relative;
-  overflow: hidden;
-  border-radius: 50%;
-}
-.image-cropper .post{
-  max-height:30px; 
-}
 
 
 .backgroundOverlay {
