@@ -10,15 +10,6 @@
 b {
   color: rgba(22,50,170, 0.90);
 }
-.image-cropper {
-  width: 70px;
-  position: relative;
-  overflow: hidden;
-  border-radius: 50%;
-}
-.image-cropper .post{
-  max-height:30px; 
-}
 
 
 .backgroundOverlay {
@@ -35,21 +26,9 @@ b {
   pointer-events: none;
 }
 .overlayBlock {
-  display:block;
-  position: absolute;
-  top:12%;
   background: #FFFFFF;
-  backface-visibility: visible;
-  width:85%;
-  height:76%;
-  border-radius: 10px;
   overflow: scroll;
 }
-/*
-  .overlayBlock .upload_icon {
-    font-size:20px;
-  }
-*/
 
 .overlayBlock .row {
   padding-right:20px;

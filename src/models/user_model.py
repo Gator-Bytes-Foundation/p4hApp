@@ -1,12 +1,11 @@
 from src import login_manager, db, file_upload
-from datetime import datetime
-from flask import request
-from flask import render_template
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-from src.canvas import CANVAS, course # inject canvas, course objects into file
+import enum
 
-
+class PermissionType(enum.Enum):
+    teacher = "teacher"
+    admin = "admin"
 
 '''parameter: UserMixin,db.Model'''
 class User(UserMixin,db.Model):
@@ -15,9 +14,10 @@ class User(UserMixin,db.Model):
   username = db.Column(db.String(64), index=True, unique=True)
   canvasId = db.Column(db.Integer, index=True, unique=True)
   email = db.Column(db.String(120), index=True, unique=True)
+  name = db.Column(db.String(128))
   password_hash = db.Column(db.String(128))
-  name = db.Column(db.String(64))
-  school = db.Column(db.String(120))
+  permission = db.Column(db.Enum(PermissionType))
+  school = db.Column(db.String(128))
   phone = db.Column(db.String(64))
   location = db.Column(db.Text)
   position = db.Column(db.Text)
@@ -31,10 +31,11 @@ class User(UserMixin,db.Model):
   def serialize(self):
     return {
       'id': self.id,
-      'name': self.name,
       'username': self.username,
       'canvasId': self.canvasId,
       'email': self.email,
+      'name': self.name,
+      'permission': self.permission,
       'school': self.school,
       'phone': self.phone,
       'location': self.location,

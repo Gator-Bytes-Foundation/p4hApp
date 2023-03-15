@@ -69,7 +69,7 @@ function appendPost(post_id,postText,profilePic,postFile) {
       </div>
       <img id="display-upload-${post_id}" alt="attachment" class="img-fluid post-pic ${!postFile && 'd-none'}"/>
       <hr/>
-      <div id="comments-${post_id}"><label class="comment_label" for="from">Comments</label>
+      <div id="comments-${post_id}"><label class="comment-label" for="from">Comments</label>
         <div id="reply_div-${post_id}" class="reply_div">
         </div>
       </div>
@@ -86,13 +86,13 @@ function appendPost(post_id,postText,profilePic,postFile) {
  */
 $("#post").on("click", function(e) {
     e.preventDefault();
-    const userId = e.currentTarget.name;
+    const profileId = e.currentTarget.name;
     const textboxId = e.currentTarget.id;
-    const formData = getPostData(textboxId, userId);
+    const formData = getPostData(textboxId, profileId);
     $("#loading").show();
     $.ajax({
         type: "POST",
-        url: `/post/${userId}`,
+        url: `/post/${profileId}`,
         data: formData,
         cache: false,
         contentType: false,

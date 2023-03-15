@@ -12,92 +12,7 @@
     <link  rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}" ></link>
   </head>
 
-<div id="entire_profile" class="container emp-profile" onload="window.localStorage.setItem('rocket_login', rocket_user['authToken']); console.log(rocket_user['authToken']);">
-
-    <!-- MODAL OVERLAY FOR EDIT PROFILE -->
-    <div id="edit_menu" style="display:none;" class="backgroundOverlay">
-        <div class="wrapper overlayBlock fadeInDown " id="edit_profile_menu">
-            <button id="exit_edit" class="exit_icon" aria-label="Close Account Info Modal Box">&times;</button>
-              <form id="edit-profile" action="/profile" method="post" enctype="multipart/form-data">
-                  <div style="text-align: center; margin-bottom: 35px;" class="">
-                      <h3>Edit Menu</h3>
-                  </div>
-                  <div class="row">
-                      <div class="col-12 col-sm-3">
-                          <p>Profile Name: </p>
-                      </div>
-                      <div class="col-12 col-sm-8">
-                          <textarea class="text_box w-100" name="name" id="profile-name" placeholder="{{profile.user.name}}" size="5"></textarea>
-                      </div>
-                  </div>
-                  <div class="row">
-                      <div class="col-12 col-sm-3">
-                          <p>Profile Picture</p>
-                      </div>
-                      <div class="col-4 col-sm-3">
-                          <span onclick="document.getElementById('input-profile-pic').click();"  id="profile-pic" class="profile_button oi oi-cloud-upload" aria-hidden="true">Upload Picture</span>
-                          <input type="file" accept=".jpg, .png" name="avatar" id="input-profile-pic" class="inputfile" style="display: none;"/>
-                      </div>
-                      <div class="center">
-                          <img id="display-profile-pic" class="image-cropper img-fluid rounded-circle" alt="Profile Picture" src="data:;base64,{{ profile.profile_pic}}" />
-                      </div>
-                  </div>
-                  <div class="row">
-                      <div class="col-12 col-sm-3">
-                          <p>School:</p>
-                      </div>
-                      <div class="col-12 col-sm-8">
-                          <textarea class="text_box" name="school" id="school_name" style="width: 100%;" placeholder="{{profile.user.school}}" size="5"></textarea>
-                      </div>
-                  </div>
-                  <div class="row">
-                      <div class="col-12 col-sm-3">
-                          <p>Email:</p>
-                      </div>
-                      <div class="col-12 col-sm-8">
-                          <textarea class="text_box" name="email" id="email_name" style="width: 100%;" placeholder="{{profile.user.email}}" size="5"></textarea>
-                      </div>
-                  </div>
-                  <div class="row">
-                      <div class="col-12 col-sm-3">
-                          <p>Phone:</p>
-                      </div>
-                      <div class="col-8">
-                          <textarea class="text_box" name="phone" id="phone" style="width: 100%;" placeholder="{{profile.user.phone}}" size="5"></textarea>
-                      </div>
-                  </div>
-                  <div class="row">
-                      <div class="col-12 col-sm-3">
-                          <p>Location:</p>
-                      </div>
-                      <div class="col-8">
-                          <textarea class="text_box" name="location" id="loc" style="width: 100%;" placeholder="{{profile.user.location}}" size="5"></textarea>
-                      </div>
-                  </div>
-                  <div class="row">
-                      <div class="col-12 col-sm-3">
-                          <p>Pozisyon:</p>
-                      </div>
-                      <div class="col-8">
-                          <textarea class="text_box w-100" name="position" placeholder="{{profile.user.position}}" size="5"></textarea>
-                      </div>
-                  </div>
-                  <div class="row">
-                      <div class="col-12 col-sm-3">
-                          <p>Biography:</p>
-                      </div>
-                      <div class="row col-12 col-sm-8">
-                          <textarea class="text_box" name="bio" id="bio" style="width: 100%; height:50px;" placeholder="{{profile.user.bio}}" size="5"></textarea>
-                      </div>
-                  </div>
-                  <div class="row justify-content-center">
-                      <div class="col-10 col-sm-6 col-md-4">
-                          <input type="submit" value="Save" class="profile_button">
-                      </div>
-                  </div>
-              </form>
-        </div>
-    </div>
+<div id="entire_profile" class="container emp-profile" onload="window.localStorage.setItem('rocket_login', rocket_user['authToken']);">
     <!------------------------ search bar -------------------------->
     <div class="dropdown col-sm-9 mb-2">
         <div class="dropdown-content">
@@ -114,35 +29,38 @@
         </div>
     </div>
     <div class="slim-row bottom">
-        <div class="bottom col-2 slim">
-            {% if profile.canvas_user.id == 1 %}
-            <img class="image-cropper img-fluid slim" alt="placeholder" src="{{ url_for('static', filename='images/p4h.png') }}">
+        <div class="bottom circle-cropper">
+            {% if profile.user.permission | string == "PermissionType.admin" %}
+            <img class="img-fluid slim" alt="placeholder" src="{{ url_for('static', filename='images/p4h.png') }}">
             {% else %}
-            <img id="profile_pic_img" class="img-fluid slim rounded-circle" alt="placeholder" src="data:;base64,{{ profile.profile_pic}}" /></img>
+            <img id="profile_pic_img" class="img-fluid slim" alt="placeholder" src="data:;base64,{{ profile.profile_pic}}" /></img>
             {% endif %}
         </div>
-        <div class="col-8 col-sm-8 ">
-            <h4>{{profile.canvas_user.name}}</h4>
+        <div class="col-8 col-sm-8">
+            <h4>{{profile.user.name}}</h4>
             <small class=""> <b>Pozisyon:</b> {{profile.user.position}} </small> <br>
             <small> <b>De Mwen :</b> {{profile.user.bio}} </small> </div>
         </div>
     <div class="col-md-10 col-12">
-        <div id="mytabs" class="class=fakeclasshere2">
+        <div id="mytabs" class="">
             <ul class="nav nav-tabs" role="tablist">
-                </divjnjfdk>
-                <li class="nav-item"> <a class="nav-link" onclick="openTab(event, 'about')" aria-controls="about" id="about-tab" rel="about" data-toggle="tab" role="tab" aria-selected="true">About</a> </li>
-                <li class="nav-item"> <a class="nav-link" onclick="openTab(event, 'timeline')" aria-controls="timeline" id="timeline-tab" rel="timeline" data-toggle="tab" role="tab" aria-selected="false">Timeline</a> </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="openTab(event, 'about')" aria-controls="about" id="about-tab" rel="about" data-toggle="tab" role="tab" aria-selected="false">About</a> 
+                </li>
+                <li class="nav-item"> 
+                    <a class="nav-link" onclick="openTab(event, 'timeline')" aria-controls="timeline" id="timeline-tab" rel="timeline" data-toggle="tab" role="tab" aria-selected="true">Timeline</a>
+                </li>
             </ul>
         </div>
     </div>
     <div class="buttons_row">
-        <!-- current_user (SQL DB, not canvas) is user stored in Flask Login => so it shows if the current user is looking at someone elses profile -->
-        {% if(profile.canvas_user.id == current_user.canvasId) %}
+        <!-- shows if the current user is looking at someone elses profile -->
+        {% if(profile.user.id == current_user.id) %}
         <div class="col-6 col-sm-5">
             <button type="submit" id="edit_profile" class="profile_button button-bg" name="edit">Edit Pwofil</button>
         </div>
         {% endif %}
-        {% if( (profile.canvas_user.id == current_user.canvasId or current_user.canvasId == 1) and (profile.user.canvasId != 1) ) %} <!-- admin has no progress, but can see everyone elses  -->
+        {% if( (profile.user.id == current_user.id or current_user.permission == "PermissionType.admin") and (profile.user.permission != "PermissionType.admin") ) %} <!-- admin has no progress, but can see everyone elses  -->
         <div class="col-6 col-sm-5">
             <form action="/profile/{{profile.user.id}}/progress">
                 <button type="submit" class="profile_button button-bg">Pwogre Mwen</button>
@@ -151,7 +69,7 @@
         {% endif %}
     </div>
     <div class="col-12 col-lg-9">
-        <div class="profile-tab ">
+        <div class="profile-tab">
             <div id="timeline" class="profile-work tab-pane" role="tabpanel">
                 <!-- 1st tab -->
                 <h3 class="mt-2">Pwofil Pos</h3>
@@ -159,13 +77,19 @@
                 <div id="write_post"> <!-- ID being used for appending posts -->
                     <div style="text-align: center;" class="post_box">
                         <div class="profile-name">
-                            <figure class="profile-pic-post post"><img alt="No Profile Picture" class="img-fluid rounded-circle" src="data:;base64,{{ currentUserProfilePic }}" /></figure>
-                            <div class="col-10" id="">
-                                <textarea class="text_box" name="{{profile.canvas_user.name}}" id="textbox-post" style="width: 100%;" placeholder="Write Post Here" size="5"></textarea>
+                            <div class="profile-pic-post post">
+                                {% if profile.user.permission | string == "PermissionType.admin" %}
+                                    <img class="img-fluid slim"  src="{{ url_for('static', filename='images/p4h.png') }}" alt="P4h"/>
+                                {% else %}
+                                    <img class="img-fluid rounded-circle m-auto" src="data:;base64,{{ profile.profile_pic }}" alt="No Profile Picture"/>
+                                {% endif %}
+                            </div>
+                            <div class="col-10">
+                                <textarea class="text_box w-100" id="textbox-post" placeholder="Write Post Here" size="5"></textarea>
                                 <span id="upload-post" onclick="document.getElementById('input-upload-post').click();" class="iconify upload_icon" data-icon="ant-design:cloud-upload-outlined" data-inline="false"></span>
-                                <input type="file" name="userFile" id="input-upload-post" class="invisble" data-multiple-caption="{count} files selected" onclick="this.value = null" multiple/>
+                                <input type="file" name="userFile" id="input-upload-post" class="invisble" accept=".jpg .png" data-multiple-caption="{count} files selected" onclick="this.value = null" onchange="checkFile(event)" multiple/>
                                 <label class="invisble" id="label-upload-post" style="display: none;" for="input-upload-post"><strong>Choose a file</strong></label>
-                                <div class="row ">
+                                <div class="row">
                                     <a href="#" name="{{profile.user.id}}" id="post" value="Post" style="width:100%;" class="profile_button">Post</a>
                                 </div>
                             </div>
@@ -231,6 +155,112 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+<!-- MODAL OVERLAY FOR EDIT PROFILE -->
+<div id="edit_menu" class="modal fadeInDown" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" id="edit_profile_menu">
+        <div class="modal-content overlayBlock">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Edit Menu</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>          
+            </div>
+            <form action="/profile" method="post" class="py-3" id="edit-profile"enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-12 col-sm-3">
+                        <p>Profile Name: </p>
+                    </div>
+                    <div class="col-12 col-sm-8">
+                        <textarea class="text_box w-100" name="name" id="profile-name" placeholder="{{profile.user.name}}" size="5"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-3">
+                        <p>Profile Picture</p>
+                    </div>
+                    <div class="col-4 col-sm-3">
+                        <span onclick="document.getElementById('input-profile-pic').click();"  id="profile-pic" class="profile_button oi oi-cloud-upload" aria-hidden="true">Upload Picture</span>
+                        <input type="file" accept=".jpg, .png" name="avatar" id="input-profile-pic" class="inputfile" onchange="checkFile(event)" style="display: none;"/>
+                    </div>
+                    <div class="center">
+                        <img id="display-profile-pic" class="image-cropper img-fluid rounded-circle" alt="Profile Picture" src="data:;base64,{{ profile.profile_pic}}" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-3">
+                        <p>School:</p>
+                    </div>
+                    <div class="col-12 col-sm-8">
+                        <textarea class="text_box" name="school" id="school_name" style="width: 100%;" placeholder="{{profile.user.school}}" size="5"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-3">
+                        <p>Email:</p>
+                    </div>
+                    <div class="col-12 col-sm-8">
+                        <textarea class="text_box" name="email" id="email_name" style="width: 100%;" placeholder="{{profile.user.email}}" size="5"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-3">
+                        <p>Phone:</p>
+                    </div>
+                    <div class="col-8">
+                        <textarea class="text_box" name="phone" id="phone" style="width: 100%;" placeholder="{{profile.user.phone}}" size="5"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-3">
+                        <p>Location:</p>
+                    </div>
+                    <div class="col-8">
+                        <textarea class="text_box" name="location" id="loc" style="width: 100%;" placeholder="{{profile.user.location}}" size="5"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-3">
+                        <p>Pozisyon:</p>
+                    </div>
+                    <div class="col-8">
+                        <textarea class="text_box w-100" name="position" placeholder="{{profile.user.position}}" size="5"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-3">
+                        <p>Biography:</p>
+                    </div>
+                    <div class="row col-12 col-sm-8">
+                        <textarea class="text_box" name="bio" id="bio" style="width: 100%; height:50px;" placeholder="{{profile.user.bio}}" size="5"></textarea>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-10 col-sm-6 col-md-4">
+                        <input type="submit" value="Save" class="profile_button">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="file-type-modal" class="modal fade" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Not correct file type</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>          
+            </div>
+            <div class="modal-body">
+                <p>Only .png, and .jpg files can be uploaded for now</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
 </div>

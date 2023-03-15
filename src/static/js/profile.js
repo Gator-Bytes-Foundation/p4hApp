@@ -3,22 +3,21 @@
 */
 
 /**
- * @abstract Dictates which view is seen by clickng on the tabs
+ * @abstract Dictates which view is seen by clicking on the tabs
  */
 (function() {
-  $("#timeline-tab").addClass("active");
-  $("#timeline-tab").addClass("show");
+  const timelineTab = $("#timeline-tab");
+  timelineTab.addClass("active");
 })();
 
-   /**
-    * @abstract will hide dropdown box if user clicks outside of it
-    * @param {JS Event} event
-    */
+  /**
+  * @abstract will hide dropdown box if user clicks outside of it
+  * @param {JS Event} event
+  */
   window.onclick = function (event) {
     const listOfItems = document.getElementsByClassName("list_of_items");
     const edit_menu = document.getElementsByClassName("overlayBlock")[0];
     if (!event.target.matches("#profileSearchInput")) {
-      console.log(event.target)
       // cancels dropdown box if clicked somewhere outside of dropdown box
       if (listOfItems[0].style.display == "block") {
         cancelDropDown();
@@ -36,7 +35,6 @@
    * @abstract When user clicks on tab, this code will be executed
    */
   function openTab(evt, tabName) {
-      console.log(tabName);
       var i, tabcontent, tablinks;
       tabcontent = document.getElementsByClassName("tab-pane");
       for (i = 0; i < tabcontent.length; i++) {
@@ -53,20 +51,16 @@
    * @abstract exit the edit profile menu
    */
   function cancelExitMenu() {
-    document.getElementsByClassName("backgroundOverlay")[0].style.display =
-      "none";
-    $("#entire_profile").css({ pointerEvents: "visible" });
+    $("#edit_menu").modal("hide");
   }
+
   /**
    * @abstract Shows edit profile menu ad sets listener to cancel menu
    */
   $("#edit_profile").on("click", function (e) {
-    let edit_menu = document.getElementsByClassName("backgroundOverlay");
-    edit_menu[0].style.display = "flex";
-    $("#entire_profile").css({ pointerEvents: "none" });
-    $("#edit_profile_menu").css({ pointerEvents: "visible" });
+    $("#edit_menu").modal("show"); 
   });
-  $("#exit_edit").on("click", function (e) {
+  $("#exit-edit").on("click", function (e) {
     cancelExitMenu();
   });
 
@@ -121,26 +115,32 @@
    * @abstract when user types, filters out potential users
    */
   $('#profileSearchInput').on('click keyup', function(e){
-    console.log("clicked 1")
     filterFunction();
   });
+
   /**
    * @abstract filters user look up drowdown on top of profile page
    */
   function filterFunction() {
-    let input, filter, dropdown, profileLinks;
-    input = document.getElementById("profileSearchInput");
-    filter = input.value.toUpperCase();
-    dropdown = $("#profileSearchDropdown")[0]; // 1st index of Jqeury object is DOM object
+    let dropdown, profileLinks, profilesFound = [];
+    const input = document.getElementById("profileSearchInput");
+    const filter = input.value.toUpperCase();
+    dropdown = $("#profileSearchDropdown")[0]; // 1st index of Jquery object is DOM object
     dropdown.style.display = "block";
-    profileLinks = dropdown.getElementsByTagName("a"); // gets all <a></a> links in dropdown div
+    profileLinks = dropdown.getElementsByTagName("a"); // gets all links in dropdown div
     for (let i = 0; i < profileLinks.length; i++) {
-      let txtValue = profileLinks[i].textContent || profileLinks[i].innerText;
+      const txtValue = profileLinks[i].textContent || profileLinks[i].innerText;
       if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        profilesFound.push(txtValue)
         profileLinks[i].style.display = "";
       } else {
         profileLinks[i].style.display = "none"; // hides all users that are filtered out
       }
+    }
+    const warnings = dropdown.getElementsByTagName("div")
+    if(profilesFound.length === 0 && warnings.length === 0) {
+      const warning = $(`<div class="p-2">No users found with searched name</div>`)
+      $("#profileSearchDropdown").append(warning)
     }
   }
   // function to cancel the search dropdown (by clicking outside of it in function below)
@@ -148,7 +148,6 @@
     const list_of_items = document.getElementsByClassName("list_of_items");
     list_of_items[0].style.display = "none";
   }
-
 
   /**
    * @abstract Profile Picture Change
@@ -166,6 +165,7 @@
       reader.readAsDataURL(file);
     }
   }
+
   /**
    * @abstract update user profile
    */
@@ -187,5 +187,10 @@
     });
   });
 
-
+  function checkFile(e) {
+    const fileName = e.target?.value
+    if(!fileName.includes(".png", ".jpg")) {
+      $("#file-type-modal").modal("show"); 
+    }
+  }
 
