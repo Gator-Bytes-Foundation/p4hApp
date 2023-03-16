@@ -1,6 +1,5 @@
 import os
 from requests import sessions
-#from app.helpers.load_secrets import secrets
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
