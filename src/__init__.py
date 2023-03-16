@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_file_upload import FileUpload
-from config.config import env_config
+from config.config import config
 from whitenoise import WhiteNoise
 import logging
 
@@ -15,7 +15,7 @@ app.wsgi_app = WhiteNoise(app.wsgi_app,
         prefix='static/')
 
 # todo: set error handler - app.register_error_handler(404, page_not_found)
-app.config.from_object(env_config)
+app.config.from_object(config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
