@@ -22,9 +22,7 @@
         </div>
         <div id="profileSearchDropdown" class="list_of_items">
             {% if(users != None) %} {% for i in range(users | length) %}
-            <form method="GET" action="/profile/{{users[i].id}}"> <!-- pass the user id into the route url -->
-                <a><button type="submit" class="erase"></button>{{users[i].name}}</a>
-            </form>
+                <a href="/profile/{{users[i].id}}">{{users[i].name}}</a>
             {% endfor %} {% endif %}
         </div>
     </div>
@@ -87,10 +85,10 @@
                             <div class="col-10">
                                 <textarea class="text_box w-100" id="textbox-post" placeholder="Write Post Here" size="5"></textarea>
                                 <span id="upload-post" onclick="document.getElementById('input-upload-post').click();" class="iconify upload_icon" data-icon="ant-design:cloud-upload-outlined" data-inline="false"></span>
-                                <input type="file" name="userFile" id="input-upload-post" class="invisble" accept=".jpg .png" data-multiple-caption="{count} files selected" onclick="this.value = null" onchange="checkFile(event)" multiple/>
+                                <input type="file" name="userFile" id="input-upload-post" class="invisble" accept=".jpg, .png" data-multiple-caption="{count} files selected" onclick="this.value = null" onchange="checkFile(event)" multiple/>
                                 <label class="invisble" id="label-upload-post" style="display: none;" for="input-upload-post"><strong>Choose a file</strong></label>
                                 <div class="row">
-                                    <a href="#" name="{{profile.user.id}}" id="post" value="Post" style="width:100%;" class="profile_button">Post</a>
+                                    <button name="{{profile.user.id}}" id="post" class="profile_button w-100" type="submit">Post</button>
                                 </div>
                             </div>
                         </div>
@@ -164,7 +162,7 @@
         <div class="modal-content overlayBlock">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalLabel">Edit Menu</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button class="close" data-dismiss="modal" aria-label="Close" type="button">
                     <span aria-hidden="true">&times;</span>
                 </button>          
             </div>
