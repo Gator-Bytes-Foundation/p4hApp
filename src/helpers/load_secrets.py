@@ -9,14 +9,13 @@ from os import path
 def load_secrets():
     secrets_path = "secrets.yml"
     canvas_api_key = os.getenv("canvas_api_key")
-    rocket_email = os.getenv("rocket_email")
-    rocket_password = os.getenv("rocket_password")
-    if(canvas_api_key and rocket_email and rocket_password): 
-        print("email " + rocket_password)   
+    rocket_user_id = os.getenv("rocket_user_id")
+    rocket_auth_token = os.getenv("rocket_auth_token")
+    if(canvas_api_key and rocket_user_id and rocket_auth_token): 
         return {
             "canvas_api_key": canvas_api_key,
-            "rocket_password": rocket_password,
-            "rocket_password": rocket_password
+            "rocket_user_id": rocket_user_id,
+            "rocket_auth_token": rocket_auth_token
         }
     elif path.exists(secrets_path):
         stream = open(secrets_path)

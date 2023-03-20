@@ -7,7 +7,7 @@ from src.controllers.login_controller import LoginForm, loginAPI, logout
 from src.controllers.signup_controller import SignupForm, signupAPI
 from src.canvas import account # inject canvas, course objects into file
 ''' Import Needed Libraries '''
-from src.canvas import ROCKET
+from src.canvas import ROCKET_ADMIN
 from rocketchat_API.rocketchat import RocketChat
 
 # LOGGING IN AND SIGNING REQUESTS #
@@ -33,15 +33,15 @@ def logoutAPIRoute():
 @app.route('/api/rocket/token', methods=['GET'])
 def loginRocketRoute():
   users_create_token = ""
-  if(ROCKET != None): 
-    users_create_token = ROCKET.users_create_token(
+  if(ROCKET_ADMIN != None): 
+    users_create_token = ROCKET_ADMIN.users_create_token(
         username=current_user.username
     ).json()
   return (jsonify(users_create_token.get("data")))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-  if(ROCKET == None):
+  if(ROCKET_ADMIN == None):
     flash('Messaging server is down')
   if(account == None):
     flash('Canvas server is down')

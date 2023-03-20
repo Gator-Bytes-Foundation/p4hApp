@@ -4,7 +4,7 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
 from flask_login import login_user, current_user, logout_user
 from src.models.user_model import User
-from src.canvas import CANVAS, ROCKET # inject canvas, course objects into file
+from src.canvas import CANVAS # inject canvas, course objects into file
 from src.controllers.posts_controller import loadPosts
 from src.controllers.profile_controller import loadProfile
 from flask.json import jsonify
@@ -81,11 +81,4 @@ class LoginForm(FlaskForm):
     #if not is_safe_url(next,{"http://localhost:5000", "p4hteach.org", "www.p4hteach.org"}):
         #return abort(400)
     profile = loadPosts(user)
-    return loadProfile(profile,rocket_user)
-
-
-
-
-
-
-
+    return redirect(url_for('profile'))

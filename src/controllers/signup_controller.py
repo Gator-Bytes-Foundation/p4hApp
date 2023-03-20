@@ -3,7 +3,6 @@ from flask import url_for, flash, redirect, render_template, abort, Response
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
 from src.controllers.login_controller import LoginForm, loginAPI
-from src.models.user_model import User
 from src.helpers.user_helpers import createUser, checkUserExists, createRocketAccount
 
 def signupAPI(form): 
