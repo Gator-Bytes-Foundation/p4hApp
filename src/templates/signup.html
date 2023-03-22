@@ -2,62 +2,59 @@
 
 {% extends "header.html" %}<!-- all html files should extend from the header, (the header contains all static references as well) -->
 {% block content %}<!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
-<html>
-<section class="login">
-<div class="wrapper fadeInDown center">
-  <div id="formContent">
-    <!-- Icon -->
-    <div class="fadeIn first">
-      <div class="image-cropper">
-        <img class="profile-pic img-fluid m-auto" src="{{ url_for('static', filename='images/p4h.png') }}" id="icon" alt="User Icon" />
+  <section class="login">
+  <div class="wrapper fadeInDown center">
+    <div id="formContent">
+      <!-- Icon -->
+      <div class="fadeIn first">
+        <div class="image-cropper">
+          <img class="profile-pic img-fluid m-auto" src="{{ url_for('static', filename='images/p4h.png') }}" id="icon" alt="User Icon" />
+        </div>
       </div>
+      <!-- Signup Form -->
+      <form method="POST" action="" novalidate>
+        {{ form.hidden_tag() }}
+          <p class="fadeIn second form-text-box">
+              {{ form.fname.label }}<br>
+              {{ form.fname(size=32) }}<br>
+              {% for error in form.fname.errors %}
+              <span style="color: red;">[{{ error }}]</span>
+              {% endfor %}
+          </p>
+          <p class="fadeIn second form-text-box">
+              {{ form.lname.label }}<br>
+              {{ form.lname(size=32) }}<br>
+              {% for error in form.lname.errors %}
+              <span style="color: red;">[{{ error }}]</span>
+              {% endfor %}
+          </p>
+          <p class="fadeIn second form-text-box">
+              {{ form.username.label }}<br>
+              {{ form.username(size=32) }}<br>
+              {% for error in form.username.errors %}
+              <span style="color: red;">[{{ error }}]</span>
+              {% endfor %}
+          </p>
+          <div class="fadeIn second form-text-box mb-2">
+            {{ form.email.label }}<br>
+            {{ form.email(size=32) }}<br>
+            {% for error in form.email.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+          </div>
+          <div class="fadeIn third form-text-box mb-2">
+              {{ form.password.label }}<br>
+              {{ form.password(size=32) }}<br>
+              {% for error in form.password.errors %}
+              <span style="color: red;">[{{ error }}]</span>
+              {% endfor %}
+          </div>
+          <div class="fadeIn fourth blue-button-form" >{{ form.submit() }}</div>
+      </form>
+      {% if error %}
+        <p class=error><strong>Error:</strong> {{ error }}
+      {% endif %}
     </div>
-    <!-- Signup Form -->
-    <form method="POST" action="" novalidate>
-      {{ form.hidden_tag() }}
-        <p class="fadeIn second form-text-box">
-            {{ form.fname.label }}<br>
-            {{ form.fname(size=32) }}<br>
-            {% for error in form.fname.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p class="fadeIn second form-text-box">
-            {{ form.lname.label }}<br>
-            {{ form.lname(size=32) }}<br>
-            {% for error in form.lname.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p class="fadeIn second form-text-box">
-            {{ form.username.label }}<br>
-            {{ form.username(size=32) }}<br>
-            {% for error in form.username.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p class="fadeIn second form-text-box">
-          {{ form.email.label }}<br>
-          {{ form.email(size=32) }}<br>
-          {% for error in form.email.errors %}
-          <span style="color: red;">[{{ error }}]</span>
-          {% endfor %}
-        </p>
-        <p class="fadeIn third form-text-box">
-            {{ form.password.label }}<br>
-            {{ form.password(size=32) }}<br>
-            {% for error in form.password.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p class="fadeIn fourth blue-button-form" >{{ form.submit() }}</p>
-    </form>
-
-    {% if error %}
-      <p class=error><strong>Error:</strong> {{ error }}
-    {% endif %}
   </div>
-</div>
-</section>
-</html>
+  </section>
 {% endblock %}<!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->

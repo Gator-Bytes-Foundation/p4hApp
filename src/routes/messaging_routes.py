@@ -5,9 +5,8 @@ from src import app  # from /app import flask app TODO: import db
 from src.controllers.messaging_controller import load_messages
 ''' Import Needed Libraries ''' 
 from pyper import *
-from config.config import env_config
-
+from flask import current_app
 # MESSAGING REQUESTS #
 @app.route('/messaging')
 def messaging():
-  return render_template('messaging.html',  current_user=current_user, rocketHost=env_config.ROCKET_URL)
+  return render_template('messaging.html',  current_user=current_user, rocketHost=current_app.config["ROCKET_URL"])

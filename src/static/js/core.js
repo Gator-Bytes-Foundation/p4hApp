@@ -85,11 +85,11 @@ function appendPost(post_id,postText,profilePic,postFile) {
  * @param e JS event
  */
 $("#post").on("click", function(e) {
-    e.preventDefault();
     const profileId = e.currentTarget.name;
     const textboxId = e.currentTarget.id;
     const formData = getPostData(textboxId, profileId);
     $("#loading").show();
+    $('button[type=submit], input[type=submit]').prop('disabled',true);
     $.ajax({
         type: "POST",
         url: `/post/${profileId}`,
@@ -118,10 +118,11 @@ $("#post").on("click", function(e) {
               }
           }
           $("#loading").hide()
+          $('button[type=submit], input[type=submit]').prop('disabled',false);
         },
         error: function(xhr, status, error) {
-            //const err = "error " + xhr.responseText;
             console.error(error);
+            $('button[type=submit], input[type=submit]').prop('disabled',false);
         }
     });
 });

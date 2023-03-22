@@ -130,7 +130,7 @@ def updateProfile(req):
         "userFile": avatarUpdate,
       })
     #edit canvas avatar as well
-    canvas_user.edit(user = {"avatar":avatarUpdate}) # todo look into why this does not update canvas avatar
+    #canvas_user.edit(user = {"avatar":avatarUpdate}) # todo look into why this does not update canvas avatar
 
   if(name_ != ''):
     current_user.name = name_
@@ -143,12 +143,12 @@ def updateProfile(req):
   if(phone_ != ''):
     current_user.phone = phone_
   if(position != ''):
-    current_user.position = position
+    current_user.position = position  
   if(location_ != ''):
     current_user.location = location_
   if(bio_ != ''):
     current_user.bio = bio_
-    canvas_user.edit(user = {"bio":bio_})
+    #canvas_user.edit(user = {"bio":bio_})
 
   db.session.commit() # saves current user
   return current_user
