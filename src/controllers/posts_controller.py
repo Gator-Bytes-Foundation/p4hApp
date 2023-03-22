@@ -49,7 +49,9 @@ def loadPosts(profileUser):
   for i in range(end_index):
     usernameId = profileUser.username + ' ' + str(profileUser.canvasId) #used to identify user in canvas
     postProfileUsername = posts[i].title.split()[0]
-    postAuthUsername = posts[i].title.split()[1]
+    if(len(posts[i].title.split()) > 1): postAuthUsername = posts[i].title.split()[1]
+    else: continue # this should only occur if canvas post was added manually
+    
     postAuthor = User.query.filter_by(username=postAuthUsername).first() # announcements are all posts from the admins (until announcements canvas api is being used)
     if(postProfileUsername == profileUser.username and posts[i].message is not None and postAuthor is not None): #only shows posts belonging to user's profile
       newPost = {

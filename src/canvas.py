@@ -10,8 +10,8 @@ from src.helpers.load_secrets import secrets
 API_URL = config.CANVAS_URL
 ROCKET_URL = config.ROCKET_URL
 API_KEY = secrets.get("canvas_api_key")
-ROCKET_KEY = secrets.get("rocket_user_id")
-ROCKET_AUTH_ID = secrets.get("rocket_auth_token")
+ROCKET_USER_ID = secrets.get("rocket_user_id")
+ROCKET_AUTH_TOKEN = secrets.get("rocket_auth_token")
 
 CANVAS = None
 # Both course and canvas objects are used for majority of API calls
@@ -31,8 +31,8 @@ ROCKET_ADMIN = None
 try: 
     with sessions.Session() as session:
         ROCKET_ADMIN = RocketChat(
-            user_id=ROCKET_AUTH_ID,
-            auth_token=ROCKET_KEY,
+            user_id=ROCKET_USER_ID,
+            auth_token=ROCKET_AUTH_TOKEN,
             server_url=ROCKET_URL,
             session=session,
         )
