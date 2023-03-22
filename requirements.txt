@@ -15,6 +15,7 @@ flask-file-upload==0.1.5
 Django==3.1.14
 Jinja2==2.11.3
 py==1.10.0
+alembic==1.4.2
 
 #Production
 whitenoise==5.2.0
@@ -33,7 +34,6 @@ rocketchat-API==1.3.1
 
 
 # Misc.
-alembic==1.4.2
 certifi==2019.6.16
 chardet==3.0.4
 Click==7.0
