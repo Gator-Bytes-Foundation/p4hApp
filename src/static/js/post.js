@@ -22,9 +22,9 @@ function getPostData(id) {
    * @param {JS Event} e
    */
   function deletePost(e) {
-    e.preventDefault();
     const post_id = e.currentTarget.id;
     $("#loading").show()
+    $('button[type=submit], input[type=submit]').prop('disabled',true);
     $.ajax({
       type: "DELETE",
       url: "/post/" + post_id,
@@ -33,12 +33,14 @@ function getPostData(id) {
       success: function (data) {
         console.log("delete return comment ", data);
         $("#post_" + post_id).remove();
-        $("#loading").hide()
+        $("#loading").hide();
+        $('button[type=submit], input[type=submit]').prop('disabled',false);
       },
       error: function (data,err,exception) {
         console.log("error " + err);
         console.log("status " + exception);
-        $("#loading").hide()
+        $("#loading").hide();
+        $('button[type=submit], input[type=submit]').prop('disabled',false);
       }
     });
   }
@@ -61,11 +63,11 @@ function getPostData(id) {
    * @param {JS Event} e
    */
   function commentPost(e) {
-    e.preventDefault();
     const post_id = e.currentTarget.name;
     const commentText = $("#textbox-" + post_id).val();
     const formData = getPostData(post_id);
-    $("#loading").show()
+    $("#loading").show();
+    $('button[type=submit], input[type=submit]').prop('disabled',true);
     $.ajax({
       type: "POST",
       url: "/comment/" + post_id,
@@ -78,11 +80,13 @@ function getPostData(id) {
         const { profilePic } = JSON.parse(res).data;
         appendComment(commentText,profilePic,post_id);
         $("#loading").hide()
+        $('button[type=submit], input[type=submit]').prop('disabled',false);
       },
       error: function (data,err,exception) {
         console.log("error " + err);
         console.log("status " + exception);
         $("#loading").hide()
+        $('button[type=submit], input[type=submit]').prop('disabled',false);
       }
     });
   }
@@ -94,7 +98,8 @@ function getPostData(id) {
   function deleteComment(e,postId) {
     let comment_id = e.currentTarget.id;
     let post_id = postId;
-    $("#loading").show()
+    $("#loading").show();
+    $('button[type=submit], input[type=submit]').prop('disabled',true);
     $.ajax({
       type: "DELETE",
       url: "/post/" + post_id + '/comment/' + comment_id,
@@ -104,11 +109,13 @@ function getPostData(id) {
         console.log("ajax return comment ", data);
         $("#comment-" + comment_id).remove();
         $("#loading").hide();
+        $('button[type=submit], input[type=submit]').prop('disabled',false);
       },
       error: function (data,err,exception) {
         console.log("error " + err);
         console.log("status " + exception);
         $("#loading").hide();
+        $('button[type=submit], input[type=submit]').prop('disabled',false);
       }
     });
   }

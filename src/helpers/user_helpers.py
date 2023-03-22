@@ -1,9 +1,11 @@
-from canvasapi.exceptions import CanvasException,BadRequest
+from canvasapi.exceptions import BadRequest
 from sqlalchemy import exc
 from src import db
 from src.models.user_model import User
-from src.canvas import CANVAS, course, ROCKET # inject canvas, course objects into file
+from src.canvas import CANVAS, course, ROCKET_ADMIN # inject canvas, course objects into file
 import json
+from rocketchat_API.rocketchat import RocketChat
+from flask import current_app
 
 def getCanvasUserByUsername(username):
     account = CANVAS.get_account(1) # admin account id
@@ -20,13 +22,26 @@ def checkUserExists(userData):
   canvas_user = None
   rocket_account = None
 
-  rocket_account_response = ROCKET.users_info(username=userData["username"]).json()
+  print("trying to log into rocket account")
+  rocket_account_response = ROCKET_ADMIN.users_info(username=userData["username"]).json()
   if("success" in rocket_account_response and "user" in rocket_account_response):
-    rocket_account = rocket_account_response["user"]
-    login_res = ROCKET.login(userData["username"],userData["password"])
-    if(login_res.json().get("status") != "success"):
+    print("rocket user exists")
+    '''
+    logged_rocket = None
+    login_res = None
+    try:
+      rocket = RocketChat(server_url=current_app.config["ROCKET_URL"])
+      login_res = rocket.login(userData["username"],userData["password"])
+    except Exception as e:
+      print(e)
       rocket_account = None # if password doesn't match, dont associate account
-
+    print(logged_rocket)
+    if(login_res.json().get("status") != "success"):
+      print("logged in to rocket!")
+      rocket_account = None # if password doesn't match, dont associate account
+    else:
+      rocket_account = rocket_account_response["user"]
+    '''
   if(user):
     try:
       canvas_user = CANVAS.get_user(user.canvasId)
@@ -52,7 +67,7 @@ def createCanvasUser(userData):
   account = CANVAS.get_account(1) # admin account id
   canvas_user = account.create_user(pseudonym, user=canvasUser)
   course.enroll_user(canvas_user.id, enrollment={"type": "StudentEnrollment", "enrollment_state": "active"}, enrollment_type="StudentEnrollment") #enrollment type will be deprecated, but for now triggers error if removed.
-  # TODO: research canvas login sessions
+  # currently not using canvas login sessions, but may reconsider
   #login_info = {
   #  'id' :  current_user.id,
   #   'unique_id': username
@@ -61,7 +76,7 @@ def createCanvasUser(userData):
   return canvas_user
 
 def createRocketAccount(userData):
-  rocket_user = ROCKET.users_create(userData["email"],userData["fullName"],userData["password"],userData["username"]).json()
+  rocket_user = ROCKET_ADMIN.users_create(userData["email"],userData["fullName"],userData["password"],userData["username"]).json()
   return rocket_user
 
 def deleteCanvasUser(canvas_user):
@@ -71,7 +86,7 @@ def deleteCanvasUser(canvas_user):
   account.delete_user(canvas_user)
 
 def deleteRocketUser(rocket_user): 
-  delete = ROCKET.users_delete(rocket_user.id)
+  delete = ROCKET_ADMIN.users_delete(rocket_user.id)
   print("DELETING rocket") # debugging on pro
   print(delete)
 
@@ -93,12 +108,13 @@ def createUser(userData,canvas_user=None,rocket_account=None):
         return errorMessage
 
   try:
-    newUser = User(name=userData["fullName"], username=userData["username"],email=userData["email"],canvasId=userData["canvasId"]) #,profilePic__file_name="profile.png")
+    newUser = User(name=userData["fullName"], username=userData["username"],email=userData["email"],canvasId=userData["canvasId"])
     newUser.set_password(userData["password"])
     # add user in rocket chat
     if(rocket_account is None): 
       rocket_res = createRocketAccount(userData)
       if("success" in rocket_res and rocket_res["success"] == True):
+        print("rocket success")
         rocket_account = rocket_res["user"]
       else:
         print("rocket res")
@@ -125,11 +141,12 @@ def createUser(userData,canvas_user=None,rocket_account=None):
     db.session.commit() # newUser.save()
   except exc.IntegrityError as e:
     db.session.rollback()
+    deleteRocketUser(rocket_account)
+    deleteCanvasUser(canvas_user)
     if('UNIQUE constraint' in e.args):
       print("USER EXISTS")
-      deleteRocketUser(rocket_account)
-      deleteCanvasUser(canvas_user)
       return "User already exists"
     else: 
+      print(e)
       return "Unknown database error"
   return None # indicates no error

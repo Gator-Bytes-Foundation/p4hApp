@@ -3,13 +3,15 @@ from canvasapi import Canvas
 from canvasapi.exceptions import CanvasException
 from rocketchat_API.rocketchat import RocketChat
 from requests import sessions
-from config.config import env_config
+from os import environ 
+from config.config import config
 from src.helpers.load_secrets import secrets
-
 # canvas config
-API_URL = env_config.CANVAS_URL
-ROCKET_URL = env_config.ROCKET_URL
+API_URL = config.CANVAS_URL
+ROCKET_URL = config.ROCKET_URL
 API_KEY = secrets.get("canvas_api_key")
+ROCKET_KEY = secrets.get("rocket_user_id")
+ROCKET_AUTH_ID = secrets.get("rocket_auth_token")
 
 CANVAS = None
 # Both course and canvas objects are used for majority of API calls
@@ -25,18 +27,18 @@ except:
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-ROCKET = None
+ROCKET_ADMIN = None
 try: 
     with sessions.Session() as session:
-        ROCKET = RocketChat(
-            secrets.get("rocket_email"),
-            secrets.get("rocket_password"),
+        ROCKET_ADMIN = RocketChat(
+            user_id="e6chRhGxewvbJbcQ7",
+            auth_token="FBILW3vDkOYCoqen3vU_VFKGs8zJ2IMM_u4zc4G30Gj",
             server_url=ROCKET_URL,
             session=session,
         )
 except: 
     print('rocket chat server down')
-
+'''
 def authenticate(scopes, call):
     canvas_url = API_URL + "login/oauth2/auth?"
     serviceKey = {
@@ -64,3 +66,4 @@ def authenticate(scopes, call):
         print(e)
     print("resp ", resp)
     return credentials
+'''
