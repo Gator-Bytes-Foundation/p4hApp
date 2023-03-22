@@ -31,8 +31,8 @@ ROCKET_ADMIN = None
 try: 
     with sessions.Session() as session:
         ROCKET_ADMIN = RocketChat(
-            user_id="e6chRhGxewvbJbcQ7",
-            auth_token="FBILW3vDkOYCoqen3vU_VFKGs8zJ2IMM_u4zc4G30Gj",
+            user_id=ROCKET_AUTH_ID,
+            auth_token=ROCKET_KEY,
             server_url=ROCKET_URL,
             session=session,
         )

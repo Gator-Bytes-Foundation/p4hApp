@@ -19,9 +19,9 @@ class ProductionConfig(Default):
 
 class StagingConfig(Default):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL") or "postgresql://ncyvtejtpjjajt:a8c930633cc4b7505c1f0dccb83c1f80e8cf1d54b8d72b54422aec7bf40ed57d@ec2-3-92-151-217.compute-1.amazonaws.com:5432/d6bf5h100s1387"
     CANVAS_URL="https://admin.p4hteach.org"
     ROCKET_URL="https://messaging.p4hteach.org"
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL") or "postgresql://ncyvtejtpjjajt:a8c930633cc4b7505c1f0dccb83c1f80e8cf1d54b8d72b54422aec7bf40ed57d@ec2-3-92-151-217.compute-1.amazonaws.com:5432/d6bf5h100s1387"
 
 class DevelopmentConfig(Default):
     DEBUG = True
