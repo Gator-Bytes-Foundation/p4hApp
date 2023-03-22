@@ -15,6 +15,7 @@ class Default(object):
 class ProductionConfig(Default):
     CANVAS_URL="https://admin.p4hteach.org"
     ROCKET_URL="https://messaging.p4hteach.org"
+    SQLALCHEMY_DATABASE_URI="postgres://daugxenldsamcl:75dd6dd38e8588ece52fbd079c30681c60f2e34a0ebf9fc9a058dd965367b0c8@ec2-3-93-160-246.compute-1.amazonaws.com:5432/dbf01tiollg8pf"
 
 class StagingConfig(Default):
     DEBUG = True
