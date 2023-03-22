@@ -31,4 +31,11 @@ class DevelopmentConfig(Default):
     CANVAS_URL="http://localhost:3000"
     ROCKET_URL="http://localhost:4000"
 
-env_config = os.getenv("APP_SETTINGS", DevelopmentConfig)
+env_config = os.getenv("APP_SETTINGS", "DevelopmentConfig")
+
+configMap = {
+    "DevelopmentConfig": DevelopmentConfig,
+    "StagingConfig": StagingConfig,
+    "ProductionConfig": ProductionConfig
+}
+config = configMap[env_config]
