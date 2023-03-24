@@ -8,7 +8,6 @@ from src.controllers.signup_controller import SignupForm, signupAPI
 from src.canvas import account # inject canvas, course objects into file
 ''' Import Needed Libraries '''
 from src.canvas import ROCKET_ADMIN
-from rocketchat_API.rocketchat import RocketChat
 
 # LOGGING IN AND SIGNING REQUESTS #
 @app.route('/signup', methods=['GET', 'POST'])

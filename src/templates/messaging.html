@@ -4,30 +4,15 @@
 <!-- needed for extending from header.html -->
 <head>
     <link  rel="stylesheet" href="{{ url_for('static', filename='css/messaging.css') }}" ></link>
-    <style>
-        body,
-        html {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-    </style>
 </head>
-
 <body>
     <div class="">
         <h3 class="text-center">Messaging</h3>
         <div >
-            <iframe id="rocketchatiframe" class="full_width_height messaging-height" src="{{rocketHost + '?layout=embedded'}}"></iframe>
+            <iframe id="rocketchatiframe" class="w-100 h-100 messaging-height" src="{{rocketHost + '?layout=embedded'}}"></iframe>
         </div>
     </div>
 </body>
-<script>
-
-    window.onload = function () {
-        //authenticateIFrame();
-    };
-</script>
 <script src="{{ url_for('static', filename='js/messaging.js') }}"></script>
 {% endblock %}
 <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
