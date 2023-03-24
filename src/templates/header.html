@@ -10,8 +10,8 @@
   <link rel='icon' href="{{ url_for('static', filename='images/white_log.png') }}" type='image/x-icon'/>
   <!-- Static references -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}"></link>
-  <link  rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" ></link>
-  <link  rel="stylesheet" href="{{ url_for('static', filename=resolve_css(self)) }}" ></link>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" ></link>
+  <link rel="stylesheet" href="{{ url_for('static', filename=resolve_css(self)) }}" ></link>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="canonical" href="https://getbootstrap.com/docs/4.1/examples/navbars/"/>
 </head>
@@ -60,7 +60,6 @@
               href="{{url_for('profile')}}"
               class="nav-item nav-link animated"
               id="profile-nav"
-              name="{{current_user.name}}"
               >Profile</a
             >
             <a
@@ -88,7 +87,15 @@
           </div>
           <!--<div class="navbar-nav ml-auto"> <a href="#" class="nav-item nav-link animated">Anviwònman</a> </div>-->
         </div>
+      {% else %}
+          <a href="{{url_for('login')}}" class="nav-item nav-link animated">
+            Login
+          </a>
+          <a href="{{url_for('signUpRoute')}}" class="nav-item nav-link animated">
+            Sign Up
+          </a>
       {% endif %}
+      
     </nav>
   </div>
   <!-- show flash messages to user in all views -->
