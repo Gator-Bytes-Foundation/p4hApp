@@ -35,7 +35,7 @@ class User(UserMixin,db.Model):
       'canvasId': self.canvasId,
       'email': self.email,
       'name': self.name,
-      'permission': self.permission.value,
+      'permission': self.permission.value if self.permission != None else "teacher",
       'school': self.school,
       'phone': self.phone,
       'location': self.location,
@@ -93,3 +93,11 @@ class UserFiles(db.Model):
   postId = db.Column(db.Integer)
   data = db.Column(db.LargeBinary)
 
+  def serialize(self):
+    return {
+      'id': self.id,
+      'userFile': self.userFile.read(),
+      'userId': self.userId,
+      'postId': self.postId,
+      'data': self.email
+    }
