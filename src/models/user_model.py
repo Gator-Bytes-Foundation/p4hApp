@@ -35,7 +35,7 @@ class User(UserMixin,db.Model):
       'canvasId': self.canvasId,
       'email': self.email,
       'name': self.name,
-      'permission': self.permission,
+      'permission': self.permission.value,
       'school': self.school,
       'phone': self.phone,
       'location': self.location,
