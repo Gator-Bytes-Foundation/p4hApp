@@ -1,3 +1,4 @@
+import base64
 from src import login_manager, db, file_upload
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -96,8 +97,7 @@ class UserFiles(db.Model):
   def serialize(self):
     return {
       'id': self.id,
-      'userFile': self.userFile.read(),
       'userId': self.userId,
       'postId': self.postId,
-      'data': self.email
+      'data': base64.b64encode(self.data).decode("utf-8")
     }

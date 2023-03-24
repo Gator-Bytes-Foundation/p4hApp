@@ -54,6 +54,8 @@ def loadPosts(profileUser):
     
     postAuthor = User.query.filter_by(username=postAuthUsername).first() # announcements are all posts from the admins (until announcements canvas api is being used)
     if(postProfileUsername == profileUser.username and posts[i].message is not None and postAuthor is not None): #only shows posts belonging to user's profile
+      # for now we are only storing one file per post
+      file = UserFiles.query.filter_by(userId=profileUser.id,postId=posts[i].id).first()
       newPost = {
         'id': posts[i].id,
         'message': posts[i].message.replace('</p>', '').replace('<p>', ''),
@@ -62,10 +64,10 @@ def loadPosts(profileUser):
         'user': profileUser.serialize(),
         'title': posts[i].title,
         'comments': loadPostComents(posts[i],profileUser),
-        'files': UserFiles.query.filter_by(userId=profileUser.id,postId=posts[i].id).all()
+        'files': [file.serialize()] if(file != None) else []
       }
       if(len(newPost['files']) > 0):
-        image_data = base64.b64encode(newPost["files"][0].data).decode("utf-8")
+        image_data = newPost["files"][0]["data"]
         newPost['img'] = image_data
 
       # Push profile post into recent posts array

@@ -28,7 +28,7 @@ def logout():
 def loginAPI(username,pwd,remember=False):
   user = User.query.filter_by(username=username).first() # query db
   if current_user.is_authenticated:
-    return jsonify(user.serialize())
+    return jsonify(current_user.serialize())
   if(not user):
     return abort(Response("Username not found"))
 
