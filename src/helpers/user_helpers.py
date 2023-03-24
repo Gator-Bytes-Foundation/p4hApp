@@ -86,7 +86,8 @@ def deleteCanvasUser(canvas_user):
   account.delete_user(canvas_user)
 
 def deleteRocketUser(rocket_user): 
-  delete = ROCKET_ADMIN.users_delete(rocket_user.id)
+  if(rocket_user == None): return
+  delete = ROCKET_ADMIN.users_delete(rocket_user["id"])
   print("DELETING rocket") # debugging on pro
   print(delete)
 
@@ -114,8 +115,8 @@ def createUser(userData,canvas_user=None,rocket_account=None):
     if(rocket_account is None): 
       rocket_res = createRocketAccount(userData)
       if("success" in rocket_res and rocket_res["success"] == True):
-        print("rocket success")
         rocket_account = rocket_res["user"]
+        print(rocket_account)
       else:
         print("rocket res")
         print(rocket_res)
