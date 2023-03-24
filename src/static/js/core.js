@@ -2,6 +2,10 @@
 
 window.$ = $;
 
+function loading(){
+  $("#loading").show();
+  $('button[type=submit], button[type=button]').prop('disabled',true);
+}
 /**
  * @abstract when file is uploaded, checks for image placeholder and adds image preview into placeholder
  * @todo Move this out of global js and into Angular service component
@@ -88,8 +92,7 @@ $("#post").on("click", function(e) {
     const profileId = e.currentTarget.name;
     const textboxId = e.currentTarget.id;
     const formData = getPostData(textboxId, profileId);
-    $("#loading").show();
-    $('button[type=submit], input[type=submit]').prop('disabled',true);
+    loading();
     $.ajax({
         type: "POST",
         url: `/post/${profileId}`,

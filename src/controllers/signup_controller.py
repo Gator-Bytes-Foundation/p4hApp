@@ -30,7 +30,7 @@ class SignupForm(FlaskForm):
   email = StringField('Email', validators=[DataRequired()])
   password = PasswordField('Password', validators=[DataRequired()])
   admin = BooleanField('Are you an Administrator?')
-  submit = SubmitField('Sign Up')
+  submit = SubmitField('Sign Up', render_kw={"onclick": "loading()"})
 
   def signUp(self): #signUp - verb / signup - noun
     form = self
