@@ -1,7 +1,0 @@
--r requirements.txt
-
-black; python_version >= '3.6'
-coverage
-flake8
-isort
-requests-mock
