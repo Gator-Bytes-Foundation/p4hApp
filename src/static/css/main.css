@@ -1,5 +1,68 @@
 /* This is the main CSS stylesheet that will get loaded on every page */
+@font-face {
+  font-family: "Poppins";
+  src: url('../fonts/Poppins-Light.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url('../fonts/Poppins-LightItalic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url('../fonts/Poppins-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url('../fonts/Poppins-BoldItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url('../fonts/Poppins-SemiBold.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url('../fonts/Poppins-SemiBold.ttf') format('truetype');
+  font-weight: 500;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url('../fonts/Poppins-ExtraLight.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url('../fonts/Poppins-ExtraLightItalic.ttf') format('truetype');
+  font-weight: 100;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url('../fonts/Poppins-ExtraBold.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url('../fonts/Poppins-ExtraBoldItalic.ttf') format('truetype');
+  font-weight: 900;
+  font-style: italic;
+}
 
+body {
+  font-family: "Poppins" !important;
+}
 /* CSS to overwrite any bootstrap */
 .center {
     margin: auto;
@@ -59,17 +122,17 @@ input[type='checkbox'] {
   position: fixed;
   background-color: #5552;
   pointer-events: none;
-  z-index: 3;
+  z-index: 1051; /* bootstrap modal is 1050 */
 }
 .loader {
-    border: 16px solid #f3f3f3;
-    border-radius: 50%;
-    border-top: 16px solid #3498db;
-    width: 120px;
-    height: 120px;
-    -webkit-animation: spin 2s linear infinite; /* Safari */
-    animation: spin 2s linear infinite;
-  }
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
 
   /* Safari */
   @-webkit-keyframes spin {
@@ -101,6 +164,12 @@ input[type='checkbox'] {
 .profile-pic {
   display: flex;
   justify-content: center;
+}
+.profile-pic img{
+  margin: 0 auto;
+  max-width:70px; 
+  max-height:70px;
+  margin-right:10px;
 }
 .upload_icon {
   vertical-align: middle;
@@ -136,7 +205,7 @@ input[type='checkbox'] {
     margin-bottom:10px;
   }
 .post_box .row {
-    margin:0; /* get rid of annoying bootstrap margins for "row" class */
+    margin:0; /* get rid of bootstrap margins for "row" class */
     justify-content: center;
   }
 .thumbnail {
@@ -204,7 +273,7 @@ input[type='checkbox'] {
   line-height:120%;
   padding:8px;
   position: relative;
-  box-shadow: 0px 4px 7px 0px rgba(22,50,170, 0.10);/* same color as #1632AA with low opacity */
+  box-shadow: 0px 4px 7px 0px rgba(22,50,170, 0.10); /* same color as #1632AA with low opacity */
   border:thin;
   border-style: solid;
   border-color: rgba(22,80,200,0.20);
@@ -225,45 +294,30 @@ input[type='checkbox'] {
   padding:10px;
   width:90%;
 }
-.blue_button {
-    cursor:pointer;
-    display: block;
-    width:100%;
-    max-width:450px;
-    text-align: center;
-    /*margin-right:6px !important;
-    margin-left:6px !important;*/
-    padding:6px;
-    margin: 10px 2px 10px 2px;
-    border: thin;
-    border-style: solid;
-    border-color: rgba(22,80,200,0.20);
-    color:#1632AA;
-    background-color: transparent; /* same color as #1632AA with low opacity */
-    box-shadow: 0px 4px 7px 0px rgba(22,50,170, 0.10);/* same color as #1632AA with low opacity */
+.blue_button, .blue-button>input {
+  background-color: #1632AA;
+  color: white;
+  border-style:solid;
+  border-color: aliceblue;
+  border-width: 1px;
+  font-weight: 500;
+  padding: 15px 80px;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 13px;
+  -webkit-box-shadow: 0 10px 30px 0 rgba(95,120,233,0.4);
+  box-shadow: 0 10px 30px 0 rgba(95,120,233,0.4);
+  -webkit-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
+  margin: 15px 20px 20px 20px;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 .blue_button:hover {
-  background-color: rgba(22,50,170,0.07); /* same color as #1632AA with low opacity */
-  color:#1B3FD7;
-  text-decoration: none !important;
-}
-
-.blue-button-form input {
-  cursor:pointer;
-  width:100%;
-  margin-top: 10px;
-  max-width:250px;
-  text-align: center;
-  padding:6px;
-  border: 1px solid rgba(22,80,200,0.20);
-  color:#1632AA;
-  background-color: transparent; /* same color as #1632AA with low opacity */
-  box-shadow: 0px 4px 7px 0px #1632aa1a;/* same color as #1632AA with low opacity */
-}
-.blue-button-form input:hover {
-  background-color: rgba(22,50,170,0.07); /* same color as #1632AA with low opacity */
-  color:#1B3FD7;
-  text-decoration: none !important;
+  background-color:#1736c1; /* same color as #1632AA but darker */
 }
 .circle-cropper {
   width: 115px;

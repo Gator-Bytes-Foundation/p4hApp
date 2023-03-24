@@ -45,13 +45,6 @@ b {
 .overlayBlock .col-8 .row {
   justify-content: center;
 }
-
-.profile-pic img{
-  margin: 0 auto;
-  max-width:70px; 
-  max-height:70px;
-  margin-right:10px;
-}
 .buttons_row {
   display: flex;
   flex-wrap: wrap;

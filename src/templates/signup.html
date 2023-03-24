@@ -7,27 +7,31 @@
     <div id="formContent">
       <!-- Icon -->
       <div class="fadeIn first">
-        <div class="image-cropper">
-          <img class="profile-pic img-fluid m-auto" src="{{ url_for('static', filename='images/p4h.png') }}" id="icon" alt="User Icon" />
+        <div class="profile-pic">
+          <img class="img-fluid mx-auto mb-4" src="{{ url_for('static', filename='images/p4h.png') }}" id="icon" alt="User Icon" />
         </div>
       </div>
+      <p>
+        Please fill out information below and submit. 
+        If you have any problems, please email general@p4hglobal.org.
+      </p>
       <!-- Signup Form -->
       <form method="POST" action="" novalidate>
         {{ form.hidden_tag() }}
-          <p class="fadeIn second form-text-box">
+          <div class="fadeIn second form-text-box mb-2">
               {{ form.fname.label }}<br>
               {{ form.fname(size=32) }}<br>
               {% for error in form.fname.errors %}
               <span style="color: red;">[{{ error }}]</span>
               {% endfor %}
-          </p>
-          <p class="fadeIn second form-text-box">
+          </div>
+          <div class="fadeIn second form-text-box mb-2">
               {{ form.lname.label }}<br>
               {{ form.lname(size=32) }}<br>
               {% for error in form.lname.errors %}
               <span style="color: red;">[{{ error }}]</span>
               {% endfor %}
-          </p>
+          </div>
           <p class="fadeIn second form-text-box">
               {{ form.username.label }}<br>
               {{ form.username(size=32) }}<br>
@@ -49,7 +53,7 @@
               <span style="color: red;">[{{ error }}]</span>
               {% endfor %}
           </div>
-          <div class="fadeIn fourth blue-button-form" >{{ form.submit() }}</div>
+          <div class="fourth blue-button py-2 my-3" >{{ form.submit() }}</div>
       </form>
       {% if error %}
         <p class=error><strong>Error:</strong> {{ error }}

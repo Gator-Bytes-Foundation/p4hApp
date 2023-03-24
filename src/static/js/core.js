@@ -6,6 +6,9 @@ function loading(){
   $("#loading").show();
   $('button[type=submit], button[type=button]').prop('disabled',true);
 }
+function clearLocal(){
+  localStorage.clear();
+}
 /**
  * @abstract when file is uploaded, checks for image placeholder and adds image preview into placeholder
  * @todo Move this out of global js and into Angular service component

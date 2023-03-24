@@ -27,7 +27,5 @@ iframe.onload = function() {
       token: rocket_token,
   }, '*'); // rocket.chat's URL
   // just in case local storage doesn't have correct key, load new token from rocket chat
-  loginRocket() // todo create way to tell if Rocketchat loaded
 }
-
-
+loginRocket() // todo create way to tell if Rocketchat loaded

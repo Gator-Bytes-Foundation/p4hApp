@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" ></link>
   <link rel="stylesheet" href="{{ url_for('static', filename=resolve_css(self)) }}" ></link>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="static/dist/styles.css">
   <link rel="canonical" href="https://getbootstrap.com/docs/4.1/examples/navbars/"/>
 </head>
 <body style="overflow-y:auto;">
@@ -72,18 +73,12 @@
               class="nav-item nav-link animated"
               >Anons</a
             >
-            <a
-              href="{{ url_for('resources') }}"
-              class="nav-item nav-link animated"
-              tabindex="-1"
-              >Resous
-              </a>
-            <a
-              href="/logout"
-              class="nav-item nav-link animated"
-              tabindex="-1"
-              >Logout
-              </a>
+            <a href="{{ url_for('resources') }}" class="nav-item nav-link animated" tabindex="-1">
+              Resous
+            </a>
+            <a href="/logout" onclick="clearLocal()" class="nav-item nav-link animated" tabindex="-1">
+              Logout
+            </a>
           </div>
           <!--<div class="navbar-nav ml-auto"> <a href="#" class="nav-item nav-link animated">Anviwònman</a> </div>-->
         </div>

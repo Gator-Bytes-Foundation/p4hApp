@@ -4,7 +4,6 @@ html, body { min-height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
   #loader {
-    display: none;
     position: absolute;
     background-color: rgba(lightgrey,0.2);
     pointer-events: none;
