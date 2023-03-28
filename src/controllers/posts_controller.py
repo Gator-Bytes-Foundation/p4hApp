@@ -107,13 +107,13 @@ def renderAnnouncements():
 
 
 
-def createPost(user_id, req):
+def createPost(profileUserId, req):
   '''
     abstrtact: Takes in user info on who is posting and where they are posting and adds the post on Canvas
   '''
   if(current_user.is_anonymous == True):
     abort(Response('Must be logged in to post'))
-  user = User.query.filter_by(id=user_id).first()
+  profileUser = User.query.filter_by(id=profileUserId).first()
   new_post = req.form['text']
   try:
     postFile = (req.files['file']) # check to see if there were files attached
@@ -122,7 +122,7 @@ def createPost(user_id, req):
     postFile = None
 
   # make post in canvas
-  title = user.username + ' ' + current_user.username # title is profile user's username and poster username
+  title = profileUser.username + ' ' + current_user.username # title is profile user's username and poster username
   post = course.create_discussion_topic(
       title = title,
       user_name = current_user.username, # person posting it

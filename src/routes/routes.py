@@ -1,4 +1,4 @@
-from flask import request, render_template, send_from_directory
+from flask import request, render_template, send_from_directory, make_response
 from flask_login import login_required
 from src import app  # from /app import flask app TODO: import db
 ''' Import Needed Modules '''
@@ -7,7 +7,6 @@ from src.controllers.posts_controller import *
 ''' Import Needed Libraries '''
 import json
 from flask.json import jsonify
-from src.controllers.posts_controller import getProfilePic
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -42,18 +41,28 @@ def apiTest():
   return render_template('testAPi.html', title = "test API"), 200
 
 # Create post (both API and web)
-@app.route('/api/post/<user_id>', methods=['GET', 'POST'])
-@app.route('/post/<user_id>', methods=['GET', 'POST'])
-def posts(user_id): #url being routed is saved to 'user_id' which we can then use to render the name of the html file
+@app.route('/api/post/<profileUserId>', methods=['GET', 'POST'])
+@app.route('/post/<profileUserId>', methods=['GET', 'POST'])
+def posts(profileUserId): #url being routed is saved to 'user_id' which we can then use to render the name of the html file
   '''
     Creates a user discussion post in canvas (displayed on user's profile)
   '''
   if(request.method == 'POST'):
-    post, profilePic = createPost(user_id,request)
+    post, profilePic = createPost(profileUserId,request)
+    if(post.title == None or len(post.title) < 2):
+      profileUsername = None
+      postUsername = None
+    else: 
+      profileUsername = post.title.split(" ")[0]
+      postUsername = post.title.split(" ")[1]
     return jsonify({
-      'new_post_id': post.id,
-      'profilePic': profilePic
-    }), 200, {'ContentType':'application/json'}
+      "newPostId": post.id,
+      "postedAt": post.posted_at,
+      "profileUsername": profileUsername,
+      "postUsername": postUsername,
+      "message": post.message,
+      "profilePic": profilePic
+    })
   else:
     userProfile = loadPosts(current_user)
     return jsonify(userProfile.posts)
