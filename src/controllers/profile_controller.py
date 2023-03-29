@@ -96,7 +96,7 @@ def updateProgress(request,userId,assignment_id):
 
   assignment.submit(
       submission={"submission_type": "online_upload"},
-      file=request.files["progressFile.pdf"],
+      file=(request.files["progressFile.pdf"]),
       as_user_id=str(user.canvasId) # sending user id works
   )
   return True

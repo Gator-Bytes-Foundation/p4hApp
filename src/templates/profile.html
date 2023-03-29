@@ -54,13 +54,13 @@
         <!-- shows if the current user is looking at someone elses profile -->
         {% if(profile.user.id == current_user.id) %}
         <div class="col-6 col-sm-5">
-            <button type="submit" id="edit_profile" class="profile_button button-bg" name="edit">Edit Pwofil</button>
+            <button type="submit" id="edit_profile" class="profile-btn" name="edit">Edit Pwofil</button>
         </div>
         {% endif %}
-        {% if( (profile.user.id == current_user.id or current_user.permission == "PermissionType.admin") and (profile.user.permission != "PermissionType.admin") ) %} <!-- admin has no progress, but can see everyone elses  -->
+        {% if( (profile.user.id == current_user.id or current_user.permission == "PermissionType.admin") and (profile.user.permission | string != "PermissionType.admin") ) %} <!-- admin has no progress, but can see everyone elses  -->
         <div class="col-6 col-sm-5">
             <form action="/profile/{{profile.user.id}}/progress">
-                <button type="submit" class="profile_button button-bg">Pwogre Mwen</button>
+                <button type="submit" class="profile-btn">Pwogre Mwen</button>
             </form>
         </div>
         {% endif %}
@@ -87,7 +87,7 @@
                                 <input type="file" name="userFile" id="input-upload-post" class="invisble" accept=".jpg, .png" data-multiple-caption="{count} files selected" onclick="this.value = null" onchange="checkFile(event)" multiple/>
                                 <label class="invisble" id="label-upload-post" style="display: none;" for="input-upload-post"><strong>Choose a file</strong></label>
                                 <div class="row">
-                                    <button name="{{profile.user.id}}" id="post" class="profile_button w-100" type="submit">Post</button>
+                                    <button name="{{profile.user.id}}" id="post" class="profile-btn w-100" type="submit">Post</button>
                                 </div>
                             </div>
                         </div>
@@ -179,7 +179,7 @@
                         <p>Profile Picture</p>
                     </div>
                     <div class="col-4 col-sm-3">
-                        <span onclick="document.getElementById('input-profile-pic').click();"  id="profile-pic" class="profile_button oi oi-cloud-upload" aria-hidden="true">Upload Picture</span>
+                        <span onclick="document.getElementById('input-profile-pic').click();"  id="profile-pic" class="profile-btn oi oi-cloud-upload" aria-hidden="true">Upload Picture</span>
                         <input type="file" accept=".jpg, .png" name="avatar" id="input-profile-pic" class="inputfile" onchange="checkFile(event)" style="display: none;"/>
                     </div>
                     <div class="center">
@@ -236,7 +236,7 @@
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-10 col-sm-6 col-md-4">
-                        <input type="submit" value="Save" class="profile_button">
+                        <input type="submit" value="Save" class="profile-btn">
                     </div>
                 </div>
             </form>

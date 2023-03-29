@@ -52,7 +52,7 @@ b {
 }
 
 
-.profile_button {
+.profile-btn {
   cursor:pointer;
   display: block;
   width:100%;
@@ -69,16 +69,16 @@ b {
   background-color: transparent; /* same color as #1632AA with low opacity */
   box-shadow: 0px 4px 7px 0px rgba(22,50,170, 0.10);/* same color as #1632AA with low opacity */
 }
-.profile_button:hover {
+.profile-btn:hover {
   background-color: rgba(22,50,170,0.07); /* same color as #1632AA with low opacity */
   color:#1B3FD7;
   text-decoration: none !important;
 }
-.profile_button:disabled {
+.profile-btn:disabled {
   color: gray; 
   background-color: #eee;
 }
-.profile_button:disabled:hover {
+.profile-btn:disabled:hover {
   cursor: default;
   color: gray; 
   background-color: #eee;

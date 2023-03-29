@@ -35,7 +35,7 @@
   border-radius: 0 0 10px 10px;
 }
 
-.blue_button, .blue-button>input {
+.blue-btn, .blue-button>input {
   background-color: #1632AA;
   color: white;
   border-style:solid;
@@ -57,7 +57,7 @@
   -o-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
 }
-.blue_button:hover {
+.blue-btn:hover {
   background-color:#1736c1; /* same color as #1632AA but darker */
 }
 .login input[type=button]:active, .login input[type=submit]:active, .login input[type=reset]:active  {

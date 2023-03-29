@@ -35,7 +35,7 @@
                   <span style="color: red;">[{{ error }}]</span>
                   {% endfor %}
               </div>
-              <div>{{ form.remember_me() }} {{ form.remember_me.label }}</div>
+              <div class="check-lg">{{ form.remember_me() }} {{ form.remember_me.label }}</div>
               <div class="blue-button underlineHover fadeIn fourth my-3">{{ form.submit() }}</div>
           </form>
           {% if error %}

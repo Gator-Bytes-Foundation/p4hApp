@@ -70,13 +70,13 @@ body {
     text-align: center;
 }
 /* overwrite bootstrap blue primary color */
-.btn {
+.btn-primary {
     background-color: #1632aa;
     color: white;
     border-color: #112787;
 }
 .btn:hover {
-    background-color: #112787; /* Green */
+    background-color: #112787;
 }
 .p4h {
     color:#1632AA;
@@ -110,9 +110,9 @@ body {
 .avatar-sm {
     max-height:60px;
 }
-input[type='checkbox'] {
+.check-lg input[type='checkbox'] {
     transform: scale(1.5);
-    margin:5px;
+    margin-right: 0.8rem;
 }
 #loading {
   display: none;
@@ -123,39 +123,6 @@ input[type='checkbox'] {
   background-color: #5552;
   pointer-events: none;
   z-index: 1051; /* bootstrap modal is 1050 */
-}
-.loader {
-  border: 16px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 16px solid #3498db;
-  width: 120px;
-  height: 120px;
-  -webkit-animation: spin 2s linear infinite; /* Safari */
-  animation: spin 2s linear infinite;
-}
-
-  /* Safari */
-  @-webkit-keyframes spin {
-    0% { -webkit-transform: rotate(0deg); }
-    100% { -webkit-transform: rotate(360deg); }
-  }
-
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-.load-wheel {
-    width: 35px;
-    height: 35px;
-    display: none;
-    background: url(../images/loader.gif) no-repeat;
-    cursor: wait;
-}
-.button-bg {
-    font-size: 1rem !important;
-    padding:7px !important;
-    padding-right: 14px !important;
-    padding-left: 14px !important;
 }
 .invisble {
     height:0px;
@@ -294,7 +261,7 @@ input[type='checkbox'] {
   padding:10px;
   width:90%;
 }
-.blue_button, .blue-button>input {
+.blue-btn, .blue-button>input {
   background-color: #1632AA;
   color: white;
   border-style:solid;
@@ -316,7 +283,7 @@ input[type='checkbox'] {
   -o-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
 }
-.blue_button:hover {
+.blue-btn:hover {
   background-color:#1736c1; /* same color as #1632AA but darker */
 }
 .circle-cropper {

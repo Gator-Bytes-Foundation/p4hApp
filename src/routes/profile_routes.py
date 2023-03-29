@@ -99,7 +99,6 @@ def postsAPIRoute(*args):
     user = User.query.filter_by(id=args[0]).first()
   else: user = current_user
   user_profile = loadPosts(user)
-  user_profile.profilePic = getProfilePic(user_profile.user)
   return jsonify(user_profile.posts)
 
 
