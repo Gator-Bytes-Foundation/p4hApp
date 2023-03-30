@@ -26,6 +26,7 @@ $('input[type="file"]').on("change", function(e) {
         var reader = new FileReader();
         reader.onload = function(e) {
             var img_id = String(id).replace("input", "display");
+            $("#" + img_id).removeClass("d-none");
             $("#" + img_id).attr("src", e.target.result);
         };
         reader.readAsDataURL(file);
@@ -57,9 +58,9 @@ function appendPost(post_id,postText,profilePic,postFile) {
   let postHtml = $(`<article id="${post_id}" class="post_box">
     <div class="profile-name">
       <div class="profile-pic">
-        <figure class="thumbnail">
+        <div class="thumbnail">
           <img id="profile-post-${post_id}" alt="placeholder" class="img-fluid avatar-sm" src="data:;base64,${profilePic}"/>'
-        </figure>
+        </div>
       </div>
       <div class="col-10">
         <header class="text-left">

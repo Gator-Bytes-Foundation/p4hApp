@@ -56,22 +56,24 @@ def loadPosts(profileUser):
     if(postProfileUsername == profileUser.username and posts[i].message is not None and postAuthor is not None): #only shows posts belonging to user's profile
       # for now we are only storing one file per post
       file = UserFiles.query.filter_by(userId=profileUser.id,postId=posts[i].id).first()
-      newPost = {
+      formattedPost = {
         'id': posts[i].id,
         'message': posts[i].message.replace('</p>', '').replace('<p>', ''),
-        'posted_at': convertDate(posts[i].posted_at),
+        'postedAt': convertDate(posts[i].posted_at),
+        'posted_at': convertDate(posts[i].posted_at), # deprecate eventually
         'name': postAuthor.name,
-        'user': profileUser.serialize(),
-        'title': posts[i].title,
-        'comments': loadPostComents(posts[i],profileUser),
-        'files': [file.serialize()] if(file != None) else []
+        "postUsername": postAuthUsername,
+        'profileUser': profileUser.serialize(),
+        'title': posts[i].title, # deprecate eventually
+        'comments': loadPostComments(posts[i]),
+        'files': [file.serialize()] if(file != None) else [],
       }
-      if(len(newPost['files']) > 0):
-        image_data = newPost["files"][0]["data"]
-        newPost['img'] = image_data
+      if(len(formattedPost['files']) > 0):
+        image_data = formattedPost["files"][0]["data"]
+        formattedPost['img'] = image_data
 
       # Push profile post into recent posts array
-      recentPosts.append(newPost)
+      recentPosts.append(formattedPost)
 
   # now adding posts to profile
   profile.posts = recentPosts
@@ -87,18 +89,23 @@ def loadAnnouncements():
   ''' 
     abstract: Function will extract 'Admin' posts from discussion page on canvas and load them to Announcement page
   '''
-  adminId = 1
-  adminUser = User.query.filter_by(canvasId=adminId).first() # announcements are all posts from the admins (until announcements canvas api is being used)
-  if(adminUser is None):
-    return render_template('error.html',  error="No admin user in database"), 428
   roles = CANVAS.get_account(adminId).get_roles()
-  # for now load posts as if it were admin profile TODO: figure out what is wrong with get_announcements canvas API
-  profile = loadPosts(adminUser)
-  current_user.role = roles[0]
-  # todo switch to canvas announcements api
-  # canvas announcements lack documentation, so using regular discussion posts
-  # announcements = canvas.get_announcements(context_codes='course_1')
-  return profile.posts
+  roleList = [role for role in roles]
+  current_user.role = roleList[0].label
+  announcements = CANVAS.get_announcements([1])
+  announcementList = []
+  for announcement in announcements:
+    formattedAnnouncement = {
+      "id": announcement.id,
+      "message": announcement.message,
+      "postedAt": convertDate(announcement.posted_at),
+      'posted_at': convertDate(announcement.posted_at), # to deprecate
+      #'files': [file.serialize()] if(file != None) else []
+      "comments": loadPostComments(announcement)
+    }
+    announcementList.append(formattedAnnouncement)
+
+  return announcementList
 
 def renderAnnouncements():
   announcements = loadAnnouncements()
@@ -139,7 +146,7 @@ def createPost(profileUserId, req):
     })
   # NOTE: post.author['avatar_image_url'] does work in getting canvas avatar, but canvas avatars have been impossible to update
   profilePic = getProfilePic(current_user)
-  return post, profilePic
+  return post, profilePic, profileUser
 
 def getCommentData(comment):
   '''
@@ -156,7 +163,7 @@ def getCommentData(comment):
     commentMessage += commentSections[i]
   return username, commentMessage
 
-def loadPostComents(post,user):
+def loadPostComments(post):
   if(not hasattr(post,'get_topic_entries')): return
   comments = list(post.get_topic_entries())
 
@@ -167,15 +174,13 @@ def loadPostComents(post,user):
     postAuthUsername = comment.message.split(":")[0]
     postAuthor = User.query.filter_by(username=postAuthUsername).first() # announcements are all posts from the admins (until announcements canvas api is being used)
     if(comment.message is not None and postAuthor is not None):
-      print("username")
-      print(comment)
       commentUsername, commentMessage = getCommentData(comment)
       commentAuthor = User.query.filter_by(username=commentUsername).first() # announcements are all posts from the admins (until announcements canvas api is being used)
 
       newComment = {
         'id': comment.id,
         'message': commentMessage,
-        'posted_at': convertDate(comment.created_at),
+        'postedAt': convertDate(comment.created_at),
         'name': commentAuthor.name,
         'author': commentAuthor.serialize()
       }
@@ -196,10 +201,17 @@ def createComment(req,post_id):
   comment = topic.post_entry(
       message = current_user.username + ": " + comment_text,
   )
+  commentUsername, commentMessage = getCommentData(comment)
+  formattedComment = {
+    "id": comment.id,
+    "name": current_user.name,
+    "username": commentUsername,
+    "message": commentMessage
+  }
   profilePic = getProfilePic(current_user)
   res = ({
     'success':True,
-    'data': {'profilePic':profilePic, "post_id": post_id}
+    'data': {'profilePic':profilePic, "post_id": post_id, "comment": formattedComment}
   })
   return res
 

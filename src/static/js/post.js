@@ -44,19 +44,18 @@ function getPostData(id) {
       }
     });
   }
-  function appendComment(commentText,profilePic,post_id) {
-    const nameOfUser = $('#profile-nav')[0].name;
-    const comment = $(`<div class="post_comment profile-pic-post">
+  function appendComment(comment,profilePic,post_id) {
+    const commentHtml = $(`<div class="post_comment profile-pic">
       <img alt="placeholder" class="img-fluid rounded-circle avatar-sm" src="data:;base64,${profilePic}"/>
       <div class="word_bubble">
         <p>
-          <b>${nameOfUser}</b>
+          <b>${comment.name}</b>
           <br/>
-          ${commentText}
+          ${comment.message}
         </p>
       </div>
     </div>`)
-    $("#comments-" + post_id).append(comment);
+    $("#comments-" + post_id).append(commentHtml);
   }
   /**
    * @abstract Creates comment object on specified post
@@ -64,7 +63,6 @@ function getPostData(id) {
    */
   function commentPost(e) {
     const post_id = e.currentTarget.name;
-    const commentText = $("#textbox-" + post_id).val();
     const formData = getPostData(post_id);
     $("#loading").show();
     $('button[type=submit], input[type=submit]').prop('disabled',true);
@@ -77,8 +75,8 @@ function getPostData(id) {
       processData: false,
       dataType: "text",
       success: function (res) {
-        const { profilePic } = JSON.parse(res).data;
-        appendComment(commentText,profilePic,post_id);
+        const { profilePic, comment } = JSON.parse(res).data;
+        appendComment(comment,profilePic,post_id);
         $("#loading").hide()
         $('button[type=submit], input[type=submit]').prop('disabled',false);
       },

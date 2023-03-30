@@ -2,30 +2,33 @@
 {% block content %}
 <base href="/">
 <div class="container emp-profile">
-    <div class="">
-        <h1>Anons</h1>
-        {% if(current_user.role.id > 8) %} <!-- 9 & 10 are admin level ids -->
-        <div id="write_post"> <!-- ID being used for appending posts -->
-          <div style="text-align: center;" class="post_box">
-              <div class="profile-name">
-                  <figure class="profile-pic-post post"><img alt="No Profile Picture" class="img-fluid rounded-circle" src="{{ url_for('static', filename='images/p4h.png') }}" /></figure>
-                  <div class="col-10" id="">
-                      <textarea id="textbox-post" class="text_box" name="message" style="width: 100%;" placeholder="Write Post Here" size="5"></textarea>
-                      <span id="upload-post" onclick="document.getElementById('input-upload-post').click();" class="iconify upload_icon" data-icon="ant-design:cloud-upload-outlined" data-inline="false"></span>
-                      <input type="file" name="userFile" id="input-upload-post" class="invisble" data-multiple-caption="{count} files selected" onclick="this.value = null" multiple/>
-                      <label class="invisble" id="label-upload-post" style="display: none;" for="input-upload-post"><strong>Choose a file</strong></label>
-                      <div class="row ">
-                          <a  id="post" name="1" value="Post" class="w-100 blue-btn">Post</a>
-                      </div>
-                  </div>
-              </div>
-              <img id="display-upload-post" class="img-fluid post-pic" />
-          </div>
+  <div class="col-lg-8 mx-auto">
+      <h1>Anons</h1>
+      <!-- commenting out until this creates an announcement instead of a discussion post
+      {% if(current_user.role | string == "Account Admin") %} 
+      <div id="write_post">
+        <div style="text-align: center;" class="post_box">
+            <div class="profile-name">
+                <div class="profile-pic post">
+                  <img alt="No Profile Picture" class="img-fluid slim" src="{{ url_for('static', filename='images/p4h.png') }}" />
+                </div>
+                <div class="col-10" id="">
+                    <textarea id="textbox-post" class="text_box" name="message" style="width: 100%;" placeholder="Write Post Here" size="5"></textarea>
+                    <span id="upload-post" onclick="document.getElementById('input-upload-post').click();" class="iconify upload_icon" data-icon="ant-design:cloud-upload-outlined" data-inline="false"></span>
+                    <input type="file" name="userFile" id="input-upload-post" class="invisble" data-multiple-caption="{count} files selected" onclick="this.value = null" multiple/>
+                    <label class="invisble" id="label-upload-post" style="display: none;" for="input-upload-post"><strong>Choose a file</strong></label>
+                    <div class="row">
+                        <button id="post" name="1" value="Post" class="white-btn">Post</button>
+                    </div>
+                </div>
+            </div>
+            <img id="display-upload-post" class="img-fluid post-pic" />
         </div>
-        {% endif %}
       </div>
-    <div class="row">
-    <div class="col-12 ">
+      {% endif %}
+      -->
+    </div>
+    <div class="col-lg-8 mx-auto">
       {% if(posts|length == 0)%}
         <h3 style='text-align: center;'>No Announcements at this time</h3>
       {% endif %}
@@ -33,7 +36,6 @@
         {% include 'post.html' %}
     {%endfor%}
   </div>
-</div>
 </div>
 <!--<script src="{{ url_for('static', filename='js/announcements.js') }}"></script>-->
 {% endblock %}

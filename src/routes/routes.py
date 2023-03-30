@@ -3,7 +3,7 @@ from flask_login import login_required
 from src import app  # from /app import flask app TODO: import db
 ''' Import Needed Modules '''
 from src.models.user_model import User
-from src.controllers.posts_controller import *
+from src.controllers.posts_controller import loadAnnouncements, renderAnnouncements
 ''' Import Needed Libraries '''
 import json
 from flask.json import jsonify
@@ -40,64 +40,6 @@ def apiTest():
   # using error template for api testing for now
   return render_template('testAPi.html', title = "test API"), 200
 
-# Create post (both API and web)
-@app.route('/api/post/<profileUserId>', methods=['GET', 'POST'])
-@app.route('/post/<profileUserId>', methods=['GET', 'POST'])
-def posts(profileUserId): #url being routed is saved to 'user_id' which we can then use to render the name of the html file
-  '''
-    Creates a user discussion post in canvas (displayed on user's profile)
-  '''
-  if(request.method == 'POST'):
-    post, profilePic = createPost(profileUserId,request)
-    if(post.title == None or len(post.title) < 2):
-      profileUsername = None
-      postUsername = None
-    else: 
-      profileUsername = post.title.split(" ")[0]
-      postUsername = post.title.split(" ")[1]
-    return jsonify({
-      "newPostId": post.id,
-      "postedAt": post.posted_at,
-      "profileUsername": profileUsername,
-      "postUsername": postUsername,
-      "message": post.message,
-      "profilePic": profilePic
-    })
-  else:
-    userProfile = loadPosts(current_user)
-    return jsonify(userProfile.posts)
-
-# API and web app
-@app.route('/api/post/<post_id>', methods=['DELETE'])
-@app.route('/post/<post_id>', methods=['DELETE'])
-@login_required
-def deletePostRoute(post_id):
-  '''
-    Deletes a user's discussion post
-  '''
-  res = deletePost(request,post_id)
-  return json.dumps({
-    'res': res
-  }), 200, {'ContentType':'application/json'}
-
-# Create comment
-@app.route('/comment/<post_id>', methods=['POST'])
-def comments(post_id): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
-  '''
-    Comments on a user's post in canvas (displayed on user's profile)
-  '''
-  print("post id for commenting: ",post_id)
-  return createComment(request,post_id)
-
-# Delete comment
-@app.route('/post/<post_id>/comment/<comment_id>', methods=['DELETE'])
-def comment(post_id,comment_id): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
-  '''
-    Deletes a user's comment on a user's discussion post in canvas (displayed on user's profile)
-  '''
-  print("post id for commenting: ",post_id)
-  return deleteComment(request,post_id,comment_id)
-
 # Get announcements
 @app.route('/announcements', methods=['GET', 'POST'])
 @login_required
@@ -112,19 +54,10 @@ def announcements():
 @login_required
 def announcementsAPI():
   '''
-    loads announcements json containing all canvas announcements (admin discussion posts)
+    Loads announcements json containing all canvas announcements (admin discussion posts)
   '''
   return jsonify(loadAnnouncements())
 
-@app.route('/api/comment/<post_id>', methods=['POST'])
-@login_required
-def commentAPI(post_id):
-  '''
-    API to create a comment
-    Returns JSON instead of jinja template
-  '''
-  comment = createComment(request,post_id)
-  return jsonify(comment)
 
 '''
 @app.route('/js/<path:path>')

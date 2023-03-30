@@ -4,7 +4,7 @@ from src import app
 ''' Import Needed Modules '''
 from src.models.user_model import User
 from src.controllers.profile_controller import loadProfile, updateProfile, getProgress, updateProgress, loadProgress
-from src.controllers.posts_controller import getProfilePic, loadPosts
+from src.controllers.posts_controller import getProfilePic, loadPosts, createPost, deletePost, createComment, deleteComment
 ''' Import Needed Libraries '''
 import json
 from pyper import *
@@ -41,6 +41,75 @@ def saveProfileRoute():
   '''
   updateProfile(request)
   return profile() # this isnt efficient since it reloads the entire page from scratch
+
+# Create post (both API and web)
+@app.route('/api/post/<profileUserId>', methods=['GET', 'POST'])
+@app.route('/post/<profileUserId>', methods=['GET', 'POST'])
+def posts(profileUserId): #url being routed is saved to 'user_id' which we can then use to render the name of the html file
+  '''
+    Creates a user discussion post in canvas (displayed on user's profile)
+  '''
+  if(request.method == 'POST'):
+    post, profilePic, profileUser = createPost(profileUserId,request)
+    if(post.title == None or len(post.title) < 2):
+      profileUsername = None
+      postUsername = None
+    else: 
+      profileUsername = post.title.split(" ")[0]
+      postUsername = post.title.split(" ")[1]
+    return jsonify({
+      "id": post.id, 
+      "newPostId": post.id, # deprecate eventually
+      "postedAt": post.posted_at,
+      "posted_at": post.posted_at, # deprecate eventually
+      "profileUser": profileUser.serialize(),
+      "postUsername": postUsername,
+      "message": post.message,
+      "profilePic": profilePic
+    })
+  else:
+    userProfile = loadPosts(current_user)
+    return jsonify(userProfile.posts)
+
+# API and web app
+@app.route('/api/post/<post_id>', methods=['DELETE'])
+@app.route('/post/<post_id>', methods=['DELETE'])
+@login_required
+def deletePostRoute(post_id):
+  '''
+    Deletes a user's discussion post
+  '''
+  res = deletePost(request,post_id)
+  return json.dumps({
+    'res': res
+  }), 200, {'ContentType':'application/json'}
+
+# Create comment
+@app.route('/comment/<post_id>', methods=['POST'])
+def comments(post_id): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
+  '''
+    Comments on a user's post in canvas (displayed on user's profile)
+  '''
+  return createComment(request,post_id)
+
+@app.route('/api/comment/<post_id>', methods=['POST'])
+@login_required
+def commentAPI(post_id):
+  '''
+    API to create a comment
+    Returns JSON instead of jinja template
+  '''
+  comment = createComment(request,post_id)
+  return jsonify(comment)
+
+# Delete comment
+@app.route('/post/<post_id>/comment/<comment_id>', methods=['DELETE'])
+def comment(post_id,comment_id): #url being routed is saved to 'page_to_load' which we can then use to render the name of the html file
+  '''
+    Deletes a user's comment on a user's discussion post in canvas (displayed on user's profile)
+  '''
+  print("post id for commenting: ",post_id)
+  return deleteComment(request,post_id,comment_id)
 
 ## PROGRESS SUB MODULE ##
 @app.route('/profile/<userId>/progress')

@@ -33,12 +33,12 @@ def loadProgress(userId):
     milestone['name'] = assign.name
     milestone['description'] = assign.description.replace('<p>','').replace('</p>','') #get rid of stupid html tags. like why is this even being returned
     submissions = assign.get_submissions()
-    milestone['has_submission'] = False
+    milestone['hasSubmission'] = False
 
     for sub in submissions:
       if(canvas_user.id == sub.user_id):
         if(hasattr(sub, 'attachments')):
-          milestone['has_submission'] = True
+          milestone['hasSubmission'] = True
 
     milestones.append(milestone)
 

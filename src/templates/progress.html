@@ -36,7 +36,7 @@
               </div>
               {% endif %}
               <div class="col center">
-                  {% if( milestones[i].has_submission and (current_user.id == profileUser.id) ) %}
+                  {% if( milestones[i].hasSubmission and (current_user.id == profileUser.id) ) %}
                     <a href="profile/{{profileUser.canvasId}}/progress/{{milestones[i].id}}" class="p4h p4h-btn download px-3" name="{{milestones[i].id}}"  id="download-{{milestones[i].id}}">Download</a>
                     {% else %} 
                     <span>No Submission Yet</span>
