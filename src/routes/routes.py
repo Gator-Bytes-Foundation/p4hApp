@@ -38,7 +38,7 @@ def apiTest():
     Temporary route to test API without postman
   '''
   # using error template for api testing for now
-  return render_template('testAPi.html', title = "test API"), 200
+  return render_template('testApi.html', title = "test API"), 200
 
 # Get announcements
 @app.route('/announcements', methods=['GET', 'POST'])
