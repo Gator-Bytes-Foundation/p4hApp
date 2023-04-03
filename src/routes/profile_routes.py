@@ -158,15 +158,21 @@ def saveProfileAPIRoute():
   return jsonify(updatedUser.serialize())
 
 @app.route('/api/posts', methods=['GET'])
+@login_required
+def getPostsAPIRoute():
+  '''
+    Get all posts for currently logged in user  
+  '''
+  user_profile = loadPosts(current_user)
+  return jsonify(user_profile.posts)
+
 @app.route('/api/posts/<userId>', methods=['GET'])
 @login_required
-def postsAPIRoute(*args):
+def getPostsByIdAPIRoute(userId):
   '''
-    Get all posts for a user
+    Get all posts for a user's profile given userId
   '''
-  if(len(args) > 0):
-    user = User.query.filter_by(id=args[0]).first()
-  else: user = current_user
+  user = User.query.filter_by(id=userId).first()
   user_profile = loadPosts(user)
   return jsonify(user_profile.posts)
 
