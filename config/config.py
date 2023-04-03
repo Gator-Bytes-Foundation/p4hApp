@@ -26,8 +26,7 @@ class StagingConfig(Default):
 class DevelopmentConfig(Default):
     DEBUG = True
     DEVELOPMENT = True
-    SQLALCHEMY_DATABASE_URI = "postgresql://root:root@localhost:5432/test_db"
-    #SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL") or "sqlite:///" + os.path.join(basedir, "app.db")
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL") or "sqlite:///" + os.path.join(basedir, "app.db")
     CANVAS_URL="http://localhost:3000"
     ROCKET_URL="http://localhost:4000"
 
