@@ -89,7 +89,7 @@ def loadAnnouncements():
   ''' 
     abstract: Function will extract 'Admin' posts from discussion page on canvas and load them to Announcement page
   '''
-  roles = CANVAS.get_account(adminId).get_roles()
+  roles = CANVAS.get_account(current_user.canvasId).get_roles()
   roleList = [role for role in roles]
   current_user.role = roleList[0].label
   announcements = CANVAS.get_announcements([1])
