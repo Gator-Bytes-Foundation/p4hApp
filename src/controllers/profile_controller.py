@@ -1,5 +1,6 @@
 from src.canvas import * # inject canvas, course objects into file
 from flask_login import current_user
+from canvasapi.exceptions import ResourceDoesNotExist
 from flask import render_template, Response, abort
 from src.models.user_model import User, UserFiles
 from src import db
@@ -15,9 +16,12 @@ def loadProfile(profile,rocket_user = {}):
     currentUserProfilePic = getProfilePic(current_user)
   else: currentUserProfilePic = profile.profile_pic
 
-  roles = CANVAS.get_account(current_user.canvasId).get_roles()
-  roleList = [role for role in roles]
-  current_user.role = roleList[0].label
+  try:
+    roles = CANVAS.get_account(current_user.canvasId).get_roles()
+    roleList = [role for role in roles]
+    current_user.role = roleList[0].label
+  except ResourceDoesNotExist as e: # if role cannot be found, then they are a teacher
+    current_user.role = "Teacher"
   
   return render_template('profile.html', profile = profile,  current_user = current_user, users=allUsers, rocket_user = rocket_user, currentUserProfilePic = currentUserProfilePic)
 
