@@ -19,10 +19,8 @@ def fileDownload(page_to_load):
     elif(readingFileId):
       file_id = file_id + page_to_load[i]
     elif(readingFolderId):
-      #print(page_to_load[i])
       folder_id = folder_id + page_to_load[i]
 
-  #print(file_id)
   page_to_load = page_to_load.replace('file_','') + '.html' # so the url will stay the same on reload
   int_file = int(file_id)
   file_to_download = course.get_file(int_file)
@@ -54,11 +52,10 @@ def getResourceFolders():
 
 def filesPage(page_to_load):
   # user clicked folder => load next layer
-  folderId = page_to_load.replace('files_','').replace('.html','') #find template html file
+  folderId = page_to_load.replace('files_','').replace('.html','') # get folder id from template file name
   files = course.get_folder(int(folderId)).get_files()._get_next_page()
   return files, folderId
 
 def renderResourceFolders():    
   resources = getResourceFolders()
-  #print("folders_ ", folders_[i].name)
   return render_template('resources.html', folders = resources["folders"], icons = resources["icons"], current_user = current_user)

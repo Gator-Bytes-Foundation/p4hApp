@@ -57,7 +57,8 @@
             <button type="submit" id="edit_profile" class="white-btn" name="edit">Edit Pwofil</button>
         </div>
         {% endif %}
-        {% if( (profile.user.id == current_user.id or current_user.role == "Account Admin") and (current_user.role != "Account Admin") ) %} <!-- admin has no progress, but can see everyone elses  -->
+        <!-- if user is on their own profile and not admin or they are on different profile and are an admin -->
+        {% if( (profile.user.id == current_user.id and current_user.role != "Account Admin") or (profile.user.id != current_user.id and current_user.role == "Account Admin") ) %} <!-- admin has no progress, but can see everyone elses  -->
         <div class="col-6 col-sm-5">
             <form action="/profile/{{profile.user.id}}/progress">
                 <button type="submit" class="white-btn">Pwogre Mwen</button>

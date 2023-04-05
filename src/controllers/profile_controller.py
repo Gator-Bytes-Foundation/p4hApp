@@ -15,6 +15,10 @@ def loadProfile(profile,rocket_user = {}):
     currentUserProfilePic = getProfilePic(current_user)
   else: currentUserProfilePic = profile.profile_pic
 
+  roles = CANVAS.get_account(current_user.canvasId).get_roles()
+  roleList = [role for role in roles]
+  current_user.role = roleList[0].label
+  
   return render_template('profile.html', profile = profile,  current_user = current_user, users=allUsers, rocket_user = rocket_user, currentUserProfilePic = currentUserProfilePic)
 
 def loadProgress(userId):
@@ -74,12 +78,12 @@ def getProgress(userId,milestone_id):
     return submission, filePath
 
 # admins should be only ones uploading progress
-def updateProgress(request,userId,assignment_id):
-  user = User.query.filter_by(id=userId).first()
+def updateProgress(request,profileUserId,assignment_id):
+  user = User.query.filter_by(id=profileUserId).first()
   int_assignment_id = int(assignment_id)
   try:
     assignment = course.get_assignment(int_assignment_id)
-  except(err):
+  except:
     print('canvas GET assignment failed')
     return False
   print(request.files["progressFile.pdf"])

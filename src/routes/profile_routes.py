@@ -136,14 +136,14 @@ def getProgressRoute(userId,milestone_id):
     return json.dumps({'success':False}), 400, {'ContentType':False}
 
 # POST milestone
-@app.route('/api/profile/<userId>/progress/<milestone_id>', methods=['POST'])
-@app.route('/profile/<userId>/progress/<milestone_id>', methods=['POST'])
+@app.route('/api/profile/<profileUserId>/progress/<milestone_id>', methods=['POST'])
+@app.route('/profile/<profileUserId>/progress/<milestone_id>', methods=['POST'])
 @login_required
-def uploadProgressRoute(userId,milestone_id):
+def uploadProgressRoute(profileUserId,milestone_id):
   '''
     Upload milestone file to canvas assignment where teacher progress is tracked
   '''
-  file_uploaded = updateProgress(request,userId,milestone_id)
+  file_uploaded = updateProgress(request,profileUserId,milestone_id)
   return json.dumps({'success':True}), 204, {'ContentType':False}
 
 # DELETE progress milestone - to do

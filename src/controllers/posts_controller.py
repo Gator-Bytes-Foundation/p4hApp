@@ -91,7 +91,7 @@ def loadAnnouncements():
   '''
   roles = CANVAS.get_account(current_user.canvasId).get_roles()
   roleList = [role for role in roles]
-  current_user.role = roleList[0].label
+  current_user.role = roleList[0].label # only concerned with first role for now
   announcements = CANVAS.get_announcements([1])
   announcementList = []
   for announcement in announcements:
