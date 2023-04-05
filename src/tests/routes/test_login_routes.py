@@ -1,5 +1,5 @@
 from urllib.parse import urlparse
-from app.tests import client
+import pytest
 
 
 class TestLoginRoutes:
@@ -7,11 +7,9 @@ class TestLoginRoutes:
         """Should return the login form page for a user that is not logged in"""
 
         ## KICKOFF
-
         response = client.get("/", follow_redirects=False)
 
         ## ASSERTIONS
-
         assert response.status_code == 302
 
         path_redirected_to = urlparse(response.location).path
