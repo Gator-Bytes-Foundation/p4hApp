@@ -3,7 +3,7 @@
 wsgi.py
 settings.py
 app.yaml
-/config/app.db
+config/app.db
 
 # cache dir created by pytest
 .cache
