@@ -14,35 +14,32 @@
         }
       },
       "root": "",
-      "sourceRoot": "src",
+      "sourceRoot": "src/static/client",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "src/static/dist",
+            "outputPath": "src/static/client/dist",
             "preserveSymlinks": true,
-            "index": "src/templates/login.html",
-            "main": "src/static/main.ts",
-            "polyfills": "src/static/polyfills.ts",
+            "index": "./src/static/client/index.html",
+            "main": "src/static/client/main.ts",
+            "polyfills": "src/static/client/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": [
-              "src/static/images/favicon.ico",
-              "src/static"
+              "src/static/client/favicon.ico",
+              "src/static/client/assets"
             ],
-            "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
-              "src/styles.scss"
-            ],
+            "styles": ["src/static/client/styles.scss"],
             "scripts": []
           },
           "configurations": {
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "src/static/environments/environment.ts",
-                  "with": "src/static/environments/environment.prod.ts"
+                  "replace": "src/static/client/environments/environment.ts",
+                  "with": "src/static/client/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -91,14 +88,8 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
-              "src/styles.scss"
-            ],
+            "assets": ["static/favicon.ico", "src/static/client/assets"],
+            "styles": ["src/styles.scss"],
             "scripts": []
           }
         },
@@ -110,9 +101,7 @@
               "tsconfig.spec.json",
               "e2e/tsconfig.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "e2e": {

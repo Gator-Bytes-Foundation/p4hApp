@@ -42,9 +42,9 @@
         <div id="mytabs" class="">
             <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link" onclick="openTab(event, 'about')" aria-controls="about" id="about-tab" rel="about" data-toggle="tab" role="tab" aria-selected="false">About</a> 
+                    <a class="nav-link" onclick="openTab(event, 'about')" aria-controls="about" id="about-tab" rel="about" data-toggle="tab" role="tab" aria-selected="false">About</a>
                 </li>
-                <li class="nav-item"> 
+                <li class="nav-item">
                     <a class="nav-link" onclick="openTab(event, 'timeline')" aria-controls="timeline" id="timeline-tab" rel="timeline" data-toggle="tab" role="tab" aria-selected="true">Timeline</a>
                 </li>
             </ul>
@@ -164,7 +164,7 @@
                 <h5 class="modal-title" id="modalLabel">Edit Menu</h5>
                 <button class="close" data-dismiss="modal" aria-label="Close" type="button">
                     <span aria-hidden="true">&times;</span>
-                </button>          
+                </button>
             </div>
             <form action="/profile" method="post" class="py-3" id="edit-profile"enctype="multipart/form-data">
                 <div class="row">
@@ -251,7 +251,7 @@
                 <h5 class="modal-title" id="modalLabel">Not correct file type</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                </button>          
+                </button>
             </div>
             <div class="modal-body">
                 <p>Only .png, and .jpg files can be uploaded for now</p>
@@ -263,9 +263,9 @@
     </div>
 </div>
 <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
-<script src="static/dist/runtime.js" defer=""></script>
-<script src="static/dist/polyfills.js" defer=""></script>
-<script src="static/dist/vendor.js" defer="">
-</script><script src="static/dist/main.js" defer=""></script>
+<script src="static/client/dist/runtime.js" defer=""></script>
+<script src="static/client/dist/polyfills.js" defer=""></script>
+<script src="static/client/dist/vendor.js" defer="">
+</script><script src="static/client/dist/main.js" defer=""></script>
 {% endblock %}
 <!-- this appears when looking at html but if running Flask, will not appear (needed for extending from header.html -->
