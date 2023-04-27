@@ -3,68 +3,55 @@
     <div id="formContent">
       <!-- Login Form -->
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div class="fadeIn second">
-          <div class="mb-3">
-            <label class="form-label" for="username">Username</label>
-            <input
-              class="form-control"
-              id="username"
-              type="text"
-              formControlName="username"
-            />
-            <div
-              *ngIf="username?.invalid && (username?.dirty || username?.touched)"
-              class="alert alert-danger"
-            >
-              <div *ngIf="username?.errors?.required">
-                Username is required.
-              </div>
-            </div>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label" for="password">Password </label>
-            <input
-              class="form-control"
-              id="password"
-              type="password"
-              formControlName="password"
-            />
-            <div
-              *ngIf="password?.invalid && (password?.dirty || password?.touched)"
-              class="alert alert-danger"
-            >
-              <div *ngIf="password?.errors?.required">
-                Password is required.
-              </div>
-            </div>
-          </div>
-
-          <!-- </div> -->
-          <div class="mb-3 form-check">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value
-              id="checkDefault"
-              formControlName="rememberMe"
-            />
-            <label class="form-check-label" for="checkDefault"
-              >Remember Me</label
-            >
-          </div>
-
-          <button
-            class="btn btn-primary"
-            type="submit"
-            [disabled]="!loginForm.valid"
+        <div class="fadeIn second mb-2">
+          <label for="username">Username</label><br />
+          <input
+            formControlName="username"
+            id="username"
+            type="text"
+            size="32"
+          /><br />
+          <div
+            *ngIf="username?.invalid && (username?.dirty || username?.touched)"
+            class="alert alert-danger"
           >
-            Login
-          </button>
-          <button class="btn btn-secondary" type="button" (click)="onSignup()">
-            Sign Up
-          </button>
+            <div *ngIf="username?.errors?.required">Username is required.</div>
+          </div>
+          <label for="password">Password</label><br />
+          <input
+            formControlName="password"
+            id="password"
+            type="password"
+            size="32"
+          /><br />
+          <div
+            *ngIf="password?.invalid && (password?.dirty || password?.touched)"
+            class="alert alert-danger"
+          >
+            <div *ngIf="password?.errors?.required">Password is required.</div>
+          </div>
         </div>
+        <div class="check-lg">
+          <mat-checkbox formControlName="rememberMe">Remember Me</mat-checkbox>
+        </div>
+        <button
+          mat-raised-button
+          color="primary"
+          class="blue-button underlineHover fadeIn fourth my-3"
+          type="submit"
+          [disabled]="!loginForm.valid"
+        >
+          Login
+        </button>
+        <button
+          mat-raised-button
+          color="accent"
+          class="underlineHover fadeIn fourth my-3"
+          type="button"
+          (click)="onSignup()"
+        >
+          Sign Up
+        </button>
       </form>
       <div *ngIf="errorMessage" class="error">
         <strong>Error:</strong> {{ errorMessage }}
