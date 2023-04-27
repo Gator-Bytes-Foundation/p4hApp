@@ -5,14 +5,6 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MatCardModule } from '@angular/material/card';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-
 import { AppComponent } from './app.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { LoginComponent } from './login/login.component';
@@ -20,35 +12,29 @@ import { ProfileComponent } from './profile/profile.component';
 
 import { AppRoutingModule } from './app-routing.module';
 import { LoadInterceptor } from './load-interceptor';
-
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     SpinnerComponent,
-    ProfileComponent
+    ProfileComponent,
+    NavBarComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    //RouterModule.forRoot([]),
     HttpClientModule,
     BrowserAnimationsModule,
-    MatCardModule,
-    MatButtonModule,
-    MatToolbarModule,
-    MatTabsModule,
-    MatGridListModule,
-    MatIconModule,
-    MatInputModule,
     AppRoutingModule,
-    ReactiveFormsModule 
+    ReactiveFormsModule,
+    NgbModule,
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: LoadInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: LoadInterceptor, multi: true },
   ],
-  bootstrap: [AppComponent]
-  //entryComponents: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -9,7 +9,9 @@ config/app.db
 .cache
 node_modules
 frontend/assets
-src/static/dist
+src/static/client/dist
+/.angular/cache
+/env
 
 # this will contain secret keys and tokens
 secrets.yml
