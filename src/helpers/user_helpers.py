@@ -55,7 +55,6 @@ def checkUserExists(userData):
 def createCanvasUser(userData):
   pseudonym = {
       'unique_id': userData["email"],
-      #'password': userData["password"]
   }
   canvasUser = {
       'name': userData["fname"] + ' ' + userData["lname"],

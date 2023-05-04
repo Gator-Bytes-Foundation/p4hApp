@@ -20,7 +20,7 @@ def loadProfile(profile,rocket_user = {}):
     roles = CANVAS.get_account(current_user.canvasId).get_roles()
     roleList = [role for role in roles]
     current_user.role = roleList[0].label
-  except ResourceDoesNotExist as e: # if role cannot be found, then they are a teacher
+  except ResourceDoesNotExist as e: # if admin account cannot be found, then they are not admin
     current_user.role = "Teacher"
   
   return render_template('profile.html', profile = profile,  current_user = current_user, users=allUsers, rocket_user = rocket_user, currentUserProfilePic = currentUserProfilePic)
