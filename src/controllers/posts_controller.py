@@ -6,6 +6,7 @@ from src.canvas import CANVAS,course, CanvasException # inject canvas, course ob
 from src.models.profile_model import Profile
 from src.models.user_model import User, UserFiles
 from src import file_upload
+from canvasapi.exceptions import ResourceDoesNotExist
 
 def convertDate(inproperDate):
   year = inproperDate[2:4]
@@ -27,7 +28,6 @@ def getProfilePic(user):
     avatarFile = open('src/static/images/profile.png', 'rb').read()
     avatarImg = base64.b64encode(avatarFile).decode('utf-8')
     return avatarImg
-
 
 #
 # loads all canvas discussion posts that the profile user has posted and their associated comments
@@ -89,9 +89,12 @@ def loadAnnouncements():
   ''' 
     abstract: Function will extract 'Admin' posts from discussion page on canvas and load them to Announcement page
   '''
-  roles = CANVAS.get_account(current_user.canvasId).get_roles()
-  roleList = [role for role in roles]
-  current_user.role = roleList[0].label # only concerned with first role for now
+  try:
+    roles = CANVAS.get_account(current_user.canvasId).get_roles()
+    roleList = [role for role in roles]
+    current_user.role = roleList[0].label
+  except ResourceDoesNotExist as e: # if admin account cannot be found, then they are not admin
+    current_user.role = "Teacher"
   announcements = CANVAS.get_announcements([1])
   announcementList = []
   for announcement in announcements:
