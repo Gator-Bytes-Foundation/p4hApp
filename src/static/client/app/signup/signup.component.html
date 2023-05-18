@@ -1,0 +1,70 @@
+<section class="signup">
+    <div class="wrapper fadeInDown">
+      <div id="formContent">
+        <div class="fadeIn first">
+          <img src="assets/p4h.png" id="icon" alt="User Icon" />
+        </div>
+        <!-- Signup Form -->
+        <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+          <div class="fadeIn second mb-2">
+            <label for="username">Username</label><br />
+            <input
+              formControlName="username"
+              id="username"
+              type="text"
+              size="32"
+            /><br />
+            <div
+              *ngIf="username?.invalid && (username?.dirty || username?.touched)"
+              class="alert alert-danger"
+            >
+              <div *ngIf="username?.errors?.required">Username is required.</div>
+            </div>
+            <label for="email">Email</label><br />
+            <input
+              formControlName="email"
+              id="email"
+              type="email"
+              size="32"
+            /><br />
+            <div
+              *ngIf="email?.invalid && (email?.dirty || email?.touched)"
+              class="alert alert-danger"
+            >
+              <div *ngIf="email?.errors?.required">Email is required.</div>
+            </div>
+            <label for="password">Password</label><br />
+            <input
+              formControlName="password"
+              id="password"
+              type="password"
+              size="32"
+            /><br />
+            <div
+              *ngIf="password?.invalid && (password?.dirty || password?.touched)"
+              class="alert alert-danger"
+            >
+              <div *ngIf="password?.errors?.required">Password is required.</div>
+            </div>
+          </div>
+          <div class="button-container">
+            <button
+              class="blue-button fadeIn fourth my-3"
+              type="submit"
+              [disabled]="!signupForm.valid"
+            >
+              Sign Up
+            </button>
+            <button
+              class="underlineHover fadeIn fourth my-3"
+              type="button"
+              (click)="onLogin()"
+            >
+              Login
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+  

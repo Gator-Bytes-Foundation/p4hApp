@@ -14,6 +14,10 @@ export class LoginComponent implements OnInit {
   constructor(private fb: FormBuilder, private router: Router) {}
 
   ngOnInit(): void {
+    this.buildForm();
+  }
+
+  buildForm() {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
@@ -34,6 +38,7 @@ export class LoginComponent implements OnInit {
   onSignup() {
     this.router.navigate(['/signup']);
   }
+  
 
   get username() {
     return this.loginForm.get('username');

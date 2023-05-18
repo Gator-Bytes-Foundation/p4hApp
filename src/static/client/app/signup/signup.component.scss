@@ -1,0 +1,110 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body, html {
+    height: 100%;
+    font-family: Arial, sans-serif;
+  }
+  
+  .signup {
+    background: linear-gradient(to right, #1632aa, #B30D2C);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+
+    .button-container {
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    #icon {
+      width: 150px;  // Adjust as needed to change the size of the logo.
+      height: auto;
+      display: block;
+      margin: 0 auto 20px auto; // This centers the image and adds space below it.
+    }
+  
+    .wrapper {
+      max-width: 400px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+      padding: 30px;
+      width: 100%;
+      max-width: 350px;
+  
+      h2 {
+        text-align: center;
+        margin-bottom: 24px;
+      }
+  
+      #formContent {
+        display: flex;
+        flex-direction: column;
+  
+        label {
+          display: block;
+          font-size: 14px;
+          font-weight: 600;
+          color: #4a4a4a;
+          margin-bottom: 10px;
+        }
+  
+        input {
+          width: 100%;
+          padding: 10px;
+          font-size: 14px;
+          border: 1px solid #e0e0e0;
+          border-radius: 5px;
+          outline: none;
+          transition: border-color 0.3s;
+          margin-bottom: 20px;
+  
+          &:focus {
+            border-color: #007bff;
+          }
+        }
+  
+        .check-lg {
+          margin-bottom: 20px;
+        }
+  
+        button {
+          padding: 10px;
+          font-size: 16px;
+          font-weight: 600;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          outline: none;
+          transition: background-color 0.3s;
+          margin-bottom: 10px;
+  
+          &:disabled {
+            background-color: #ccc;
+          }
+        }
+  
+        .blue-button {
+          background-color: #007bff;
+          color: #fff;
+          margin-bottom: 15px;
+  
+          &:hover {
+            background-color: #0056b3;
+          }
+        }
+  
+        .error {
+          color: #f44336;
+          font-size: 14px;
+          margin-top: 10px;
+        }
+      }
+    }
+  }
+  
