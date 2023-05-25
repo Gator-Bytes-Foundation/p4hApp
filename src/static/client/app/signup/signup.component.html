@@ -7,8 +7,9 @@
         <!-- Signup Form -->
         <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
           <div class="fadeIn second mb-2">
-            <label for="username">Username</label><br />
+            <label class="form-label" for="username">Username</label><br />
             <input
+              class="form-input"
               formControlName="username"
               id="username"
               type="text"
@@ -20,8 +21,9 @@
             >
               <div *ngIf="username?.errors?.required">Username is required.</div>
             </div>
-            <label for="email">Email</label><br />
+            <label class="form-label" for="email">Email</label><br />
             <input
+            class="form-input"
               formControlName="email"
               id="email"
               type="email"
@@ -33,8 +35,9 @@
             >
               <div *ngIf="email?.errors?.required">Email is required.</div>
             </div>
-            <label for="password">Password</label><br />
+            <label class="form-label" for="password">Password</label><br />
             <input
+              class="form-input"
               formControlName="password"
               id="password"
               type="password"
@@ -49,14 +52,14 @@
           </div>
           <div class="button-container">
             <button
-              class="blue-button fadeIn fourth my-3"
+              class="form-button blue-button fadeIn fourth my-3"
               type="submit"
               [disabled]="!signupForm.valid"
             >
               Sign Up
             </button>
             <button
-              class="underlineHover fadeIn fourth my-3"
+              class="form-button underlineHover fadeIn fourth my-3"
               type="button"
               (click)="onLogin()"
             >

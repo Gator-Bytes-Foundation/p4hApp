@@ -30,14 +30,14 @@ body, html {
 
   .wrapper {
     max-width: 400px;
-    background-color: #ffffff;
+    background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
     padding: 30px;
     width: 100%;
     max-width: 350px;
 
-    h2 {
+    .h2 {
       text-align: center;
       margin-bottom: 24px;
     }
@@ -46,15 +46,16 @@ body, html {
       display: flex;
       flex-direction: column;
 
-      label {
+      .form-label {
         display: block;
         font-size: 14px;
         font-weight: 600;
         color: #4a4a4a;
         margin-bottom: 10px;
       }
+      
 
-      input {
+      .form-input {
         width: 100%;
         padding: 10px;
         font-size: 14px;
@@ -63,17 +64,16 @@ body, html {
         outline: none;
         transition: border-color 0.3s;
         margin-bottom: 20px;
-
+      
         &:focus {
           border-color: #007bff;
         }
       }
-
       .check-lg {
         margin-bottom: 20px;
       }
 
-      button {
+      .form-button {
         padding: 10px;
         font-size: 16px;
         font-weight: 600;
@@ -83,14 +83,14 @@ body, html {
         outline: none;
         transition: background-color 0.3s;
         margin-bottom: 10px;
-
+      
         &:disabled {
           background-color: #ccc;
         }
       }
 
       .blue-button {
-        background-color: #007bff;
+        background-color: #1632AA;
         color: #fff;
         margin-bottom: 15px;
 

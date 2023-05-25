@@ -6,10 +6,11 @@
     <img src="assets/p4h.png" id="icon" alt="User Icon" />
   </div>
       <!-- Login Form -->
-      <h2>Login</h2>
+      <h2 class="h2">Login</h2>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <label for="username">Username</label><br />
+        <label class="form-label" for="username">Username</label><br />
         <input
+          class="form-input"
           formControlName="username"
           id="username"
           type="text"
@@ -21,8 +22,9 @@
         >
           <div *ngIf="username?.errors?.required">Username is required.</div>
         </div>
-        <label for="password">Password</label><br />
+        <label class="form-label" for="password">Password</label><br />
         <input
+          class="form-input"
           formControlName="password"
           id="password"
           type="password"
@@ -36,14 +38,14 @@
         </div>
         <div class="button-container">
           <button
-            class="blue-button fadeIn fourth my-3"
+            class="form-button blue-button fadeIn fourth my-3"
             type="submit"
             [disabled]="!loginForm.valid"
           >
             Login
           </button>
           <button
-            class="underlineHover fadeIn fourth my-3"
+            class="form-button underlineHover fadeIn fourth my-3"
             type="button"
             (click)="onSignup()"
           >
