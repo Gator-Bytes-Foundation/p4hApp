@@ -1,182 +1,109 @@
-/* haitian flag blue: #1632AA
-/* haitian flag red: #B30D2C
-*/
-
-// Custom styles here
-
-#formFooter {
-  background-color: #f6f6f6;
-  border-top: 1px solid #dce8f1;
-  padding: 25px;
-  text-align: center;
-  -webkit-border-radius: 0 0 10px 10px;
-  border-radius: 0 0 10px 10px;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.blue-btn,
-.blue-button > input {
-  background-color: #1632aa;
-  color: white;
-  border-style: solid;
-  border-color: aliceblue;
-  border-width: 1px;
-  font-weight: 500;
-  padding: 15px 80px;
-  text-decoration: none;
-  text-transform: uppercase;
-  -webkit-box-shadow: 0 10px 30px 0 rgba(95, 120, 233, 0.4);
-  box-shadow: 0 10px 30px 0 rgba(95, 120, 233, 0.4);
-  -webkit-border-radius: 5px 5px 5px 5px;
-  border-radius: 5px 5px 5px 5px;
-  margin: 15px 20px 20px 20px;
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  -ms-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-}
-.blue-btn:hover {
-  background-color: #1736c1; /* same color as #1632AA but darker */
-}
-
-.login input[type="text"],
-.login input[type="password"] {
-  background-color: #f6f6f6;
-  border: none;
-  color: #0d0d0d;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 5px;
-  width: 85%;
-  -webkit-transition: all 0.5s ease-in-out;
-  -moz-transition: all 0.5s ease-in-out;
-  -ms-transition: all 0.5s ease-in-out;
-  -o-transition: all 0.5s ease-in-out;
-  transition: all 0.5s ease-in-out;
-  -webkit-border-radius: 5px 5px 5px 5px;
-  border-radius: 5px 5px 5px 5px;
-}
-
-/* Simple CSS3 Fade-in Animation */
-.underlineHover:after,
-.underlineHover > input:after {
-  display: block;
-  left: 0;
-  bottom: -10px;
-  width: 0;
-  height: 2px;
-  background-color: #1632aa;
-  content: "";
-  transition: width 0.2s;
-}
-.underlineHover:hover:after,
-.underlineHover > input:after {
-  width: 100%;
-}
-*:focus {
-  outline: none;
+body, html {
+  height: 100%;
+  font-family: Arial, sans-serif;
 }
 
 .login {
+  background: linear-gradient(to right, #1632aa, #B30D2C);
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f0f2f5;
+
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  #icon {
+    width: 150px;  // Adjust as needed to change the size of the logo.
+    height: auto;
+    display: block;
+    margin: 0 auto 20px auto; // This centers the image and adds space below it.
+  }
 
   .wrapper {
     max-width: 400px;
-    background-color: #ffffff;
+    background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
-  }
-
-  #formContent {
     padding: 30px;
-    text-align: center;
+    width: 100%;
+    max-width: 350px;
 
-    .profile-pic {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      overflow: hidden;
-      margin: 0 auto;
+    .h2 {
+      text-align: center;
+      margin-bottom: 24px;
     }
 
-    img {
-      max-width: 100%;
-    }
+    #formContent {
+      display: flex;
+      flex-direction: column;
 
-    label {
-      display: block;
-      font-size: 14px;
-      font-weight: 600;
-      color: #4a4a4a;
-      margin-bottom: 10px;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px;
-      font-size: 14px;
-      border: 1px solid #e0e0e0;
-      border-radius: 5px;
-      outline: none;
-      transition: border-color 0.3s;
-      margin-bottom: 20px;
-
-      &:focus {
-        border-color: #007bff;
-      }
-    }
-
-    .check-lg {
-      margin-bottom: 20px;
-    }
-
-    button {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      font-weight: 600;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      outline: none;
-      transition: background-color 0.3s;
-
-      &:not(:last-child) {
+      .form-label {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        color: #4a4a4a;
         margin-bottom: 10px;
       }
-    }
+      
 
-    .blue-button {
-      background-color: #007bff;
-
-      &:hover {
-        background-color: #0056b3;
+      .form-input {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid #e0e0e0;
+        border-radius: 5px;
+        outline: none;
+        transition: border-color 0.3s;
+        margin-bottom: 20px;
+      
+        &:focus {
+          border-color: #007bff;
+        }
       }
-    }
-
-    .underlineHover {
-      &:hover {
-        text-decoration: underline;
+      .check-lg {
+        margin-bottom: 20px;
       }
-    }
 
-    .error {
-      color: #f44336;
-      font-size: 14px;
-      margin-top: 10px;
-    }
+      .form-button {
+        padding: 10px;
+        font-size: 16px;
+        font-weight: 600;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        outline: none;
+        transition: background-color 0.3s;
+        margin-bottom: 10px;
+      
+        &:disabled {
+          background-color: #ccc;
+        }
+      }
 
-    .alert {
-      width: 100%;
-      font-size: 14px;
-      margin-bottom: 20px;
+      .blue-button {
+        background-color: #1632AA;
+        color: #fff;
+        margin-bottom: 15px;
+
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+
+      .error {
+        color: #f44336;
+        font-size: 14px;
+        margin-top: 10px;
+      }
     }
   }
 }
