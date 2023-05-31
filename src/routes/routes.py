@@ -8,6 +8,7 @@ from src.controllers.posts_controller import loadAnnouncements, renderAnnounceme
 import json
 from flask.json import jsonify
 
+
 @app.errorhandler(404)
 def page_not_found(e):
     '''
@@ -68,4 +69,5 @@ def send_js(path):
 def send_css(path):
     print(path)
     return send_from_directory('static/css', path + '.css')
+
 
