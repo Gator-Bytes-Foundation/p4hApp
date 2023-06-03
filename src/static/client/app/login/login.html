@@ -1,0 +1,58 @@
+<section class="login">
+  <div class="wrapper fadeInDown">
+    <div id="formContent">
+       <!-- Logo -->
+  <div class="fadeIn first">
+    <img src="assets/p4h.png" id="icon" alt="User Icon" />
+  </div>
+      <!-- Login Form -->
+      <h2 class="h2">Login</h2>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <label class="form-label" for="username">Username</label><br />
+        <input
+          class="form-input"
+          formControlName="username"
+          id="username"
+          type="text"
+          size="32"
+        /><br />
+        <div
+          *ngIf="username?.invalid && (username?.dirty || username?.touched)"
+          class="alert alert-danger"
+        >
+          <div *ngIf="username?.errors?.required">Username is required.</div>
+        </div>
+        <label class="form-label" for="password">Password</label><br />
+        <input
+          class="form-input"
+          formControlName="password"
+          id="password"
+          type="password"
+          size="32"
+        /><br />
+        <div
+          *ngIf="password?.invalid && (password?.dirty || password?.touched)"
+          class="alert alert-danger"
+        >
+          <div *ngIf="password?.errors?.required">Password is required.</div>
+        </div>
+        <div class="button-container">
+          <button
+            class="form-button blue-button fadeIn fourth my-3"
+            type="submit"
+            [disabled]="!loginForm.valid"
+          >
+            Login
+          </button>
+          <button
+            class="form-button underlineHover fadeIn fourth my-3"
+            type="button"
+            (click)="onSignup()"
+          >
+            Sign Up
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
