@@ -1,73 +1,55 @@
 <section class="signup">
-    <div class="wrapper fadeInDown">
-      <div id="formContent">
-        <div class="fadeIn first">
-          <img src="assets/p4h.png" id="icon" alt="User Icon" />
-        </div>
-        <!-- Signup Form -->
-        <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-          <div class="fadeIn second mb-2">
-            <label class="form-label" for="username">Username</label><br />
-            <input
-              class="form-input"
-              formControlName="username"
-              id="username"
-              type="text"
-              size="32"
-            /><br />
-            <div
-              *ngIf="username?.invalid && (username?.dirty || username?.touched)"
-              class="alert alert-danger"
-            >
-              <div *ngIf="username?.errors?.required">Username is required.</div>
-            </div>
-            <label class="form-label" for="email">Email</label><br />
-            <input
-            class="form-input"
-              formControlName="email"
-              id="email"
-              type="email"
-              size="32"
-            /><br />
-            <div
-              *ngIf="email?.invalid && (email?.dirty || email?.touched)"
-              class="alert alert-danger"
-            >
-              <div *ngIf="email?.errors?.required">Email is required.</div>
-            </div>
-            <label class="form-label" for="password">Password</label><br />
-            <input
-              class="form-input"
-              formControlName="password"
-              id="password"
-              type="password"
-              size="32"
-            /><br />
-            <div
-              *ngIf="password?.invalid && (password?.dirty || password?.touched)"
-              class="alert alert-danger"
-            >
-              <div *ngIf="password?.errors?.required">Password is required.</div>
-            </div>
-          </div>
-          <div class="button-container">
-            <button
-              class="form-button blue-button fadeIn fourth my-3"
-              type="submit"
-              [disabled]="!signupForm.valid"
-            >
-              Sign Up
-            </button>
-            <button
-              class="form-button underlineHover fadeIn fourth my-3"
-              type="button"
-              (click)="onLogin()"
-            >
-              Login
-            </button>
-          </div>
-        </form>
+  <div class="wrapper fadeInDown">
+    <div id="formContent">
+      <div class="fadeIn first">
+        <img src="assets/p4h.png" id="icon" alt="User Icon" />
+        <p class="info">Please fill out information below and submit. If you have any problems, please email <a
+            href="mailto:general@p4hglobal.org">general@p4hglobal.org</a>.</p>
       </div>
+      <!-- Signup Form -->
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+        <!-- Added First Name Field -->
+        <div class="fadeIn second mb-2">
+          <label class="form-label" for="firstName">First Name</label><br />
+          <input class="form-input" formControlName="firstName" id="firstName" type="text" size="32" /><br />
+          <div *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched)" class="alert alert-danger">
+            <div *ngIf="firstName?.errors?.required">First Name is required.</div>
+          </div>
+        </div>
+        <!-- Added Last Name Field -->
+        <div class="fadeIn second mb-2">
+          <label class="form-label" for="lastName">Last Name</label><br />
+          <input class="form-input" formControlName="lastName" id="lastName" type="text" size="32" /><br />
+          <div *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)" class="alert alert-danger">
+            <div *ngIf="lastName?.errors?.required">Last Name is required.</div>
+          </div>
+        </div>
+        <div class="fadeIn second mb-2">
+          <label class="form-label" for="username">Username</label><br />
+          <input class="form-input" formControlName="username" id="username" type="text" size="32" /><br />
+          <div *ngIf="username?.invalid && (username?.dirty || username?.touched)" class="alert alert-danger">
+            <div *ngIf="username?.errors?.required">Username is required.</div>
+          </div>
+          <label class="form-label" for="email">Email</label><br />
+          <input class="form-input" formControlName="email" id="email" type="email" size="32" /><br />
+          <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="alert alert-danger">
+            <div *ngIf="email?.errors?.required">Email is required.</div>
+          </div>
+          <label class="form-label" for="password">Password</label><br />
+          <input class="form-input" formControlName="password" id="password" type="password" size="32" /><br />
+          <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="alert alert-danger">
+            <div *ngIf="password?.errors?.required">Password is required.</div>
+          </div>
+        </div>
+        <div class="button-container">
+          <button class="form-button blue-button fadeIn fourth my-3" type="submit" [disabled]="!signupForm.valid">
+            Sign Up
+          </button>
+          <button class="form-button blue-button fadeIn fourth my-3" type="button" (click)="onLogin()">
+            Login
+          </button>
+        </div>
+      </form>
     </div>
-  </section>
-  
+  </div>
+</section>

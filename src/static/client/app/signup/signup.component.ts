@@ -24,6 +24,8 @@ export class SignupComponent implements OnInit {
 
   buildForm() {
     this.signupForm = this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
       username: ['', Validators.required],
       password: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -53,6 +55,14 @@ export class SignupComponent implements OnInit {
 
   onLogin() {
     this.router.navigate(['/login']);
+  }
+
+  get firstName(){
+    return this.signupForm.get('firstName');
+  }
+
+  get lastName(){
+    return this.signupForm.get('lastName');
   }
 
   get username() {
