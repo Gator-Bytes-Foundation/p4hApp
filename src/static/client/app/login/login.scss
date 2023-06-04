@@ -4,13 +4,15 @@
   padding: 0;
 }
 
-body, html {
+body,
+html {
   height: 100%;
   font-family: Arial, sans-serif;
+  background-color: #fff; //Change the background to white
 }
 
-.login {
-  background: linear-gradient(to right, #1632aa, #B30D2C);
+.login,
+.signup {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,11 +20,13 @@ body, html {
 
   .button-container {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
-  
+
   #icon {
-    width: 150px;  // Adjust as needed to change the size of the logo.
+    width: 150px; // Adjust as needed to change the size of the logo.
     height: auto;
     display: block;
     margin: 0 auto 20px auto; // This centers the image and adds space below it.
@@ -30,7 +34,7 @@ body, html {
 
   .wrapper {
     max-width: 400px;
-    background-color: #fff;
+    background-color: #ffffff; // Change the background of the wrapper to white
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
     padding: 30px;
@@ -48,12 +52,13 @@ body, html {
 
       .form-label {
         display: block;
-        font-size: 14px;
+        text-align: center;
+        font-size: 18px; // Increased from 14px to 18px for bigger labels
         font-weight: 600;
         color: #4a4a4a;
         margin-bottom: 10px;
       }
-      
+
 
       .form-input {
         width: 100%;
@@ -64,17 +69,18 @@ body, html {
         outline: none;
         transition: border-color 0.3s;
         margin-bottom: 20px;
-      
+
         &:focus {
           border-color: #007bff;
         }
       }
+
       .check-lg {
         margin-bottom: 20px;
       }
 
       .form-button {
-        padding: 10px;
+        padding: 10px 30px; // Adjust padding to match button sizes
         font-size: 16px;
         font-weight: 600;
         border: none;
@@ -83,7 +89,7 @@ body, html {
         outline: none;
         transition: background-color 0.3s;
         margin-bottom: 10px;
-      
+
         &:disabled {
           background-color: #ccc;
         }
@@ -104,6 +110,19 @@ body, html {
         font-size: 14px;
         margin-top: 10px;
       }
+
+      .form-check {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0; // Add some margin to the top and bottom to center it vertically
+      }
+
+      .alert {
+        width: 100%;
+        text-align: center; // center the text
+        margin-top: 5px; // add a small top margin to avoid overlapping
+      }
+
     }
   }
 }
