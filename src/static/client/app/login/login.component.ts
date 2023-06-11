@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   errorMessage: string | null = null;
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(private fb: FormBuilder, private router: Router, private http: HttpClient) {}
 
   ngOnInit(): void {
     this.buildForm();
@@ -28,8 +29,15 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     if (this.loginForm.valid) {
       const { username, password, rememberMe } = this.loginForm.value;
-      // Perform login logic and handle errors
-      this.errorMessage = null;
+      this.http.post('/api/login', { username, password }).subscribe(
+        (response) => {
+          // Handle response here
+          this.router.navigate(['/home']);
+        },
+        (error) => {
+          this.errorMessage = 'Error logging in.';
+        }
+      );
     } else {
       this.errorMessage = 'Please enter a valid username and password.';
     }
