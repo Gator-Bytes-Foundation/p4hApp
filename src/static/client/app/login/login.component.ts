@@ -12,7 +12,11 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   errorMessage: string | null = null;
 
-  constructor(private fb: FormBuilder, private router: Router, private http: HttpClient) {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private http: HttpClient
+  ) {}
 
   ngOnInit(): void {
     this.buildForm();
@@ -46,7 +50,6 @@ export class LoginComponent implements OnInit {
   onSignup() {
     this.router.navigate(['/signup']);
   }
-  
 
   get username() {
     return this.loginForm.get('username');

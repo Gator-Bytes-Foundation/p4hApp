@@ -12,7 +12,11 @@ export class SignupComponent implements OnInit {
   signupForm!: FormGroup;
   errorMessage: string | null = null;
 
-  constructor(private fb: FormBuilder, private router: Router, private http: HttpClient) {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private http: HttpClient
+  ) {}
 
   ngOnInit(): void {
     this.buildForm();
@@ -24,22 +28,24 @@ export class SignupComponent implements OnInit {
       password: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       fname: ['', Validators.required],
-      lname: ['', Validators.required]
+      lname: ['', Validators.required],
     });
   }
 
   onSubmit() {
     if (this.signupForm.valid) {
       const { username, password, email, fname, lname } = this.signupForm.value;
-      this.http.post('/api/signup', { username, password, email, fname, lname }).subscribe(
-        (response) => {
-          // Handle response here
-          this.router.navigate(['/login']);
-        },
-        (error) => {
-          this.errorMessage = 'Error signing up.';
-        }
-      );
+      this.http
+        .post('/api/signup', { username, password, email, fname, lname })
+        .subscribe(
+          (response) => {
+            // Handle response here
+            this.router.navigate(['/login']);
+          },
+          (error) => {
+            this.errorMessage = 'Error signing up.';
+          }
+        );
     } else {
       this.errorMessage = 'Please fill out the form correctly.';
     }
