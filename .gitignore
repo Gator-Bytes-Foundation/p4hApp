@@ -62,3 +62,4 @@ testem.log
 .DS_Store
 config/local.py
 config/app.db-journal
+.angular/cache/*
