@@ -4,7 +4,7 @@ from src import app
 ''' Import Needed Modules '''
 from src.models.user_model import User
 from src.controllers.profile_controller import loadProfile, updateProfile, getProgress, updateProgress, loadProgress
-from src.controllers.posts_controller import getProfilePic, loadPosts, createPost, deletePost, createComment, deleteComment
+from src.controllers.posts_controller import loadPosts, createPost, deletePost, createComment, deleteComment
 ''' Import Needed Libraries '''
 import json
 from pyper import *
@@ -31,7 +31,7 @@ def profile(*args):
     user = User.query.filter_by(id=args[0]).first() # args[0] holds user id to look up if it exists
   else: user = current_user
   user_profile = loadPosts(user)
-  return loadProfile(user_profile)  # Brings user to their profile view
+  return loadProfile(user_profile) # Brings user to their profile view
 
 @app.route('/profile', methods=['POST'])
 @login_required

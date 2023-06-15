@@ -5,7 +5,7 @@ from src.models.user_model import User
 from src.canvas import CANVAS, course, ROCKET_ADMIN # inject canvas, course objects into file
 import json
 from rocketchat_API.rocketchat import RocketChat
-from flask import current_app
+from src.controllers.login_controller import loginRocketChat
 
 def getCanvasUserByUsername(username):
     account = CANVAS.get_account(1) # admin account id
@@ -18,30 +18,27 @@ def getCanvasUserByUsername(username):
     return search_results[0]
 
 def checkUserExists(userData): 
+  '''
+    Function to recover partially created accounts in the case of user creation failing
+    after rocket and/or canvas accounts were already made
+  '''
   user = User.query.filter_by(username=userData["username"]).first() # query db
   canvas_user = None
   rocket_account = None
 
   print("trying to log into rocket account")
-  rocket_account_response = ROCKET_ADMIN.users_info(username=userData["username"]).json()
-  if("success" in rocket_account_response and "user" in rocket_account_response):
+  try:
+    rocket_account_response = ROCKET_ADMIN.users_info(username=userData["username"]).json()
+    rocket_login = loginRocketChat(userData) # if they can login to the rocket chat account
+  except Exception as e:
+    print("rocket chat not set up correctly")
+    print(e)
+    
+  # check if rocket user exists and if login works, if so, then person signing up has rocket account already
+  if(rocket_account_response and rocket_login and rocket_login.json().get("status") == "success" and "user" in rocket_account_response):
     print("rocket user exists")
-    '''
-    logged_rocket = None
-    login_res = None
-    try:
-      rocket = RocketChat(server_url=current_app.config["ROCKET_URL"])
-      login_res = rocket.login(userData["username"],userData["password"])
-    except Exception as e:
-      print(e)
-      rocket_account = None # if password doesn't match, dont associate account
-    print(logged_rocket)
-    if(login_res.json().get("status") != "success"):
-      print("logged in to rocket!")
-      rocket_account = None # if password doesn't match, dont associate account
-    else:
-      rocket_account = rocket_account_response["user"]
-    '''
+    rocket_account = rocket_account_response["user"]
+
   if(user):
     try:
       canvas_user = CANVAS.get_user(user.canvasId)

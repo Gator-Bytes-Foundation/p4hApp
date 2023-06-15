@@ -16,8 +16,12 @@ def loadHome():
 
 def logout(): 
     logout_user()
-    logged_rocket = RocketChat(user_id=session.get("userId"), auth_token=session.get("authToken"), server_url=current_app.config["ROCKET_URL"])
-    logged_rocket.logout()
+    try:
+      logged_rocket = RocketChat(user_id=session.get("userId"), auth_token=session.get("authToken"), server_url=current_app.config["ROCKET_URL"])
+      logged_rocket.logout()
+    except Exception as e:
+      print("Could not connect to rocket chat") # if this happens, it's ok since Rocketchat session will expire on its own (if its even running)
+
     if session.get('was_once_logged_in'):
         del session['was_once_logged_in'] # prevent flashing automatically logged out message
     res = ({
@@ -25,6 +29,18 @@ def logout():
     })
     return res
 
+def loginRocketChat(user):
+  rocket_user = None
+  try:
+    rocket = RocketChat(user.username, user.password, server_url=current_app.config["ROCKET_URL"])
+    rocket_res = rocket.login(user.username,user.password).json()
+    rocket_user = rocket_res.get("data")
+    session["userId"] = rocket_user["userId"]
+    session["authToken"] = rocket_user["authToken"]
+  except Exception as e:
+    return None
+  return rocket_user
+  
 def loginAPI(username,pwd,remember=False):
   user = User.query.filter_by(username=username).first() # query db
   if current_user.is_authenticated:
@@ -34,7 +50,6 @@ def loginAPI(username,pwd,remember=False):
 
   if not user.check_password(user.password_hash,pwd):
     return abort(Response("Password not correct"))
-
   login_user(user, remember=remember)
   return jsonify(user.serialize())
 
@@ -44,7 +59,7 @@ class LoginForm(FlaskForm):
   remember_me = BooleanField('Remember Me')
   submit = SubmitField('Sign In',render_kw={"onclick": "loading()"})
 
-  def loginRocketChat(self,user):
+  def loginRocketChatForm(self):
     rocket_user = None
     try:
       rocket = RocketChat(self.username.data, self.password.data, server_url=current_app.config["ROCKET_URL"])
@@ -70,7 +85,7 @@ class LoginForm(FlaskForm):
       user.canvasId = CANVAS.get_user(1)
 
     login_user(user, remember = self.remember_me.data if hasattr(self, 'remember_me') else False)
-    rocket_user = self.loginRocketChat(user)
+    rocket_user = self.loginRocketChatForm()
     print("rocket user")
     print(rocket_user)
     if(rocket_user != None and rocket_user['authToken']):
@@ -80,5 +95,5 @@ class LoginForm(FlaskForm):
     # todo: check for safe url
     #if not is_safe_url(next,{"http://localhost:5000", "p4hteach.org", "www.p4hteach.org"}):
         #return abort(400)
-    profile = loadPosts(user)
+    #profile = loadPosts(user)
     return redirect(url_for('profile'))
