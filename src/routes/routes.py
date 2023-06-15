@@ -5,7 +5,6 @@ from src import app  # from /app import flask app TODO: import db
 from src.models.user_model import User
 from src.controllers.posts_controller import loadAnnouncements, renderAnnouncements
 ''' Import Needed Libraries '''
-import json
 from flask.json import jsonify
 
 @app.errorhandler(404)

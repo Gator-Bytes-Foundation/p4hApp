@@ -36,11 +36,12 @@ def getProfilePic(user):
 def loadPosts(profileUser):
   profile = Profile()
   recentPosts = []
-
+  if(course is None):
+    abort(500,'Admin server not running (Canvas)')
   try:
     posts = list(course.get_discussion_topics()) # load profile posts
   except CanvasException as e:
-    abort(Response('course not found'))
+    abort(Response('profile posts not found'))
 
   # temporarily checking only up to 9 profile posts. Will eventually remove cap when "see earlier posts" button added
   end_index = len(posts)
@@ -200,7 +201,10 @@ def createComment(req,post_id):
       "success": False,
       "data": {"message": "Canvas server down"}
     }
-  topic = course.get_discussion_topic(post_id) # get post in canvas
+  try:
+    topic = course.get_discussion_topic(post_id) # get post in canvas
+  except CanvasException as e:
+    abort(Response('post not found'))
   comment = topic.post_entry(
       message = current_user.username + ": " + comment_text,
   )
@@ -219,7 +223,10 @@ def createComment(req,post_id):
   return res
 
 def deletePost(req,post_id):
-  post = course.get_discussion_topic(post_id)
+  try:
+    post = course.get_discussion_topic(post_id)
+  except CanvasException as e:
+    abort(Response('post not found'))
   try:
     res = post.delete()
     print("post deleted: ", res)
@@ -230,7 +237,10 @@ def deletePost(req,post_id):
   return res
 
 def deleteComment(req,post_id,comment_id):
-  post = course.get_discussion_topic(post_id)
+  try:
+    post = course.get_discussion_topic(post_id)
+  except CanvasException as e:
+    abort(Response('post not found'))
   comment = post.get_entries([comment_id])[0]
   try:
     res = comment.delete()
