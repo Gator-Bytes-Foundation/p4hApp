@@ -8,7 +8,8 @@
     width: 100%;
 }
 .messaging-height {
-    height:800px;
+    min-height: 100vh;
+    height: 100%;
 }
 .container {
     max-width: 1170px;
