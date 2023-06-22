@@ -2,8 +2,7 @@ import os
 import sys
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
-src_dir = os.path.abspath(os.path.join(current_dir, ".."))
-p4hApp_dir = os.path.abspath(os.path.join(src_dir, ".."))
+p4hApp_dir = os.path.abspath(os.path.join(current_dir, "../../"))
 sys.path.append(p4hApp_dir)
 
 from email.message import EmailMessage
