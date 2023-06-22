@@ -52,15 +52,11 @@ def send_email_helper(email_data):
     return jsonify(response)
 
 
-
-
-
 # MAILER ------ EXAMPLE ROUTE ----
 
 # @app.route('/api/send_email', methods=['POST'])
 # def send_email():
 #     data = request.get_json()
-    
 #     if data['emailType'] == 'confirmation':
 #         send_confirmation_email(data['userEmail'])
 #     elif data['emailType'] == 'reset_password':
