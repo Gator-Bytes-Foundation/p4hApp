@@ -1,10 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
 body,
 html {
@@ -55,7 +55,7 @@ html {
         margin-top: 30px;
 
         .info {
-          font-size: 14px; 
+          font-size: 16px; 
           margin-bottom: 10px;
         }
       }
@@ -77,15 +77,10 @@ html {
         border-radius: 5px;
         outline: none;
         transition: border-color 0.3s;
-        margin-bottom: mb-3;  
 
         &:focus {
           border-color: #007bff;
         }
-      }
-
-      .check-lg {
-        margin-bottom: mb-3;  
       }
 
       .form-button {
@@ -97,7 +92,6 @@ html {
         cursor: pointer;
         outline: none;
         transition: background-color 0.3s;
-        margin-bottom: mb-3;  
 
         &:disabled {
           background-color: #ccc;
@@ -107,7 +101,6 @@ html {
       .blue-button {
         background-color: #1632AA;
         color: #fff;
-        margin-bottom: mb-3;  
 
         &:hover {
           background-color: #0056b3;
