@@ -41,11 +41,13 @@
             <div *ngIf="password?.errors?.required">Password is required.</div>
           </div>
         </div>
+        <br />
         <div class="button-container">
-          <button class="form-button blue-button fadeIn fourth my-3" type="submit" [disabled]="!signupForm.valid">
+          <button class="form-button blue-button fadeIn fourth mb-3" type="submit" [disabled]="!signupForm.valid">
             Sign Up
           </button>
-          <button class="form-button blue-button fadeIn fourth my-3" type="button" (click)="onLogin()">
+          <br />
+          <button class="form-button blue-button fadeIn fourth mb-3" type="button" (click)="onLogin()">
             Login
           </button>
         </div>
