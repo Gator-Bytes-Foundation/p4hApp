@@ -15,6 +15,7 @@ import { LoadInterceptor } from './load-interceptor';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SignupComponent } from './signup/signup.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -32,6 +33,7 @@ const appRoutes: Routes = [
     ProfileComponent,
     NavBarComponent,
     SignupComponent,
+    ResetPasswordComponent,
   ],
   imports: [
     BrowserModule,

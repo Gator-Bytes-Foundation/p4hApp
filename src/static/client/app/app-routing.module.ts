@@ -4,6 +4,7 @@ import { AppComponent } from './app.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 //This is my case 
 const routes: Routes = [
@@ -18,6 +19,10 @@ const routes: Routes = [
     {
         path: 'profile/:userId',
         component: ProfileComponent
+    },
+    {
+        path: 'reset-password', 
+        component: ResetPasswordComponent,
     }
 ];
 
