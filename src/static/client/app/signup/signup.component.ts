@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
@@ -27,10 +27,8 @@ export class SignupComponent implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       username: ['', Validators.required],
-      password: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      fname: ['', Validators.required],
-      lname: ['', Validators.required],
+      password: ['', Validators.required],
     });
   }
 
