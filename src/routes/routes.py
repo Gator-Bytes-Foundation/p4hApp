@@ -3,7 +3,7 @@ from flask_login import login_required
 from src import app  # from /app import flask app TODO: import db
 ''' Import Needed Modules '''
 from src.models.user_model import User
-from src.controllers.posts_controller import loadAnnouncements, renderAnnouncements
+from src.controllers.posts_controller import loadAnnouncements, renderAnnouncements, loadUsers
 ''' Import Needed Libraries '''
 from flask.json import jsonify
 
@@ -47,6 +47,15 @@ def announcements():
     Loads announcement jinja template containing all canvas announcements (admin discussion posts)
   '''
   return renderAnnouncements()
+
+# Get announcements API
+@app.route('/api/users', methods=['GET'])
+@login_required
+def usersAPI():
+  '''
+    Loads all users
+  '''
+  return jsonify(loadUsers())
 
 # Get announcements API
 @app.route('/api/announcements', methods=['GET'])

@@ -250,6 +250,23 @@ def deleteComment(req,post_id,comment_id):
     print('comment not deleted')
     return json.dumps({'success':True}), 200, {'ContentType':False} # error gets triggered even though comment was deleted
 
+def loadUsers(): #todo move to users file
+  allUsers = User.query.all()
+  usersResponse = []
+  for user in allUsers:
+    formattedAnnouncement = {
+      "id": user.id,
+      "name": user.name,
+      "username": user.username,
+      "email": user.email,
+      "canvasId": user.canvasId,
+      "school": user.school,
+      "bio": user.bio,
+      "position": user.position,
+      "location": user.location
+    }
+    usersResponse.append(formattedAnnouncement)
+    return usersResponse
 class Post():
   def __init__(self,post,user_object, post_message, post_media):
     post.user = user_object

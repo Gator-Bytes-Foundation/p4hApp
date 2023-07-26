@@ -47,6 +47,8 @@ def resourceFolderAPI(folderId):
   files_ = []
   for file in files:
     file = {
+        "id": file.id,
+        "folderId": int(folderId),
         "display_name": file.display_name,
         "updated_at": file.updated_at
     }
@@ -59,7 +61,7 @@ def resourcesAPI():
   '''
     Returns every top level folder within canvas containing files that can be retrieved through api/resources/<folderId>
   '''
-  resources = getResourceFolders()
+  resources = getResourceFolders() # resource is a Canvas "Folder" object
   resourceResponse = []
   for resource in resources["folders"]:
     resourceFolder = {

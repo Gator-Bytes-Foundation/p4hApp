@@ -59,11 +59,11 @@ function tstGetMilestone(user) {
  * This is only temporary until backend testing is setup
  */
 
-tstAPI("POST","signup","signupAPI", {fname: "Test", lname: "User", username:'testUserAPI', email: "tst@test.com", password: 'Password2'});
+tstAPI("POST","signup","signupAPI", {fname: "Test", lname: "User", username:'lcundiff', email: "tst@test.com", password: 'NF!Deku2'});
 tstAPI("POST","login","loginAPI", {username:'testUserAPI',password: 'Password2'},tstGetMilestone);
 
 tstAPI("POST","profile","editProfileAPI", {name: "Test User", school: "User", phone:'212-222-2222', email: "tst@test.com", position: 'teacher', bio: 'tst bio', location: "Haiti", files: {}});
 tstAPI("GET","resources","getResourcesAPI",null,tstGetFolderResource);
 tstAPI("GET","announcements", "getAnnouncementsAPI");
-tstAPI("POST","post/"+ testUserID,"postUserPostAPI", {text:'Education Ends Poverty'},tstCommentPost);
+//tstAPI("POST","post/"+ testUserID,"postUserPostAPI", {text:'Education Ends Poverty'},tstCommentPost);
 //tstAPI("GET","post/"+ testUserID,"getUserPostAPI"); not implemented

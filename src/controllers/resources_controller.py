@@ -50,9 +50,9 @@ def getResourceFolders():
   }
   return resources
 
-def filesPage(page_to_load):
+def filesPage(folderId):
   # user clicked folder => load next layer
-  folderId = page_to_load.replace('files_','').replace('.html','') # get folder id from template file name
+  folderId = folderId.replace('files_','').replace('.html','') # get folder id from template file name (Todo change to folder id for /resources flask route)
   files = course.get_folder(int(folderId)).get_files()._get_next_page()
   return files, folderId
 

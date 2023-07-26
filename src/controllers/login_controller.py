@@ -5,8 +5,6 @@ from wtforms.validators import DataRequired
 from flask_login import login_user, current_user, logout_user
 from src.models.user_model import User
 from src.canvas import CANVAS # inject canvas, course objects into file
-from src.controllers.posts_controller import loadPosts
-from src.controllers.profile_controller import loadProfile
 from flask.json import jsonify
 from rocketchat_API.rocketchat import RocketChat
 from flask import current_app
