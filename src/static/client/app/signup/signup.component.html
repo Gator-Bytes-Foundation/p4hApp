@@ -9,7 +9,7 @@
       <!-- Signup Form -->
       <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
         <!-- Added First Name Field -->
-        <div class="fadeIn second mb-2">
+        <div class="fadeIn second mb-2 form-group">
           <label class="form-label" for="firstName">First Name</label><br />
           <input class="form-input" formControlName="firstName" id="firstName" type="text" size="32" /><br />
           <div *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched)" class="alert alert-danger">
@@ -17,14 +17,14 @@
           </div>
         </div>
         <!-- Added Last Name Field -->
-        <div class="fadeIn second mb-2">
+        <div class="fadeIn second mb-2 form-group">
           <label class="form-label" for="lastName">Last Name</label><br />
           <input class="form-input" formControlName="lastName" id="lastName" type="text" size="32" /><br />
           <div *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)" class="alert alert-danger">
             <div *ngIf="lastName?.errors?.required">Last Name is required.</div>
           </div>
         </div>
-        <div class="fadeIn second mb-2">
+        <div class="fadeIn second mb-2 form-group">
           <label class="form-label" for="username">Username</label><br />
           <input class="form-input" formControlName="username" id="username" type="text" size="32" /><br />
           <div *ngIf="username?.invalid && (username?.dirty || username?.touched)" class="alert alert-danger">
@@ -48,7 +48,7 @@
           </button>
           <br />
           <button class="form-button blue-button fadeIn fourth mb-3" type="button" (click)="onLogin()">
-            Login
+            Login new
           </button>
         </div>
       </form>
