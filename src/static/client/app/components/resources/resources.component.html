@@ -1,0 +1,14 @@
+<div class="list-group">
+    <a href="resources/files_{{folder.id}}.html" class="list-group-item d-flex list-group-item-action align-items-center " *ngFor="let folder of folders; let i = index">
+      <span style="font-size:40px; max-width:60px; width:30%;" class="oi {{icons[i]}}"></span>
+      <div class="align-items-start active col-10 ">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1"> {{folder.name}} </h5>
+          <small class="">{{folder.updated_at}}</small>
+        </div>
+        <p class="mb-1">{{folder.name}} to help plan every day lessons</p>
+        <small>Click to navigate to {{folder.name}}</small>
+      </div>
+    </a>
+  </div>
+  
