@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
@@ -24,8 +24,8 @@ export class SignupComponent implements OnInit {
 
   buildForm() {
     this.signupForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
+      fname: ['', Validators.required],
+      lname: ['', Validators.required],
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -35,8 +35,8 @@ export class SignupComponent implements OnInit {
   onSubmit() {
     if (this.signupForm.valid) {
       const { username, password, email, fname, lname } = this.signupForm.value;
-      this.http
-        .post('/api/signup', { username, password, email, fname, lname })
+      console.log(this.signupForm.value);
+      this.http.post('http://127.0.0.1:5000/api/signup', this.signupForm.value, { headers: { 'Content-Type': 'application/json' } })
         .subscribe(
           (response) => {
             // Handle response here
@@ -55,12 +55,12 @@ export class SignupComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  get firstName(){
-    return this.signupForm.get('firstName');
+  get fname(){
+    return this.signupForm.get('fname');
   }
 
-  get lastName(){
-    return this.signupForm.get('lastName');
+  get lname(){
+    return this.signupForm.get('lname');
   }
 
   get username() {
