@@ -1,14 +1,17 @@
 # build angular app
-FROM node AS client
+FROM node:16-alpine AS client
 RUN mkdir angular
+RUN npm install -g @angular/cli@15.0.0
 WORKDIR /angular
 COPY src ./src
-COPY package.json package-lock.json ./
-COPY tsconfig.json tsconfig.app.json tsconfig.spec.json tslint.json ./
+COPY package*.json ./
+#COPY tsconfig.json tsconfig.app.json tsconfig.spec.json tslint.json ./
 RUN npm install --legacy-peer-deps
+COPY . .
 COPY angular.json ./
-RUN ng build
-
+RUN npm run build-dev
+EXPOSE 4200
+CMD ["npm", "start"]
 
 FROM python:3.9-alpine AS backend
 # put file inside of container
@@ -27,8 +30,10 @@ RUN apk add --update --no-cache --virtual .tmp-build-deps \
     && apk add libffi-dev 
 
 RUN pip3 install -r requirements.txt
-#COPY --from=client /src/static/dist ./src/static/dist
+EXPOSE 5000
+COPY --from=client /angular/src/static/dist ./src/static/dist
 CMD [ "python3", "-m" , "flask", "run" ]
+
 
 # good commands from MCP 
 # ADD - adds files from internet  (works like COPY)
