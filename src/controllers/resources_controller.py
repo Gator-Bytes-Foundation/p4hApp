@@ -25,17 +25,16 @@ def getResourceFolders():
     
   icons = []
   for folder in folders:
-    updatedDate = dateutil.parser.isoparse(folder.updated_at)
-    print(folder.updated_at_date)
-    #folder.updated_at = updatedDate.strftime('%Y-%m-%d')
-    print(folder.name.lower())
     if("video" in folder.name.lower() or "videyo" in folder.name.lower()):
-      #folder["icon"] = "oi-video"
-      icons.append("oi-video")
-    elif("picture" in folder.name.lower() or ("foto" in folder.name.lower()) or ("photo" in folder.name.lower()) ):
-      icons.append("oi-image")
+      icons.append("fa-video")
+    elif(("foto" in folder.name.lower()) or ("photo" in folder.name.lower()) ):
+      icons.append("fa-camera")
+    elif("picture" in folder.name.lower() or ("image" in folder.name.lower()) ):
+      icons.append("fa-image")
+    elif("lesson" in folder.name.lower() or ("book" in folder.name.lower()) ):
+      icons.append("fa-book")
     else:
-      icons.append("oi-book")
+      icons.append("fa-file")
 
   resources = {
     "folders": folders,

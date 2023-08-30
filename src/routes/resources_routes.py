@@ -44,15 +44,16 @@ def resourceFolderAPI(folderId):
     Gets all files from a folder
   '''
   files, folderId = filesPage(folderId)
-  print("get resource folder api")
-  print(files[0])
   files_ = []
   for file in files:
     file = {
         "id": file.id,
-        "folderId": int(folderId),
+        "folder_id": file.folder_id,
+        "folderId": int(folderId), # to deprecate on flutter side
         "display_name": file.display_name,
-        "updated_at": file.updated_at_date.strftime('%Y-%m-%d')
+        "file_name": file.filename,
+        "updated_at": file.updated_at_date.strftime('%Y-%m-%d'),
+        "content_type": file["content-type"],
     }
     files_.append(file)
   return jsonify(files_)

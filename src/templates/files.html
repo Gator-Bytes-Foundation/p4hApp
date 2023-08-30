@@ -7,13 +7,12 @@
 <div class="list-group">
   <h1 class="h2 mx-4">Files</h1>
   {% for i in range(files | length)%}
-  <a href="resources/download/file_{{folder_id}}-{{files[i].id}}" class="list-group-item d-flex list-group-item-action align-items-center " download>
-    <!--<img style="font-size:40px; margin-right:15px;" class="img-fluid" src="../static/icons/png/cloud-download-3x.png" alt=""/>-->
-    <span style="font-size:30px; margin-right:15px;" class="oi oi-cloud-download" title="star" aria-hidden="true"></span>
+  <a href="resources/download/{{files[i].id}}" class="list-group-item d-flex list-group-item-action align-items-center " download>
+    <i style="font-size:30px;" class="fa-solid fa-download text-center mx-3" title="star" aria-hidden="true"></i>
     <div class="align-items-start active w-100 ">
       <div class="d-flex w-100 justify-content-between">
         <h5 class="mb-1"> {{files[i].display_name}} </h5>
-        <small class="">{{files[i].updated_at}}</small>
+        <small class="">{{files[i].updated_at_date.strftime('%Y-%m-%d')}}</small>
       </div>
     </div>
   </a>
