@@ -5,7 +5,7 @@ from src import app  # from /app import flask app TODO: import db
 from src.models.user_model import User
 from src.controllers.resources_controller import renderResourceFolders, filesPage, fileDownload, getResourceFolders
 from flask.json import jsonify
-
+import dateutil.parser
 #
 # If a request from client has variable data in it, we handle it here and get the data out of the url before routing the user
 #
@@ -44,13 +44,15 @@ def resourceFolderAPI(folderId):
     Gets all files from a folder
   '''
   files, folderId = filesPage(folderId)
+  print("get resource folder api")
+  print(files[0])
   files_ = []
   for file in files:
     file = {
         "id": file.id,
         "folderId": int(folderId),
         "display_name": file.display_name,
-        "updated_at": file.updated_at
+        "updated_at": file.updated_at_date.strftime('%Y-%m-%d')
     }
     files_.append(file)
   return jsonify(files_)
@@ -63,11 +65,17 @@ def resourcesAPI():
   '''
   resources = getResourceFolders() # resource is a Canvas "Folder" object
   resourceResponse = []
+  print("get resources api")
   for resource in resources["folders"]:
     resourceFolder = {
       "id": resource.id,
       "name": resource.name,
-      "updated_at": resource.updated_at
+      "updated_at": resource.updated_at_date.strftime('%Y-%m-%d'),
+      "files_count": resource.files_count,
+      "position": resource.position,
+      "full_name": resource.full_name,
+      "folders_count": resource.folders_count,
+      "parent_folder_id": resource.parent_folder_id,
     }
     resourceResponse.append(resourceFolder)
 
