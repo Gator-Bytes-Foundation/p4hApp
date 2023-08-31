@@ -1,7 +1,10 @@
 @import '../common.scss';
 
 .login, .signup {
-  @extend .display-flex-center;
+  display: flex;
+  justify-content: center; // Horizontally center children
+  align-items: center;     // Vertically center children
+  height: 100vh;           // Cover the entire viewport height
 
   .button-container {
     display: flex;
@@ -18,10 +21,10 @@
   }
 
   .form-input {
-    margin-bottom: 15px; // Add desired space here
+    margin-bottom: 15px;
   }
 
   .form-button {
-    margin-bottom: 15px; // Add desired space here
+    margin-bottom: 15px;
   }
 }
