@@ -1,22 +1,7 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+@import '../common.scss';
 
-body,
-html {
-  height: 100%;
-  font-family: Arial, sans-serif;
-  background-color: #fff; //Change the background to white
-}
-
-.login,
-.signup {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+.login, .signup {
+  @extend .display-flex-center;
 
   .button-container {
     display: flex;
@@ -26,103 +11,17 @@ html {
   }
 
   #icon {
-    width: 150px; // Adjust as needed to change the size of the logo.
+    width: 150px;
     height: auto;
     display: block;
-    margin: 0 auto 20px auto; // This centers the image and adds space below it.
+    margin: 0 auto 20px auto;
   }
 
-  .wrapper {
-    max-width: 400px;
-    background-color: #ffffff; // Change the background of the wrapper to white
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
-    padding: 30px;
-    width: 100%;
-    max-width: 350px;
+  .form-input {
+    margin-bottom: 15px; // Add desired space here
+  }
 
-    .h2 {
-      text-align: center;
-      margin-bottom: 24px;
-    }
-
-    #formContent {
-      display: flex;
-      flex-direction: column;
-
-      .form-label {
-        display: block;
-        text-align: center;
-        font-size: 18px; // Increased from 14px to 18px for bigger labels
-        font-weight: 600;
-        color: #4a4a4a;
-        margin-bottom: 10px;
-      }
-
-
-      .form-input {
-        width: 100%;
-        padding: 10px;
-        font-size: 14px;
-        border: 1px solid #e0e0e0;
-        border-radius: 5px;
-        outline: none;
-        transition: border-color 0.3s;
-        margin-bottom: 20px;
-
-        &:focus {
-          border-color: #007bff;
-        }
-      }
-
-      .check-lg {
-        margin-bottom: 20px;
-      }
-
-      .form-button {
-        padding: 10px 30px; // Adjust padding to match button sizes
-        font-size: 16px;
-        font-weight: 600;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        outline: none;
-        transition: background-color 0.3s;
-        margin-bottom: 10px;
-
-        &:disabled {
-          background-color: #ccc;
-        }
-      }
-
-      .blue-button {
-        background-color: #1632AA;
-        color: #fff;
-        margin-bottom: 15px;
-
-        &:hover {
-          background-color: #0056b3;
-        }
-      }
-
-      .error {
-        color: #f44336;
-        font-size: 14px;
-        margin-top: 10px;
-      }
-
-      .form-check {
-        display: flex;
-        justify-content: center;
-        margin: 20px 0; // Add some margin to the top and bottom to center it vertically
-      }
-
-      .alert {
-        width: 100%;
-        text-align: center; // center the text
-        margin-top: 5px; // add a small top margin to avoid overlapping
-      }
-
-    }
+  .form-button {
+    margin-bottom: 15px; // Add desired space here
   }
 }
