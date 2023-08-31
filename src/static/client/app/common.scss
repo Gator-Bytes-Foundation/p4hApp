@@ -1,5 +1,3 @@
-// common.scss
-
 * {
     box-sizing: border-box;
     margin: 0;
@@ -7,14 +5,13 @@
   }
   
   body,
-html {
-  height: 100%;
-  font-family: 'Poppins', sans-serif; 
-  background-color: #fff; 
-}
+  html {
+    height: 100%;
+    font-family: Arial, sans-serif; //default font family unless overwritten
+    background-color: #fff; 
+  }
   
-  // Common layout
-  .layout {
+  .display-flex-center {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -22,87 +19,63 @@ html {
   }
   
   .wrapper {
-    width: 100%;
     max-width: 400px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
     padding: 30px;
+    width: 100%;
   }
   
   #formContent {
     display: flex;
     flex-direction: column;
-  }
   
-  // Text
-  .h2 {
-    text-align: center;
-    margin-bottom: 24px;
-  }
-  
-  // Form Components
-  .form-group {
-    margin-bottom: 20px;
-  }
-  
-  .form-label {
-    display: block;
-    text-align: center;
-    font-size: 18px;
-    font-weight: 600;
-    color: #4a4a4a;
-    margin-bottom: 10px;
-  }
-  
-  .form-input {
-    width: 100%;
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #e0e0e0;
-    border-radius: 5px;
-    outline: none;
-    transition: border-color 0.3s;
-  
-    &:focus {
-      border-color: #007bff;
+    .form-label {
+      display: block;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 600;
+      color: #4a4a4a;
+      margin-bottom: 10px;
     }
-  }
   
-  .form-button {
-    padding: 10px 30px;
-    font-size: 16px;
-    font-weight: 600;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    outline: none;
-    transition: background-color 0.3s;
+    .form-input {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #e0e0e0;
+      border-radius: 5px;
+      outline: none;
+      transition: border-color 0.3s;
   
-    &:disabled {
-      background-color: #ccc;
+      &:focus {
+        border-color: #007bff;
+      }
     }
-  }
   
-  .blue-button {
-    background-color: #1632AA;
-    color: #fff;
+    .form-button {
+      padding: 10px 30px;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      outline: none;
+      transition: background-color 0.3s;
   
-    &:hover {
-      background-color: #0056b3;
+      &:disabled {
+        background-color: #ccc;
+      }
     }
-  }
   
-  // Alerts and Errors
-  .error {
-    color: #f44336;
-    font-size: 14px;
-    margin-top: 10px;
-  }
+    .blue-button {
+      background-color: #1632AA;
+      color: #fff;
   
-  .alert {
-    width: 100%;
-    text-align: center;
-    margin-top: 5px;
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
   }
   
