@@ -4,15 +4,22 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
 from src.controllers.login_controller import LoginForm, loginAPI
 from src.helpers.user_helpers import createUser, checkUserExists, createRocketAccount
+from flask import request
 
 def signupAPI(form): 
+  data = request.json
+  email = data.get('email')
+  fname = data.get('fname')
+  lname = data.get('lname')
+  username = data.get('username')
+  password = data.get('password')
   userData = {
-      "email": form.get('email'),
-      "fname": form.get('fname'),
-      "lname": form.get('lname'),
-      "username": form.get('username'),
-      "password": form.get('password'),
-      "fullName": form.get('fname') + form.get('lname')
+      "email": email,
+      "fname": fname,
+      "lname": lname,
+      "username": username,
+      "password": password,
+      "fullName": fname + lname
   }
   existingUser, canvasAccount, rocketAccount = checkUserExists(userData)
   if(existingUser): # todo try fixing in case account was partially created
@@ -72,6 +79,3 @@ class SignupForm(FlaskForm):
 
     else:
       return render_template('signup.html', title='signUp', form=form)
-
-
-
