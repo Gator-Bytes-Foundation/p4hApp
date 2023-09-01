@@ -1,3 +1,6 @@
+# to build image, go to directory with Dockerfile and run: docker build -t p4h-docker .
+# to run image, run: docker run -p 5000:5000 -p 4200:4200 -it p4h-docker -d
+
 # build angular app
 FROM node:16-alpine AS client
 RUN mkdir angular
@@ -33,6 +36,7 @@ RUN pip3 install -r requirements.txt
 EXPOSE 5000
 COPY --from=client /angular/src/static/dist ./src/static/dist
 CMD [ "python3", "-m" , "flask", "run" ]
+
 
 
 # good commands from MCP 
