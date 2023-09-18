@@ -1,1 +1,1 @@
-web: gunicorn app:app --timeout 80 --max-requests 1200
+web: gunicorn app:app --timeout 100 --max-requests 1200
