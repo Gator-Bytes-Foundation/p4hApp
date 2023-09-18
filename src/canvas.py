@@ -25,8 +25,6 @@ except:
     course = None
     account = None
 
-basedir = os.path.abspath(os.path.dirname(__file__))
-
 ROCKET_ADMIN = None
 try: 
     with sessions.Session() as session:
@@ -34,6 +32,7 @@ try:
             user_id=ROCKET_USER_ID,
             auth_token=ROCKET_AUTH_TOKEN,
             server_url=ROCKET_URL,
+            timeout=20,
             session=session,
         )
 except: 
