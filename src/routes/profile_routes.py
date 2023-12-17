@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 from src import app
 ''' Import Needed Modules '''
 from src.models.user_model import User
-from src.controllers.profile_controller import loadProfile, updateProfile, getProgress, updateProgress, loadProgress
+from src.controllers.profile_controller import loadProfile, renderProfilePage, updateProfile, getProgress, updateProgress, loadProgress
 from src.controllers.posts_controller import loadPosts, createPost, deletePost, createComment, deleteComment
 ''' Import Needed Libraries '''
 import json
@@ -13,25 +13,22 @@ from flask.json import jsonify
 ### PROFILE MODULE ###
 @app.route('/profile/<userId>', methods=['GET','POST'])
 @login_required
-def customProfileCalls(userId):
+def getProfileRoute(userId):
   '''
     If a request from client has variable data in it, we handle it here and get the data out of the url before routing the user
     will either get profile or update it and then return the new profile
   '''
-  return profile(userId) # calls profile function on username from route str
+  user = User.query.filter_by(id=userId).first() # args[0] holds user id to look up if it exists
+  return renderProfilePage(user) # calls profile function on username from route str
 
 @app.route('/') # default page that loads IF logged in
 @app.route('/profile', methods=['GET'])
 @login_required
-def profile(*args):
+def profile():
   '''
     Load user profile
   '''
-  if(len(args) > 0):
-    user = User.query.filter_by(id=args[0]).first() # args[0] holds user id to look up if it exists
-  else: user = current_user
-  user_profile = loadPosts(user)
-  return loadProfile(user_profile) # Brings user to their profile view
+  return renderProfilePage(current_user) # Brings user to their profile view
 
 @app.route('/profile', methods=['POST'])
 @login_required
@@ -42,20 +39,45 @@ def saveProfileRoute():
   updateProfile(request)
   return profile() # this isnt efficient since it reloads the entire page from scratch
 
+@app.route('/api/profile', methods=['POST'])
+@login_required
+def saveProfileAPIRoute():
+  '''
+    Edits user profile and sends back JSON
+  '''
+  updatedUser = updateProfile(request)
+  return jsonify(updatedUser.serialize())
+
+@app.route('/api/profile/<userId>', methods=['GET'])
+@login_required
+def getProfileAPIRoute(userId):
+  '''
+    Gets user profile by user id and sends back JSON
+  '''
+  profile = loadProfile(userId)
+  return jsonify(profile)
+
+@app.route('/api/profile', methods=['GET'])
+@login_required
+def getMyProfileAPIRoute():
+  '''
+    Gets user profile by current session user id and sends back JSON
+  '''
+  profile = loadProfile(current_user)
+  return jsonify(profile)
+
 # Create post (both API and web)
 @app.route('/api/post/<profileUserId>', methods=['GET', 'POST'])
 @app.route('/post/<profileUserId>', methods=['GET', 'POST'])
-def posts(profileUserId): #url being routed is saved to 'user_id' which we can then use to render the name of the html file
+def postsRoute(profileUserId): #url being routed is saved to 'user_id' which we can then use to render the name of the html file
   '''
     Creates a user discussion post in canvas (displayed on user's profile)
   '''
   if(request.method == 'POST'):
     post, profilePic, profileUser = createPost(profileUserId,request)
     if(post.title == None or len(post.title) < 2):
-      profileUsername = None
       postUsername = None
     else: 
-      profileUsername = post.title.split(" ")[0]
       postUsername = post.title.split(" ")[1]
     return jsonify({
       "id": post.id, 
@@ -92,9 +114,10 @@ def comments(post_id): #url being routed is saved to 'page_to_load' which we can
   '''
   return createComment(request,post_id)
 
+# Create comment
 @app.route('/api/comment/<post_id>', methods=['POST'])
 @login_required
-def commentAPI(post_id):
+def commentsAPI(post_id):
   '''
     API to create a comment
     Returns JSON instead of jinja template
@@ -146,16 +169,7 @@ def uploadProgressRoute(profileUserId,milestone_id):
   file_uploaded = updateProgress(request,profileUserId,milestone_id)
   return json.dumps({'success':True}), 204, {'ContentType':False}
 
-# DELETE progress milestone - to do
-
-@app.route('/api/profile', methods=['POST'])
-@login_required
-def saveProfileAPIRoute():
-  '''
-    Edits user profile and sends back JSON (API)
-  '''
-  updatedUser = updateProfile(request)
-  return jsonify(updatedUser.serialize())
+# DELETE progress milestone - to-do
 
 @app.route('/api/posts', methods=['GET'])
 @login_required

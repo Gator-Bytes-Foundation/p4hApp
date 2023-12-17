@@ -4,17 +4,15 @@ from canvasapi.exceptions import ResourceDoesNotExist
 from flask import render_template, Response, abort
 from src.models.user_model import User, UserFiles
 from src import db
-from src.controllers.posts_controller import getProfilePic
+from src.controllers.posts_controller import getProfilePic, loadPosts
 import requests
 from src import file_upload
 
-def loadProfile(profile,rocket_user = {}):
-
-  allUsers = User.query.all()
+def loadProfile(user):
+  profile = loadPosts(user)
   profile.profile_pic = getProfilePic(profile.user)
   if(current_user.id != profile.user.id): # if user is looking at different profile
-    currentUserProfilePic = getProfilePic(current_user)
-  else: currentUserProfilePic = profile.profile_pic
+    profile.profile_pic = getProfilePic(current_user)
 
   try:
     roles = CANVAS.get_account(current_user.canvasId).get_roles()
@@ -22,8 +20,12 @@ def loadProfile(profile,rocket_user = {}):
     current_user.role = roleList[0].label
   except ResourceDoesNotExist as e: # if admin account cannot be found, then they are not admin
     current_user.role = "Teacher"
+  return profile
   
-  return render_template('profile.html', profile = profile,  current_user = current_user, users=allUsers, rocket_user = rocket_user, currentUserProfilePic = currentUserProfilePic)
+def renderProfilePage(user, rocket_user = {}):
+  allUsers = User.query.all()
+  profile = loadProfile(user)
+  return render_template('profile.html', profile = profile,  current_user=current_user, users=allUsers, rocket_user=rocket_user, currentUserProfilePic=profile.profile_pic)
 
 def loadProgress(userId):
   profileUser = User.query.filter_by(id=userId).first()

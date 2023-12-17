@@ -1,9 +1,20 @@
 from flask_wtf import FlaskForm
 from flask import url_for, flash, redirect, render_template, abort, Response
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, ValidationError
 from wtforms.validators import DataRequired
 from src.controllers.login_controller import LoginForm, loginAPI
 from src.helpers.user_helpers import createUser, checkUserExists, createRocketAccount
+
+
+def length(min=-1, max=-1):
+  message = 'Must be between %d and %d characters long.' % (min, max)
+
+  def _length(form, field):
+      l = field.data and len(field.data) or 0
+      if l < min or max != -1 and l > max:
+          raise ValidationError(message)
+
+  return _length
 
 def signupAPI(form): 
   userData = {
@@ -26,11 +37,12 @@ def signupAPI(form):
 class SignupForm(FlaskForm):
   fname = StringField('First Name', validators=[DataRequired()])
   lname = StringField('Last Name', validators=[DataRequired()])
-  username = StringField('Username', validators=[DataRequired()])
+  username = StringField('Username', validators=[DataRequired(), length(min=3,max=20)])
   email = StringField('Email', validators=[DataRequired()])
   password = PasswordField('Password', validators=[DataRequired()])
   admin = BooleanField('Are you an Administrator?')
   submit = SubmitField('Sign Up', render_kw={"onclick": "loading()"})
+
 
   def signUp(self): #signUp - verb / signup - noun
     form = self

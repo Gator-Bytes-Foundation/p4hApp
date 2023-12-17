@@ -17,7 +17,7 @@ def convertDate(inproperDate):
 
 def getProfilePic(user):
   # Canvas doesnt seem to allow external files to change profile pictures
-  # todo research way to update canvas profile pictures through app
+  # todo research way to update canvas profile pictures through canvas api
   #avatar = profile.canvas_user.get_avatars()[1] # returns dotted pic for some reason
 
   avatar = UserFiles.query.filter_by(userId=user.id,postId=user.canvasId).first() # post id as canvas id is profile pic?
@@ -48,7 +48,6 @@ def loadPosts(profileUser):
 
   # loop through all profile posts
   for i in range(end_index):
-    usernameId = profileUser.username + ' ' + str(profileUser.canvasId) #used to identify user in canvas
     postProfileUsername = posts[i].title.split()[0]
     if(len(posts[i].title.split()) > 1): postAuthUsername = posts[i].title.split()[1]
     else: continue # this should only occur if canvas post was added manually

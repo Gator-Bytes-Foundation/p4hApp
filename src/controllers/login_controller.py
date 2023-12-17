@@ -3,6 +3,7 @@ from flask import url_for, flash, redirect, render_template, abort, Response, se
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
 from flask_login import login_user, current_user, logout_user
+from src.controllers.posts_controller import getProfilePic
 from src.models.user_model import User
 from src.canvas import CANVAS # inject canvas, course objects into file
 from flask.json import jsonify
@@ -41,15 +42,17 @@ def loginRocketChat(user):
   
 def loginAPI(username,pwd,remember=False):
   user = User.query.filter_by(username=username).first() # query db
+  profilePic = getProfilePic(user)
+  userWithProfilePic = { "profilePic": profilePic, **user.serialize() }
   if current_user.is_authenticated:
-    return jsonify(current_user.serialize())
+    return jsonify(userWithProfilePic)
   if(not user):
     return abort(Response("Username not found"))
 
   if not user.check_password(user.password_hash,pwd):
     return abort(Response("Password not correct"))
   login_user(user, remember=remember)
-  return jsonify(user.serialize())
+  return jsonify(userWithProfilePic)
 
 class LoginForm(FlaskForm):
   username = StringField('Username', validators=[DataRequired()])
@@ -93,5 +96,4 @@ class LoginForm(FlaskForm):
     # todo: check for safe url
     #if not is_safe_url(next,{"http://localhost:5000", "p4hteach.org", "www.p4hteach.org"}):
         #return abort(400)
-    #profile = loadPosts(user)
     return redirect(url_for('profile'))

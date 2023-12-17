@@ -66,7 +66,7 @@ def resourcesAPI():
   '''
   resources = getResourceFolders() # resource is a Canvas "Folder" object
   resourceResponse = []
-  print("get resources api")
+
   for resource in resources["folders"]:
     resourceFolder = {
       "id": resource.id,

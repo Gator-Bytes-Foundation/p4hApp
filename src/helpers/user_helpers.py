@@ -43,9 +43,10 @@ def checkUserExists(userData):
     try:
       canvas_user = CANVAS.get_user(user.canvasId)
     except BadRequest as e:
-      canvas_user = getCanvasUserByUsername(userData["username"])
-  else:
-    canvas_user = getCanvasUserByUsername(userData["username"])
+      if(len(userData["username"]) >= 3): # canvas requires usernames to be at least 3 characters
+        canvas_user = getCanvasUserByUsername(userData["username"])
+  elif(len(userData["username"]) >= 3): # frontend should stop users from sending usernames with less than 3 characters, but just in case
+    canvas_user = getCanvasUserByUsername(userData["username"]) 
 
   return user, canvas_user, rocket_account
 

@@ -18,10 +18,18 @@ CANVAS = None
 try:
     # Initialize a new Canvas object
     CANVAS = Canvas(API_URL, API_KEY)
+except Exception as e:
+    print("canvas is down: " + str(e))
+    print("canvas url " + API_URL)
+    print("canvas api key " + API_KEY)
+    course = None
+    account = None
+try:
+    # Initialize a new Canvas object
     account = CANVAS.get_account(1)
     course = CANVAS.get_course(1)  # only 1 course being used on canvas so initialize it globally to avoid repeated API calls
-except:
-    print("canvas is down")
+except Exception as e:
+    print("Canvas account not set up properly: " + str(e))
     course = None
     account = None
 
@@ -35,8 +43,8 @@ try:
             timeout=20,
             session=session,
         )
-except: 
-    print('rocket chat server down')
+except Exception as e: 
+    print("rocket chat server down " + str(e))
 '''
 def authenticate(scopes, call):
     canvas_url = API_URL + "login/oauth2/auth?"
