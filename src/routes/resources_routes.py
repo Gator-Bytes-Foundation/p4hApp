@@ -53,7 +53,6 @@ def resourceFolderAPI(folderId):
         "display_name": file.display_name,
         "file_name": file.filename,
         "updated_at": file.updated_at_date.strftime('%Y-%m-%d'),
-        "content_type": file["content-type"],
     }
     files_.append(file)
   return jsonify(files_)
