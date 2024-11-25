@@ -19,7 +19,7 @@ alembic==1.4.2
 
 #Production
 whitenoise==5.2.0
-gunicorn==20.1.0
+gunicorn==22.0.0
 
 # Automated tests
 pytest==3.0.5
