@@ -2,7 +2,7 @@
 # Usage: pip install -r requirements.txt
 
 # Flask Packages
-Flask==1.1.4
+Flask==2.3.2
 Flask-Login==0.4.0
 Flask-Mail==0.9.1
 Flask-Migrate==2.0.2
